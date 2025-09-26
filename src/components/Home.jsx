@@ -94,7 +94,7 @@ const Home = ({ onTechnologySelect }) => {
       {/* --- Hero Section --- */}
       <motion.section className="hero-section" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}>
         <video autoPlay loop muted playsInline className="hero-video">
-          <source src="/v1.mp4" type="video/mp4" />
+          <source src="/homevideo.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="hero-content">
