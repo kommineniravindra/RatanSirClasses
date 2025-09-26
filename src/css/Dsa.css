@@ -3,77 +3,72 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap');
 
 /* ================================
-   Container
+   Container
 ================================ */
 .dsa-container {
   max-width: 900px;
   width: 90%;
-
   margin: 0 auto;
-  padding: 15px 12px;
-  /* Base padding for mobile */
+  padding: 2vw;
   background: #f5f7fa;
-  border-radius: 12px;
+  border-radius: 1rem;
   box-sizing: border-box;
 }
 
 /* ================================
-   Title
+   Title
 ================================ */
 .dsa-title {
   text-align: center;
-  margin: 0 0 20px;
-  font-size: 1.5rem;
-  /* Base size for mobile */
+  margin-bottom: 1.5rem;
+  font-size: clamp(1.5rem, 2vw, 2rem);
   font-weight: 700;
   font-family: "Libertinus Serif", serif;
   color: #02325e;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   line-height: 1.3;
   word-break: break-word;
 }
 
 /* ================================
-   Accordion Wrapper
+   Accordion Wrapper
 ================================ */
 .dsa-accordion {
-  border-radius: 12px;
+  border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0.375rem 0.9375rem rgba(0, 0, 0, 0.08);
   background: #ffffff;
   width: 100%;
 }
 
 /* ================================
-   Accordion Item
+   Accordion Item
 ================================ */
 .accordion-item {
   background: #fff;
   border: 1px solid #e6e6e6;
-  border-radius: 10px;
-  margin-bottom: 14px;
+  border-radius: 0.625rem;
+  margin-bottom: 0.875rem;
   overflow: hidden;
   transition: all 0.3s ease;
 }
 
 .accordion-item:hover {
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0.375rem 0.9375rem rgba(0, 0, 0, 0.12);
 }
 
 /* ================================
-   Accordion Button
+   Accordion Button
 ================================ */
 .accordion-button {
   width: 100%;
   text-align: left;
-  padding: 12px 14px;
-  /* Base padding for mobile */
+  padding: 1rem;
   background: #f8f9fa;
   border: none;
   outline: none;
-  font-size: 0.9rem;
-  /* Base size for mobile */
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
   font-family: 'FF Tisa Web Pro', serif;
   font-weight: 500;
   cursor: pointer;
@@ -81,7 +76,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   box-sizing: border-box;
 }
 
@@ -90,15 +85,14 @@
 }
 
 .accordion-button.active {
-  background: #ffb30033;
+  background: rgba(255, 179, 0, 0.2);
   color: #000;
 }
 
 .accordion-button::after {
   content: "▼";
   position: absolute;
-  right: 10px;
-  /* Base position for mobile */
+  right: 1rem;
   top: 50%;
   transform: translateY(-50%);
   font-size: 1rem;
@@ -111,31 +105,28 @@
 }
 
 /* ================================
-   Category Buttons
+   Category Buttons
 ================================ */
 .dsa-category-buttons {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* Center buttons on a single line if they fit */
-  gap: 10px;
-  margin: 0 0 10px;
+  gap: 0.625rem;
+  margin-bottom: 1rem;
 }
 
 .category-btn {
-  flex: 1 1 45%;
-  /* Base flex property for mobile */
-  padding: 8px 14px;
+  flex: 1 1 clamp(120px, 40%, 180px);
+  padding: 0.5rem 1rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 0.375rem;
   background: #e0e0e0;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: clamp(0.8rem, 1.2vw, 0.95rem);
   transition: background 0.3s ease, transform 0.2s;
   text-align: center;
   min-width: auto;
-  /* Allow buttons to shrink on small screens */
 }
 
 .category-btn:hover {
@@ -149,20 +140,18 @@
 }
 
 /* ================================
-   Question Fields
+   Question Fields
 ================================ */
 .question-number {
   font-weight: bold;
-  margin-bottom: 6px;
-  font-size: 0.95rem;
-  /* Base size for mobile */
+  margin-bottom: 0.375rem;
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
   color: #02325e;
 }
 
 .question-field {
-  margin-bottom: 6px;
-  font-size: 0.9rem;
-  /* Base size for mobile */
+  margin-bottom: 0.375rem;
+  font-size: clamp(0.85rem, 1vw, 0.95rem);
   line-height: 1.5;
 }
 
@@ -171,7 +160,7 @@
 }
 
 /* ================================
-   Accordion Collapse
+   Accordion Collapse
 ================================ */
 .accordion-collapse {
   display: none;
@@ -183,91 +172,28 @@
 }
 
 /* ================================
-   Accordion Body
+   Accordion Body
 ================================ */
 .accordion-body {
   background: #fdfdfd;
-  padding: 14px;
-  /* Base padding for mobile */
+  padding: 1rem;
   border-top: 1px solid #e6e6e6;
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 0.625rem 0.625rem;
   font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 0.9rem;
-  /* Base size for mobile */
+  font-size: clamp(0.85rem, 1vw, 0.95rem);
   word-break: break-word;
 }
 
 /* ================================
-   Animation
+   Animation
 ================================ */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-6px);
+    transform: translateY(-0.375rem);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-/* ================================
-   Responsive Design
-================================ */
-
-/* Medium devices (tablets): 601px to 900px */
-@media (min-width: 601px) {
-  .dsa-container {
-    padding: 20px;
-  }
-
-  .dsa-title {
-    font-size: 1.8rem;
-  }
-
-  .accordion-button {
-    font-size: 1rem;
-    padding: 14px 18px;
-  }
-
-  .accordion-button::after {
-    right: 12px;
-  }
-
-  .category-btn {
-    flex: 1 1 30%;
-    /* Three buttons per row on tablets */
-    font-size: 0.9rem;
-  }
-
-  .question-number {
-    font-size: 1rem;
-  }
-
-  .question-field {
-    font-size: 0.95rem;
-  }
-
-  .accordion-body {
-    padding: 16px;
-    font-size: 0.95rem;
-  }
-}
-
-/* Large devices (desktop): 901px and up */
-@media (min-width: 901px) {
-  .dsa-title {
-    font-size: 2rem;
-  }
-
-  .accordion-button {
-    font-size: 1rem;
-  }
-
-  .category-btn {
-    flex-grow: 0;
-    /* Prevents stretching on large screens */
-    flex-basis: auto;
   }
 }

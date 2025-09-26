@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from "react";
-import "../App.css";
+// import "../App.css";
 import LeftMenu from "./LeftMenu";
 import RightMenu from "./RightMenu";
 import Main from "./Main";

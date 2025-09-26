@@ -2,56 +2,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital,wght@0,400..700;1,400..700&display=swap');
 
+:root {
+  --scale: 1; /* default scale */
+}
+
 #nav-header-content {
   font-family: "Courgette", cursive;
   font-weight: 600;
-  font-style: normal;
-  font-size: 1.5rem;
-  /* Use rem for better scaling */
+  font-size: calc(1.3rem * var(--scale)); /* increased font size */
   background: linear-gradient(90deg, #60a5fa, #ffffff, #68b6a9);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   cursor: default;
   transition: all 0.4s ease;
   white-space: nowrap;
-  overflow: hidden;
-  /* text-overflow: ellipsis; */
-  /* max-width: 250px; */
-  /* Limit size on large screens */
 }
 
 #nav-header-content:hover {
-  transform: scale(1.05);
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.7), 0 0 25px rgba(255, 255, 255, 0.5);
-  /* Refined glow */
+  transform: scale(calc(1.03 * var(--scale)));
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.7), 0 0 14px rgba(255, 255, 255, 0.5);
 }
 
 .logo {
-  width: 46px;
-  height: 46px;
+  width: calc(25px * var(--scale));
+  height: calc(25px * var(--scale));
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #3b82f6;
-  box-shadow: 0 6px 14px rgba(59, 130, 246, 0.35);
+  border: 1px solid #3b82f6;
+  box-shadow: 0 3px 7px rgba(59, 130, 246, 0.35);
   transition: transform 0.3s ease;
 }
 
 .logo:hover {
-  transform: rotate(4deg) scale(1.05);
+  transform: rotate(2deg) scale(calc(1.03 * var(--scale)));
 }
 
 /* --- Navbar container --- */
 .navbar {
   width: 100%;
-  /* Ensures 100% width on all screens */
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 0 5px;
-  /* Increased padding for better desktop spacing */
+  padding: 0;
   margin: 0;
-  height: 50px;
-  /* Slightly increased height for a better feel */
+  height: calc(35px * var(--scale));
   background: linear-gradient(90deg, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.96));
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -63,53 +57,45 @@
 }
 
 .navbar.scrolled {
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.55);
-  /* Deeper shadow on scroll */
+  box-shadow: 0 2px 9px rgba(0, 0, 0, 0.55);
   border-bottom: 1px solid rgba(59, 130, 246, 0.3);
 }
 
-/* --- Navbar links container (Desktop Default) --- */
 .navbar-links {
   display: flex;
   align-items: center;
   list-style: none;
-  /* Slightly increased gap */
+  gap: calc(0.2rem * var(--scale));
   margin: 0;
   padding: 0;
 }
 
-/* --- Navbar items --- */
 .navbar-item {
-
-  margin: 0 5px;
-  padding: 6px 10px;
-  /* Better hit area and spacing */
+  margin: 0 calc(2px * var(--scale));
+  padding: calc(2px * var(--scale)) calc(5px * var(--scale));
   color: #e2e8f0;
   font-family: "Baskervville", serif;
   font-weight: 500;
-  font-size: 1rem;
-  /* Use rem */
+  font-size: calc(0.75rem * var(--scale)); /* slightly larger than half-size */
   display: flex;
   align-items: center;
   cursor: pointer;
   position: relative;
   transition: all 0.3s ease;
-  border-radius: 4px;
-  /* Softened edges */
+  border-radius: 2px;
 }
 
 .navbar-item::after {
   content: "";
   position: absolute;
   bottom: 0;
-  /* Changed from -3px */
   left: 50%;
   transform: translateX(-50%);
-  height: 2px;
+  height: 1px;
   width: 0%;
   background: linear-gradient(90deg, #60a5fa, #3bf6ca);
   transition: width 0.35s ease, left 0.35s ease;
-  border-radius: 2px;
+  border-radius: 1px;
 }
 
 .navbar-item:hover::after {
@@ -120,7 +106,7 @@
 
 .navbar-item:hover {
   color: #ffffff;
-  transform: translateY(-1px);
+  transform: translateY(calc(-0.5px * var(--scale)));
 }
 
 .navbar-item.active {
@@ -134,18 +120,16 @@
   transform: none;
 }
 
-/* --- Navbar content icons/text --- */
 .navbar-content {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: calc(3px * var(--scale));
 }
 
 .navbar-content svg,
 .navbar-content img {
-  width: 18px;
-  /* Slightly smaller icons */
-  height: 18px;
+  width: calc(10px * var(--scale));
+  height: calc(10px * var(--scale));
   opacity: 0.9;
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
@@ -153,10 +137,9 @@
 .navbar-item:hover .navbar-content svg,
 .navbar-item:hover .navbar-content img {
   opacity: 1;
-  transform: scale(1.08);
+  transform: scale(calc(1.03 * var(--scale)));
 }
 
-/* --- Dropdown Menu (Stylish - Desktop) --- */
 .navbar-item-dropdown {
   position: relative;
 }
@@ -164,51 +147,37 @@
 .dropdown-menu {
   font-family: "Baskervville", serif;
   font-weight: 500;
-  font-style: normal;
   position: absolute;
-  top: calc(100% + 10px);
-  /* Adjusted for slightly lower drop */
+  top: calc(100% + 5px);
   left: 50%;
   transform: translateX(-50%);
-  min-width: 240px;
-  /* Slightly wider dropdown */
+  min-width: calc(120px * var(--scale));
   list-style: none;
-  padding: 8px 0;
+  padding: calc(4px * var(--scale)) 0;
   margin: 0;
   background: rgba(30, 41, 59, 0.95);
-  /* Increased opacity */
   backdrop-filter: blur(8px);
-  /* Reduced blur */
   border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
-  /* Slightly smaller radius */
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
   z-index: 1200;
   overflow: hidden;
   animation: dropdownSlide 0.2s ease-out forwards;
 }
 
 @keyframes dropdownSlide {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-5px) scale(0.98);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: translateX(-50%) translateY(-2.5px) scale(0.98); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
 }
 
 .dropdown-item {
   color: #e5e7eb;
-  padding: 10px 20px;
-  font-size: 0.95rem;
-  /* Use rem */
+  padding: calc(4px * var(--scale)) calc(8px * var(--scale));
+  font-size: calc(0.55rem * var(--scale));
   font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: calc(4px * var(--scale));
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
@@ -217,10 +186,9 @@
 .dropdown-item::before {
   content: "•";
   color: transparent;
-  font-size: 18px;
+  font-size: calc(8px * var(--scale));
   position: absolute;
-  left: 8px;
-  /* Adjusted position */
+  left: calc(3px * var(--scale));
   transition: color 0.25s ease;
 }
 
@@ -230,25 +198,20 @@
 
 .dropdown-item:hover {
   background: rgba(59, 130, 246, 0.15);
-  /* Slightly lighter hover */
   color: #ffffff;
-  transform: translateX(1px);
+  transform: translateX(calc(0.5px * var(--scale)));
 }
 
 .dropdown-item.active {
-  background: linear-gradient(90deg,
-      rgba(59, 130, 246, 0.3),
-      rgba(34, 197, 94, 0.3));
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.3), rgba(34, 197, 94, 0.3));
   color: #ffffff;
   font-weight: 600;
-  border-left: 3px solid #3b82f6;
-  /* Thinner border */
-  padding-left: 17px;
+  border-left: calc(1.5px * var(--scale)) solid #3b82f6;
+  padding-left: calc(8px * var(--scale));
 }
 
 .dropdown-arrow {
-  margin-left: 8px;
-  /* Slightly more separation */
+  margin-left: calc(3px * var(--scale));
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
@@ -257,7 +220,6 @@
   color: #60a5fa;
 }
 
-/* --- Hamburger toggle --- */
 .menu-toggle {
   display: none;
   color: #ffffff;
@@ -265,13 +227,11 @@
   z-index: 1001;
 }
 
-/* --- Mobile Overlay --- */
 .mobile-overlay {
   display: none;
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.65);
-  /* Darker overlay */
   z-index: 1100;
   opacity: 0;
   pointer-events: none;
@@ -283,174 +243,40 @@
   pointer-events: auto;
 }
 
-/*
-======================================
-Media Queries (Mobile/Tablet Responsiveness)
-======================================
-*/
+/* --- Media Queries for 5 scales --- */
+@media (max-width: 2000px) { :root { --scale: 2; } }
+@media (max-width: 1750px) { :root { --scale: 1.75; } }
+@media (max-width: 1500px) { :root { --scale: 1.5; } }
+@media (max-width: 1250px) { :root { --scale: 1.25; } }
+@media (max-width: 1000px) { :root { --scale: 1; } }
 
-/* --- 1024px and below (Larger Tablets/Laptops) --- */
-@media (max-width: 1024px) {
-  .navbar {
-    padding: 0 15px;
-    height: 55px;
-  }
-
-  .navbar-item {
-    font-size: 0.9rem;
-    padding: 4px 6px;
-  }
-
-  #nav-header-content {
-    font-size: 1.3rem;
-  }
-
-  .dropdown-menu {
-    min-width: 200px;
-  }
-}
-
-/* --- 768px and below (Tablets/Phablets - Mobile Menu Activation) --- */
+/* --- Mobile styling --- */
 @media (max-width: 768px) {
-  .navbar {
-    padding: 0 10px;
-    height: 55px;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-
-  /* Reset dropdown position for mobile */
-  .navbar-item-dropdown .navbar-item {
-    margin: 0;
-  }
-
-  /* Mobile menu styles */
+  .menu-toggle { display: block; }
   .navbar-links {
-    display: flex;
-    /* Override hidden default for proper animation */
     position: fixed;
-    top: 55px;
+    top: calc(35px * var(--scale));
     right: 0;
+    width: calc(120px * var(--scale));
     height: auto;
-    max-height: calc(100vh - 55px);
-    overflow-y: auto;
-    width: 250px;
-    /* Menu width */
-    background: rgba(15, 23, 42, 0.98);
+    max-height: calc(100vh - 35px);
+    background: rgba(15,23,42,0.98);
     flex-direction: column;
     align-items: flex-start;
-    padding: 20px;
-    gap: 16px;
+    padding: calc(8px * var(--scale));
+    gap: calc(6px * var(--scale));
     transform: translateX(100%);
     opacity: 0;
     pointer-events: none;
     transition: transform 0.3s ease, opacity 0.3s ease;
-    z-index: 1101;
     border-left: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.4);
   }
-
   .navbar-links.open {
     transform: translateX(0);
     opacity: 1;
     pointer-events: auto;
   }
-
-  .navbar-item {
-    width: 100%;
-    padding: 10px;
-    margin: 0;
-    font-size: 1rem;
-    color: #e2e8f0;
-  }
-
-  /* Remove underline and hover effect on mobile */
-  .navbar-item::after {
-    display: none;
-  }
-
-  .navbar-item:hover {
-    transform: none;
-  }
-
-  .navbar-item.active {
-    color: gold;
-  }
-
-  /* Dropdown behavior for mobile */
-  .navbar-item-dropdown {
-    width: 100%;
-  }
-
-  .dropdown-menu {
-    position: static;
-    /* Stacked below parent item */
-    transform: none;
-    min-width: 100%;
-    box-shadow: none;
-    border: none;
-    background: transparent;
-    padding: 10px 0 0 15px;
-    /* Indent sub-items */
-    animation: none;
-    border-radius: 0;
-    /* Ensure the menu is still visually hidden/shown based on openDropdown state, 
-       even though its layout is static */
-  }
-
-  .dropdown-item {
-    padding: 8px 10px;
-    font-size: 0.9rem;
-    gap: 8px;
-  }
-
-  .dropdown-item:hover {
-    background: rgba(59, 130, 246, 0.1);
-  }
-
-  .dropdown-item.active {
-    border-left: none;
-    font-weight: 600;
-    color: gold;
-    padding-left: 10px;
-    background: transparent;
-  }
-
-  .dropdown-arrow {
-    margin-left: auto;
-    /* Push arrow to the right */
-  }
-
-  #nav-header-content {
-    font-size: 1.1rem;
-  }
-}
-
-/* --- 480px and below (Small Phones) --- */
-@media (max-width: 480px) {
-  .navbar {
-    height: 50px;
-  }
-
-  #nav-header-content {
-    font-size: 1rem;
-    max-width: 120px;
-  }
-
-  .logo {
-    width: 36px;
-    height: 36px;
-  }
-
-  .navbar-links {
-    width: 200px;
-    padding: 15px;
-    gap: 12px;
-  }
-
-  .dropdown-item {
-    font-size: 0.85rem;
-  }
+  .navbar-item { width: 100%; padding: calc(4px * var(--scale)); }
+  .navbar-item::after { display: none; }
+  .dropdown-menu { position: static; min-width: 100%; background: transparent; padding-left: calc(6px * var(--scale)); box-shadow: none; border: none; }
 }

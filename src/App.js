@@ -5,7 +5,8 @@ import Quiz from './components/Quiz';
 import Exam from './components/Exam';
 import ExamDashboard from './components/ExamDashboard';
 import AccountDetails from './components/AccountDetails';
-import './index.css'; 
+import "./App.css";
+
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
