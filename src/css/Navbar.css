@@ -80,10 +80,9 @@
 
 /* --- Navbar items --- */
 .navbar-item {
-    width: 100%;
 
   margin: 0 5px;
-  padding: 6px 8px;
+  padding: 6px 10px;
   /* Better hit area and spacing */
   color: #e2e8f0;
   font-family: "Baskervville", serif;
