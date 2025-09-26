@@ -1,0 +1,9 @@
+[
+  {
+    "question": "Create a simple HTML page with title 'Welcome', heading 'Welcome to Ratan sir classes', and a paragraph 'This is my first HTML document by Your Name.'",
+    "sampleInput": "No input required. Write the full HTML code as the answer.",
+    "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Welcome</title>\n</head>\n<body>\n    <h1>Welcome to Ratan sir classes</h1>\n    <p>This is my first HTML document by Your Name.</p>\n</body>\n</html>",
+    "sampleOutput": "A web page that displays a heading <b>Welcome to Ratan sir classes</b> and a paragraph 'This is my first HTML document by Your Name.'",
+    "maxMarks": 10
+  }
+]

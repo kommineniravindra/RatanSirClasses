@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which CSS property is used to control the stacking order of elements?",
+    "options": [
+      "position",
+      "z-index",
+      "display",
+      "order"
+    ],
+    "answer": "z-index"
+  },
+  {
+    "question": "Which CSS layout module is used to create flexible and responsive layouts?",
+    "options": [
+      "Grid",
+      "Flexbox",
+      "Float",
+      "Inline-block"
+    ],
+    "answer": "Flexbox"
+  },
+  {
+    "question": "Which CSS property is used to make an element completely invisible but still take up space?",
+    "options": [
+      "display: none",
+      "visibility: hidden",
+      "opacity: 0",
+      "transparent"
+    ],
+    "answer": "visibility: hidden"
+  },
+  {
+    "question": "Which CSS property makes an element stay fixed at the top when scrolling?",
+    "options": [
+      "position: static",
+      "position: sticky",
+      "position: relative",
+      "position: absolute"
+    ],
+    "answer": "position: sticky"
+  },
+  {
+    "question": "Which CSS property is used to create animations?",
+    "options": [
+      "animation",
+      "transition",
+      "transform",
+      "effect"
+    ],
+    "answer": "animation"
+  },
+  {
+    "question": "Which CSS property is used to create smooth changes between property values?",
+    "options": [
+      "transition",
+      "animation",
+      "transform",
+      "duration"
+    ],
+    "answer": "transition"
+  },
+  {
+    "question": "Which CSS function is used to apply a 2D or 3D transformation to an element?",
+    "options": [
+      "rotate()",
+      "translate()",
+      "scale()",
+      "transform"
+    ],
+    "answer": "transform"
+  },
+  {
+    "question": "Which CSS Grid property defines the number and size of columns?",
+    "options": [
+      "grid-rows",
+      "grid-columns",
+      "grid-template-columns",
+      "grid-template-rows"
+    ],
+    "answer": "grid-template-columns"
+  },
+  {
+    "question": "Which CSS property is used to clip the content of an element?",
+    "options": [
+      "clip-path",
+      "overflow",
+      "mask",
+      "hidden"
+    ],
+    "answer": "clip-path"
+  },
+  {
+    "question": "Which CSS unit is relative to the root element’s font size?",
+    "options": [
+      "em",
+      "rem",
+      "%",
+      "vh"
+    ],
+    "answer": "rem"
+  }
+]

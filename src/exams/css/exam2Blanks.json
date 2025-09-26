@@ -1,0 +1,22 @@
+[
+  {
+    "question": "The 'C' in CSS stands for _______, which determines how styles are applied when rules conflict.",
+    "answer": "Cascading"
+  },
+  {
+    "question": "The CSS property used to apply styles to the space outside an element's border is _______.",
+    "answer": "margin"
+  },
+  {
+    "question": "To make a container a flex container, you set its `display` property to _______.",
+    "answer": "flex"
+  },
+  {
+    "question": "The _______ property is used to control the stacking order of positioned elements.",
+    "answer": "z-index"
+  },
+  {
+    "question": "The default `position` value for all HTML elements is _______.",
+    "answer": "static"
+  }
+]

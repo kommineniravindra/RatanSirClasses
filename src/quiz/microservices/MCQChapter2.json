@@ -1,0 +1,52 @@
+[
+  {
+    "question": "Which of the following is a key characteristic of microservices?",
+    "options": ["Tightly coupled components", "Independent deployable services", "Single database", "Monolithic design"],
+    "answer": "Independent deployable services"
+  },
+  {
+    "question": "Microservices communicate primarily using _______ protocols.",
+    "options": ["HTTP/REST or messaging", "FTP only", "TCP/IP exclusively", "Local files"],
+    "answer": "HTTP/REST or messaging"
+  },
+  {
+    "question": "Which tool is commonly used for service orchestration in microservices?",
+    "options": ["Kubernetes", "Docker Compose", "GitHub", "Jenkins"],
+    "answer": "Kubernetes"
+  },
+  {
+    "question": "Microservices architecture improves _______ by dividing applications into smaller services.",
+    "options": ["Fault isolation", "Complexity", "Code duplication", "Database dependency"],
+    "answer": "Fault isolation"
+  },
+  {
+    "question": "API Gateway is responsible for _______ in a microservices system.",
+    "options": ["Routing requests", "Database management", "Server configuration", "File storage"],
+    "answer": "Routing requests"
+  },
+  {
+    "question": "Each microservice should ideally own its _______.",
+    "options": ["Data storage", "UI design", "CSS files", "Entire monolith"],
+    "answer": "Data storage"
+  },
+  {
+    "question": "Microservices are usually deployed in _______.",
+    "options": ["Containers", "Physical servers only", "Client-side apps", "Static files"],
+    "answer": "Containers"
+  },
+  {
+    "question": "The main advantage of microservices is _______.",
+    "options": ["Independent scaling and deployment", "Faster monolithic builds", "Single database management", "Manual testing only"],
+    "answer": "Independent scaling and deployment"
+  },
+  {
+    "question": "Service discovery allows microservices to _______.",
+    "options": ["Find each other dynamically", "Merge services", "Use one database", "Stop working if one fails"],
+    "answer": "Find each other dynamically"
+  },
+  {
+    "question": "Continuous integration in microservices helps to _______.",
+    "options": ["Deploy services independently", "Merge all services into one", "Avoid testing", "Write monolithic code"],
+    "answer": "Deploy services independently"
+  }
+]

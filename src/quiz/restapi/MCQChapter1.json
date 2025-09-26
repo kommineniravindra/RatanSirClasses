@@ -1,0 +1,52 @@
+[
+  {
+    "question": "What does REST stand for in REST API?",
+    "options": ["Representational State Transfer", "Remote Execution Standard Technique", "Rapid Exchange Service Technology", "Randomized Service Transfer"],
+    "answer": "Representational State Transfer"
+  },
+  {
+    "question": "Which HTTP method is commonly used to create a new resource in REST?",
+    "options": ["POST", "GET", "PUT", "DELETE"],
+    "answer": "POST"
+  },
+  {
+    "question": "Which HTTP method is used to retrieve data from a REST API?",
+    "options": ["GET", "POST", "PUT", "PATCH"],
+    "answer": "GET"
+  },
+  {
+    "question": "Which status code indicates that a request was successful and the server created a resource?",
+    "options": ["201", "200", "400", "404"],
+    "answer": "201"
+  },
+  {
+    "question": "Which HTTP method is used to update an existing resource completely?",
+    "options": ["PUT", "PATCH", "POST", "DELETE"],
+    "answer": "PUT"
+  },
+  {
+    "question": "Which HTTP method is used to delete a resource?",
+    "options": ["DELETE", "POST", "GET", "PUT"],
+    "answer": "DELETE"
+  },
+  {
+    "question": "REST APIs are typically _______.",
+    "options": ["Stateless", "Stateful", "Encrypted only", "Limited to GET requests"],
+    "answer": "Stateless"
+  },
+  {
+    "question": "Which HTTP status code indicates that the requested resource was not found?",
+    "options": ["404", "200", "500", "401"],
+    "answer": "404"
+  },
+  {
+    "question": "In REST, a collection of resources is typically represented as _______.",
+    "options": ["Plural nouns in the URL", "Single noun in the URL", "Numbers", "Special characters"],
+    "answer": "Plural nouns in the URL"
+  },
+  {
+    "question": "Which HTTP method is used for partially updating a resource?",
+    "options": ["PATCH", "PUT", "POST", "GET"],
+    "answer": "PATCH"
+  }
+]

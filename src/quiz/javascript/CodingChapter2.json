@@ -1,0 +1,9 @@
+[
+  {
+    "question": "Write a JavaScript program to subtract two numbers.",
+    "answer": "const readline = require('readline');\nconst rl = readline.createInterface({ input: process.stdin, output: process.stdout });\n\nrl.question('', (input1) => {\n    rl.question('', (input2) => {\n        let a = parseInt(input1);\n        let b = parseInt(input2);\n        let difference = a - b;\n        console.log(difference);\n        rl.close();\n    });\n});",
+    "sampleInput": "10 6",
+    "sampleOutput": "4",
+    "maxMarks": 10
+  }
+]

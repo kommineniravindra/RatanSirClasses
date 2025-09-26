@@ -1,0 +1,9 @@
+[
+  {
+    "question": "Write a Java program to subtract two numbers.",
+    "answer": "import java.util.*;\npublic class SubtractTwoNumbers {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        int difference = a - b;\n        System.out.println(difference);\n    }\n}",
+    "sampleInput": "15 7",
+    "sampleOutput": "8",
+    "maxMarks": 10
+  }
+]

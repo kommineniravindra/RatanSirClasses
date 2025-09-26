@@ -1,0 +1,355 @@
+/* =================================================
+  1. FONT IMPORTS
+================================================= */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=PT+Serif:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+/* Note: @import "@fontsource/ibm-plex-sans/index.css" is a build-time import and may not work in a raw CSS file import */
+@import url("https://fonts.cdnfonts.com/css/avenir-next");
+@import url("https://fonts.cdnfonts.com/css/ff-tisa-web-pro");
+@import url("https://fonts.cdnfonts.com/css/gt-walsheim");
+@import url("https://fonts.cdnfonts.com/css/gt-america");
+@import url("https://fonts.cdnfonts.com/css/ff-din");
+@import url("https://fonts.cdnfonts.com/css/bebas-neue");
+
+/* =================================================
+  2. MAIN CONTENT AREA & SCROLLBAR HIDING
+================================================= */
+
+.main-body {
+    flex: 1;
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
+    background-color: #ffffff;
+    color: #333333;
+    padding: 1rem;
+}
+
+/* Scrollbar Hiding for .main-body */
+.main-body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+    width: 0;
+}
+
+.main-body {
+    scrollbar-width: none; /* Firefox */
+}
+
+.main-content {
+    position: relative;
+    z-index: 1;
+    max-width: 790px;
+    margin: 0px;
+}
+
+.content-group-container {
+    /* margin-bottom: 3rem; */
+}
+
+.content-section {
+    margin-bottom: 2rem;
+    scroll-margin-top: 1rem;
+    padding: 0px;
+    border-radius: 12px;
+}
+
+.content-section h2 {
+    font-family: "Libertinus Serif", serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: larger;
+    position: sticky;
+    background-color: #ffffff;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    font-size: 1.75rem;
+    margin: -1rem -2rem 1rem -2rem;
+    padding-left: 2rem;
+    color: navy;
+    border-bottom: 1px solid #e0e6ed;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+
+.content-section h4 {
+    color: rgb(0, 0, 0);
+    margin-top: 20px;
+    margin-bottom: 1px;
+}
+
+
+.content-section p {
+    line-height: 1.7;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: rgb(0, 0, 0);
+    padding: 0px;
+    font-family: "Source Serif Pro", serif;
+    text-indent: 2.9rem;
+}
+
+.content-section ul {
+    list-style: none;
+    margin-bottom: 0px;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.content-section li {
+    margin-top: 0px;
+    position: relative;
+    content: "🖊";
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.7;
+    color: black;
+    font-family: "Source Serif Pro", serif;
+    margin-bottom: 0.1rem;
+    margin-left: 26px;
+}
+
+.content-section ul li::before {
+    content: "✍ ";
+    color: black;
+    font-weight: bold;
+}
+
+.content-section code {
+    font-family: "Fira Code", monospace;
+    padding: 0.2em 0.5em;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #c0392b;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead {
+    background: #8870e0;
+    color: #fff;
+}
+
+th,
+td {
+    text-align: left;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+th {
+    font-size: 16px;
+}
+
+tr:nth-child(even) {
+    background-color: #f4f8fb;
+}
+
+tr:hover {
+    transition: 0.3s;
+}
+
+td:first-child {
+    text-align: center;
+    font-weight: bold;
+    color: #4a90e2;
+}
+
+/* === 3D Button Styles (Kept as provided, though carousel buttons are removed) === */
+.nav-btn,
+.action-btn {
+    margin-top: 25px;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-family: "Poppins", sans-serif;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    z-index: 1;
+    padding: 0.3rem 1.1rem;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: #ffffff;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.781),
+        0 3px 6px rgba(0, 0, 0, 0.725);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.nav-btn:hover,
+.action-btn:hover {
+    transform: translateY(-4px);
+    background: linear-gradient(135deg, #7b2ff7, #42a5f5);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2),
+        0 5px 10px rgba(0, 0, 0, 0.12);
+}
+
+.nav-btn:active,
+.action-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15),
+        0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn:disabled,
+.action-btn:disabled {
+    background: #e0e0e0;
+    color: #a0a7b3;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.nav-btn::before,
+.action-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: skewX(-20deg);
+    transition: transform 0.8s;
+}
+
+.nav-btn:hover::before,
+.action-btn:hover::before {
+    transform: skewX(-20deg) translateX(100%);
+}
+
+
+/* === Code Block Wrapper === */
+.code-block-wrapper {
+    position: relative;
+    margin: 1rem 0;
+}
+
+.code-block-wrapper pre {
+    border-radius: 18px;
+    padding-top: 40px !important;
+    line-height: 1.5;
+}
+
+/* === Copy Button === */
+.copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background-color: transparent;
+    border: none;
+    color: #4b4b4b;
+    font-size: 14px;
+    padding: 2px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.copy-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #000000;
+}
+
+.nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+}
+
+/* === Modal Styles === */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.modal-content p {
+    color: black;
+    font-weight: 400;
+    font-size: 90px;
+    font-style: italic;
+    font-family: "Source Serif Pro", serif;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.modal-proceed-btn,
+.modal-skip-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.modal-proceed-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.modal-proceed-btn:hover {
+    background-color: #0056b3;
+}
+
+.modal-skip-btn {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.modal-skip-btn:hover {
+    background-color: #e0e0e0;
+}

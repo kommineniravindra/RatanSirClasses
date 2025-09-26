@@ -1,0 +1,27 @@
+[
+  {
+    "question": "What is React?",
+    "options": [
+      "A programming language",
+      "A JavaScript library for building UIs",
+      "A database",
+      "A web server"
+    ],
+    "answer": "A JavaScript library for building UIs"
+  },
+  {
+    "question": "Which hook is used for managing state in React?",
+    "options": ["useEffect", "useState", "useContext", "useReducer"],
+    "answer": "useState"
+  },
+  {
+    "question": "What does JSX stand for?",
+    "options": [
+      "JavaScript XML",
+      "Java Syntax Extension",
+      "JavaScript Extension",
+      "JSON XML"
+    ],
+    "answer": "JavaScript XML"
+  }
+]

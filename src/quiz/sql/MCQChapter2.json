@@ -1,0 +1,52 @@
+[
+  {
+    "question": "Which SQL statement is used to change the structure of a table?",
+    "options": ["ALTER TABLE", "UPDATE TABLE", "MODIFY TABLE", "CHANGE TABLE"],
+    "answer": "ALTER TABLE"
+  },
+  {
+    "question": "Which SQL keyword is used to retrieve unique values?",
+    "options": ["DISTINCT", "UNIQUE", "SINGLE", "ONLY"],
+    "answer": "DISTINCT"
+  },
+  {
+    "question": "Which SQL statement is used to remove records based on a condition?",
+    "options": ["DELETE", "DROP", "TRUNCATE", "REMOVE"],
+    "answer": "DELETE"
+  },
+  {
+    "question": "Which SQL keyword is used to combine rows from two or more tables?",
+    "options": ["JOIN", "UNION", "MERGE", "GROUP BY"],
+    "answer": "JOIN"
+  },
+  {
+    "question": "Which SQL keyword is used to filter groups in GROUP BY?",
+    "options": ["HAVING", "WHERE", "FILTER", "CONDITION"],
+    "answer": "HAVING"
+  },
+  {
+    "question": "Which SQL function returns the largest value of a column?",
+    "options": ["MAX()", "MIN()", "TOP()", "GREATEST()"],
+    "answer": "MAX()"
+  },
+  {
+    "question": "Which SQL function returns the smallest value of a column?",
+    "options": ["MIN()", "MAX()", "LOWEST()", "SMALL()"],
+    "answer": "MIN()"
+  },
+  {
+    "question": "Which SQL command is used to add a new column to an existing table?",
+    "options": ["ALTER TABLE ADD COLUMN", "UPDATE TABLE ADD", "MODIFY TABLE", "INSERT COLUMN"],
+    "answer": "ALTER TABLE ADD COLUMN"
+  },
+  {
+    "question": "Which operator is used to search for a specified pattern in a column?",
+    "options": ["LIKE", "MATCH", "PATTERN", "REGEX"],
+    "answer": "LIKE"
+  },
+  {
+    "question": "Which SQL keyword is used to combine the results of two SELECT statements?",
+    "options": ["UNION", "JOIN", "MERGE", "GROUP BY"],
+    "answer": "UNION"
+  }
+]

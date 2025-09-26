@@ -1,0 +1,42 @@
+[
+  {
+    "question": "The property used to change the font style in CSS (like italic) is _______.",
+    "answer": "font-style"
+  },
+  {
+    "question": "The CSS property used to add shadow to text is _______.",
+    "answer": "text-shadow"
+  },
+  {
+    "question": "The CSS property used to change the type of cursor when hovering over an element is _______.",
+    "answer": "cursor"
+  },
+  {
+    "question": "The property used to make elements float to the left or right is _______.",
+    "answer": "float"
+  },
+  {
+    "question": "The CSS property used to clear floated elements is _______.",
+    "answer": "clear"
+  },
+  {
+    "question": "The CSS property used to control the visibility of an element is _______.",
+    "answer": "visibility"
+  },
+  {
+    "question": "The property used to apply a background image in CSS is _______.",
+    "answer": "background-image"
+  },
+  {
+    "question": "The property used to repeat or not repeat a background image is _______.",
+    "answer": "background-repeat"
+  },
+  {
+    "question": "The property used to set the maximum width of an element in CSS is _______.",
+    "answer": "max-width"
+  },
+  {
+    "question": "The property used to create rounded corners in CSS is _______.",
+    "answer": "border-radius"
+  }
+]

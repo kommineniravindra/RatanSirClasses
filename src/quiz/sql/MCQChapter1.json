@@ -1,0 +1,52 @@
+[
+  {
+    "question": "Which SQL statement is used to retrieve data from a database?",
+    "options": ["SELECT", "INSERT", "UPDATE", "DELETE"],
+    "answer": "SELECT"
+  },
+  {
+    "question": "Which SQL clause is used to filter records?",
+    "options": ["WHERE", "ORDER BY", "GROUP BY", "HAVING"],
+    "answer": "WHERE"
+  },
+  {
+    "question": "Which SQL keyword is used to sort the result-set?",
+    "options": ["ORDER BY", "GROUP BY", "SORT", "FILTER"],
+    "answer": "ORDER BY"
+  },
+  {
+    "question": "Which SQL function returns the total number of rows?",
+    "options": ["COUNT()", "SUM()", "AVG()", "MAX()"],
+    "answer": "COUNT()"
+  },
+  {
+    "question": "Which SQL statement is used to insert new records?",
+    "options": ["INSERT INTO", "UPDATE", "DELETE", "CREATE"],
+    "answer": "INSERT INTO"
+  },
+  {
+    "question": "Which SQL keyword is used to remove all records from a table?",
+    "options": ["TRUNCATE", "DELETE", "DROP", "REMOVE"],
+    "answer": "TRUNCATE"
+  },
+  {
+    "question": "Which of the following is a SQL aggregate function?",
+    "options": ["AVG()", "JOIN", "SELECT", "WHERE"],
+    "answer": "AVG()"
+  },
+  {
+    "question": "Which SQL clause is used to combine rows with the same values?",
+    "options": ["GROUP BY", "ORDER BY", "JOIN", "HAVING"],
+    "answer": "GROUP BY"
+  },
+  {
+    "question": "Which SQL statement is used to modify existing data in a table?",
+    "options": ["UPDATE", "INSERT", "ALTER", "DELETE"],
+    "answer": "UPDATE"
+  },
+  {
+    "question": "Which SQL command is used to remove a table from a database?",
+    "options": ["DROP TABLE", "DELETE", "TRUNCATE", "REMOVE TABLE"],
+    "answer": "DROP TABLE"
+  }
+]

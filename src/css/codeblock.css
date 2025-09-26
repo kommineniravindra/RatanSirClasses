@@ -1,0 +1,10 @@
+/* Import multiple stylish fonts */
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Ubuntu+Mono&family=Roboto+Mono&family=Space+Mono&family=JetBrains+Mono&display=swap');
+
+/* Apply to code block */
+.code-block,
+.code-block * {
+  font-family: 'DM Mono', 'Ubuntu Mono', 'Roboto Mono', 'Space Mono', 'JetBrains Mono', monospace !important;
+  font-size: 15px;
+  line-height: 1.6;
+}

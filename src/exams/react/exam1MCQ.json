@@ -1,0 +1,27 @@
+[
+  {
+    "question": "What is the size of int variable in Java?",
+    "options": ["4 bytes", "8 bytes", "Depends on the platform", "None of the above"],
+    "answer": "4 bytes"
+  },
+  {
+    "question": "Which keyword is used to prevent method overriding in Java?",
+    "options": ["final", "abstract", "static", "private"],
+    "answer": "final"
+  },
+  {
+    "question": "What is the output of 10 >> 2 in Java?",
+    "options": ["2", "2.5", "2.25", "2.75"],
+    "answer": "2"
+  },
+  {
+    "question": "Which of the following is not a primitive data type in Java?",
+    "options": ["int", "float", "String", "double"],
+    "answer": "String"
+  },
+  {
+    "question": "Which access modifier makes the member accessible only within its own class?",
+    "options": ["public", "protected", "private", "default"],
+    "answer": "private"
+  }
+]

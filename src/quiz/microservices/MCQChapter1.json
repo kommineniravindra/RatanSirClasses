@@ -1,0 +1,102 @@
+[
+  {
+    "question": "What is a primary benefit of microservices architecture?",
+    "options": [
+      "Faster development and deployment",
+      "Tightly coupled components",
+      "Monolithic scaling",
+      "Single database for all services"
+    ],
+    "answer": "Faster development and deployment"
+  },
+  {
+    "question": "In microservices, each service should have its own _______.",
+    "options": [
+      "Database",
+      "User interface",
+      "Programming language",
+      "Operating system"
+    ],
+    "answer": "Database"
+  },
+  {
+    "question": "Which of the following is commonly used for communication between microservices?",
+    "options": [
+      "HTTP/REST",
+      "Direct memory access",
+      "File sharing",
+      "Sockets only"
+    ],
+    "answer": "HTTP/REST"
+  },
+  {
+    "question": "Service discovery in microservices helps to:",
+    "options": [
+      "Locate service instances dynamically",
+      "Deploy monolithic apps",
+      "Store logs",
+      "Manage database schemas"
+    ],
+    "answer": "Locate service instances dynamically"
+  },
+  {
+    "question": "An API Gateway in microservices is used to:",
+    "options": [
+      "Act as a single entry point for clients",
+      "Replace databases",
+      "Deploy frontend apps",
+      "Reduce service isolation"
+    ],
+    "answer": "Act as a single entry point for clients"
+  },
+  {
+    "question": "Microservices promote which kind of scalability?",
+    "options": [
+      "Independent service scalability",
+      "Entire application scaling",
+      "Manual scaling only",
+      "No scalability"
+    ],
+    "answer": "Independent service scalability"
+  },
+  {
+    "question": "Which principle ensures each microservice focuses on a specific business capability?",
+    "options": [
+      "Single responsibility",
+      "Open/Closed principle",
+      "DRY principle",
+      "KISS principle"
+    ],
+    "answer": "Single responsibility"
+  },
+  {
+    "question": "How do microservices improve fault tolerance?",
+    "options": [
+      "By isolating failures to individual services",
+      "By merging services",
+      "By using one database",
+      "By blocking requests"
+    ],
+    "answer": "By isolating failures to individual services"
+  },
+  {
+    "question": "What is typically the alternative architecture to microservices?",
+    "options": [
+      "Monolithic architecture",
+      "Serverless architecture",
+      "Peer-to-peer architecture",
+      "Cloud-native architecture"
+    ],
+    "answer": "Monolithic architecture"
+  },
+  {
+    "question": "Continuous delivery is easier in microservices because:",
+    "options": [
+      "Each service can be deployed independently",
+      "All services must be deployed together",
+      "Services share a single deployment pipeline",
+      "Deployment is avoided"
+    ],
+    "answer": "Each service can be deployed independently"
+  }
+]

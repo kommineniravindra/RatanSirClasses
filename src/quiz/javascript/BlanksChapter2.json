@@ -1,0 +1,42 @@
+[
+  {
+    "question": "Which operator is used for string concatenation in JavaScript?",
+    "answer": "+"
+  },
+  {
+    "question": "In JavaScript, which keyword is used to exit a loop?",
+    "answer": "break"
+  },
+  {
+    "question": "Which built-in method converts a string to lowercase?",
+    "answer": "toLowerCase()"
+  },
+  {
+    "question": "Which built-in method converts a string to uppercase?",
+    "answer": "toUpperCase()"
+  },
+  {
+    "question": "In JavaScript, which keyword is used to skip the current iteration of a loop?",
+    "answer": "continue"
+  },
+  {
+    "question": "Which function is used to parse a string into an integer?",
+    "answer": "parseInt()"
+  },
+  {
+    "question": "Which function is used to parse a string into a floating-point number?",
+    "answer": "parseFloat()"
+  },
+  {
+    "question": "In JavaScript, which method joins array elements into a single string?",
+    "answer": "join()"
+  },
+  {
+    "question": "Which operator is used to check both value and type in JavaScript?",
+    "answer": "==="
+  },
+  {
+    "question": "In JavaScript, the value of null represents _______.",
+    "answer": "no value or empty object reference"
+  }
+]

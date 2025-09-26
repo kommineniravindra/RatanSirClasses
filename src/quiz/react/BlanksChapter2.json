@@ -1,0 +1,42 @@
+[
+  {
+    "question": "The method to update state in React class components is _______.",
+    "answer": "this.setState()"
+  },
+  {
+    "question": "React functional components do not have _______ like class components.",
+    "answer": "lifecycle methods"
+  },
+  {
+    "question": "The React hook useCallback is used to memoize _______.",
+    "answer": "functions"
+  },
+  {
+    "question": "React keys should be _______ within a list.",
+    "answer": "unique"
+  },
+  {
+    "question": "In React, the default hook for handling side effects is _______.",
+    "answer": "useEffect"
+  },
+  {
+    "question": "Props in React are _______ and cannot be modified by the child component.",
+    "answer": "read-only"
+  },
+  {
+    "question": "JSX elements must have a single _______ element at the root.",
+    "answer": "parent"
+  },
+  {
+    "question": "useReducer is preferred over useState when state logic is _______.",
+    "answer": "complex"
+  },
+  {
+    "question": "React.StrictMode is a tool for highlighting potential problems in _______ components.",
+    "answer": "React"
+  },
+  {
+    "question": "React Router is used to implement _______ in single-page applications.",
+    "answer": "routing"
+  }
+]

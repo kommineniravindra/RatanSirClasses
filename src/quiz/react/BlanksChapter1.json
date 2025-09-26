@@ -1,0 +1,42 @@
+[
+  {
+    "question": "The library React was developed by _______.",
+    "answer": "Facebook"
+  },
+  {
+    "question": "In React, the _______ is a lightweight copy of the real DOM.",
+    "answer": "Virtual DOM"
+  },
+  {
+    "question": "The hook used to manage side effects is _______.",
+    "answer": "useEffect"
+  },
+  {
+    "question": "State in React is used to store _______ data.",
+    "answer": "dynamic"
+  },
+  {
+    "question": "Props are used to pass data from _______ to _______.",
+    "answer": "parent, child"
+  },
+  {
+    "question": "JSX stands for _______.",
+    "answer": "JavaScript XML"
+  },
+  {
+    "question": "React functional components are created using _______ syntax.",
+    "answer": "function"
+  },
+  {
+    "question": "The React hook useState returns an array with the current state and a _______ function.",
+    "answer": "setter"
+  },
+  {
+    "question": "To render a React component in the DOM, we use _______.",
+    "answer": "ReactDOM.render()"
+  },
+  {
+    "question": "Context API in React is used for _______ data sharing.",
+    "answer": "global"
+  }
+]

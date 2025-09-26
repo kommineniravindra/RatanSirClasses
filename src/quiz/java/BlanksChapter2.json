@@ -1,0 +1,42 @@
+[
+  {
+    "question": "In Java, every class must be inside a _______ file.",
+    "answer": "Class"
+  },
+  {
+    "question": "The keyword used to inherit a class in Java is _______.",
+    "answer": "extends"
+  },
+  {
+    "question": "In Java, _______ is used to define a constant value that cannot be changed.",
+    "answer": "final"
+  },
+  {
+    "question": "Every Java application must have a _______ method as the entry point.",
+    "answer": "main"
+  },
+  {
+    "question": "In Java, arrays are _______ indexed.",
+    "answer": "zero"
+  },
+  {
+    "question": "The process of converting a Java object into a byte stream is called _______.",
+    "answer": "serialization"
+  },
+  {
+    "question": "The parent class of all classes in Java is _______.",
+    "answer": "Object"
+  },
+  {
+    "question": "In Java, exceptions are handled using the _______ and _______ blocks.",
+    "answer": "try, catch"
+  },
+  {
+    "question": "The keyword used to create an object in Java is _______.",
+    "answer": "new"
+  },
+  {
+    "question": "In Java, interfaces are declared using the keyword _______.",
+    "answer": "interface"
+  }
+]

@@ -1,0 +1,120 @@
+/* Import a clean, modern font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Main container to center the payment form on the page */
+.payment-page {
+  font-family: 'Poppins', sans-serif;
+  position: relative; /* Needed for positioning the home button */
+  display: flex;
+   
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f0f2f5; /* A soft, neutral background */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* The payment form card */
+.payment-form {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Creates space between elements */
+  border-top: 5px solid #007bff; /* A nice accent color */
+}
+
+/* Styling for the title */
+.payment-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Styling for the amount input field */
+.amount-input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box; /* Ensures padding is included in the width */
+}
+
+.amount-input::placeholder {
+  color: #aaa;
+}
+
+/* Style for when the input is focused (clicked on) */
+.amount-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+/* Styling for the submit button */
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  background: #007bff;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Style for when hovering over the button */
+.submit-btn:hover {
+  background: #0056b3; /* A darker shade for hover */
+  transform: translateY(-2px); /* Subtle lift effect */
+}
+
+/* Style for when the button is actively clicked */
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+/* --- ADD THIS NEW CSS --- */
+
+/* Style for the "Return to Home" button */
+.home-btn {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between icon and text */
+  padding: 10px 15px;
+  background: #ffffff;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.home-btn:hover {
+  background-color: #f8f9fa;
+  border-color: #ccc;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}

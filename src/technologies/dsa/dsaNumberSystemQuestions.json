@@ -1,0 +1,51 @@
+[
+  {
+    "question": "Count the number of digits in a given integer.",
+    "answer": "public class CountDigits {\n\n    // Method to count digits\n    public static int countDigits(int num) {\n        int count = 0;\n\n        // Handle zero explicitly\n        if (num == 0) return 1;\n\n        // Take absolute value for negative numbers\n        num = Math.abs(num);\n\n        // Count digits by dividing by 10\n        while (num > 0) {\n            num /= 10;\n            count++;\n        }\n\n        return count;\n    }\n\n    public static void main(String[] args) {\n        int n = 12345;\n        System.out.println(\"Number of digits: \" + countDigits(n));\n    }\n}\n",
+    "input": "12345",
+    "output": "5",
+    "explanation": "We repeatedly divide the number by 10 until it becomes 0, incrementing the count each time."
+  },
+  {
+    "question": "Reverse a given integer number.",
+    "answer": "public class ReverseNumber {\n\n    // Method to reverse a number\n    public static int reverse(int num) {\n        int rev = 0;\n        while (num != 0) {\n            int digit = num % 10; // extract last digit\n            rev = rev * 10 + digit; // build reversed number\n            num /= 10;\n        }\n        return rev;\n    }\n\n    public static void main(String[] args) {\n        int n = 1234;\n        System.out.println(\"Reversed: \" + reverse(n));\n    }\n}\n",
+    "input": "1234",
+    "output": "4321",
+    "explanation": "Take digits one by one using modulus (%) and construct the reversed number."
+  },
+  {
+    "question": "Check if a given number is a palindrome (reads same forward and backward).",
+    "answer": "public class PalindromeNumber {\n\n    // Method to check palindrome\n    public static boolean isPalindrome(int num) {\n        int original = num;\n        int rev = 0;\n        while (num != 0) {\n            int digit = num % 10;\n            rev = rev * 10 + digit;\n            num /= 10;\n        }\n        return original == rev;\n    }\n\n    public static void main(String[] args) {\n        int n = 121;\n        System.out.println(\"Is Palindrome: \" + isPalindrome(n));\n    }\n}\n",
+    "input": "121",
+    "output": "true",
+    "explanation": "Reverse the number and compare with the original. If both are same, it's a palindrome."
+  },
+  {
+    "question": "Find the GCD (Greatest Common Divisor) or HCF (Highest Common Factor) of two numbers.",
+    "answer": "public class GCDCalculator {\n\n    // Method to calculate GCD using Euclidean Algorithm\n    public static int gcd(int a, int b) {\n        while (b != 0) {\n            int temp = b;\n            b = a % b;\n            a = temp;\n        }\n        return a;\n    }\n\n    public static void main(String[] args) {\n        int a = 36, b = 60;\n        System.out.println(\"GCD: \" + gcd(a, b));\n    }\n}\n",
+    "input": "36, 60",
+    "output": "12",
+    "explanation": "We use the Euclidean algorithm: repeatedly replace (a, b) with (b, a % b) until b becomes 0. The result is GCD."
+  },
+  {
+    "question": "Check if a given number is an Armstrong number (sum of cubes of digits equals the number).",
+    "answer": "public class ArmstrongNumber {\n\n    // Method to check Armstrong\n    public static boolean isArmstrong(int num) {\n        int original = num;\n        int sum = 0;\n\n        while (num != 0) {\n            int digit = num % 10;\n            sum += digit * digit * digit;\n            num /= 10;\n        }\n\n        return sum == original;\n    }\n\n    public static void main(String[] args) {\n        int n = 153;\n        System.out.println(\"Is Armstrong: \" + isArmstrong(n));\n    }\n}\n",
+    "input": "153",
+    "output": "true",
+    "explanation": "For Armstrong numbers, the sum of the cubes of digits equals the number itself. Example: 153 → 1^3 + 5^3 + 3^3 = 153."
+  },
+  {
+    "question": "Print all divisors of a given number.",
+    "answer": "public class DivisorsPrinter {\n\n    // Method to print all divisors\n    public static void printDivisors(int num) {\n        for (int i = 1; i <= Math.sqrt(num); i++) {\n            if (num % i == 0) {\n                System.out.print(i + \" \");\n                if (i != num / i) {\n                    System.out.print((num / i) + \" \");\n                }\n            }\n        }\n    }\n\n    public static void main(String[] args) {\n        int n = 28;\n        System.out.print(\"Divisors: \");\n        printDivisors(n);\n    }\n}\n",
+    "input": "28",
+    "output": "1 28 2 14 4 7",
+    "explanation": "Loop from 1 to sqrt(n). If i divides n, print both i and n/i. This ensures O(sqrt(n)) complexity."
+  },
+  {
+    "question": "Check whether a given number is prime.",
+    "answer": "public class PrimeCheck {\n\n    // Method to check prime\n    public static boolean isPrime(int num) {\n        if (num <= 1) return false;\n        for (int i = 2; i <= Math.sqrt(num); i++) {\n            if (num % i == 0) return false;\n        }\n        return true;\n    }\n\n    public static void main(String[] args) {\n        int n = 29;\n        System.out.println(\"Is Prime: \" + isPrime(n));\n    }\n}\n",
+    "input": "29",
+    "output": "true",
+    "explanation": "A prime number is divisible only by 1 and itself. Check divisibility up to sqrt(n) for efficiency."
+  }
+]

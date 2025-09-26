@@ -1,0 +1,42 @@
+[
+  {
+    "question": "In JavaScript, which keyword is used to declare a variable?",
+    "answer": "var"
+  },
+  {
+    "question": "The keyword used to define a constant in JavaScript is _______.",
+    "answer": "const"
+  },
+  {
+    "question": "In JavaScript, arrays are written with _______.",
+    "answer": "square brackets []"
+  },
+  {
+    "question": "Which symbol is used for single-line comments in JavaScript?",
+    "answer": "//"
+  },
+  {
+    "question": "The function used to print something to the console is _______.",
+    "answer": "console.log()"
+  },
+  {
+    "question": "Which data type in JavaScript represents true/false values?",
+    "answer": "boolean"
+  },
+  {
+    "question": "In JavaScript, NaN stands for _______.",
+    "answer": "Not a Number"
+  },
+  {
+    "question": "Which loop is used to iterate through an array in JavaScript?",
+    "answer": "for loop"
+  },
+  {
+    "question": "Which keyword is used to define a function in JavaScript?",
+    "answer": "function"
+  },
+  {
+    "question": "In JavaScript, undefined means a variable has been declared but not _______.",
+    "answer": "assigned a value"
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "question": "What is the size of int variable in Java?",
+    "options": ["4 bytes", "8 bytes", "Depends on the platform", "None of the above"],
+    "answer": "4 bytes"
+  },
+  {
+    "question": "Which of the following is not a Java feature?",
+    "options": ["Object-oriented", "Use of pointers", "Portable", "Dynamic"],
+    "answer": "Use of pointers"
+  },
+  {
+    "question": "What is the default value of a boolean variable in Java?",
+    "options": ["true", "false", "0", "null"],
+    "answer": "false"
+  },
+  {
+    "question": "Which keyword is used to inherit a class in Java?",
+    "options": ["this", "super", "extends", "implements"],
+    "answer": "extends"
+  },
+  {
+    "question": "Which method is the entry point of a Java program?",
+    "options": ["start()", "main()", "run()", "init()"],
+    "answer": "main()"
+  },
+  {
+    "question": "Which of these is not a primitive data type in Java?",
+    "options": ["int", "float", "boolean", "String"],
+    "answer": "String"
+  },
+  {
+    "question": "Which operator is used for comparison in Java?",
+    "options": ["=", "==", "===", "!="],
+    "answer": "=="
+  },
+  {
+    "question": "Which keyword is used to prevent inheritance of a class?",
+    "options": ["static", "final", "const", "protected"],
+    "answer": "final"
+  },
+  {
+    "question": "Which package contains the Scanner class in Java?",
+    "options": ["java.io", "java.util", "java.lang", "java.net"],
+    "answer": "java.util"
+  },
+  {
+    "question": "What is the extension of compiled Java bytecode files?",
+    "options": [".java", ".class", ".jar", ".exe"],
+    "answer": ".class"
+  }
+]

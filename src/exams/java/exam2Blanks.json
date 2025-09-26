@@ -1,0 +1,22 @@
+[
+  {
+    "question": "A special method in a Java class that is used to create objects is called a _______.",
+    "answer": "constructor"
+  },
+  {
+    "question": "The keyword used to prevent a class from being inherited or a method from being overridden is _______.",
+    "answer": "final"
+  },
+  {
+    "question": "In Java, an _______ is a reference type that can contain only constants, method signatures, default methods, and static methods.",
+    "answer": "interface"
+  },
+  {
+    "question": "To handle exceptions in Java, you use a _______ block.",
+    "answer": "try-catch"
+  },
+  {
+    "question": "The _______ keyword in Java is a reference to the current object.",
+    "answer": "this"
+  }
+]

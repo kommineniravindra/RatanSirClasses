@@ -1,0 +1,52 @@
+[
+  {
+    "question": "Which data format is most commonly used in REST APIs?",
+    "options": ["JSON", "XML", "CSV", "HTML"],
+    "answer": "JSON"
+  },
+  {
+    "question": "Which HTTP status code indicates a server error?",
+    "options": ["500", "400", "200", "201"],
+    "answer": "500"
+  },
+  {
+    "question": "Which of the following is NOT a RESTful constraint?",
+    "options": ["Statelessness", "Cacheability", "Tight coupling", "Layered system"],
+    "answer": "Tight coupling"
+  },
+  {
+    "question": "In REST, what does the URL /users/123 represent?",
+    "options": ["A specific user resource", "All users", "A POST request", "An error page"],
+    "answer": "A specific user resource"
+  },
+  {
+    "question": "Which HTTP method is considered idempotent?",
+    "options": ["PUT", "POST", "PATCH", "None of the above"],
+    "answer": "PUT"
+  },
+  {
+    "question": "Which of the following is a safe HTTP method?",
+    "options": ["GET", "POST", "DELETE", "PUT"],
+    "answer": "GET"
+  },
+  {
+    "question": "REST APIs communicate over the _______ protocol.",
+    "options": ["HTTP", "FTP", "SMTP", "TCP only"],
+    "answer": "HTTP"
+  },
+  {
+    "question": "Which HTTP status code represents unauthorized access?",
+    "options": ["401", "403", "404", "200"],
+    "answer": "401"
+  },
+  {
+    "question": "REST API endpoints should ideally use _______ nouns for resources.",
+    "options": ["plural", "singular", "numeric", "adjective"],
+    "answer": "plural"
+  },
+  {
+    "question": "RESTful APIs should be designed to be _______.",
+    "options": ["stateless", "stateful", "dependent on client state", "session-based"],
+    "answer": "stateless"
+  }
+]

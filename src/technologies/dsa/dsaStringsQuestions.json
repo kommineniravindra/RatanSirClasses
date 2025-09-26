@@ -1,0 +1,180 @@
+[
+  {
+    "question": "Print all substrings of a string.",
+    "answer": "public class AllSubstrings {\n\n    // Method to print all substrings of a string\n    public static void printSubstrings(String str) {\n        int n = str.length();\n\n        // Outer loop for starting index\n        for (int i = 0; i < n; i++) {\n            // Inner loop for ending index\n            for (int j = i + 1; j <= n; j++) {\n                // Print substring from i to j-1\n                System.out.println(str.substring(i, j));\n            }\n        }\n    }\n\n    // Main method\n    public static void main(String[] args) {\n        String input = \"abc\";\n        printSubstrings(input);\n    }\n}\n",
+    "input": "\"abc\"",
+    "output": "[\"a\", \"ab\", \"abc\", \"b\", \"bc\", \"c\"]",
+    "explanation": "We use two loops: the outer loop chooses the starting index, and the inner loop chooses the ending index. The substring method generates substrings between these indices."
+  },
+  {
+    "question": "Check if a string is palindrome.",
+    "answer": "public class PalindromeCheck {\n\n    // Method to check if a string is palindrome\n    public static boolean isPalindrome(String str) {\n        int left = 0;\n        int right = str.length() - 1;\n\n        // Compare characters from both ends\n        while (left < right) {\n            if (str.charAt(left) != str.charAt(right)) {\n                return false; // mismatch found\n            }\n            left++;\n            right--;\n        }\n\n        return true; // all matched\n    }\n\n    // Main method\n    public static void main(String[] args) {\n        String input = \"madam\";\n        System.out.println(\"Is Palindrome: \" + isPalindrome(input));\n    }\n}\n",
+    "input": "\"madam\"",
+    "output": "true",
+    "explanation": "We use two pointers starting from left and right ends. If characters mismatch, return false. If we reach the middle without mismatches, it's a palindrome."
+  },
+  {
+    "question": "Check if a string is a valid palindrome (ignore cases & non-alphanumeric characters).",
+    "answer": "public class ValidPalindrome {\n\n    // Method to check if a string is valid palindrome\n    public static boolean isValidPalindrome(String s) {\n        // Convert to lowercase and keep only alphanumeric\n        s = s.replaceAll(\"[^a-zA-Z0-9]\", \"\").toLowerCase();\n\n        int left = 0;\n        int right = s.length() - 1;\n\n        // Compare characters\n        while (left < right) {\n            if (s.charAt(left) != s.charAt(right)) {\n                return false;\n            }\n            left++;\n            right--;\n        }\n\n        return true;\n    }\n\n    // Main method\n    public static void main(String[] args) {\n        String input = \"A man, a plan, a canal: Panama\";\n        System.out.println(\"Is Valid Palindrome: \" + isValidPalindrome(input));\n    }\n}\n",
+    "input": "\"A man, a plan, a canal: Panama\"",
+    "output": "true",
+    "explanation": "We first remove all non-alphanumeric characters and convert to lowercase. Then, the palindrome check is performed using two pointers."
+  },
+  {
+    "question": "Find frequency of each character in a string.",
+    "answer": "import java.util.HashMap;\n\npublic class CharFrequency {\n\n    // Method to find frequency of each character\n    public static void findFrequency(String str) {\n        HashMap<Character, Integer> freqMap = new HashMap<>();\n\n        // Traverse through the string\n        for (char c : str.toCharArray()) {\n            // Update frequency count\n            freqMap.put(c, freqMap.getOrDefault(c, 0) + 1);\n        }\n\n        // Print frequencies\n        for (char key : freqMap.keySet()) {\n            System.out.println(key + \" -> \" + freqMap.get(key));\n        }\n    }\n\n    // Main method\n    public static void main(String[] args) {\n        String input = \"programming\";\n        findFrequency(input);\n    }\n}\n",
+    "input": "\"programming\"",
+    "output": "{p=1, r=2, o=1, g=2, a=1, m=2, i=1, n=1}",
+    "explanation": "We use a HashMap to store each character as a key and its count as the value. As we iterate, we increment the count. Finally, we print the map."
+  },
+  {
+        "question": "Check if two strings are anagrams of each other.",
+        "answer": "import java.util.Arrays;\n\npublic class AnagramCheck {\n\n    // Method to check if two strings are anagrams\n    public static boolean areAnagrams(String str1, String str2) {\n        // Remove spaces and convert to lowercase for uniform comparison\n        str1 = str1.replaceAll(\"\\\\s\", \"\").toLowerCase();\n        str2 = str2.replaceAll(\"\\\\s\", \"\").toLowerCase();\n\n        // If lengths differ, they cannot be anagrams\n        if (str1.length() != str2.length()) {\n            return false;\n        }\n\n        // Convert strings to char arrays\n        char[] arr1 = str1.toCharArray();\n        char[] arr2 = str2.toCharArray();\n\n        // Sort both arrays\n        Arrays.sort(arr1);\n        Arrays.sort(arr2);\n\n        // Compare sorted arrays\n        return Arrays.equals(arr1, arr2);\n    }\n\n    public static void main(String[] args) {\n        String s1 = \"listen\";\n        String s2 = \"silent\";\n\n        System.out.println(\"Are anagrams: \" + areAnagrams(s1, s2));\n    }\n}\n",
+        "input": "[\"listen\", \"silent\"]",
+        "output": "true",
+        "explanation": "We remove spaces and ignore cases, then sort the characters of both strings. If the sorted strings are equal, they are anagrams."
+    },
+    {
+        "question": "Check if two strings are isomorphic (characters map one-to-one).",
+        "answer": "import java.util.HashMap;\n\npublic class IsomorphicString {\n\n    // Method to check if two strings are isomorphic\n    public static boolean isIsomorphic(String s1, String s2) {\n        // If lengths differ, they cannot be isomorphic\n        if (s1.length() != s2.length()) {\n            return false;\n        }\n\n        HashMap<Character, Character> map = new HashMap<>();\n        HashMap<Character, Character> used = new HashMap<>();\n\n        for (int i = 0; i < s1.length(); i++) {\n            char c1 = s1.charAt(i);\n            char c2 = s2.charAt(i);\n\n            // If character mapping exists\n            if (map.containsKey(c1)) {\n                if (map.get(c1) != c2) {\n                    return false;\n                }\n            } else {\n                // If character in s2 is already used\n                if (used.containsKey(c2)) {\n                    return false;\n                }\n                map.put(c1, c2);\n                used.put(c2, c1);\n            }\n        }\n        return true;\n    }\n\n    public static void main(String[] args) {\n        String s1 = \"egg\";\n        String s2 = \"add\";\n\n        System.out.println(\"Isomorphic: \" + isIsomorphic(s1, s2));\n    }\n}\n",
+        "input": "[\"egg\", \"add\"]",
+        "output": "true",
+        "explanation": "We map characters from the first string to the second. Each character must map to exactly one character in the other string. If mapping fails, return false."
+    },
+    {
+        "question": "Find the largest odd number formed by contiguous digits in a string.",
+        "answer": "public class LargestOddInString {\n\n    // Method to find the largest odd number in a string\n    public static int findLargestOdd(String s) {\n        int maxOdd = -1;\n        StringBuilder num = new StringBuilder();\n\n        for (int i = 0; i < s.length(); i++) {\n            char c = s.charAt(i);\n\n            // If character is digit, append to current number\n            if (Character.isDigit(c)) {\n                num.append(c);\n            } else {\n                // Check current number for odd\n                if (num.length() > 0) {\n                    int val = Integer.parseInt(num.toString());\n                    if (val % 2 != 0 && val > maxOdd) {\n                        maxOdd = val;\n                    }\n                    num.setLength(0);\n                }\n            }\n        }\n\n        // Check last number in case string ends with digits\n        if (num.length() > 0) {\n            int val = Integer.parseInt(num.toString());\n            if (val % 2 != 0 && val > maxOdd) {\n                maxOdd = val;\n            }\n        }\n\n        return maxOdd;\n    }\n\n    public static void main(String[] args) {\n        String s = \"1234567abc89\";\n        System.out.println(\"Largest Odd: \" + findLargestOdd(s));\n    }\n}\n",
+        "input": "\"1234567abc89\"",
+        "output": "1234567",
+        "explanation": "We traverse the string, extract contiguous digits as numbers, and check if they are odd. Keep track of the largest odd number."
+    },
+    {
+    "question": "Remove the outermost parentheses from every primitive valid parentheses string.",
+    "answer": "import java.util.Stack;\n\npublic class RemoveOutermostParentheses {\n\n    // Method to remove outermost parentheses\n    public static String removeOuter(String s) {\n        StringBuilder result = new StringBuilder();\n        int openCount = 0;\n\n        for (char c : s.toCharArray()) {\n            if (c == '(') {\n                if (openCount > 0) {\n                    result.append(c);\n                }\n                openCount++;\n            } else if (c == ')') {\n                openCount--;\n                if (openCount > 0) {\n                    result.append(c);\n                }\n            }\n        }\n\n        return result.toString();\n    }\n\n    public static void main(String[] args) {\n        String s = \"(()())(())\";\n        System.out.println(\"Result: \" + removeOuter(s));\n    }\n}",
+    "input": "\"(()())(())\"",
+    "output": "()()()",
+    "explanation": "We use a counter to track the depth of parentheses. Append characters only if they are not the outermost parentheses."
+},
+{
+        "question": "Check if a string has valid parentheses.",
+        "answer": "import java.util.Stack;\n\npublic class ValidParentheses {\n\n    // Method to check valid parentheses\n    public static boolean isValid(String s) {\n        Stack<Character> stack = new Stack<>();\n\n        for (char c : s.toCharArray()) {\n            // If opening bracket, push corresponding closing bracket\n            if (c == '(') stack.push(')');\n            else if (c == '{') stack.push('}');\n            else if (c == '[') stack.push(']');\n            else {\n                // If stack empty or top not matching, return false\n                if (stack.isEmpty() || stack.pop() != c) {\n                    return false;\n                }\n            }\n        }\n\n        // Return true if all brackets matched\n        return stack.isEmpty();\n    }\n\n    public static void main(String[] args) {\n        String s = \"()[]{}\";\n        System.out.println(\"Is valid: \" + isValid(s));\n    }\n}\n",
+        "input": "\"()[]{}\"",
+        "output": "true",
+        "explanation": "We use a stack to push expected closing brackets. For each closing bracket, we check if it matches the top of the stack. The string is valid if the stack is empty at the end."
+    },
+    {
+        "question": "Find the maximum nesting depth of parentheses in a string.",
+        "answer": "public class MaxNestingDepth {\n\n    // Method to calculate maximum nesting depth\n    public static int maxDepth(String s) {\n        int currentDepth = 0;\n        int maxDepth = 0;\n\n        for (char c : s.toCharArray()) {\n            if (c == '(') {\n                currentDepth++;\n                // Update maximum depth\n                maxDepth = Math.max(maxDepth, currentDepth);\n            } else if (c == ')') {\n                currentDepth--;\n            }\n        }\n\n        return maxDepth;\n    }\n\n    public static void main(String[] args) {\n        String s = \"((1)+((2)))\";\n        System.out.println(\"Maximum Depth: \" + maxDepth(s));\n    }\n}\n",
+        "input": "\"((1)+((2)))\"",
+        "output": "3",
+        "explanation": "We iterate over the string and increment a counter for '(' and decrement for ')'. The maximum value of this counter during traversal is the nesting depth."
+    },
+    {
+        "question": "Find the longest common prefix among an array of strings.",
+        "answer": "public class LongestCommonPrefix {\n\n    // Method to find longest common prefix\n    public static String longestCommonPrefix(String[] strs) {\n        if (strs == null || strs.length == 0) return \"\";\n\n        String prefix = strs[0];\n\n        for (int i = 1; i < strs.length; i++) {\n            while (!strs[i].startsWith(prefix)) {\n                // Shorten prefix until it matches the start of the string\n                prefix = prefix.substring(0, prefix.length() - 1);\n                if (prefix.isEmpty()) return \"\";\n            }\n        }\n\n        return prefix;\n    }\n\n    public static void main(String[] args) {\n        String[] strs = {\"flower\", \"flow\", \"flight\"};\n        System.out.println(\"Longest Common Prefix: \" + longestCommonPrefix(strs));\n    }\n}\n",
+        "input": "[\"flower\", \"flow\", \"flight\"]",
+        "output": "\"fl\"",
+        "explanation": "We start with the first string as the prefix and compare it with each string, shortening the prefix until it matches the start of all strings."
+    },
+    {
+        "question": "Reverse each word in a string (Reverse Words in a String III).",
+        "answer": "public class ReverseWords {\n\n    // Method to reverse each word in a string\n    public static String reverseWords(String s) {\n        String[] words = s.split(\" \"); // Split string by spaces\n        StringBuilder result = new StringBuilder();\n\n        for (int i = 0; i < words.length; i++) {\n            StringBuilder reversed = new StringBuilder(words[i]);\n            reversed.reverse(); // Reverse individual word\n            result.append(reversed);\n            if (i < words.length - 1) result.append(\" \"); // Add space between words\n        }\n\n        return result.toString();\n    }\n\n    public static void main(String[] args) {\n        String s = \"Let's take LeetCode contest\";\n        System.out.println(reverseWords(s));\n    }\n}\n",
+        "input": "\"Let's take LeetCode contest\"",
+        "output": "\"s'teL ekat edoCteeL tsetnoc\"",
+        "explanation": "We split the string into words, reverse each word individually, and join them back with spaces."
+    },
+    {
+        "question": "Convert Roman numeral to Integer.",
+        "answer": "import java.util.HashMap;\n\npublic class RomanToInteger {\n\n    // Method to convert Roman numeral to integer\n    public static int romanToInt(String s) {\n        HashMap<Character, Integer> map = new HashMap<>();\n        map.put('I', 1);\n        map.put('V', 5);\n        map.put('X', 10);\n        map.put('L', 50);\n        map.put('C', 100);\n        map.put('D', 500);\n        map.put('M', 1000);\n\n        int total = 0;\n        int prev = 0;\n\n        for (int i = s.length() - 1; i >= 0; i--) {\n            int current = map.get(s.charAt(i));\n\n            // If current is smaller than previous, subtract it; otherwise, add it\n            if (current < prev) {\n                total -= current;\n            } else {\n                total += current;\n            }\n            prev = current;\n        }\n\n        return total;\n    }\n\n    public static void main(String[] args) {\n        String roman = \"MCMXCIV\";\n        System.out.println(\"Integer: \" + romanToInt(roman));\n    }\n}\n",
+        "input": "\"MCMXCIV\"",
+        "output": "1994",
+        "explanation": "Traverse from right to left. If a numeral is less than the previous numeral, subtract it; otherwise, add it. This handles Roman subtraction rules."
+    },
+    {
+        "question": "Implement strStr() to find substring index.",
+        "answer": "public class StrStr {\n\n    // Method to find index of needle in haystack\n    public static int strStr(String haystack, String needle) {\n        if (needle.isEmpty()) return 0;\n\n        for (int i = 0; i <= haystack.length() - needle.length(); i++) {\n            // Check substring starting at i\n            if (haystack.substring(i, i + needle.length()).equals(needle)) {\n                return i;\n            }\n        }\n\n        return -1; // Not found\n    }\n\n    public static void main(String[] args) {\n        String haystack = \"hello\";\n        String needle = \"ll\";\n        System.out.println(\"Index: \" + strStr(haystack, needle));\n    }\n}\n",
+        "input": "\"hello\", \"ll\"",
+        "output": "2",
+        "explanation": "Check all substrings of length equal to needle in the haystack. Return the index if matched; else return -1."
+    },
+    {
+        "question": "Find the length of the last word in a string.",
+        "answer": "public class LengthOfLastWord {\n\n    // Method to find length of last word\n    public static int lengthOfLastWord(String s) {\n        s = s.trim(); // Remove leading/trailing spaces\n        int lastSpace = s.lastIndexOf(' ');\n        return s.length() - lastSpace - 1;\n    }\n\n    public static void main(String[] args) {\n        String s = \"Hello World\";\n        System.out.println(\"Length of Last Word: \" + lengthOfLastWord(s));\n    }\n}\n",
+        "input": "\"Hello World\"",
+        "output": "5",
+        "explanation": "Trim spaces, find last space index, subtract from string length to get the length of the last word."
+    },
+    {
+        "question": "Check whether one string is a rotation of another.",
+        "answer": "public class StringRotation {\n\n    // Method to check if s2 is rotation of s1\n    public static boolean isRotation(String s1, String s2) {\n        if (s1.length() != s2.length()) return false;\n        String combined = s1 + s1;\n        return combined.contains(s2);\n    }\n\n    public static void main(String[] args) {\n        String s1 = \"waterbottle\";\n        String s2 = \"erbottlewat\";\n        System.out.println(\"Is Rotation: \" + isRotation(s1, s2));\n    }\n}\n",
+        "input": "\"waterbottle\", \"erbottlewat\"",
+        "output": "true",
+        "explanation": "A string rotation of s1 will always be a substring of s1+s1. Check if s2 exists in s1+s1 to verify rotation."
+    },
+     {
+        "question": "Implement Atoi (convert a string to an integer).",
+        "answer": "public class Atoi {\n\n    // Method to convert string to integer\n    public static int myAtoi(String s) {\n        s = s.trim(); // Remove leading/trailing spaces\n        if (s.isEmpty()) return 0;\n\n        int sign = 1, index = 0, result = 0;\n        int n = s.length();\n\n        // Handle optional '+' or '-' sign\n        if (s.charAt(index) == '+') {\n            index++;\n        } else if (s.charAt(index) == '-') {\n            sign = -1;\n            index++;\n        }\n\n        while (index < n) {\n            char c = s.charAt(index);\n            if (!Character.isDigit(c)) break; // Stop at non-digit\n\n            int digit = c - '0';\n\n            // Check overflow\n            if (result > (Integer.MAX_VALUE - digit) / 10) {\n                return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;\n            }\n\n            result = result * 10 + digit;\n            index++;\n        }\n\n        return result * sign;\n    }\n\n    public static void main(String[] args) {\n        String s = \"   -42\";\n        System.out.println(\"Integer: \" + myAtoi(s));\n    }\n}\n",
+        "input": "\"   -42\"",
+        "output": "-42",
+        "explanation": "Trim spaces, handle optional sign, convert digits to number, and handle overflow."
+    },
+    {
+        "question": "Repeated String Match: find minimum repeats of A to contain B as substring.",
+        "answer": "public class RepeatedStringMatch {\n\n    // Method to find minimum repetitions of a to contain b\n    public static int repeatedStringMatch(String a, String b) {\n        StringBuilder sb = new StringBuilder();\n        int count = 0;\n        \n        // Repeat string a until length >= b\n        while (sb.length() < b.length()) {\n            sb.append(a);\n            count++;\n        }\n        \n        // Check if b is now a substring\n        if (sb.toString().contains(b)) return count;\n        // Check after adding one more repeat\n        if (sb.append(a).toString().contains(b)) return count + 1;\n        \n        return -1; // Not possible\n    }\n\n    public static void main(String[] args) {\n        String A = \"abcd\", B = \"cdabcdab\";\n        System.out.println(\"Minimum repeats: \" + repeatedStringMatch(A, B));\n    }\n}\n",
+        "input": "\"abcd\", \"cdabcdab\"",
+        "output": "3",
+        "explanation": "Repeat A until its length >= B. If B is substring, return repeats. Else add one more repeat and check."
+    },
+    {
+        "question": "Count substrings with only '1's in a binary string.",
+        "answer": "public class CountOnesSubstrings {\n\n    // Method to count all substrings consisting of only '1'\n    public static int numSub(String s) {\n        int count = 0, consecutive = 0;\n        for (char c : s.toCharArray()) {\n            if (c == '1') {\n                consecutive++;\n                count += consecutive; // Add all substrings ending here\n            } else {\n                consecutive = 0; // Reset count for '0'\n            }\n        }\n        return count;\n    }\n\n    public static void main(String[] args) {\n        String s = \"0110111\";\n        System.out.println(\"Total substrings with only '1's: \" + numSub(s));\n    }\n}\n",
+        "input": "\"0110111\"",
+        "output": "9",
+        "explanation": "Count consecutive '1's, sum all possible substrings ending at each '1'. Reset counter at '0'."
+    },
+    {
+        "question": "Multiply two numbers represented as strings.",
+        "answer": "public class MultiplyStrings {\n\n    // Multiply two strings representing numbers\n    public static String multiply(String num1, String num2) {\n        int n1 = num1.length(), n2 = num2.length();\n        int[] result = new int[n1 + n2];\n\n        // Multiply each digit\n        for (int i = n1 - 1; i >= 0; i--) {\n            for (int j = n2 - 1; j >= 0; j--) {\n                int mul = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');\n                int sum = mul + result[i + j + 1];\n                result[i + j + 1] = sum % 10;\n                result[i + j] += sum / 10;\n            }\n        }\n\n        // Convert result array to string\n        StringBuilder sb = new StringBuilder();\n        for (int num : result) {\n            if (!(sb.length() == 0 && num == 0)) sb.append(num);\n        }\n\n        return sb.length() == 0 ? \"0\" : sb.toString();\n    }\n\n    public static void main(String[] args) {\n        String num1 = \"123\", num2 = \"456\";\n        System.out.println(\"Product: \" + multiply(num1, num2));\n    }\n}\n",
+        "input": "\"123\", \"456\"",
+        "output": "56088",
+        "explanation": "Multiply each digit as in grade-school multiplication, store carry, then build the result string skipping leading zeros."
+    },
+    {
+        "question": "Sentence Similarity III: Determine if two sentences are similar (one can be transformed to another by inserting words).",
+        "answer": "import java.util.*;\n\npublic class SentenceSimilarityIII {\n\n    // Method to check if two sentences are similar\n    public static boolean areSentencesSimilar(String sentence1, String sentence2) {\n        String[] words1 = sentence1.split(\" \");\n        String[] words2 = sentence2.split(\" \");\n        int i = 0, j = words1.length - 1, k = words2.length - 1;\n\n        // Compare from the start\n        while (i <= j && i < words2.length && words1[i].equals(words2[i])) i++;\n        \n        // Compare from the end\n        while (j >= i && k >= i && words1[j].equals(words2[k])) {\n            j--;\n            k--;\n        }\n\n        // Check if middle words can be transformed\n        return i > j;\n    }\n\n    public static void main(String[] args) {\n        String s1 = \"My name is Aditya\", s2 = \"name is\";\n        System.out.println(\"Are similar: \" + areSentencesSimilar(s1, s2));\n    }\n}\n",
+        "input": "\"My name is Aditya\", \"name is\"",
+        "output": "true",
+        "explanation": "Compare words from start and end. If remaining middle can be inserted/removed, sentences are similar."
+    },
+    {
+        "question": "Basic Calculator II: Evaluate a string expression containing +, -, *, / (non-negative integers).",
+        "answer": "import java.util.;\n\npublic class BasicCalculatorII {\n\n    // Method to evaluate expression string\n    public static int calculate(String s) {\n        int currentNumber = 0;\n        char operation = '+';\n        Stack<Integer> stack = new Stack<>();\n\n        for (int i = 0; i < s.length(); i++) {\n            char c = s.charAt(i);\n            if (Character.isDigit(c)) {\n                currentNumber = currentNumber * 10 + (c - '0');\n            }\n            if ((!Character.isDigit(c) && c != ' ') || i == s.length() - 1) {\n                switch (operation) {\n                    case '+': stack.push(currentNumber); break;\n                    case '-': stack.push(-currentNumber); break;\n                    case '': stack.push(stack.pop() * currentNumber); break;\n                    case '/': stack.push(stack.pop() / currentNumber); break;\n                }\n                operation = c;\n                currentNumber = 0;\n            }\n        }\n\n        int result = 0;\n        for (int num : stack) result += num;\n        return result;\n    }\n\n    public static void main(String[] args) {\n        String expr = \"3+2*2\";\n        System.out.println(\"Result: \" + calculate(expr));\n    }\n}\n",
+        "input": "\"3+2*2\"",
+        "output": "7",
+        "explanation": "Use stack to handle * and / immediately; + and - are pushed to stack. Sum stack at the end."
+    },
+    {
+        "question": "Longest Palindromic Substring: Find the longest palindromic substring without using DP.",
+        "answer": "public class LongestPalindrome {\n\n    // Expand around center helper\n    private static String expand(String s, int left, int right) {\n        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {\n            left--;\n            right++;\n        }\n        return s.substring(left + 1, right);\n    }\n\n    // Method to find longest palindromic substring\n    public static String longestPalindrome(String s) {\n        if (s == null || s.length() < 1) return \"\";\n        String longest = \"\";\n        for (int i = 0; i < s.length(); i++) {\n            String odd = expand(s, i, i); // Odd length\n            String even = expand(s, i, i + 1); // Even length\n            String max = odd.length() > even.length() ? odd : even;\n            if (max.length() > longest.length()) longest = max;\n        }\n        return longest;\n    }\n\n    public static void main(String[] args) {\n        String s = \"babad\";\n        System.out.println(\"Longest palindrome: \" + longestPalindrome(s));\n    }\n}\n",
+        "input": "\"babad\"",
+        "output": "\"bab\"",
+        "explanation": "Expand around each character (for odd and even lengths) to find longest palindrome."
+    },
+    {
+        "question": "Minimum Window Substring: Find the smallest substring in S that contains all characters of T using sliding window.",
+        "answer": "import java.util.*;\n\npublic class MinWindowSubstring {\n\n    public static String minWindow(String s, String t) {\n        if (s.length() == 0 || t.length() == 0) return \"\";\n\n        Map<Character, Integer> mapT = new HashMap<>();\n        for (char c : t.toCharArray()) mapT.put(c, mapT.getOrDefault(c, 0) + 1);\n\n        int left = 0, right = 0, required = mapT.size(), formed = 0;\n        Map<Character, Integer> windowCounts = new HashMap<>();\n        int[] ans = {-1, 0, 0}; // length, left, right\n\n        while (right < s.length()) {\n            char c = s.charAt(right);\n            windowCounts.put(c, windowCounts.getOrDefault(c, 0) + 1);\n            if (mapT.containsKey(c) && windowCounts.get(c).intValue() == mapT.get(c).intValue()) formed++;\n\n            while (left <= right && formed == required) {\n                c = s.charAt(left);\n                if (ans[0] == -1 || right - left + 1 < ans[0]) {\n                    ans[0] = right - left + 1;\n                    ans[1] = left;\n                    ans[2] = right;\n                }\n                windowCounts.put(c, windowCounts.get(c) - 1);\n                if (mapT.containsKey(c) && windowCounts.get(c) < mapT.get(c)) formed--;\n                left++;\n            }\n            right++;\n        }\n\n        return ans[0] == -1 ? \"\" : s.substring(ans[1], ans[2] + 1);\n    }\n\n    public static void main(String[] args) {\n        String S = \"ADOBECODEBANC\", T = \"ABC\";\n        System.out.println(\"Minimum window substring: \" + minWindow(S, T));\n    }\n}\n",
+        "input": "\"ADOBECODEBANC\", \"ABC\"",
+        "output": "\"BANC\"",
+        "explanation": "Use sliding window with character counts. Expand right until all required chars are included, then shrink left to minimize."
+    },
+    {
+    "question": "Regex Matching: Implement regex matching with support for '.' and '*' using dynamic programming.",
+    "answer": "public class RegexMatching {\n\n    // Method to check regex match\n    public static boolean isMatch(String s, String p) {\n        int m = s.length(), n = p.length();\n        boolean[][] dp = new boolean[m + 1][n + 1];\n        dp[0][0] = true; // empty string matches empty pattern\n\n        // Initialize for patterns like a*, a*b*, etc.\n        for (int j = 1; j <= n; j++) {\n            if (p.charAt(j - 1) == '') {\n                dp[0][j] = dp[0][j - 2];\n            }\n        }\n\n        // Fill DP table\n        for (int i = 1; i <= m; i++) {\n            for (int j = 1; j <= n; j++) {\n                char sc = s.charAt(i - 1);\n                char pc = p.charAt(j - 1);\n\n                if (pc == '.' || pc == sc) {\n                    dp[i][j] = dp[i - 1][j - 1]; // current characters match\n                } else if (pc == '') {\n                    dp[i][j] = dp[i][j - 2]; // zero occurrence of previous char\n                    char prev = p.charAt(j - 2);\n                    if (prev == '.' || prev == sc) {\n                        dp[i][j] |= dp[i - 1][j]; // one or more occurrence\n                    }\n                }\n            }\n        }\n\n        return dp[m][n];\n    }\n\n    // Main method to test\n    public static void main(String[] args) {\n        String s = \"aab\";\n        String p = \"c*a*b\";\n        System.out.println(\"Regex match: \" + isMatch(s, p));\n    }\n}\n",
+    "input": "\"aab\", \"c*a*b\"",
+    "output": "true",
+    "explanation": "Use dynamic programming. dp[i][j] represents whether s[0..i-1] matches p[0..j-1]. Handle '.' as any char, '*' as zero or more of previous char."
+}
+
+
+  
+]

@@ -1,0 +1,330 @@
+/* =================================
+ IMPORTS & GENERAL STYLES
+================================= */
+@import "@fontsource/ibm-plex-sans/index.css";
+@import url('https://fonts.cdnfonts.com/css/avenir-next');
+@import url('https://fonts.cdnfonts.com/css/ff-tisa-web-pro');
+@import url('https://fonts.cdnfonts.com/css/gt-walsheim');
+@import url('https://fonts.cdnfonts.com/css/gt-america');
+@import url('https://fonts.cdnfonts.com/css/ff-din');
+@import url('https://fonts.cdnfonts.com/css/bebas-neue');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libertinus+Serif:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;700&display=swap');
+
+/* Container for the 3D globe canvas */
+#globe-container {
+  width: 90vw;
+  height: 70vh;
+  /* Changed to vh for better responsiveness */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Loading container */
+#loading-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  color: #fff;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Wrapper */
+.globe-container {
+  text-align: center;
+  padding: 55px;
+  background: linear-gradient(135deg, #f5f7fa, #e6ebf3);
+}
+
+/* Title */
+.globe-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 3vw;
+  color: #222;
+}
+
+/* Swiper main container */
+.globe-swiper {
+  width: 100%;
+  max-width: 1000px;
+  padding-top: 3vw;
+  padding-bottom: 50px;
+  margin: auto;
+}
+
+/* Each slide */
+.globe-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 2vw;
+  padding: 25px;
+  width: 250px;
+  max-width: 300px;
+  height: auto;
+  min-height: 320px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.card h3 {
+  margin-top: 1vw;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.card p {
+  margin-top: 0.5vw;
+  font-size: 1rem;
+  color: #000000;
+  font-family: "El Messiri", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.4;
+}
+
+/* Swiper Pagination Dots */
+.swiper-pagination-bullet {
+  background: #888 !important;
+  opacity: 1 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: orange !important;
+  width: 12px;
+  height: 12px;
+}
+
+/* Swiper Navigation Arrows */
+.swiper-button-prev,
+.swiper-button-next {
+  color: orange !important;
+  font-weight: bold;
+  transition: transform 0.2s;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  transform: scale(1.2);
+}
+
+/* Explore Button */
+.explore-btn {
+  margin-top: 1vw;
+  margin-bottom: 0px;
+  padding: 0.6vw 2vw;
+  border: none;
+  border-radius: 25px;
+  background: orange;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.explore-btn:hover {
+  background: #ff7300;
+  transform: scale(1.05);
+}
+
+/* --- New Modal Styles --- */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 2vw;
+  box-shadow: 0 0.5vw 2vw rgba(0, 0, 0, 0.2);
+  max-width: 70%;
+  width: 500px;
+  padding: 3vw;
+  animation: fadeInScale 0.3s ease-out;
+}
+
+/* Course Details Section */
+.course-details h3 {
+  color: #333;
+  margin-bottom: 1vw;
+}
+
+.course-details p {
+  color: #555;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+/* Close button */
+.close-btn {
+  margin-top: 1.5vw;
+  padding: 0.5vw 2vw;
+  border: none;
+  border-radius: 20px;
+  background: #ff4d4d;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.3s ease;
+}
+
+.close-btn:hover {
+  background: #d93636;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --- Responsive Breakpoints --- */
+
+/* Laptops/Large Tablets: 1200px and under */
+@media (max-width: 1200px) {
+  .card {
+    width: 25vw;
+    min-height: 280px;
+    padding: 2vw;
+  }
+
+  .card h3 {
+    font-size: 1.4rem;
+  }
+
+  .card p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Tablets (Portrait) / Primary Breakpoint: 992px and under */
+@media (max-width: 992px) {
+  #globe-container {
+    width: 95vw;
+    height: 70vh;
+  }
+
+  .globe-title {
+    font-size: 1.75rem;
+  }
+
+  .card {
+    width: 30vw;
+    min-height: 260px;
+  }
+
+  .modal-content {
+    max-width: 80%;
+    padding: 3vw;
+  }
+
+  .explore-btn,
+  .close-btn {
+    padding: 1vw 3vw;
+    font-size: 0.85rem;
+  }
+}
+
+/* Small Tablets/Large Phones: 768px and under */
+@media (max-width: 768px) {
+  #globe-container {
+    height: 60vh;
+  }
+
+  .globe-title {
+    font-size: 1.5rem;
+    margin-bottom: 2vw;
+  }
+
+  .card {
+    width: 45vw;
+    min-height: 240px;
+    padding: 2vw;
+  }
+
+  .modal-content {
+    max-width: 90%;
+    padding: 4vw;
+  }
+}
+
+/* Mobile Phones: 480px and under */
+@media (max-width: 480px) {
+  .globe-container {
+    padding: 3vw;
+  }
+
+  .globe-title {
+    font-size: 1.25rem;
+    margin-bottom: 1.5vw;
+  }
+
+  .card {
+    width: 70vw;
+    min-height: auto;
+    padding: 3vw;
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+  }
+
+  .card p {
+    font-size: 0.9rem;
+  }
+
+  .modal-content {
+    max-width: 95%;
+    padding: 5vw;
+    border-radius: 3vw;
+  }
+
+  .explore-btn,
+  .close-btn {
+    padding: 3vw 5vw;
+    font-size: 0.8rem;
+  }
+}

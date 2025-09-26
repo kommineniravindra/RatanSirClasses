@@ -1,0 +1,42 @@
+[
+  {
+    "question": "The SQL command to retrieve data from a table is _______.",
+    "answer": "SELECT"
+  },
+  {
+    "question": "To remove all records but keep the table structure, we use _______.",
+    "answer": "TRUNCATE"
+  },
+  {
+    "question": "The clause used to filter rows based on a condition is _______.",
+    "answer": "WHERE"
+  },
+  {
+    "question": "The function to calculate the average value of a column is _______.",
+    "answer": "AVG()"
+  },
+  {
+    "question": "The clause used to arrange rows in ascending or descending order is _______.",
+    "answer": "ORDER BY"
+  },
+  {
+    "question": "The SQL command to delete a table completely is _______.",
+    "answer": "DROP TABLE"
+  },
+  {
+    "question": "To group rows that have the same values into summary rows, we use _______.",
+    "answer": "GROUP BY"
+  },
+  {
+    "question": "The function to count the number of rows in a table is _______.",
+    "answer": "COUNT()"
+  },
+  {
+    "question": "The SQL command to insert new records into a table is _______.",
+    "answer": "INSERT INTO"
+  },
+  {
+    "question": "The SQL command to change existing data in a table is _______.",
+    "answer": "UPDATE"
+  }
+]

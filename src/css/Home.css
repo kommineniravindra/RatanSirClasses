@@ -1,0 +1,594 @@
+/* --- General & Utilities --- */
+.section-heading {
+  text-align: center;
+  font-family: 'Merriweather', serif;
+  font-size: 2.5rem;
+  margin-top: 1px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #333;
+}
+
+/* --- Hero Section with Premium Video Background --- */
+.hero-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100vh;
+  padding: 2rem;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.2) 60%,
+      rgba(0, 0, 0, 0.8) 100%);
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  max-width: 90%;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  transform: translateY(-8vh);
+  margin: 0 auto;
+}
+
+.hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  /* Using clamp() for fluid, responsive font size */
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: 1.5px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Lemonada:wght@300..700&display=swap');
+
+.hero-content p {
+  font-weight: 450;
+  font-style: italic;
+  font-size: clamp(0.9rem, 2.5vw, 1.125rem);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.hero-cta-btn {
+  background: linear-gradient(45deg, #ffc371, #ff5f6d);
+  color: #fff;
+  border: none;
+  padding: 0.9rem 2rem;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+.hero-cta-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 95, 109, 0.4);
+  background: linear-gradient(45deg, #ffc97e, #ff6b79);
+}
+
+/* --- Premium Carousel Section --- */
+.carousel-root {
+  margin: 1px auto;
+  max-width: 850px;
+  position: relative;
+}
+
+.carousel .slider-wrapper {
+  overflow: hidden;
+  border-radius: 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.carousel-slide {
+  padding: 2rem;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: #e0e0e0;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 400px;
+  transition: all 0.4s ease;
+}
+
+.carousel-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  color: orangered;
+  text-shadow: 0 5px 20px rgba(255, 195, 113, 0.4);
+  animation: floatGlow 3s ease-in-out infinite;
+}
+
+.carousel-slide h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.carousel-slide p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  max-width: 650px;
+  line-height: 1.7;
+  opacity: 0.9;
+}
+
+.learn-btn {
+  background: linear-gradient(45deg, #ff5f6d, #ffc371);
+  color: #ffffff;
+  border: none;
+  padding: 0.9rem 2.5rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  box-shadow: 0 6px 15px rgba(255, 95, 109, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+.learn-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  background: linear-gradient(45deg, #ffc371, #ff5f6d);
+  box-shadow: 0 12px 35px rgba(255, 95, 109, 0.5);
+}
+
+.carousel .control-dots .dot {
+  background: #ffffff !important;
+  width: 12px !important;
+  height: 12px !important;
+  opacity: 0.4 !important;
+  margin: 0 6px !important;
+  transition: all 0.3s ease;
+}
+
+.carousel .control-dots .dot.selected,
+.carousel .control-dots .dot:hover {
+  opacity: 1 !important;
+  transform: scale(1.3);
+}
+
+@keyframes floatGlow {
+
+  0%,
+  100% {
+    transform: translateY(0);
+    text-shadow: 0 0 15px rgba(255, 195, 113, 0.5);
+  }
+
+  50% {
+    transform: translateY(-10px);
+    text-shadow: 0 0 25px rgba(255, 195, 113, 0.8);
+  }
+}
+
+/* --- Why Choose Us --- */
+.features-section {
+  text-align: center;
+  padding: 1rem 1rem;
+  background: linear-gradient(135deg, #f9fafc 0%, #eef2f7 100%);
+}
+
+.features-section .section-heading {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+}
+
+.features-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  max-width: 1150px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 12px;
+  padding: 30px 5px;
+  text-align: center;
+  border: 1px solid rgba(200, 200, 200, 0.2);
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.feature-card:hover {
+  transform: translateY(-8px) scale(1.04);
+  border-color: #6a11cb;
+  box-shadow: 0 10px 25px rgba(106, 17, 203, 0.25);
+}
+
+.feature-icon {
+  height: 60px;
+  width: 60px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: rotateY(360deg) scale(1.05);
+}
+
+.feature-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+  font-weight: 600;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400..700&display=swap');
+
+.feature-card p {
+  font-family: "El Messiri", sans-serif;
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* --- Premium Courses --- */
+.cards-container-section {
+  padding: 2rem;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  text-align: center;
+}
+
+.cards-container-section .section-heading {
+  font-size: 2.3rem;
+  margin-bottom: 30px;
+  color: #fff;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  max-width: 1150px;
+  margin: 0 auto;
+}
+
+.course-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-top-left-radius: 28px;
+  border-bottom-right-radius: 38px;
+  padding: 30px 15px;
+  text-align: center;
+  color: #dcdcdc;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.course-card:hover {
+  transform: translateY(-8px) scale(1.04);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.course-card-icon {
+  font-size: 3.5rem;
+  color: #ffc371;
+  margin-bottom: 1rem;
+  transition: transform 0.35s ease, color 0.35s ease;
+}
+
+.course-card:hover .course-card-icon {
+  transform: rotateY(360deg) scale(1.1);
+  color: #ff5f6d;
+}
+
+.course-card h3 {
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
+.course-card p {
+  font-size: 1rem;
+  color: #ffffff8f;
+  font-family: "Patrick Hand", cursive;
+  line-height: 1.4;
+}
+
+/* --- Testimonials --- */
+.testimonials-section {
+  text-align: center;
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+.testimonials-section .section-heading {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #1a1a80;
+}
+
+.testimonials-container {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+.testimonial-card {
+  position: absolute;
+  width: 100%;
+  padding: 1rem 2rem;
+  border-radius: 15px;
+}
+
+.quote {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.author {
+  font-weight: 700;
+  color: #e74c3c;
+}
+
+.author span {
+  font-weight: 500;
+  color: #34495e;
+}
+
+/* --- Career Acceleration --- */
+.career-support-section {
+  background-color: #f8f9fa;
+  background-image: url('../assets/img10.jpg');
+  background-position: center;
+}
+
+.career-support-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1600px;
+  margin: 0 auto;
+  gap: 1rem;
+}
+
+.career-support-content {
+  flex: 1;
+  max-width: 550px;
+}
+
+.career-support-content .section-heading {
+  text-align: left;
+  margin-bottom: 2.5rem;
+  color: #1a1a2e;
+}
+
+.timeline-container {
+  position: relative;
+  padding-left: 90px;
+}
+
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  left: 65px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background-color: #c9c1c1;
+}
+
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.timeline-icon-container {
+  position: absolute;
+  left: -21px;
+  top: 5px;
+}
+
+.timeline-icon {
+  width: 30px;
+  height: 30px;
+  background-color: #fff;
+  border: 2px solid #6a11cb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6a11cb;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+}
+
+.timeline-item:hover .timeline-icon {
+  background-color: #6a11cb;
+  color: #fff;
+  transform: scale(1.2);
+}
+
+.timeline-text {
+  padding-left: 20px;
+}
+
+.timeline-text h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* @import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap'); */
+.timeline-text p {
+  font-family: "Sriracha", cursive;
+  color: #676767c7;
+  line-height: 1.6;
+}
+
+.contact-advisor-btn {
+  background: transparent;
+  color: #ff5f6d;
+  border: 2px solid #ff5f6d;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 50px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  margin-left: 65px;
+  transition: all 0.3s ease-in-out;
+}
+
+.contact-advisor-btn:hover {
+  background: #ff5f6d;
+  color: #fff;
+}
+
+.career-support-image {
+  flex: 2;
+  max-width: 550px;
+  text-align: center;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.career-support-image.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.career-support-image img {
+  max-width: 100%;
+  border-radius: 15px;
+  display: block;
+}
+
+
+/* --- Responsive Tweaks --- */
+@media (max-width: 1024px) {
+  .career-support-container {
+    flex-wrap: wrap;
+    padding: 2rem 1rem;
+  }
+
+  .career-support-content,
+  .career-support-image {
+    flex: 1 1 48%;
+    max-width: 48%;
+  }
+}
+
+@media (max-width: 768px) {
+  .career-support-container {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem 1rem;
+  }
+
+  .career-support-content,
+  .career-support-image {
+    max-width: 100%;
+  }
+
+  .timeline-container {
+    padding-left: 40px;
+  }
+
+  .timeline-container::before {
+    left: 20px;
+  }
+
+  .timeline-icon-container {
+    left: -35px;
+  }
+
+  .contact-advisor-btn {
+    margin: 20px auto;
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .features-container,
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-container {
+    padding-left: 25px;
+  }
+
+  .timeline-container::before {
+    left: 12px;
+  }
+
+  .timeline-icon-container {
+    left: -45px;
+  }
+
+  .timeline-icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .timeline-text h3 {
+    font-size: 1rem;
+  }
+
+  .timeline-text p {
+    font-size: 0.85rem;
+  }
+
+  .contact-advisor-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}

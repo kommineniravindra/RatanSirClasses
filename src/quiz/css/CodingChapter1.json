@@ -1,0 +1,16 @@
+[
+  {
+    "question": "Write a CSS rule to set the background color of a webpage to lightblue.",
+    "answer": "body {\n    background-color: lightblue;\n}",
+    "sampleInput": "No input required. Apply CSS to body.",
+    "sampleOutput": "The webpage background becomes light blue.",
+    "maxMarks": 10
+  },
+  {
+    "question": "Write a CSS rule to make all paragraphs have red text color and font size 18px.",
+    "answer": "p {\n    color: red;\n    font-size: 18px;\n}",
+    "sampleInput": "<p>Hello CSS</p>",
+    "sampleOutput": "The text 'Hello CSS' appears in red color with font size 18px.",
+    "maxMarks": 10
+  }
+]

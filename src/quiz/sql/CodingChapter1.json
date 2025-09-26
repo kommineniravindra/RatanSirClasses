@@ -1,0 +1,9 @@
+[
+  {
+    "question": "Write an SQL query to select all columns from the 'Students' table where the age is greater than 18.",
+    "answer": "SELECT * FROM Students WHERE age > 18;",
+    "sampleInput": "Table: Students\nColumns: id, name, age, grade\nData:\n1, 'Ravi', 17, 'A'\n2, 'Sita', 19, 'B'\n3, 'John', 20, 'A'",
+    "sampleOutput": "2, 'Sita', 19, 'B'\n3, 'John', 20, 'A'",
+    "maxMarks": 10
+  }
+]

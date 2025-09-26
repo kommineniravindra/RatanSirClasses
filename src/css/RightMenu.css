@@ -1,0 +1,114 @@
+/* =================================================
+  3. RESPONSIVE CUBE CAROUSEL STYLES
+================================================= */
+
+/* Define variables for easy scaling */
+:root {
+    --cube-width: 160px; /* INCREASED FROM 150px to 160px */
+    --cube-height: 500px; 
+    --z-offset: 80px; /* NEW Z-OFFSET: Half of 160px */
+}
+
+/* === Main Container Styling === */
+.right-menu-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 5px; 
+    text-align: center;
+    /* Ensures the container accounts for the new 160px width + padding */
+    max-width: 210px; 
+    margin: 0 auto; 
+}
+
+/* === Scene and Cube Styling - Base (Large Screen/Desktop) === */
+.scene {
+    width: var(--cube-width); 
+    height: var(--cube-height); 
+    perspective: 1000px;
+    margin-bottom: 0; 
+}
+
+.cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s; 
+    /* Initial 3D position using the NEW Z offset variable */
+    transform: translateZ(calc(-1 * var(--z-offset))); 
+}
+
+/* === Face Styling - Base === */
+.face {
+    position: absolute;
+    width: 100%; 
+    height: 100%; 
+    /* border: 1px solid #282c34; */
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.face img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+/* === 3D Positioning - Base === */
+.front {
+    transform: rotateY(0deg) translateZ(var(--z-offset));
+}
+
+.right {
+    transform: rotateY(90deg) translateZ(var(--z-offset));
+}
+
+.back {
+    transform: rotateY(180deg) translateZ(var(--z-offset));
+}
+
+.left {
+    transform: rotateY(-90deg) translateZ(var(--z-offset));
+}
+
+/* === RESPONSIVENESS (Media Queries for Smaller Devices) === */
+
+@media (max-width: 600px) {
+    .right-menu-container {
+        max-width: 90vw;
+    }
+
+    /* Redefine variables using VW units for scaling */
+    :root {
+        /* VW values remain the same to be responsive, but you can adjust them slightly
+           if 60vw is too small/large compared to the original 160px on a target device.
+           We keep the ratio: Width 60vw, Height 80vw, Z-offset 30vw.
+        */
+        --cube-width: 60vw;
+        --cube-height: 80vw; 
+        --z-offset: 30vw; 
+    }
+
+    .scene {
+        width: var(--cube-width); 
+        height: var(--cube-height); 
+        perspective: 800px; 
+    }
+
+    .cube {
+        transform: translateZ(calc(-1 * var(--z-offset))); 
+    }
+    
+    .face {
+        border: 2px solid #282c34;
+    }
+}
+
+/* === Controls Styling === */
+.controls {
+    display: none; 
+}

@@ -1,0 +1,46 @@
+/* Header.css */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  background-color: black;
+}
+
+.logo {
+  width: 40px;
+  /* Set the width of your logo as needed */
+  margin-right: 10px;
+  /* Add margin for spacing between logo and search field */
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  /* Allow the search input to take up remaining space */
+}
+
+.search {
+  flex: 1;
+  /* Allow the search input to take up remaining space */
+  padding: 5px 10px 5px 15px;
+  font-size: 16px;
+  border-radius: 15px;
+  /* Set the border-radius for a curved border */
+  border: 1px solid lightseagreen;
+  /* Add a border for better visibility */
+}
+
+.search-button {
+  margin-left: 5px;
+  /* Add some margin between the input and the search button */
+  font-size: 20px;
+  /* Adjust the size of the search button as needed */
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: black;
+  /* Set the color of the search button to black */
+}

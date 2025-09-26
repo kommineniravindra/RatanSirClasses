@@ -1,0 +1,102 @@
+[
+  {
+    "question": "What does CSS stand for?",
+    "options": [
+      "Cascading Style Sheets",
+      "Creative Style System",
+      "Computer Style Syntax",
+      "Colorful Styling Sheets"
+    ],
+    "answer": "Cascading Style Sheets"
+  },
+  {
+    "question": "Which CSS property is used to change the text color of an element?",
+    "options": [
+      "fgcolor",
+      "text-color",
+      "color",
+      "font-color"
+    ],
+    "answer": "color"
+  },
+  {
+    "question": "Which property is used to change the background color in CSS?",
+    "options": [
+      "background-color",
+      "bgcolor",
+      "color-background",
+      "background-style"
+    ],
+    "answer": "background-color"
+  },
+  {
+    "question": "Which CSS property controls the text size?",
+    "options": [
+      "font-style",
+      "text-size",
+      "font-size",
+      "size"
+    ],
+    "answer": "font-size"
+  },
+  {
+    "question": "Which CSS property is used to make text bold?",
+    "options": [
+      "text-weight",
+      "bold",
+      "font-weight",
+      "font-style"
+    ],
+    "answer": "font-weight"
+  },
+  {
+    "question": "Which CSS property is used to change the font of text?",
+    "options": [
+      "font-family",
+      "font-style",
+      "font-type",
+      "text-font"
+    ],
+    "answer": "font-family"
+  },
+  {
+    "question": "Which property is used to align text to the center in CSS?",
+    "options": [
+      "align",
+      "text-align",
+      "font-align",
+      "center"
+    ],
+    "answer": "text-align"
+  },
+  {
+    "question": "Which of the following is the correct way to include an external CSS file?",
+    "options": [
+      "<style src='style.css'>",
+      "<link rel='stylesheet' href='style.css'>",
+      "<css link='style.css'>",
+      "<script src='style.css'>"
+    ],
+    "answer": "<link rel='stylesheet' href='style.css'>"
+  },
+  {
+    "question": "Which CSS property is used to add space inside the border of an element?",
+    "options": [
+      "margin",
+      "padding",
+      "spacing",
+      "border-spacing"
+    ],
+    "answer": "padding"
+  },
+  {
+    "question": "Which CSS property is used to add space outside the border of an element?",
+    "options": [
+      "padding",
+      "margin",
+      "spacing",
+      "border"
+    ],
+    "answer": "margin"
+  }
+]

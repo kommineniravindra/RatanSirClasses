@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css2?family=Libertinus+Serif:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=FF+Tisa+Web+Pro:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+/* ================================
+   Container
+================================ */
+.dsa-container {
+  max-width: 900px;
+  width: 90%;
+
+  margin: 0 auto;
+  padding: 15px 12px;
+  /* Base padding for mobile */
+  background: #f5f7fa;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+/* ================================
+   Title
+================================ */
+.dsa-title {
+  text-align: center;
+  margin: 0 0 20px;
+  font-size: 1.5rem;
+  /* Base size for mobile */
+  font-weight: 700;
+  font-family: "Libertinus Serif", serif;
+  color: #02325e;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+/* ================================
+   Accordion Wrapper
+================================ */
+.dsa-accordion {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  width: 100%;
+}
+
+/* ================================
+   Accordion Item
+================================ */
+.accordion-item {
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.accordion-item:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+/* ================================
+   Accordion Button
+================================ */
+.accordion-button {
+  width: 100%;
+  text-align: left;
+  padding: 12px 14px;
+  /* Base padding for mobile */
+  background: #f8f9fa;
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  /* Base size for mobile */
+  font-family: 'FF Tisa Web Pro', serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.accordion-button:hover {
+  background: #e9ecef;
+}
+
+.accordion-button.active {
+  background: #ffb30033;
+  color: #000;
+}
+
+.accordion-button::after {
+  content: "▼";
+  position: absolute;
+  right: 10px;
+  /* Base position for mobile */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.accordion-button.active::after {
+  transform: translateY(-50%) rotate(180deg);
+  color: #ffb300;
+}
+
+/* ================================
+   Category Buttons
+================================ */
+.dsa-category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* Center buttons on a single line if they fit */
+  gap: 10px;
+  margin: 0 0 10px;
+}
+
+.category-btn {
+  flex: 1 1 45%;
+  /* Base flex property for mobile */
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #e0e0e0;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: background 0.3s ease, transform 0.2s;
+  text-align: center;
+  min-width: auto;
+  /* Allow buttons to shrink on small screens */
+}
+
+.category-btn:hover {
+  background: #ccc;
+  transform: scale(1.05);
+}
+
+.category-btn.active {
+  background: #ffb300;
+  color: white;
+}
+
+/* ================================
+   Question Fields
+================================ */
+.question-number {
+  font-weight: bold;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  /* Base size for mobile */
+  color: #02325e;
+}
+
+.question-field {
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  /* Base size for mobile */
+  line-height: 1.5;
+}
+
+.question-field strong {
+  color: #ffb300;
+}
+
+/* ================================
+   Accordion Collapse
+================================ */
+.accordion-collapse {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.accordion-collapse.show {
+  display: block;
+}
+
+/* ================================
+   Accordion Body
+================================ */
+.accordion-body {
+  background: #fdfdfd;
+  padding: 14px;
+  /* Base padding for mobile */
+  border-top: 1px solid #e6e6e6;
+  border-radius: 0 0 10px 10px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.9rem;
+  /* Base size for mobile */
+  word-break: break-word;
+}
+
+/* ================================
+   Animation
+================================ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================
+   Responsive Design
+================================ */
+
+/* Medium devices (tablets): 601px to 900px */
+@media (min-width: 601px) {
+  .dsa-container {
+    padding: 20px;
+  }
+
+  .dsa-title {
+    font-size: 1.8rem;
+  }
+
+  .accordion-button {
+    font-size: 1rem;
+    padding: 14px 18px;
+  }
+
+  .accordion-button::after {
+    right: 12px;
+  }
+
+  .category-btn {
+    flex: 1 1 30%;
+    /* Three buttons per row on tablets */
+    font-size: 0.9rem;
+  }
+
+  .question-number {
+    font-size: 1rem;
+  }
+
+  .question-field {
+    font-size: 0.95rem;
+  }
+
+  .accordion-body {
+    padding: 16px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Large devices (desktop): 901px and up */
+@media (min-width: 901px) {
+  .dsa-title {
+    font-size: 2rem;
+  }
+
+  .accordion-button {
+    font-size: 1rem;
+  }
+
+  .category-btn {
+    flex-grow: 0;
+    /* Prevents stretching on large screens */
+    flex-basis: auto;
+  }
+}

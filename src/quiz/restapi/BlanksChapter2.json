@@ -1,0 +1,42 @@
+[
+  {
+    "question": "The most common data format for REST API responses is _______.",
+    "answer": "JSON"
+  },
+  {
+    "question": "The HTTP status code for 'Forbidden' is _______.",
+    "answer": "403"
+  },
+  {
+    "question": "REST API calls should ideally be _______ to improve reliability and scalability.",
+    "answer": "stateless"
+  },
+  {
+    "question": "A PUT request is considered _______ because it does not change the result if repeated.",
+    "answer": "idempotent"
+  },
+  {
+    "question": "The URL /products/45 represents a _______ resource.",
+    "answer": "specific"
+  },
+  {
+    "question": "To partially update a resource, the HTTP method used is _______.",
+    "answer": "PATCH"
+  },
+  {
+    "question": "If the server encounters an internal error, the returned HTTP status code is _______.",
+    "answer": "500"
+  },
+  {
+    "question": "GET requests in REST APIs are considered _______ because they do not modify resources.",
+    "answer": "safe"
+  },
+  {
+    "question": "RESTful APIs communicate primarily over the _______ protocol.",
+    "answer": "HTTP"
+  },
+  {
+    "question": "The best practice for REST API resource naming is to use _______ nouns.",
+    "answer": "plural"
+  }
+]

@@ -1,0 +1,302 @@
+[
+  {
+    "question": "What does CSS stand for?",
+    "options": [
+      "Cascading Style Sheets",
+      "Creative Style System",
+      "Computer Style Syntax",
+      "Colorful Styling Sheets"
+    ],
+    "answer": "Cascading Style Sheets"
+  },
+  {
+    "question": "Which property is used to change the text color of an element?",
+    "options": [
+      "font-color",
+      "color",
+      "text-style",
+      "text-color"
+    ],
+    "answer": "color"
+  },
+  {
+    "question": "Which of the following is the correct syntax for a class selector in CSS?",
+    "options": [
+      "#classname",
+      ".classname",
+      "classname",
+      "*classname"
+    ],
+    "answer": ".classname"
+  },
+  {
+    "question": "In the CSS box model, which property defines the space between the content and the border?",
+    "options": [
+      "margin",
+      "padding",
+      "spacing",
+      "border-spacing"
+    ],
+    "answer": "padding"
+  },
+  {
+    "question": "Which CSS property controls the text size?",
+    "options": [
+      "font-style",
+      "text-size",
+      "font-size",
+      "text-style"
+    ],
+    "answer": "font-size"
+  },
+  {
+    "question": "Which of these is NOT a valid position value in CSS?",
+    "options": [
+      "absolute",
+      "fixed",
+      "center",
+      "relative"
+    ],
+    "answer": "center"
+  },
+  {
+    "question": "Which property is used to make the text bold in CSS?",
+    "options": [
+      "text-style",
+      "font-style",
+      "font-weight",
+      "bold"
+    ],
+    "answer": "font-weight"
+  },
+  {
+    "question": "How do you make a list with no bullets in CSS?",
+    "options": [
+      "list-style: none;",
+      "list-type: hidden;",
+      "list: no-bullets;",
+      "bullet-style: none;"
+    ],
+    "answer": "list-style: none;"
+  },
+  {
+    "question": "Which property is used for controlling the order of flex items?",
+    "options": [
+      "flex-flow",
+      "align-items",
+      "order",
+      "justify-content"
+    ],
+    "answer": "order"
+  },
+  {
+    "question": "Which unit is relative to the root element’s font size?",
+    "options": [
+      "em",
+      "rem",
+      "%",
+      "px"
+    ],
+    "answer": "rem"
+  },
+  {
+    "question": "What does the 'float' property do?",
+    "options": [
+      "Centers an element",
+      "Removes an element from view",
+      "Moves an element to the left or right",
+      "Resizes an element"
+    ],
+    "answer": "Moves an element to the left or right"
+  },
+  {
+    "question": "Which CSS property sets the space outside of an element?",
+    "options": [
+      "border",
+      "padding",
+      "margin",
+      "outline"
+    ],
+    "answer": "margin"
+  },
+  {
+    "question": "How do you select all <p> elements inside a div?",
+    "options": [
+      "div p",
+      "div.p",
+      "div+p",
+      "div#p"
+    ],
+    "answer": "div p"
+  },
+  {
+    "question": "Which CSS property is used to change the background color?",
+    "options": [
+      "bgcolor",
+      "background-color",
+      "color",
+      "background"
+    ],
+    "answer": "background-color"
+  },
+  {
+    "question": "Which value of 'display' property removes an element from the layout?",
+    "options": [
+      "none",
+      "block",
+      "hidden",
+      "inline"
+    ],
+    "answer": "none"
+  },
+  {
+    "question": "What is the default value of 'position' property?",
+    "options": [
+      "static",
+      "relative",
+      "absolute",
+      "fixed"
+    ],
+    "answer": "static"
+  },
+  {
+    "question": "How do you make an element fully transparent in CSS?",
+    "options": [
+      "opacity: 0;",
+      "visibility: hidden;",
+      "display: none;",
+      "transparent: true;"
+    ],
+    "answer": "opacity: 0;"
+  },
+  {
+    "question": "Which property is used to add shadow to text?",
+    "options": [
+      "color-shadow",
+      "text-shadow",
+      "font-shadow",
+      "shadow-text"
+    ],
+    "answer": "text-shadow"
+  },
+  {
+    "question": "What is the correct way to comment in CSS?",
+    "options": [
+      "// comment",
+      "<!-- comment -->",
+      "# comment",
+      "/* comment */"
+    ],
+    "answer": "/* comment */"
+  },
+  {
+    "question": "Which CSS selector targets elements with a specific attribute?",
+    "options": [
+      "[attribute=value]",
+      "#attribute",
+      ".attribute",
+      "(attribute)"
+    ],
+    "answer": "[attribute=value]"
+  },
+  {
+    "question": "How do you select the first <li> element in a list?",
+    "options": [
+      "li:first-child",
+      "li:first",
+      "li",
+      "li:one"
+    ],
+    "answer": "li:first-child"
+  },
+  {
+    "question": "Which CSS property is used to make corners of an element rounded?",
+    "options": [
+      "corner-radius",
+      "border-radius",
+      "round-corner",
+      "radius"
+    ],
+    "answer": "border-radius"
+  },
+  {
+    "question": "Which pseudo-class styles an element when it is being hovered by a mouse?",
+    "options": [
+      ":hover",
+      ":active",
+      ":visited",
+      ":focus"
+    ],
+    "answer": ":hover"
+  },
+  {
+    "question": "Which property sets the width of an element?",
+    "options": [
+      "element-width",
+      "width",
+      "size",
+      "content-width"
+    ],
+    "answer": "width"
+  },
+  {
+    "question": "Which unit scales relative to the parent’s font size?",
+    "options": [
+      "px",
+      "vh",
+      "em",
+      "rem"
+    ],
+    "answer": "em"
+  },
+  {
+    "question": "What is the correct way to apply multiple classes to an element?",
+    "options": [
+      "class=\"first second\"",
+      "class=\"first, second\"",
+      "class=\"first.second\"",
+      "class=\"first;second\""
+    ],
+    "answer": "class=\"first second\""
+  },
+  {
+    "question": "Which property aligns text horizontally inside an element?",
+    "options": [
+      "align",
+      "text-align",
+      "horizontal-align",
+      "center"
+    ],
+    "answer": "text-align"
+  },
+  {
+    "question": "Which selector matches any element with class ‘active’?",
+    "options": [
+      "#active",
+      ".active",
+      "active",
+      "*active"
+    ],
+    "answer": ".active"
+  },
+  {
+    "question": "Which property is used to control the layer stacking order?",
+    "options": [
+      "layer",
+      "order",
+      "z-index",
+      "stack"
+    ],
+    "answer": "z-index"
+  },
+  {
+    "question": "What is the correct syntax to use an ID selector for 'main'?",
+    "options": [
+      "#main",
+      ".main",
+      "main",
+      "*main"
+    ],
+    "answer": "#main"
+  }
+]

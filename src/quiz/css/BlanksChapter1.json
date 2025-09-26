@@ -1,0 +1,42 @@
+[
+  {
+    "question": "The property used to change the text color in CSS is _______.",
+    "answer": "color"
+  },
+  {
+    "question": "The property used to change the background color in CSS is _______.",
+    "answer": "background-color"
+  },
+  {
+    "question": "The property used to set the size of the text in CSS is _______.",
+    "answer": "font-size"
+  },
+  {
+    "question": "The CSS property used to make text bold is _______.",
+    "answer": "font-weight"
+  },
+  {
+    "question": "The property used to align text in CSS is _______.",
+    "answer": "text-align"
+  },
+  {
+    "question": "The CSS property used to control the spacing between lines of text is _______.",
+    "answer": "line-height"
+  },
+  {
+    "question": "The property used to set the outer space of an element in CSS is _______.",
+    "answer": "margin"
+  },
+  {
+    "question": "The property used to set the inner space of an element in CSS is _______.",
+    "answer": "padding"
+  },
+  {
+    "question": "The property used to set the border style in CSS is _______.",
+    "answer": "border"
+  },
+  {
+    "question": "The CSS property used to hide an element from a webpage is _______.",
+    "answer": "display:none"
+  }
+]

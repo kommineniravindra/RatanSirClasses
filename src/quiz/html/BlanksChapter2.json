@@ -1,0 +1,42 @@
+[
+  {
+    "question": "Write the tag code display ratan bold text format __________",
+    "answer": "<b>ratan</b>"
+  },
+  {
+    "question": "Write the tag code display ratan italic text format __________",
+    "answer": "<i>ratan</i>"
+  },
+  {
+    "question": "Write the tag code display hyderabad underlined text format __________",
+    "answer": "<u>hyderabad</u>"
+  },
+  {
+    "question": "Write the tag code display sleeping deleted text format __________",
+    "answer": "<del>sleeping</del>"
+  },
+  {
+    "question": "Write the tag code formula of water can be written as H__________O",
+    "answer": "H<sub>2</sub>O"
+  },
+  {
+    "question": "Write the tag code square of 5 can be written as 5__________",
+    "answer": "5<sup>2</sup>"
+  },
+  {
+    "question": "Write the tag code to mark highlight apple text is __________",
+    "answer": "<mark>apple</mark>"
+  },
+  {
+    "question": "Which tag how to represent portion of text inside a paragraph ______",
+    "answer": "<span>"
+  },
+  {
+    "question": "Which tag is used to display the largest heading in HTML _______",
+    "answer": "<h1>"
+  },
+  {
+    "question": "The tag used to display smaller text size is __________",
+    "answer": "<small>"
+  }
+]

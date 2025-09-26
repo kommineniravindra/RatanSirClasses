@@ -1,0 +1,52 @@
+[
+  {
+    "question": "Which of the following is used to handle events in React?",
+    "options": ["CamelCase syntax", "kebab-case syntax", "snake_case syntax", "PascalCase syntax"],
+    "answer": "CamelCase syntax"
+  },
+  {
+    "question": "Which hook is used to access a DOM element directly in React?",
+    "options": ["useRef", "useState", "useEffect", "useContext"],
+    "answer": "useRef"
+  },
+  {
+    "question": "In React, keys are used to _______.",
+    "options": ["Identify elements in a list", "Set state values", "Bind events", "Render JSX"],
+    "answer": "Identify elements in a list"
+  },
+  {
+    "question": "Which of the following is used to optimize expensive calculations in React?",
+    "options": ["useMemo", "useState", "useEffect", "useRef"],
+    "answer": "useMemo"
+  },
+  {
+    "question": "Which hook allows you to manage complex state logic in React?",
+    "options": ["useReducer", "useState", "useEffect", "useCallback"],
+    "answer": "useReducer"
+  },
+  {
+    "question": "React is mainly used for _______.",
+    "options": ["Building user interfaces", "Server-side scripting", "Database management", "Styling web pages"],
+    "answer": "Building user interfaces"
+  },
+  {
+    "question": "The default method to update state in React class components is _______.",
+    "options": ["this.setState()", "this.updateState()", "this.changeState()", "this.modifyState()"],
+    "answer": "this.setState()"
+  },
+  {
+    "question": "Which of the following is true about React fragments?",
+    "options": ["They allow grouping multiple elements without adding extra nodes to DOM", "They create a div wrapper", "They can store state", "They are a type of component"],
+    "answer": "They allow grouping multiple elements without adding extra nodes to DOM"
+  },
+  {
+    "question": "In React, controlled components are components where _______.",
+    "options": ["Form data is handled by React state", "Form data is handled by DOM", "Form data is not handled", "Form data is static"],
+    "answer": "Form data is handled by React state"
+  },
+  {
+    "question": "Which method in React class components is invoked immediately after a component is mounted?",
+    "options": ["componentDidMount", "componentWillMount", "render", "componentWillUnmount"],
+    "answer": "componentDidMount"
+  }
+]

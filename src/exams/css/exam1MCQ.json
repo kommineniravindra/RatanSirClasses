@@ -1,0 +1,32 @@
+[
+  {
+    "question": "What does CSS stand for?",
+    "options": [
+      "Cascading Style Sheets",
+      "Creative Style System",
+      "Computer Style Syntax",
+      "Colorful Styling Sheets"
+    ],
+    "answer": "Cascading Style Sheets"
+  },
+  {
+    "question": "Which property is used to change the text color of an element?",
+    "options": [
+      "font-color",
+      "color",
+      "text-style",
+      "text-color"
+    ],
+    "answer": "color"
+  },
+  {
+    "question": "Which of the following is the correct syntax for a class selector in CSS?",
+    "options": [
+      "#classname",
+      ".classname",
+      "classname",
+      "*classname"
+    ],
+    "answer": ".classname"
+  }
+]

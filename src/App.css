@@ -1,0 +1,28 @@
+/* App.css */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+   overflow: hidden;
+  overflow-y: auto;   
+  overflow-x: hidden;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+/* html, body {
+  scrollbar-width: none;  
+  -ms-overflow-style: none;
+
+
+} */
+
+
+.app-container {
+  display: flex;
+}
+

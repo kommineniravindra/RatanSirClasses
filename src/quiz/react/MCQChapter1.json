@@ -1,0 +1,52 @@
+[
+  {
+    "question": "Which of the following is used to create components in React?",
+    "options": ["Functions and Classes", "Only Functions", "Only Classes", "Objects"],
+    "answer": "Functions and Classes"
+  },
+  {
+    "question": "React uses _______ to update the UI efficiently.",
+    "options": ["Virtual DOM", "Real DOM", "Shadow DOM", "Document Object Model"],
+    "answer": "Virtual DOM"
+  },
+  {
+    "question": "Which hook is used to manage state in functional components?",
+    "options": ["useState", "useEffect", "useReducer", "useContext"],
+    "answer": "useState"
+  },
+  {
+    "question": "Which hook is used to perform side effects in React components?",
+    "options": ["useEffect", "useState", "useMemo", "useRef"],
+    "answer": "useEffect"
+  },
+  {
+    "question": "Props in React are _______.",
+    "options": ["Read-only", "Mutable", "Variables", "States"],
+    "answer": "Read-only"
+  },
+  {
+    "question": "Which of the following is used to pass data from parent to child?",
+    "options": ["Props", "State", "Context", "Reducer"],
+    "answer": "Props"
+  },
+  {
+    "question": "What is JSX in React?",
+    "options": ["JavaScript XML", "JavaScript Extension", "Java Simple XML", "JSON Syntax eXtension"],
+    "answer": "JavaScript XML"
+  },
+  {
+    "question": "Which of the following is a correct way to create a React component?",
+    "options": ["function MyComponent() {}", "component MyComponent {}", "MyComponent = function {}", "class MyComponent() {}"],
+    "answer": "function MyComponent() {}"
+  },
+  {
+    "question": "Which React method is used to render components to the DOM?",
+    "options": ["ReactDOM.render()", "React.render()", "DOM.render()", "render()"],
+    "answer": "ReactDOM.render()"
+  },
+  {
+    "question": "Which feature allows React components to share data without passing props?",
+    "options": ["Context API", "Redux only", "Hooks only", "Virtual DOM"],
+    "answer": "Context API"
+  }
+]
