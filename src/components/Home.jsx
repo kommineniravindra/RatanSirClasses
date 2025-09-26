@@ -128,7 +128,7 @@ const Home = ({ onTechnologySelect }) => {
             </motion.button>
           </div>
           <motion.div className="career-support-image" initial={{ opacity: 0, x: 100 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false }} transition={{ duration: 0.3, delay: 0.7 }}>
-            <img src="/img12.webp" alt="Global Opportunities" />
+            <img src="/img12.jpg" alt="Global Opportunities" />
           </motion.div>
         </motion.div>
       </section>
