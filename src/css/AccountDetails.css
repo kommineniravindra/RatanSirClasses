@@ -239,7 +239,6 @@ form {
   transition: all 0.35s ease-in-out;
 }
 
-/* Toggle Box Background */
 .toggle-box::before {
   content: '';
   position: absolute;
@@ -289,7 +288,6 @@ form {
 .toggle-panel p {
   margin-bottom: 20px;
   color: #fff;
-
 }
 
 .toggle-panel h1 {
@@ -302,9 +300,7 @@ form {
 .toggle-panel .btn1 {
   width: 160px;
   height: 46px;
-  /* background: linear-gradient(135deg, #2575fc, #6a11cb); */
   background: linear-gradient(135deg, #7dafff, #97deff);
-
   border: 2px solid white;
   border-radius: 12px;
   color: #fff;
@@ -328,6 +324,44 @@ form {
 /* =================================
  RESPONSIVE MEDIA QUERIES
 ================================= */
+
+/* 100% scale (base) */
+
+/* 125% scale */
+@media screen and (max-width: 1200px) {
+  .container { width: 820px; height: 520px; }
+  .container h1 { font-size: 34px; }
+  .container p { font-size: 13px; }
+  .btn1 { width: 55%; height: 48px; font-size: 15px; }
+  .toggle-panel h1 { font-size: 2.7rem; }
+}
+
+/* 150% scale */
+@media screen and (max-width: 1050px) {
+  .container { width: 740px; height: 500px; }
+  .container h1 { font-size: 30px; }
+  .container p { font-size: 12px; }
+  .btn1 { width: 60%; height: 46px; font-size: 14px; }
+  .toggle-panel h1 { font-size: 2.5rem; }
+}
+
+/* 175% scale */
+@media screen and (max-width: 950px) {
+  .container { width: 660px; height: 480px; }
+  .container h1 { font-size: 28px; }
+  .btn1 { width: 65%; height: 44px; font-size: 13px; }
+  .toggle-panel h1 { font-size: 2.2rem; }
+}
+
+/* 200% scale */
+@media screen and (max-width: 850px) {
+  .container { width: 600px; height: 460px; }
+  .container h1 { font-size: 26px; }
+  .btn1 { width: 70%; height: 42px; font-size: 13px; }
+  .toggle-panel h1 { font-size: 2rem; }
+}
+
+/* Small screen responsiveness */
 @media screen and (max-width: 860px) {
   .container {
     width: 100%;
@@ -344,14 +378,7 @@ form {
     top: 0;
   }
 
-  .container.active .toggle-box {
-    left: 0;
-    top: 65%;
-  }
-
-  .toggle-panel {
-    padding: 30px;
-  }
+  .container.active .toggle-box { top: 65%; }
 
   .form-box {
     width: 100%;
@@ -361,9 +388,7 @@ form {
     top: auto;
   }
 
-  .form-box.login {
-    top: 35%;
-  }
+  .form-box.login { top: 35%; }
 
   .container.active .form-box {
     right: 0;
@@ -376,42 +401,19 @@ form {
     visibility: hidden;
   }
 
-  .form-box.register {
-    top: 100%;
-    visibility: hidden;
-  }
+  .form-box.register { top: 100%; visibility: hidden; }
+  .container.active .form-box.register { top: 0; height: 65%; visibility: visible; }
 
-  .container.active .form-box.register {
-    top: 0;
-    height: 65%;
-    visibility: visible;
-  }
+  .toggle-left { transform: translateY(0); }
+  .container.active .toggle-left { transform: translateY(-200%); }
 
-  .toggle-left {
-    transform: translateY(0);
-  }
-
-  .container.active .toggle-left {
-    transform: translateY(-200%);
-  }
-
-  .toggle-right {
-    transform: translateY(200%);
-  }
-
-  .container.active .toggle-right {
-    transform: translateY(0);
-  }
+  .toggle-right { transform: translateY(200%); }
+  .container.active .toggle-right { transform: translateY(0); }
 }
 
 @media screen and (max-width: 400px) {
-  .form-box {
-    padding: 20px;
-  }
-
-  .toggle-panel h1 {
-    font-size: 30px;
-  }
+  .form-box { padding: 20px; }
+  .toggle-panel h1 { font-size: 26px; }
 }
 
 .welcome-image {
@@ -423,6 +425,4 @@ form {
   transition: all 0.3s ease-in-out;
 }
 
-.welcome-image:hover {
-  transform: scale(1.05);
-}
+.welcome-image:hover { transform: scale(1.05); }

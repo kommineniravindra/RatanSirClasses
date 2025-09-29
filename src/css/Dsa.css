@@ -3,15 +3,47 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap');
 
 /* ================================
-   Container
+   ROOT VARIABLE FOR SCALE
+================================ */
+:root {
+  --scale: 1; /* Default scale = 125% */
+}
+
+/* 100% - decrease size */
+@media (max-width: 100%) {
+  :root { --scale: 0.68; }
+}
+
+/* 125% - normal size */
+@media (min-width: 101%) and (max-width: 125%) {
+  :root { --scale: 0.76; }
+}
+
+/* 150% - slight increase */
+@media (min-width: 126%) and (max-width: 150%) {
+  :root { --scale: 0.88; }
+}
+
+/* 175% - more increase */
+@media (min-width: 151%) and (max-width: 175%) {
+  :root { --scale: 1; }
+}
+
+/* 200% - maximum increase */
+@media (min-width: 176%) and (max-width: 200%) {
+  :root { --scale: 1.12; }
+}
+
+/* ================================
+   Container (main width decreased by 20%)
 ================================ */
 .dsa-container {
-  max-width: 900px;
-  width: 90%;
+  width: calc(95% * 0.8); /* only main container width reduced */
+  max-width: calc(900px * var(--scale) * 0.8);
   margin: 0 auto;
-  padding: 2vw;
+  padding: calc(10px * var(--scale)) calc(8px * var(--scale));
   background: #f5f7fa;
-  border-radius: 1rem;
+  border-radius: calc(8px * var(--scale));
   box-sizing: border-box;
 }
 
@@ -20,12 +52,12 @@
 ================================ */
 .dsa-title {
   text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: clamp(1.5rem, 2vw, 2rem);
+  margin: 0 0 calc(14px * var(--scale));
+  font-size: calc(1.08rem * var(--scale));
   font-weight: 700;
   font-family: "Libertinus Serif", serif;
   color: #02325e;
-  letter-spacing: 0.05em;
+  letter-spacing: calc(0.32px * var(--scale));
   text-transform: uppercase;
   line-height: 1.3;
   word-break: break-word;
@@ -35,11 +67,11 @@
    Accordion Wrapper
 ================================ */
 .dsa-accordion {
-  border-radius: 1rem;
+  border-radius: calc(8px * var(--scale));
   overflow: hidden;
-  box-shadow: 0 0.375rem 0.9375rem rgba(0, 0, 0, 0.08);
+  box-shadow: 0 calc(4px * var(--scale)) calc(10px * var(--scale)) rgba(0, 0, 0, 0.08);
   background: #ffffff;
-  width: 100%;
+  width: 100%; /* unchanged */
 }
 
 /* ================================
@@ -48,27 +80,27 @@
 .accordion-item {
   background: #fff;
   border: 1px solid #e6e6e6;
-  border-radius: 0.625rem;
-  margin-bottom: 0.875rem;
+  border-radius: calc(6px * var(--scale));
+  margin-bottom: calc(10px * var(--scale));
   overflow: hidden;
   transition: all 0.3s ease;
 }
 
 .accordion-item:hover {
-  box-shadow: 0 0.375rem 0.9375rem rgba(0, 0, 0, 0.12);
+  box-shadow: 0 calc(4px * var(--scale)) calc(10px * var(--scale)) rgba(0, 0, 0, 0.12);
 }
 
 /* ================================
    Accordion Button
 ================================ */
 .accordion-button {
-  width: 100%;
+  width: 100%; /* unchanged */
   text-align: left;
-  padding: 1rem;
+  padding: calc(8px * var(--scale)) calc(10px * var(--scale));
   background: #f8f9fa;
   border: none;
   outline: none;
-  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  font-size: calc(0.68rem * var(--scale));
   font-family: 'FF Tisa Web Pro', serif;
   font-weight: 500;
   cursor: pointer;
@@ -76,7 +108,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  border-radius: 0.5rem;
+  border-radius: calc(5px * var(--scale));
   box-sizing: border-box;
 }
 
@@ -85,17 +117,17 @@
 }
 
 .accordion-button.active {
-  background: rgba(255, 179, 0, 0.2);
+  background: #ffb30033;
   color: #000;
 }
 
 .accordion-button::after {
   content: "▼";
   position: absolute;
-  right: 1rem;
+  right: calc(6px * var(--scale));
   top: 50%;
   transform: translateY(-50%);
-  font-size: 1rem;
+  font-size: calc(0.76rem * var(--scale));
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
@@ -111,19 +143,19 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.625rem;
-  margin-bottom: 1rem;
+  gap: calc(6px * var(--scale));
+  margin: 0 0 calc(6px * var(--scale));
 }
 
 .category-btn {
-  flex: 1 1 clamp(120px, 40%, 180px);
-  padding: 0.5rem 1rem;
+  flex: 1 1 45%; /* unchanged */
+  padding: calc(5px * var(--scale)) calc(10px * var(--scale));
   border: none;
-  border-radius: 0.375rem;
+  border-radius: calc(4px * var(--scale));
   background: #e0e0e0;
   cursor: pointer;
   font-weight: 600;
-  font-size: clamp(0.8rem, 1.2vw, 0.95rem);
+  font-size: calc(0.64rem * var(--scale));
   transition: background 0.3s ease, transform 0.2s;
   text-align: center;
   min-width: auto;
@@ -144,14 +176,14 @@
 ================================ */
 .question-number {
   font-weight: bold;
-  margin-bottom: 0.375rem;
-  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  margin-bottom: calc(4px * var(--scale));
+  font-size: calc(0.72rem * var(--scale));
   color: #02325e;
 }
 
 .question-field {
-  margin-bottom: 0.375rem;
-  font-size: clamp(0.85rem, 1vw, 0.95rem);
+  margin-bottom: calc(4px * var(--scale));
+  font-size: calc(0.68rem * var(--scale));
   line-height: 1.5;
 }
 
@@ -160,7 +192,7 @@
 }
 
 /* ================================
-   Accordion Collapse
+   Accordion Collapse & Body
 ================================ */
 .accordion-collapse {
   display: none;
@@ -171,17 +203,15 @@
   display: block;
 }
 
-/* ================================
-   Accordion Body
-================================ */
 .accordion-body {
   background: #fdfdfd;
-  padding: 1rem;
+  padding: calc(10px * var(--scale));
   border-top: 1px solid #e6e6e6;
-  border-radius: 0 0 0.625rem 0.625rem;
+  border-radius: 0 0 calc(6px * var(--scale)) calc(6px * var(--scale));
   font-family: 'IBM Plex Sans', sans-serif;
-  font-size: clamp(0.85rem, 1vw, 0.95rem);
+  font-size: calc(0.68rem * var(--scale));
   word-break: break-word;
+  width: 100%; /* unchanged */
 }
 
 /* ================================
@@ -190,10 +220,30 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-0.375rem);
+    transform: translateY(calc(-4px * var(--scale)));
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ================================
+   Responsive Design
+================================ */
+@media (min-width: 601px) {
+  .dsa-container { padding: calc(14px * var(--scale)); }
+  .dsa-title { font-size: calc(1.28rem * var(--scale)); }
+  .accordion-button { font-size: calc(0.76rem * var(--scale)); padding: calc(10px * var(--scale)) calc(12px * var(--scale)); }
+  .accordion-button::after { right: calc(8px * var(--scale)); }
+  .category-btn { flex: 1 1 30%; font-size: calc(0.68rem * var(--scale)); }
+  .question-number { font-size: calc(0.76rem * var(--scale)); }
+  .question-field { font-size: calc(0.72rem * var(--scale)); }
+  .accordion-body { padding: calc(12px * var(--scale)); font-size: calc(0.72rem * var(--scale)); }
+}
+
+@media (min-width: 901px) {
+  .dsa-title { font-size: calc(1.48rem * var(--scale)); }
+  .accordion-button { font-size: calc(0.76rem * var(--scale)); }
+  .category-btn { flex-grow: 0; flex-basis: auto; }
 }

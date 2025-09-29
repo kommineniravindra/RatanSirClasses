@@ -26,7 +26,7 @@
 
 /* ---------- Buttons ---------- */
 .btn {
-  padding: 10px 22px;
+  padding: 0.625rem 1.375rem; /* 10px 22px */
   border: none;
   border-radius: 50px;
   cursor: pointer;
@@ -35,7 +35,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 0.5rem; /* 8px */
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -208,7 +208,7 @@
 .language-grid {
   display: grid;
   grid-template-columns: repeat(3, 2fr);
-  gap: 2px;
+  gap: 0.5rem; /* 8px for better spacing */
 }
 
 .language-card {
@@ -495,7 +495,7 @@
 /* ---------- Fonts ---------- */
 .quiz-container {
   flex-grow: 1;
-  margin-top: 5px;
+  margin-top: 18px;
   width: 100%;
   max-width: 850px;
   margin-left: auto;
@@ -514,7 +514,7 @@
 
 /* ---------- Question Panel ---------- */
 .question-panel {
-  margin-bottom: 0px;
+  margin-bottom: 1.5rem; /* Increased gap from 0px to 1.5rem */
   transition: all 0.2s ease;
 }
 
@@ -606,15 +606,15 @@
 .codepad-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 20px;
+  gap: 1rem; /* 16px */
+  margin-top: 1.25rem; /* 20px */
 }
 
 /* ---------- Main Editor + Preview Container ---------- */
 .codepad-main {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75rem; /* 12px */
 }
 
 .codepad-editor,
@@ -662,11 +662,11 @@
 .code-output-panel {
   background-color: #f8fafc;
   border-radius: 8px;
-  padding: 16px;
+  padding: 1rem; /* 16px */
   font-family: 'Roboto', sans-serif;
   color: #111827;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  margin-top: 12px;
+  margin-top: 0.75rem; /* 12px */
 }
 
 .code-output-panel h4 {
@@ -705,7 +705,7 @@
 
 .codepad-editor {
   flex: 1;
-  min-width: 750px;
+  /* Removed min-width: 750px; to be truly responsive */
   border: 1px solid #3c3c3c;
   border-radius: 8px;
   overflow: hidden;
@@ -737,14 +737,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem; /* 12px */
   /* space between buttons */
   margin-top: 1.2rem;
 }
 
 /* Base Button Style */
 .action-btn {
-  padding: 8px 16px;
+  padding: 0.5rem 1rem; /* 8px 16px */
   font-size: 0.85rem;
   font-weight: 600;
   border-radius: 10px;
@@ -792,6 +792,7 @@
   padding: 25px;
   max-width: 500px;
   margin-left: 270px;
+  /* This margin-left is fixed and will be adjusted in media queries */
 }
 
 .results-actions-card {
@@ -860,7 +861,7 @@
 .results-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  gap: 1rem; /* 15px */
   text-align: center;
 }
 
@@ -913,7 +914,7 @@
 .action-buttons {
   display: flex;
   flex-direction: row;
-  gap: 15px;
+  gap: 1rem; /* 15px */
   align-items: center;
 }
 
@@ -1166,7 +1167,7 @@
 
 .codepad-editor {
   flex: 1;
-  min-width: 750px;
+  /* min-width: 750px; REMOVED */
   border: 1px solid #3c3c3c;
   border-radius: 8px;
   overflow: hidden;
@@ -1290,7 +1291,12 @@
   }
 }
 
-/* ---------- Responsive Design ---------- */
+/* ------------------------------------------- */
+/* ---------- Responsive Design Updates (Based on Scales) ---------- */
+/* ------------------------------------------- */
+
+/* Large Desktops (Above 1200px) - Base is already good */
+
 @media (max-width: 1200px) {
   .codepad-container {
     grid-template-columns: 1fr;
@@ -1306,22 +1312,27 @@
 @media (max-width: 900px) {
   .intro-container {
     grid-template-columns: 1fr;
+    max-width: 600px; /* Constrain more for single column */
   }
 
   .intro-graphic {
     display: none;
   }
 
+  /* Center score summary better */
   .score-summary-card {
     margin-left: auto;
+    margin-right: auto;
   }
 
   .summary-card-title {
     padding-left: 0;
     text-align: center;
+    font-size: 2rem;
   }
 }
 
+/* Tablet (768px and below) - Affects 125% to 150% scale on desktop */
 @media (max-width: 768px) {
   .quiz-title-center {
     font-size: 1.2rem;
@@ -1335,6 +1346,7 @@
 
   .language-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 
   .app-wrapper {
@@ -1377,8 +1389,21 @@
   .timer-value {
     font-size: 0.9rem;
   }
+  
+  .review-title {
+    font-size: 2rem;
+  }
+  
+  .answer-review-section {
+    padding: 20px;
+  }
+  
+  .section-title {
+    font-size: 1.4rem;
+  }
 }
 
+/* Small Tablet/Phablet (576px and below) - Affects 175% to 200% scale on desktop */
 @media (max-width: 576px) {
   .intro-brand {
     font-size: 2.2rem;
@@ -1397,16 +1422,17 @@
   }
 
   .language-grid {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: 1fr;
   }
 
   .results-stats {
     grid-template-columns: 1fr;
+    gap: 10px;
   }
 
   .codepad-container {
     gap: 1rem;
-    grid-template-rows: 250px 250px;
+    grid-template-rows: 250px 250px; /* Reduced height for small screens */
   }
 
   .codepad-editor .monaco-editor,
@@ -1422,11 +1448,30 @@
     grid-template-columns: 1fr;
     gap: 0.5rem;
   }
+  
+  .action-buttons {
+    flex-direction: column; /* Stack buttons vertically for better tap targets */
+  }
+
+  .action-buttons .btn {
+    width: 90%;
+    max-width: 250px;
+  }
+  
+  .score-percentage-text {
+    font-size: 1.75rem;
+  }
+  
+  .circular-progress-bar {
+    width: 120px;
+    height: 120px;
+  }
 }
 
+/* Mobile (400px and below) - Very high zoom or smallest devices */
 @media (max-width: 400px) {
   .app-wrapper {
-    padding: 80px 10px 10px 10px;
+    padding: 75px 10px 10px 10px; /* Adjusting for header size */
   }
 
   .quiz-container {
@@ -1464,5 +1509,23 @@
 
   .results-stats {
     gap: 10px;
+  }
+  
+  .top-header-row {
+    /* To prevent the title and buttons from overlapping on extremely small screens */
+    flex-wrap: wrap; 
+  }
+  
+  .quiz-title-center {
+    order: -1; /* Move title up */
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  
+  .controls-right {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 5px;
   }
 }

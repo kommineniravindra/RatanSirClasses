@@ -42,7 +42,7 @@
 .main-content {
     position: relative;
     z-index: 1;
-    max-width: 900px;
+    max-width: 725px;
     margin: 0px;
 }
 
@@ -63,7 +63,7 @@
     font-style: italic;
     font-size: larger;
     position: sticky;
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     height: 50px;
     display: flex;
     align-items: center;
@@ -71,7 +71,7 @@
     margin: -1rem -2rem 1rem -2rem;
     padding-left: 2rem;
     color: navy;
-    border-bottom: 1px solid #e0e6ed;
+    /* border-bottom: 1px solid #e0e6ed; */
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
 }

@@ -95,7 +95,7 @@ const QnAComponent = () => {
   };
 
   return (
-    <div className="qna-container">
+    <div class="qna-container scale-150">
       <h1 className="qna-title">Coding Q&A Platform</h1>
 
       {/* Post Question Form */}
