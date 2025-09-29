@@ -18,11 +18,11 @@
    LEFT MENU (SIDEBAR)
 ========================= */
 .left-menu-container {
-  width: clamp(180px, 19vw, 280px);
+  width: clamp(120px, 19vw, 280px);
   height: 100vh;
   position: sticky;
   top: 0;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   border-right: 1px solid #c9d2de8a;
   color: #444b54;
   display: flex;
@@ -36,7 +36,7 @@
 .left-menu {
   list-style: none;
   padding: 0;
-  margin: 1rem 0 5rem 0;
+  margin: 1rem  0;
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
@@ -52,14 +52,14 @@
 
 /* Main menu items */
 .menu-list-item {
-  margin: clamp(3px, 0.5vw, 6px) 0;
+  margin: clamp(1px, 0.5vw, 1px) 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-family: "Akaya Kanadaka", system-ui;
   font-weight: 500;
   font-size: clamp(0.9rem, 1.2vw, 1.5rem);
-  color: rgb(44, 44, 44);
+  color: rgb(0, 0, 0);
   padding: clamp(3px, 1vw, 6px) clamp(10px, 2vw, 22px);
   border-radius: 8px;
   background: #e5f1fd68;
@@ -103,7 +103,7 @@
 .menu-sublist-menu {
   list-style: none;
   padding-left: clamp(10px, 1.5vw, 20px);
-  margin-top: clamp(2px, 0.5vw, 5px);
+  margin-top: clamp(1px, 0.5vw, 1px);
   border-left: 2px solid #82bf97;
   overflow: hidden;
 }
@@ -113,7 +113,7 @@
   display: inline-flex;
   align-items: center;
   font-size: clamp(0.8rem, 1vw, 1.2rem);
-  padding: clamp(1px, 0.5vw, 4px) clamp(4px, 1vw, 10px);
+  padding: clamp(1px, 0.5vw, 1px) clamp(4px, 1vw, 10px);
   margin: 4px 0;
   border-radius: 8px;
   cursor: pointer;

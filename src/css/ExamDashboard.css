@@ -191,7 +191,7 @@
 }
 
 .profile-header p {
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   color: #000000;
   margin-top: 0.25rem;
 }
@@ -219,7 +219,7 @@
 
 .logout-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.35);
+  box-shadow: 0 8px 25px rgba(38, 53, 220, 0.35);
 }
 
 /* --- Profile Details --- */

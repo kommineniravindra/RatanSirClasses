@@ -1,68 +1,84 @@
-/* =================================================
-  3. RESPONSIVE CUBE CAROUSEL STYLES (SCALE-BASED)
-================================================= */
+/* =========================
+   RIGHT MENU (3D CUBE CAROUSEL)
+========================= */
 
-/* Define variables for base scale */
+/* Right menu grid cell */
+.grid-right-menu {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: hidden;  /* prevent scrolling */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Right menu container */
+.right-menu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0 auto;
+}
+
+/* Scene & cube */
+.scene {
+  width: var(--cube-width);
+  height: var(--cube-height);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cube {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+  transform: translateZ(calc(-1 * var(--z-offset)));
+}
+
+/* Cube faces */
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fit image to face */
+}
+
+/* 3D cube positioning */
+.front  { transform: rotateY(0deg) translateZ(var(--z-offset)); }
+.right  { transform: rotateY(90deg) translateZ(var(--z-offset)); }
+.back   { transform: rotateY(180deg) translateZ(var(--z-offset)); }
+.left   { transform: rotateY(-90deg) translateZ(var(--z-offset)); }
+
+/* Scale variables (optional for responsiveness) */
 :root {
     --cube-width: 20rem;
     --cube-height: 60rem;
     --z-offset: 10rem;
 }
-
-/* Scale overrides */
 .scale-100 { --cube-width: 20rem; --cube-height: 60rem; --z-offset: 10rem; }
 .scale-125 { --cube-width: calc(20rem * 1.25); --cube-height: calc(60rem * 1.25); --z-offset: calc(10rem * 1.25); }
 .scale-150 { --cube-width: calc(20rem * 1.5); --cube-height: calc(60rem * 1.5); --z-offset: calc(10rem * 1.5); }
 .scale-175 { --cube-width: calc(20rem * 1.75); --cube-height: calc(60rem * 1.75); --z-offset: calc(10rem * 1.75); }
 .scale-200 { --cube-width: calc(20rem * 2); --cube-height: calc(60rem * 2); --z-offset: calc(10rem * 2); }
-
-/* === Main Container Styling === */
-.right-menu-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: calc(1px * var(--scale-padding,1));
-    text-align: center;
-    max-width: calc(160px * var(--scale-padding,1));
-    margin: 0 auto;
-}
-
-/* === Scene and Cube Styling === */
-.scene {
-    width: var(--cube-width);
-    height: var(--cube-height);
-    margin-bottom: 0;
-}
-
-.cube {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 1s;
-    transform: translateZ(calc(-1 * var(--z-offset)));
-}
-
-/* === Face Styling === */
-.face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.face img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* === 3D Positioning === */
-.front  { transform: rotateY(0deg) translateZ(var(--z-offset)); }
-.right  { transform: rotateY(90deg) translateZ(var(--z-offset)); }
-.back   { transform: rotateY(180deg) translateZ(var(--z-offset)); }
-.left   { transform: rotateY(-90deg) translateZ(var(--z-offset)); }
