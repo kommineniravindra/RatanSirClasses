@@ -1,0 +1,70 @@
+/* =========================
+   MASTER GRID LAYOUT
+========================= */
+.master-grid {
+  display: grid;
+  grid-template-columns: clamp(180px, 18vw, 280px) 1fr clamp(140px, 16vw, 200px);
+  grid-template-rows: 100%;
+  gap: 1rem;
+  height: calc(100vh - 60px); /* minus navbar height */
+  overflow: hidden;
+  background-color: #f5f6f8;
+  padding: 0.5rem;
+}
+
+/* Explicit areas for clarity (optional) */
+.grid-left-menu {
+  grid-column: 1 / 2;
+  overflow-y: auto;
+}
+
+.grid-main {
+  grid-column: 2 / 3;
+  overflow-y: auto;
+  padding: 0 1rem;
+}
+
+.grid-right-menu {
+  grid-column: 3 / 4;
+  overflow-y: auto;
+}
+
+/* =========================
+   RESPONSIVE BREAKPOINTS
+========================= */
+@media (max-width: 1200px) {
+  .master-grid {
+    grid-template-columns: clamp(160px, 20vw, 240px) 1fr clamp(120px, 14vw, 180px);
+  }
+}
+
+@media (max-width: 992px) {
+  .master-grid {
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 0.5rem;
+    padding: 0.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .master-grid {
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: auto;
+    height: auto;
+    padding: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .master-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 0.5rem;
+  }
+
+  .grid-left-menu,
+  .grid-main,
+  .grid-right-menu {
+    width: 100%;
+  }
+}
