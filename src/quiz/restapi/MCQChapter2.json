@@ -1,52 +1,103 @@
 [
+
   {
-    "question": "Which data format is most commonly used in REST APIs?",
-    "options": ["JSON", "XML", "CSV", "HTML"],
-    "answer": "JSON"
+    "question": "What is Maven primarily used for in Java projects?",
+    "options": ["Writing Spring boot code", "Dependency management and build automation", "Creating database tables", "For creating the objects automate"],
+    "answer": "Dependency management and build automation"
   },
   {
-    "question": "Which HTTP status code indicates a server error?",
-    "options": ["500", "400", "200", "201"],
-    "answer": "500"
+    "question": "What does dependencies in a Maven project mean?",
+    "options": ["Java classes", "JAR files required by the project", "HTML templates", "Database tables"],
+    "answer": "JAR files required by the project"
   },
   {
-    "question": "Which of the following is NOT a RESTful constraint?",
-    "options": ["Statelessness", "Cacheability", "Tight coupling", "Layered system"],
-    "answer": "Tight coupling"
+    "question": "What does POM stand for in Maven?",
+    "options": ["Package Object Manager", "Project Object Manager", "Package Object Model", "Project Object Model"],
+    "answer": "Project Object Model"
   },
   {
-    "question": "In REST, what does the URL /users/123 represent?",
-    "options": ["A specific user resource", "All users", "A POST request", "An error page"],
-    "answer": "A specific user resource"
+    "question": "Where are Maven dependencies stored locally after download?",
+    "options": ["src/main/java", ".m2 folder", "target folder", "pom.xml"],
+    "answer": ".m2 folder"
   },
   {
-    "question": "Which HTTP method is considered idempotent?",
-    "options": ["PUT", "POST", "PATCH", "None of the above"],
-    "answer": "PUT"
+    "question": "Which file in a Maven project contains all dependency information?",
+    "options": ["application.properties", "pom.xml", "build.gradle", "settings.xml"],
+    "answer": "pom.xml"
   },
   {
-    "question": "Which of the following is a safe HTTP method?",
-    "options": ["GET", "POST", "DELETE", "PUT"],
-    "answer": "GET"
+    "question": "What is a Spring Boot Starter dependency?",
+    "options": ["A single JAR file", "A dependency that aggregates multiple JARs", "A database connector", "A test framework"],
+    "answer": "A dependency that aggregates multiple JARs"
   },
   {
-    "question": "REST APIs communicate over the _______ protocol.",
-    "options": ["HTTP", "FTP", "SMTP", "TCP only"],
-    "answer": "HTTP"
+    "question": "How do you run a Spring Boot JAR file created by Maven?",
+    "options": ["mvn run", "java -jar jarFileName.jar", "mvn compile", "java jar run"],
+    "answer": "java -jar jarFileName.jar"
   },
   {
-    "question": "Which HTTP status code represents unauthorized access?",
-    "options": ["401", "403", "404", "200"],
-    "answer": "401"
+    "question": "What is the main advantage of Maven over manual JAR downloads?",
+    "options": ["It reduces typing", "Dependencies are automatically downloaded and version-managed", "It generates HTML views", "It runs unit tests automatically"],
+    "answer": "Dependencies are automatically downloaded and version-managed"
   },
   {
-    "question": "REST API endpoints should ideally use _______ nouns for resources.",
-    "options": ["plural", "singular", "numeric", "adjective"],
-    "answer": "plural"
+    "question": "What are the build tools in below list?",
+    "options": ["Gradle", "Maven", "Ant", "All of the Above"],
+    "answer": "All of the Above"
   },
   {
-    "question": "RESTful APIs should be designed to be _______.",
-    "options": ["stateless", "stateful", "dependent on client state", "session-based"],
-    "answer": "stateless"
+    "question": "Which of the following are Maven coordinates?",
+    "options": ["groupId", "artifactId", "version", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which Maven coordinate is NOT part of dependency declaration?",
+    "options": ["groupId", "artifactId", "version", "mainClass"],
+    "answer": "mainClass"
+  },
+  {
+    "question": "Which of the following are part of a typical Maven project structure?",
+    "options": ["src/main/java", "src/main/resources", "src/test/java", "pom.xml", "target folder", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following are standard Maven goals?",
+    "options": ["compile", "test", "package", "clean", "install", "deploy", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which folder contains the downloaded Maven dependencies?",
+    "options": ["src/main/java", "Maven Dependencies", "pom.xml", "src/test/java"],
+    "answer": "Maven Dependencies"
+  },
+  {
+    "question": "What is the purpose of groupId in Maven?",
+    "options": ["Represents the unique identifier of the project group or organization", "Represents the version of the project", "Represents the JAR file name", "Represents the build tool"],
+    "answer": "Represents the unique identifier of the project group or organization"
+  },
+  {
+    "question": "What is the purpose of artifactId in Maven?",
+    "options": ["Represents the Java package name", "Represents the name of the JAR or module or project", "Represents the version of the dependency", "Represents the POM file location"],
+    "answer": "Represents the name of the JAR or module or project"
+  },
+  {
+    "question": "In a Maven project, where is the generated JAR/WAR file stored after a successful build?",
+    "options": ["src folder", "lib folder", "target folder", ".m2 folder"],
+    "answer": "target folder"
+  },
+  {
+    "question": "What is the main purpose of the <parent> tag in pom.xml?",
+    "options": ["To define REST endpoints", "To inherit dependencies, plugins, and configurations from another POM", "To store compiled class files", "To create the JAR file"],
+    "answer": "To inherit dependencies, plugins, and configurations from another POM"
+  },
+  {
+    "question": "In Maven, what is the order of repository search when resolving dependencies?",
+    "options": ["Remote → Central → Local", "Local → Remote → Central", "Local → Central → Remote", "Central → Local → Remote"],
+    "answer": "Local → Central → Remote"
+  },
+  {
+    "question": "What is Super POM in Maven?",
+    "options": ["A POM written by developer", "Default POM every project inherits if parent not defined", "A file to store JARs", "A dependency configuration"],
+    "answer": "Default POM every project inherits if parent not defined"
   }
 ]

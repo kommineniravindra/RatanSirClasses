@@ -126,9 +126,22 @@ const DSA = () => {
               onClick={() => toggleAccordion(idx)}
               aria-expanded={openIndex === idx ? "true" : "false"}
             >
-              <div className="question-number">
-                <strong>{idx + 1}.</strong>
-              </div>
+<div className="question-number">
+  <strong>{idx + 1}.</strong>
+  {item.youtubeLink && (
+    <button
+      className="youtube-btn"
+      onClick={(e) => {
+        e.stopPropagation(); // prevent accordion toggle
+        window.open(item.youtubeLink, "_blank"); // open YouTube in new tab
+      }}
+    >
+      ▶ Watch Video on YouTube
+    </button>
+  )}
+</div>
+
+
               <div className="question-field">
                 <strong>Question:</strong> {item.question}
               </div>

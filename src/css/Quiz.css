@@ -582,9 +582,13 @@
 }
 
 /* ---------- Inline Blank Inputs ---------- */
+.question-panel1 {
+  margin-bottom: 0.3rem; /* Increased gap from 0px to 1.5rem */
+  transition: all 0.2s ease;
+}
 .inline-blank-input {
   border: 100px dotted rgb(255, 0, 0);
-  border-bottom: 20px solid #cbd5e1;
+  border-bottom: 20px solid #000000;
   background-color: transparent;
   font-size: 22px;
   font-weight: bold;

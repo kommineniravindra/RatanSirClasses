@@ -15,6 +15,12 @@ import { restApiData } from "../technologies/restapi/restapiData.js";
 import { FiCopy, FiCheck } from "react-icons/fi";
 import { renderToStaticMarkup } from "react-dom/server";
 import "../css/Main.css";
+import { htmlDataChapter5 } from "../technologies/html/htmlDataChapter5.js";
+import { htmlDataChapter6 } from "../technologies/html/htmlDataChapter6.js";
+import { htmlDataChapter7 } from "../technologies/html/htmlDataChapter7.js";
+import { htmlDataChapter8 } from "../technologies/html/htmlDataChapter8.js";
+import { htmlDataChapter9 } from "../technologies/html/htmlDataChapter9.js";
+import { htmlDataChapter10 } from "../technologies/html/htmlDataChapter10.js";
 
 const Main = ({
   selectedItem,
@@ -50,6 +56,12 @@ const Main = ({
           ...htmlDataChapter2,
           ...htmlDataChapter3,
           ...htmlDataChapter4,
+          ...htmlDataChapter5,
+          ...htmlDataChapter6,
+          ...htmlDataChapter7,
+          ...htmlDataChapter8,
+          ...htmlDataChapter9,
+          ...htmlDataChapter10,
         };
       case "CSS":
         return cssData;
@@ -106,9 +118,8 @@ const Main = ({
         if (isClickTriggeredRef.current) return;
         const intersectingEntry = entries.find((entry) => entry.isIntersecting);
         if (intersectingEntry) {
-          const visibleSection = intersectingEntry.target.getAttribute(
-            "data-key"
-          );
+          const visibleSection =
+            intersectingEntry.target.getAttribute("data-key");
           setSelectedItem(visibleSection);
         }
       },
@@ -164,7 +175,6 @@ const Main = ({
       }
     });
   }, [mainData, selectedItem, copyIcon, copiedIcon]);
-
 
   const quizNumberMap = useMemo(() => {
     let quizCount = 0;
@@ -246,7 +256,9 @@ const Main = ({
     if (quizNum) {
       navigate(`/ratan-tutotrials/quiz/${selectedTechnology}/${quizNum}`);
     } else if (examNum) {
-      navigate(`/ratan-tutotrials/exam/${selectedTechnology.toLowerCase()}/exam${examNum}`);
+      navigate(
+        `/ratan-tutotrials/exam/${selectedTechnology.toLowerCase()}/exam${examNum}`
+      );
     }
   };
 
@@ -310,8 +322,18 @@ const Main = ({
           </div>
         ) : (
           <div className="content-group-container">
-            <h1 className="content-group-title">Welcome</h1>
-            <p>Please select a topic from the menu to get started.</p>
+            <h1 className="content-group-title" style={{ textAlign: "center" }}>
+              🚧 Course Coming Soon! 🚧
+            </h1>
+            <p style={{ textAlign: "center" }}>
+              We’re working hard to bring you an amazing learning experience.
+              Stay tuned!
+            </p>
+            <img
+              src="/img17.jpg"
+              alt="Coming soon"
+              style={{ display: "block", margin: "0 auto" }}
+            />
           </div>
         )}
       </div>
@@ -319,13 +341,20 @@ const Main = ({
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h3>Ready to {modalType === 'quiz' ? 'Take the Quiz?' : 'Start the Exam?'}</h3>
+            <h3>
+              Ready to{" "}
+              {modalType === "quiz" ? "Take the Quiz?" : "Start the Exam?"}
+            </h3>
             <p>
-              You've completed this chapter. It's a great time to test your knowledge.
+              You've completed this chapter. It's a great time to test your
+              knowledge.
             </p>
             <div className="modal-buttons">
-              <button onClick={handleModalProceed} className="modal-proceed-btn">
-                {modalType === 'quiz' ? 'Take Quiz' : 'Take Exam'}
+              <button
+                onClick={handleModalProceed}
+                className="modal-proceed-btn"
+              >
+                {modalType === "quiz" ? "Take Quiz" : "Take Exam"}
               </button>
               <button onClick={handleModalSkip} className="modal-skip-btn">
                 Skip for now

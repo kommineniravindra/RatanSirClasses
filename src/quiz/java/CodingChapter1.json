@@ -1,9 +1,9 @@
 [
   {
-    "question": "Write a Java program to add two numbers.",
-    "answer": "import java.util.*;\npublic class AddTwoNumbers {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        int sum = a + b;\n        System.out.println(sum);\n    }\n}",
-    "sampleInput": "7 8",
-    "sampleOutput": "15",
+    "question": "Write a Java program to demonstrate flow between Main, EmployeeController, EmployeeService, and EmployeeRepository classes.",
+    "answer": "class Employee {\n    int id;\n    String name;\n    double salary;\n\n    Employee(int id, String name, double salary) {\n        this.id = id;\n        this.name = name;\n        this.salary = salary;\n    }\n}\n\nclass EmployeeRepository {\n    void printEmployee(Employee emp) {\n        System.out.println(\"Employee Details:\");\n        System.out.println(\"ID: \" + emp.id);\n        System.out.println(\"Name: \" + emp.name);\n        System.out.println(\"Salary: \" + emp.salary);\n    }\n}\n\nclass EmployeeService {\n    void processEmployee(Employee emp) {\n        EmployeeRepository repo = new EmployeeRepository();\n        repo.printEmployee(emp);\n    }\n}\n\nclass EmployeeController {\n    void handleEmployee(Employee emp) {\n        EmployeeService service = new EmployeeService();\n        service.processEmployee(emp);\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Employee emp = new Employee(1001, \"Mr.Ratan sir\", 10000.45);\n        EmployeeController controller = new EmployeeController();\n        controller.handleEmployee(emp);\n    }\n}",
+    "sampleInput": "",
+    "sampleOutput": "Employee Details:\nID: 1001\nName: Mr.Ratan sir\nSalary: 10000.45",
     "maxMarks": 10
   }
 ]

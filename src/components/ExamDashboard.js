@@ -77,6 +77,7 @@ const examAccessCodes = {
   "microservices-exam2": "MS202",
   "restapi-exam1": "REST101",
   "restapi-exam2": "REST202",
+
 };
 
 const technologies = [
@@ -96,6 +97,12 @@ const technologies = [
     icon: <FaPython />,
     quizChapters: [1, 2, 3, 4, 5, 6] ,
   },
+   {
+    key: "restapi",
+    name: "Spring Boot",
+    icon: <FaServer />,
+    quizChapters: [1, 2, 3, 4, 5, 6] ,
+  },
   {
     key: "microservices",
     name: "Microservices",
@@ -103,12 +110,7 @@ const technologies = [
     quizChapters: [1, 2, 3, 4, 5, 6] ,
   },
   { key: "sql", name: "SQL", icon: <FaDatabase />, quizChapters: [1, 2, 3, 4, 5, 6,]  },
-  {
-    key: "restapi",
-    name: "REST API",
-    icon: <FaServer />,
-    quizChapters: [1, 2, 3, 4, 5, 6] ,
-  },
+ 
 ];
 
 const techChartColors = {

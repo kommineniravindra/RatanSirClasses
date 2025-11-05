@@ -1,22 +1,83 @@
 [
+
   {
-    "question": "In Java, every class must be inside a _______ file.",
-    "answer": "Class"
+    "question": "Annotation starts with _______ symbol.",
+    "answer": "@"
   },
   {
-    "question": "The keyword used to inherit a class in Java is _______.",
-    "answer": "extends"
+    "question": "Annotation is used for autowiring in Spring _________.",
+    "answer": "@Autowired"
   },
   {
-    "question": "The root class of all Java classes is _______.",
-    "answer": "Object"
+    "question": "A web application can be accessed using ___________.",
+    "answer": "Browser / URL"
   },
   {
-    "question": "Java code is compiled into _______ bytecode.",
-    "answer": "JVM"
+    "question": "Deploy the application ________ So all client can access the application.",
+    "answer": "on Server"
   },
   {
-    "question": "The method used as an entry point in Java is _______.",
-    "answer": "main"
+    "question": "Who is the parent annotation for all stereotype annotations in Spring_________.",
+    "answer": "@Component"
+  },
+  {
+    "question": "What is the Annotation Declare a class as a Java-based config class____________.",
+    "answer": "@Configuration"
+  },
+  {
+    "question": "What is the annotation used to specify the custom properties file location___________.",
+    "answer": "@PropertySource"
+  },
+  {
+    "question": "What is the Annotation used to inject the properties file data into variable __________.",
+    "answer": "@Value"
+  },
+  {
+    "question": "Which annotation allows Spring beans to evaluate SpEL expressions ___________.",
+    "answer": "@Value"
+  },
+  {
+    "question": "What is the default bean scope in Spring___________.",
+    "answer": "singleton"
+  },
+  {
+    "question": "Which scope creates a new bean instance every time it is requested__________.",
+    "answer": "prototype"
+  },
+  {
+    "question": "Which annotation is used to execute cleanup logic before a bean is destroyed __________.",
+    "answer": "@PreDestroy"
+  },
+  {
+    "question": "Which annotation is used to declare bean scope explicitly _______________.",
+    "answer": "@Scope"
+  },
+  {
+    "question": "Which annotation is used to execute logic after bean creation and dependency injection_________.",
+    "answer": "@PostConstruct"
+  },
+  {
+    "question": "What is the default port number of tomcat _________.",
+    "answer": "8080"
+  },
+  {
+    "question": "What is the annotation used to inject a dependency by name___________.",
+    "answer": "@Qualifier"
+  },
+  {
+    "question": "What is the syntax used in SpEL #{} or ${} ________.",
+    "answer": "#{}"
+  },
+  {
+    "question": "What is the syntax used to read properties from a properties file #{} or ${} ________.",
+    "answer": "${}"
+  },
+  {
+    "question": "Data flow  Client → __________ → __________ → __________ → Database",
+    "answer": "Controller → Service → Repository"
+  },
+  {
+    "question": "Data flow  Database → __________ → __________ → __________ → Client",
+    "answer": "Repository → Service → Controller"
   }
 ]

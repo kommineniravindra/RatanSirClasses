@@ -4,7 +4,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coy } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Editor from "@monaco-editor/react";
 import loginImage from "../assets/quiz-img.png";
-import emailjs from "@emailjs/browser"; 
+import emailjs from "@emailjs/browser";
 
 import {
   FaHome,
@@ -80,7 +80,6 @@ const shuffleArray = (array) => {
   }
   return newArray;
 };
-
 
 const JUDGE0_API = "https://ce.judge0.com";
 
@@ -251,63 +250,85 @@ const Quiz = () => {
     });
 
     const finalScore = mcqMarks + blanksMarks + codingMarks;
-    
+
     try {
       const token = localStorage.getItem("token");
       const userEmail = localStorage.getItem("userEmail");
       const userName = localStorage.getItem("userName") || "Student";
-      
+
       const quizCode = `${technology}-quiz${quizId}`;
       const payload = { quizCode, mcqMarks, blanksMarks, codingMarks };
 
       const authHeaders = { headers: { Authorization: `Bearer ${token}` } };
-      
+
       // Save/update results in the database
       try {
-          await axios.post("http://localhost:5000/api/quizzes/submit", payload, authHeaders);
+        await axios.post(
+          "http://localhost:5000/api/quizzes/submit",
+          payload,
+          authHeaders
+        );
       } catch (error) {
-          if (error.response && error.response.status === 400 && error.response.data.message.includes("already exists")) {
-              await axios.patch("http://localhost:5000/api/quizzes/submit", payload, authHeaders);
-          } else {
-              throw error; // Rethrow other errors to be caught by the outer block
-          }
+        if (
+          error.response &&
+          error.response.status === 400 &&
+          error.response.data.message.includes("already exists")
+        ) {
+          await axios.patch(
+            "http://localhost:5000/api/quizzes/submit",
+            payload,
+            authHeaders
+          );
+        } else {
+          throw error; // Rethrow other errors to be caught by the outer block
+        }
       }
 
       // Prepare and send email
       if (userEmail) {
         const totalPossibleMCQ = mcqs.length;
         const totalPossibleBlanks = blanks.length;
-        const totalPossibleCoding = coding.reduce((sum, q) => sum + (q.maxMarks || 1), 0);
-        const totalPossibleTotal = totalPossibleMCQ + totalPossibleBlanks + totalPossibleCoding;
+        const totalPossibleCoding = coding.reduce(
+          (sum, q) => sum + (q.maxMarks || 1),
+          0
+        );
+        const totalPossibleTotal =
+          totalPossibleMCQ + totalPossibleBlanks + totalPossibleCoding;
 
         const templateParams = {
-            student_name: userName,
-            technology: selectedLanguage,
-            exam_number: currentChapter,
-            mcq_marks: `${mcqMarks} / ${totalPossibleMCQ}`,
-            blanks_marks: `${blanksMarks} / ${totalPossibleBlanks}`,
-            coding_marks: `${codingMarks} / ${totalPossibleCoding}`,
-            total_marks: `${finalScore} / ${totalPossibleTotal}`,
-            to_email: userEmail,
+          student_name: userName,
+          technology: selectedLanguage,
+          exam_number: currentChapter,
+          mcq_marks: `${mcqMarks} / ${totalPossibleMCQ}`,
+          blanks_marks: `${blanksMarks} / ${totalPossibleBlanks}`,
+          coding_marks: `${codingMarks} / ${totalPossibleCoding}`,
+          total_marks: `${finalScore} / ${totalPossibleTotal}`,
+          to_email: userEmail,
         };
 
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams, EMAILJS_PUBLIC_KEY);
+        await emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          templateParams,
+          EMAILJS_PUBLIC_KEY
+        );
       } else {
         console.warn("User email not found. Email not sent.");
       }
 
       Swal.fire({
-          icon: "success",
-          title: "Submitted!",
-          text: "Your quiz has been submitted successfully.",
+        icon: "success",
+        title: "Submitted!",
+        text: "Your quiz has been submitted successfully.",
       });
-
     } catch (error) {
       console.error("Submission failed:", error);
       Swal.fire({
-          icon: "error",
-          title: "Submission Failed",
-          text: error.response?.data?.message || "An unexpected error occurred. Please try again.",
+        icon: "error",
+        title: "Submission Failed",
+        text:
+          error.response?.data?.message ||
+          "An unexpected error occurred. Please try again.",
       });
     } finally {
       setIsSubmitting(false);
@@ -326,7 +347,7 @@ const Quiz = () => {
     coding,
     techConfig.type,
     selectedLanguage,
-    currentChapter
+    currentChapter,
   ]);
 
   const startQuiz = useCallback(async (language, chapterNumber) => {
@@ -334,7 +355,7 @@ const Quiz = () => {
 
     setSelectedLanguage(language);
     setCurrentChapter(chapterNumber);
-    setIsLoading(true); 
+    setIsLoading(true);
     setIsModalOpen(false);
     setScore(0);
     setShowResults(false);
@@ -353,10 +374,12 @@ const Quiz = () => {
         `../quiz/${lang}/MCQChapter${chapterNumber}.json`
       );
       // Shuffle both the questions and their options
-      mcqData = shuffleArray(mcqModule.default.map(q => ({
-        ...q,
-        options: shuffleArray(q.options)
-      })));
+      mcqData = shuffleArray(
+        mcqModule.default.map((q) => ({
+          ...q,
+          options: shuffleArray(q.options),
+        }))
+      );
     } catch (error) {
       console.warn(
         `No MCQ questions found for ${lang} Chapter ${chapterNumber}.`
@@ -398,7 +421,7 @@ const Quiz = () => {
     setAnswersCoding(new Array(codingData.length).fill(""));
 
     setTimerRunning(true);
-    setIsLoading(false); 
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -440,7 +463,7 @@ const Quiz = () => {
 
   const handleRunCode = async (index, code) => {
     if (!code) return;
-    setIsLoading(true);
+    // setIsLoading(true);
     const question = coding[index];
     const result = await runCode(
       code,
@@ -458,7 +481,7 @@ const Quiz = () => {
     }
 
     setCodeResults((prev) => ({ ...prev, [index]: { ...result, marks } }));
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   const handleEvaluateCodePad = (index, code) => {
@@ -633,7 +656,7 @@ const Quiz = () => {
             {mcqs.map((q, index) => (
               <div key={`mcq-${index}`} className="question-panel">
                 <p className="question-text">
-                  {index + 1}. {q.question}
+                  <b>{index + 1}</b>. {q.question}
                 </p>
                 <ul className="options-list">
                   {q.options.map((opt, i) => (
@@ -660,9 +683,9 @@ const Quiz = () => {
             {blanks.map((q, index) => {
               const parts = q.question.split("___");
               return (
-                <div key={`blank-${index}`} className="question-panel">
+                <div key={`blank-${index}`} className="question-panel1">
                   <p className="question-text">
-                    {mcqs.length + index + 1}. {parts[0]}
+                    <b>{mcqs.length + index + 1}</b>. {parts[0]}
                     <input
                       type="text"
                       className="inline-blank-input"
@@ -741,6 +764,7 @@ const Quiz = () => {
                                 {q.maxMarks || 1}
                               </p>
                             </div>
+                            
                           )}
                         </div>
                       )}
@@ -762,6 +786,8 @@ const Quiz = () => {
                             />
                           </div>
                           <div className="codepad-preview">
+                                                    <span> <b>Note:</b> To Get Marks Run & Evaluate</span>
+
                             <iframe
                               srcDoc={createPreviewContent(
                                 answersCoding[index] || techConfig.boilerplate,
@@ -772,7 +798,7 @@ const Quiz = () => {
                               frameBorder="0"
                             />
                           </div>
-                        </div>
+                        </div>                      
 
                         <button
                           onClick={() =>

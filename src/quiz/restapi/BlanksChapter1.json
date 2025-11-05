@@ -1,42 +1,23 @@
 [
+
   {
-    "question": "The main architectural principle of REST is that it is _______.",
-    "answer": "stateless"
+    "question": "What is the annotation that generates the zero-argument constructor ________",
+    "answer": "@NoArgsConstructor"
   },
   {
-    "question": "The HTTP method used to retrieve data from a server is _______.",
-    "answer": "GET"
+    "question": "What is the annotation that generates the setters ________",
+    "answer": "@Setter"
   },
   {
-    "question": "The HTTP method used to create a new resource is _______.",
-    "answer": "POST"
+    "question": "What is the annotation that generates the getters ________",
+    "answer": "@Getter"
   },
   {
-    "question": "The HTTP method used to update a resource completely is _______.",
-    "answer": "PUT"
+    "question": "What is the annotation that generates the all-argument constructor ________",
+    "answer": "@AllArgsConstructor"
   },
   {
-    "question": "The HTTP method used to delete a resource is _______.",
-    "answer": "DELETE"
-  },
-  {
-    "question": "The HTTP method used to update a resource partially is _______.",
-    "answer": "PATCH"
-  },
-  {
-    "question": "REST APIs are designed to be _______ between client and server.",
-    "answer": "stateless"
-  },
-  {
-    "question": "A successful GET request usually returns HTTP status code _______.",
-    "answer": "200"
-  },
-  {
-    "question": "A POST request that successfully creates a resource usually returns HTTP status code _______.",
-    "answer": "201"
-  },
-  {
-    "question": "If the requested resource is not found, the server returns status code _______.",
-    "answer": "404"
+    "question": "Which Lombok annotation is used for Builder design pattern ________",
+    "answer": "@Builder"
   }
 ]

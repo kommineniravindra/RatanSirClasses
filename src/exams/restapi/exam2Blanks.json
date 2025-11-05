@@ -1,22 +1,103 @@
 [
+
   {
-    "question": "In Java, every class must be inside a _______ file.",
-    "answer": "Class"
+    "question": "Which HTTP method is used to create a resource in REST_________",
+    "answer": "POST"
   },
   {
-    "question": "The keyword used to inherit a class in Java is _______.",
-    "answer": "extends"
+    "question": "Which HTTP method is used for partial update in REST _________",
+    "answer": "PATCH"
   },
   {
-    "question": "The root class of all Java classes is _______.",
-    "answer": "Object"
+    "question": "Which HTTP method is used for complete object update in REST _________",
+    "answer": "PUT"
   },
   {
-    "question": "Java code is compiled into _______ bytecode.",
-    "answer": "JVM"
+    "question": "Which HTTP method is used for retrieve the resource in REST _________",
+    "answer": "GET"
   },
   {
-    "question": "The method used as an entry point in Java is _______.",
-    "answer": "main"
+    "question": "Which HTTP method is used for delete the resource in REST _________",
+    "answer": "DELETE"
+  },
+  {
+    "question": "Which annotation binds JSON data to a Java object______________",
+    "answer": "@RequestBody"
+  },
+  {
+    "question": "Which annotation activates the validations ______________",
+    "answer": "@Valid"
+  },
+  {
+    "question": "Which annotation is used to make the REST controller class______________",
+    "answer": "@RestController"
+  },
+  {
+    "question": "Which annotation is used to make the service class______________",
+    "answer": "@Service"
+  },
+  {
+    "question": "Which annotation is used to make the repository______________",
+    "answer": "@Repository"
+  },
+  {
+    "question": "Which annotation is used to allow cross-origin requests ___________",
+    "answer": "@CrossOrigin"
+  },
+  {
+    "question": "Which annotation inside ControllerAdvice handles exceptions _____________",
+    "answer": "@ExceptionHandler"
+  },
+  {
+    "question": "Which annotation is used to specify the primary key in an entity class _____",
+    "answer": "@Id"
+  },
+  {
+    "question": "What is the annotation to change the table name _______",
+    "answer": "@Table"
+  },
+  {
+    "question": "What is the annotation to change the column name _______",
+    "answer": "@Column"
+  },
+  {
+    "question": "Which annotation automatically generates the primary key value ________",
+    "answer": "@GeneratedValue"
+  },
+  {
+    "question": "What is the annotation used to take the base URL for all endpoints _________",
+    "answer": "@RequestMapping"
+  },
+  {
+    "question": "@Controller + @ResponseBody = __________",
+    "answer": "@RestController"
+  },
+  {
+    "question": "What HTTP status code represents Not Found _______",
+    "answer": "404"
+  },
+  {
+    "question": "What HTTP status code represents OK _______",
+    "answer": "200"
+  },
+  {
+    "question": "What HTTP status code represents Created _____",
+    "answer": "201"
+  },
+  {
+    "question": "What HTTP status code represents deleted No content _____",
+    "answer": "204"
+  },
+  {
+    "question": "What HTTP status code represents BAD requested data _____",
+    "answer": "400"
+  },
+  {
+    "question": "What is the default port of Tomcat ________",
+    "answer": "8080"
+  },
+  {
+    "question": "REST APIs help decouple frontend and backend (true/false) ________",
+    "answer": "true"
   }
 ]

@@ -3,15 +3,16 @@
 ================================= */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Libertinus+Serif:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 .container {
   position: relative;
   top: 20px;
   width: 900px;
   height: 550px;
-  background: #fdfdfd;
+  background: #fdfdfd; /* Original Light Background */
   border-radius: 30px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); /* Clean Shadow */
   overflow: hidden;
   font-family: 'Poppins', sans-serif;
   margin: 0 auto;
@@ -23,7 +24,7 @@
   font-weight: 700;
   font-family: "Libertinus Serif", serif;
   margin: -10px 0;
-  color: #2f2f2f;
+  color: #333333; /* Classic Dark Text */
   transition: all 0.3s ease-in-out;
 }
 
@@ -40,14 +41,14 @@ form {
 }
 
 /* =================================
- FORM BOX & INPUTS
+ FORM BOX & INPUTS (COLORS UNCHANGED)
 ================================= */
 .form-box {
   position: absolute;
   right: 0;
   width: 50%;
   height: 100%;
-  background: #ffffff;
+  background: #ffffff; /* Form Background Unchanged */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -87,9 +88,9 @@ form {
 .input-box select {
   width: 100%;
   padding: 13px 50px 13px 20px;
-  background: #f2f4f8;
+  background: #f2f4f8; /* Input Background Unchanged */
   border-radius: 10px;
-  border: none;
+  border: 2px solid transparent;
   outline: none;
   font-size: 15px;
   color: #333;
@@ -98,6 +99,12 @@ form {
   appearance: none;
   cursor: pointer;
   transition: all 0.25s ease-in-out;
+}
+
+.input-box input:focus,
+.input-box select:focus {
+    border: 2px solid #FF512F; /* New Focus Accent: Sunset Red */
+    box-shadow: 0 0 8px rgba(255, 81, 47, 0.5);
 }
 
 .input-box input::placeholder,
@@ -125,19 +132,20 @@ form {
   top: 50%;
   transform: translateY(-50%);
   font-size: 20px;
-  color: #aaa;
+  color: #43A0FF; /* New Icon Accent: Ocean Blue */
   pointer-events: none;
 }
 
 /* =================================
- PREMIUM 3D BUTTONS
+ PREMIUM 3D BUTTONS (MIXED COLORS)
 ================================= */
 .btn1 {
   width: 50%;
   height: 50px;
-  background: linear-gradient(145deg, #6a11cb, #2575fc);
+  /* Mixed Ocean to Sunset Gradient */
+  background: linear-gradient(145deg, #FF512F, #DD2476); 
   border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 8px 16px rgba(255, 81, 47, 0.4);
   border: none;
   cursor: pointer;
   font-size: 16px;
@@ -148,14 +156,14 @@ form {
 }
 
 .btn1:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(145deg, #7b3cf8, #1e63f9);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 25px rgba(255, 81, 47, 0.6);
+  background: linear-gradient(145deg, #FF6640, #F03F8A); /* Brighter hover */
 }
 
 .btn1:active {
   transform: translateY(1px) scale(0.98);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 12px rgba(255, 81, 47, 0.4);
 }
 
 /* =================================
@@ -201,7 +209,7 @@ form {
   background-color: #f5f5f5;
   border-radius: 50%;
   font-size: 20px;
-  color: #333;
+  color: #000000; /* Sunset Accent */
   text-decoration: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   transition: all 0.25s ease-in-out;
@@ -213,24 +221,28 @@ form {
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-.social-icons a.google:hover {
-  background: #DB4437;
+.social-icons a.google{
+  background: #D32F2F; 
+  color: #fff;
 }
 
-.social-icons a.facebook:hover {
-  background: #1877F2;
+.social-icons a.facebook{
+  background: #1976D2; 
+  color: #fff;
 }
 
-.social-icons a.github:hover {
+.social-icons a.github {
   background: #333;
+  color: #fff;
 }
 
-.social-icons a.linkedin:hover {
-  background: #0A66C2;
+.social-icons a.linkedin {
+  background: #00796B; 
+  color: #fff;
 }
 
 /* =================================
- TOGGLE PANELS & ANIMATION
+ TOGGLE PANELS & ANIMATION (MIXED COLORS)
 ================================= */
 .toggle-box {
   position: absolute;
@@ -245,7 +257,8 @@ form {
   left: -250%;
   width: 300%;
   height: 100%;
-  background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+  /* Mixed Ocean Gradient: Deep Blue to Aqua */
+  background: linear-gradient(135deg, #43A0FF, #00C9FF); 
   z-index: 2;
   border-radius: 150px;
   transition: all 0.35s ease-in-out;
@@ -291,7 +304,7 @@ form {
 }
 
 .toggle-panel h1 {
-  color: #291fec;
+  color: gold;
   font-family: 'Pacifico', cursive;
   font-size: 3.2rem;
   font-weight: 700;
@@ -300,34 +313,32 @@ form {
 .toggle-panel .btn1 {
   width: 160px;
   height: 46px;
-  background: linear-gradient(135deg, #7dafff, #97deff);
+  background: linear-gradient(135deg, #43A0FF, #00C9FF); 
   border: 2px solid white;
   border-radius: 12px;
-  color: #fff;
+  color: #ffffff;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 12px rgba(244, 244, 244, 0.4);
   transition: all 0.25s ease-in-out, transform 0.2s ease-in-out;
 }
 
 .toggle-panel .btn1:hover {
   transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
-  background: linear-gradient(135deg, #609dff, #68cfff);
+  box-shadow: 0 10px 20px rgba(247, 247, 247, 0.813);
+  background: #ffffff;
+  color: black;
+  border: 2px solid black;
 }
 
 .toggle-panel .btn1:active {
   transform: translateY(1px) scale(0.97);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 10px rgba(255, 81, 47, 0.4);
 }
 
 /* =================================
- RESPONSIVE MEDIA QUERIES
+ RESPONSIVE MEDIA QUERIES (NO CHANGE)
 ================================= */
-
-/* 100% scale (base) */
-
-/* 125% scale */
 @media screen and (max-width: 1200px) {
   .container { width: 820px; height: 520px; }
   .container h1 { font-size: 34px; }
@@ -336,7 +347,6 @@ form {
   .toggle-panel h1 { font-size: 2.7rem; }
 }
 
-/* 150% scale */
 @media screen and (max-width: 1050px) {
   .container { width: 740px; height: 500px; }
   .container h1 { font-size: 30px; }
@@ -345,7 +355,6 @@ form {
   .toggle-panel h1 { font-size: 2.5rem; }
 }
 
-/* 175% scale */
 @media screen and (max-width: 950px) {
   .container { width: 660px; height: 480px; }
   .container h1 { font-size: 28px; }
@@ -353,7 +362,6 @@ form {
   .toggle-panel h1 { font-size: 2.2rem; }
 }
 
-/* 200% scale */
 @media screen and (max-width: 850px) {
   .container { width: 600px; height: 460px; }
   .container h1 { font-size: 26px; }
@@ -361,7 +369,6 @@ form {
   .toggle-panel h1 { font-size: 2rem; }
 }
 
-/* Small screen responsiveness */
 @media screen and (max-width: 860px) {
   .container {
     width: 100%;

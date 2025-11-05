@@ -1,7 +1,3 @@
-/* =========================
-   RIGHT MENU (3D CUBE CAROUSEL)
-========================= */
-
 /* Right menu grid cell */
 .grid-right-menu {
   width: 100%;
@@ -13,6 +9,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  /* border: 1px solid black; */
 }
 
 /* Right menu container */
@@ -60,7 +57,7 @@
 }
 
 .face img {
-  width: 100%;
+  width: 60%;
   height: 100%;
   object-fit: cover; /* fit image to face */
 }

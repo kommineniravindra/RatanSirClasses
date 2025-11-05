@@ -3,7 +3,8 @@
   "answer": "public class LargestElement {\n\n    // Method to find the largest element in an array\n    public static int findLargest(int[] nums) {\n        // Assume the first element is the maximum\n        int max = nums[0];\n\n        // Loop through each element in the array\n        for (int num : nums) {\n            // If the current number is greater than max, update max\n            if (num > max) {\n                max = num;\n            }\n        }\n\n        // Return the largest element\n        return max;\n    }\n\n    // Main method to test the logic\n    public static void main(String[] args) {\n        // Sample array input\n        int[] arr = {3, 7, 2, 9, 5};\n\n        // Print the largest element\n        System.out.println(\"Largest: \" + findLargest(arr));\n    }\n}\n",
   "input": "[3, 7, 2, 9, 5]",
   "output": "9",
-  "explanation": "We start by assuming the first element is the maximum. Then, we traverse the array element by element, comparing each with the current maximum. If a larger value is found, we update that value as  maximum. Finally, we return the maximum value."
+  "explanation": "We start by assuming the first element is the maximum. Then, we traverse the array element by element, comparing each with the current maximum. If a larger value is found, we update that value as  maximum. Finally, we return the maximum value.",
+  "youtubeLink": "https://youtu.be/bZVIdFGX448"
 },
 {
     "question": "Find the second largest element in an array (without sorting).",

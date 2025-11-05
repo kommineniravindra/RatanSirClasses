@@ -1,0 +1,23 @@
+[
+{
+  "question": "Write a Java program to demonstrate flow between Main, EmployeeController, EmployeeService, and EmployeeRepository classes with user input.",
+  "answer": "import java.util.Scanner;\n\nclass Employee {\n    int id;\n    String name;\n    double salary;\n\n    Employee(int id, String name, double salary) {\n        this.id = id;\n        this.name = name;\n        this.salary = salary;\n    }\n}\n\nclass EmployeeRepository {\n    void printEmployee(Employee emp) {\n        System.out.println(\"Employee Details:\");\n        System.out.println(\"ID: \" + emp.id);\n        System.out.println(\"Name: \" + emp.name);\n        System.out.println(\"Salary: \" + emp.salary);\n    }\n}\n\nclass EmployeeService {\n    void processEmployee(Employee emp) {\n        EmployeeRepository repo = new EmployeeRepository();\n        repo.printEmployee(emp);\n    }\n}\n\nclass EmployeeController {\n    void handleEmployee(Employee emp) {\n        EmployeeService service = new EmployeeService();\n        service.processEmployee(emp);\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        System.out.print(\"Enter Employee ID: \");\n        int id = sc.nextInt();\n        sc.nextLine();\n\n        System.out.print(\"Enter Employee Name: \");\n        String name = sc.nextLine();\n\n        System.out.print(\"Enter Employee Salary: \");\n        double salary = sc.nextDouble();\n\n        Employee emp = new Employee(id, name, salary);\n        EmployeeController controller = new EmployeeController();\n        controller.handleEmployee(emp);\n    }\n}",
+  "sampleInput": "1001\nMr.Ratan sir\n10000.45",
+  "sampleOutput": "Employee Details:\nID: 1001\nName: Mr.Ratan sir\nSalary: 10000.45",
+  "maxMarks": 10
+},
+{
+  "question": "Write a Java program to demonstrate backward flow of Employee object from Repository → Service → Controller → Main classes with user input.",
+  "answer": "import java.util.Scanner;\n\nclass Employee {\n    int id;\n    String name;\n    double salary;\n\n    Employee(int id, String name, double salary) {\n        this.id = id;\n        this.name = name;\n        this.salary = salary;\n    }\n}\n\nclass EmployeeRepository {\n    Employee createEmployee() {\n        Scanner sc = new Scanner(System.in);\n        System.out.print(\"Enter Employee ID: \");\n        int id = sc.nextInt();\n        sc.nextLine(); // consume newline\n        System.out.print(\"Enter Employee Name: \");\n        String name = sc.nextLine();\n        System.out.print(\"Enter Employee Salary: \");\n        double salary = sc.nextDouble();\n        return new Employee(id, name, salary);\n    }\n}\n\nclass EmployeeService {\n    Employee getEmployee() {\n        EmployeeRepository repo = new EmployeeRepository();\n        return repo.createEmployee();\n    }\n}\n\nclass EmployeeController {\n    Employee fetchEmployee() {\n        EmployeeService service = new EmployeeService();\n        return service.getEmployee();\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        EmployeeController controller = new EmployeeController();\n        Employee emp = controller.fetchEmployee();\n\n        System.out.println(\"Employee Details:\");\n        System.out.println(\"ID: \" + emp.id);\n        System.out.println(\"Name: \" + emp.name);\n        System.out.println(\"Salary: \" + emp.salary);\n    }\n}",
+  "sampleInput": "1001\nMr.Ratan sir\n10000.45",
+  "sampleOutput": "Employee Details:\nID: 1001\nName: Mr.Ratan sir\nSalary: 10000.45",
+  "maxMarks": 10
+},
+  {
+    "question": "Setup Spring Boot layers for Employee with proper annotations and autowiring (Controller, Service, Repository).",
+    "answer": "import org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.stereotype.Controller;\nimport org.springframework.stereotype.Service;\nimport org.springframework.stereotype.Repository;\n\n@Controller\npublic class EmployeeController {\n\n    @Autowired\n    private EmployeeService employeeService;\n\n}\n\n@Service\npublic class EmployeeService {\n\n    @Autowired\n    private EmployeeRepository employeeRepository;\n\n}\n\n@Repository\npublic class EmployeeRepository {\n\n}",
+    "sampleInput": "{\n  \"id\": 1001,\n  \"name\": \"Mr.Ratan sir\",\n  \"salary\": 10000.45\n}",
+    "sampleOutput": "{\n  \"id\": 1001,\n  \"name\": \"Mr.Ratan sir\",\n  \"salary\": 10000.45\n}",
+    "maxMarks": 10
+  }
+]

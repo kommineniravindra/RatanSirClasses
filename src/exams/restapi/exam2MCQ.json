@@ -1,27 +1,253 @@
 [
+
   {
-    "question": "What is the size of int variable in Java?",
-    "options": ["4 bytes", "8 bytes", "Depends on the platform", "None of the above"],
-    "answer": "4 bytes"
+    "question": "What does REST stands for?",
+    "options": ["Remote Endpoint Service Technology", "Representational State Transfer", "Resourceful Endpoint Service Technique", "Required State Transfer"],
+    "answer": "Representational State Transfer"
   },
   {
-    "question": "Which keyword is used to prevent method overriding in Java?",
-    "options": ["final", "abstract", "static", "private"],
-    "answer": "final"
+    "question": "What is the primary role of Spring REST in a distributed system?",
+    "options": ["To handle user authentication and authorization", "To manage database transactions", "To comminicate two application in network.", "To generate HTML content for web pages"],
+    "answer": "To comminicate two application in network."
   },
   {
-    "question": "What is the output of 10 >> 2 in Java?",
-    "options": ["2", "2.5", "2.25", "2.75"],
-    "answer": "2"
+    "question": "Which layer interacts directly with the database?",
+    "options": ["Controller", "Service", "Repository", "Model"],
+    "answer": "Repository"
   },
   {
-    "question": "Which of the following is not a primitive data type in Java?",
-    "options": ["int", "float", "String", "double"],
-    "answer": "String"
+    "question": "Which layer used to write the business logics?",
+    "options": ["Controller", "Service", "Repository", "Model"],
+    "answer": "Service"
   },
   {
-    "question": "Which access modifier makes the member accessible only within its own class?",
-    "options": ["public", "protected", "private", "default"],
-    "answer": "private"
+    "question": "Which layer takes the reqest & give the response?",
+    "options": ["Controller", "Service", "Repository", "Model"],
+    "answer": "Controller"
+  },
+  {
+    "question": "What is the purpose of ResponseEntity?",
+    "options": ["Handling DB operations.", "Dependency injection.", "Binding request body.", "Returning response body,HTTP status,header."],
+    "answer": "Returning response body,HTTP status,header."
+  },
+  {
+    "question": "Which library does Spring Boot use by default for JSON conversion?",
+    "options": ["Gson", "Jackson", "JSON.simple", "FastJSON"],
+    "answer": "Jackson"
+  },
+  {
+    "question": "What does HATEOAS stand for in REST architecture?",
+    "options": ["Hypertext As The Element Of Application State", "Hypermedia And Testing Engine Of Application", "Hyperlink And Transaction Engine Of API Services", "Hypermedia As The Engine Of Application State"],
+    "answer": "Hypermedia As The Engine Of Application State"
+  },
+  {
+    "question": "What is the main purpose of HATEOAS in REST APIs?",
+    "options": ["To enforce synchronous communication", "To validate JSON request payloads", "To allow clients to dynamically navigate resources via hyperlinks", "To replace HTTP methods like GET and POST"],
+    "answer": "To allow clients to dynamically navigate resources via hyperlinks"
+  },
+  {
+    "question": "What are the Http status codes?",
+    "options": ["Informational responses (100 – 199)", "Successful responses (200 – 299)", "Redirection messages (300 – 399)", "Client error responses (400 – 499)", "Server error responses (500 – 599)", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What is the return type of a controller method in REST?",
+    "options": ["String only", "ResponseEntity", "ModelAndView", "HttpServlet"],
+    "answer": "ResponseEntity"
+  },
+  {
+    "question": "Which of the following can consume REST APIs?",
+    "options": ["ReactJS frontend", "Android/iOS apps", "Another backend services", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What is the Difference between put & patch?",
+    "options": ["No difference", "patch update all attribute in resource.put update specific attributes.", "Patch no used in REST", "Put update all attribute in resource.patch update specific attributes."],
+    "answer": "Put update all attribute in resource.patch update specific attributes."
+  },
+  {
+    "question": "What is the nature of rest Apis?",
+    "options": ["Statefulness", "Stateless", "All of the above"],
+    "answer": "Stateless"
+  },
+  {
+    "question": "We need to manually convert Java Object to JSON before returning from RestController?",
+    "options": ["True", "False"],
+    "answer": "False"
+  },
+  {
+    "question": "What is the primary data format used for data exchange in Spring REST?",
+    "options": ["Plain text", "XML", "HTML", "JSON"],
+    "answer": "JSON"
+  },
+  {
+    "question": "Which Spring Boot starter dependency provide the support of building REST APIs?",
+    "options": ["spring-boot-starter-devtools", "spring-boot-starter-web", "spring-boot-starter-data-jpa", "spring-boot-starter-validation"],
+    "answer": "spring-boot-starter-web"
+  },
+  {
+    "question": "Which Spring Boot starter dependency provide the support validations REST APIs?",
+    "options": ["spring-boot-starter-devtools", "spring-boot-starter-web", "spring-boot-starter-data-jpa", "spring-boot-starter-validation"],
+    "answer": "spring-boot-starter-validation"
+  },
+  {
+    "question": "Which starter dependency provide the support of working with database operatons?",
+    "options": ["spring-boot-starter-devtools", "spring-boot-starter-web", "spring-boot-starter-data-jpa", "spring-boot-starter-validation"],
+    "answer": "spring-boot-starter-data-jpa"
+  },
+  {
+    "question": "Which dependency provide the support automatic server reload?",
+    "options": ["spring-boot-starter-devtools", "spring-boot-starter-web", "spring-boot-starter-data-jpa", "spring-boot-starter-validation"],
+    "answer": "spring-boot-starter-devtools"
+  },
+  {
+    "question": "What are the Universal data formats?",
+    "options": ["JSON", "XML", "both a & b"],
+    "answer": "both a & b"
+  },
+  {
+    "question": "Which principle does Inversion of Control (IoC) implement?",
+    "options": ["Objects control their own dependencies", "Developers manually configure all dependencies", "Dependencies are resolved at runtime using reflection only", "Dependencies object created injected by the framework."],
+    "answer": "Dependencies object created injected by the framework."
+  },
+  {
+    "question": "Which of the following is a key benefit of Spring Boot over traditional Spring?",
+    "options": ["Embedded server support", "Starter dependencies", "Auto-configuration", "Embedded database support", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What is Dependency Injection (DI) in Spring?",
+    "options": ["A process where the developer manually creates and manages all objects", "A process define the dependencies that your object required IOC will inject.", "bean creation automation process.", "IOC creates the objects."],
+    "answer": "A process define the dependencies that your object required IOC will inject."
+  },
+  {
+    "question": "What are the embedded servers are given by Spring Boot?",
+    "options": ["Jetty", "Undertow", "Tomcat", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following is an embedded database supported by Spring Boot?",
+    "options": ["HSQL", "Apache Derby", "H2", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Spring Boot MVC returns?",
+    "options": ["JSON object", "XML only", "View name", "Only plain text"],
+    "answer": "View name"
+  },
+  {
+    "question": "Spring Boot REST returns?",
+    "options": ["View names", "HTML", "JSON objects", "JSP pages"],
+    "answer": "JSON objects"
+  },
+  {
+    "question": "Which of the following is the correct order for forwarding data in a Spring application?",
+    "options": ["Repository -> Service -> Controller -> Client", "Client -> Controller -> Repository -> Service", "Client -> Controller -> Service -> Repository", "Service -> Repository -> Controller -> Client"],
+    "answer": "Client -> Controller -> Service -> Repository"
+  },
+  {
+    "question": "Which of the following is the correct order for returning data from the database to the client?",
+    "options": ["Repository -> Service -> Controller -> Client", "Client -> Controller -> Service -> Repository", "Repository -> Controller -> Service -> Client", "Service -> Repository -> Controller -> Client"],
+    "answer": "Repository -> Service -> Controller -> Client"
+  },
+  {
+    "question": "In a Spring application, to pass data from one layer to another, which method is used?",
+    "options": ["return statement", "method argument", "constructor injection", "@Autowired annotation"],
+    "answer": "method argument"
+  },
+  {
+    "question": "To send the result back to the client, which is used?",
+    "options": ["method argument", "return statement", "@Component annotation", "setter method"],
+    "answer": "return statement"
+  },
+  {
+    "question": "What are the layers in Web Appllication?",
+    "options": ["Repository Layer", "Controller Layer", "Service Layer", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which folder contains the Java source code in a Spring Boot project?",
+    "options": ["src/main/resources", "src/main/java", "src/test/java", "static"],
+    "answer": "src/main/java"
+  },
+  {
+    "question": "What is the purpose of application.properties?",
+    "options": ["Store unit tests", "Configure external resources info like DB, server,logger", "Store CSS and JS", "Store Java code"],
+    "answer": "Configure external resources info like DB, server,logger"
+  },
+  {
+    "question": "Which of the following are ways for one REST API to communicate with another REST API in Spring Boot?",
+    "options": ["RestTemplate", "WebClient", "FeignClient", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which folder contains the downloaded Maven dependencies?",
+    "options": ["src/main/java", "Maven Dependencies", "pom.xml", "src/test/java"],
+    "answer": "Maven Dependencies"
+  },
+  {
+    "question": "What file contains all project dependencies information?",
+    "options": ["JRE System Library", "application.properties", "src/main/java", "pom.xml"],
+    "answer": "pom.xml"
+  },
+  {
+    "question": "Who is called the Producer in REST?",
+    "options": ["The client consuming the API", "The system creating/exposing the API", "The database", "The frontend framework"],
+    "answer": "The system creating/exposing the API"
+  },
+  {
+    "question": "Who is called the Consumer in REST?",
+    "options": ["The team creating the API", "The system that consumes/uses the API", "The repository", "None of the above"],
+    "answer": "The system that consumes/uses the API"
+  },
+  {
+    "question": "Which of the following are REST guidelines/principles?",
+    "options": ["Resource-based: Everything is treated as a resource, identified by unique URIs", "Use of HTTP methods: GET, POST, PUT, DELETE, PATCH", "Data exchange format: JSON for requests and responses", "Statelessness: Each request is independent", "Use of proper status codes: 200, 201, 204, 400, 404", "Client–Server separation: Frontend and backend are independent", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which class is used to represent end-user input data with validation annotations in Spring Boot?",
+    "options": ["Entity class", "DTO class", "Model class", "Repository class"],
+    "answer": "DTO class"
+  },
+  {
+    "question": "Which class represents the database table with JPA annotations?",
+    "options": ["Model class", "Entity class", "DTO class", "Controller class"],
+    "answer": "Entity class"
+  },
+  {
+    "question": "Which class is used to send only the required response data to the client, without database or validation annotations?",
+    "options": ["Model class", "Entity class", "DTO class", "Service class"],
+    "answer": "DTO class"
+  },
+  {
+    "question": "What is ORM (Object-Relational Mapping)?",
+    "options": ["A technique to map database tables to Java objects.", "A type of REST API", "A front-end framework", "A database query language"],
+    "answer": "A technique to map database tables to Java objects."
+  },
+  {
+    "question": "What are the REST API testing tools?",
+    "options": ["Postman", "Swagger", "Both a & b"],
+    "answer": "Both a & b"
+  },
+  {
+    "question": "What is the purpose of @PathVariable in Spring Boot?",
+    "options": ["To extract query parameters from the URL", "To extract values from the URL path", "To bind JSON request body to a Java object", "To return JSON response to the client"],
+    "answer": "To extract values from the URL path"
+  },
+  {
+    "question": "Which is the correct syntax to use @PathVariable in Spring Boot?",
+    "options": ["@PostMapping('/employee/{id}')", "@GetMapping('/employee?id')", "@GetMapping('/employee/1')", "@GetMapping('/employee/{id}')"],
+    "answer": "@GetMapping('/employee/{id}')"
+  },
+  {
+    "question": "What is true about Synchronous communication (Blocking IO)?",
+    "options": ["The client continues processing without waiting for the server", "The client is blocked until the server responds", "It is used by WebClient and FeignClient", "The execution order does not matter"],
+    "answer": "The client is blocked until the server responds"
+  },
+  {
+    "question": "What is true about ASynchronous communication (Non-Blocking IO)?",
+    "options": ["The client continues processing without waiting for the server", "The client is blocked until the server responds", "It is used by WebClient and FeignClient", "The execution order does not matter"],
+    "answer": "The client continues processing without waiting for the server"
   }
 ]

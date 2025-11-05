@@ -1,17 +1,15 @@
-// import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-// import { prism } from "react-syntax-highlighter/dist/esm/styles/prism";
-
-// const CodeBlock = ({ language = "html", children }) => (
-//   <SyntaxHighlighter language={language} style={prism}>
-//     {children}
-//   </SyntaxHighlighter>
-// );
+// src/technologies/html/htmlData.js
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { prism } from "react-syntax-highlighter/dist/esm/styles/prism";
 import BrowserPreview from "../../components/BrowserPreview";
-import CodeBlock from "../../components/CodeBlock";
 
+const CodeBlock = ({ language = "html", children }) => (
+  <SyntaxHighlighter language={language} style={prism}>
+    {children}
+  </SyntaxHighlighter>
+);
 
-
-const FirstWebPage = `
+const htmlCode = `
 <html>
   <head>
     <title>Welcome</title>
@@ -20,8 +18,7 @@ const FirstWebPage = `
     <h1>Hello World!</h1>
     <p>Welcome To Ratan sir classes.</p>
   </body>
-</html>
-`;
+</html>`;
 
 export const htmlDataChapter1 = {
   "HTML Importance": (
@@ -29,9 +26,9 @@ export const htmlDataChapter1 = {
       <h4>Q. What is HTML?</h4>
       <p>
         HTML stands for "HyperText Markup Language". <br />
-        &emsp;&emsp;&emsp;Markup language means that consists of set of tags.{" "}
+        Markup language means that consists of set of tags.{" "}
         <br />
-        &emsp;&emsp;&emsp;Hypertext means hyperlinks(Clickable) that allow users
+        Hypertext means hyperlinks(Clickable) that allow users
         can navigate from one page to another.
       </p>
       <h4> Q. What is the purpose of HTML? </h4>
@@ -73,6 +70,9 @@ export const htmlDataChapter1 = {
         <li>
           Always save HTML files with the <code>.html</code> extension.
         </li>
+        <li>
+          The collection of web pages is called a <mark>Website</mark>.
+        </li>
       </ul>
     </div>
   ),
@@ -84,12 +84,14 @@ export const htmlDataChapter1 = {
         <li>
           <strong>Editors</strong>
           <br />
-          <em>Examples:</em> Notepad, Notepad++, Sublime Text, EditPlus, etc.
+          <em>Examples:</em> Notepad, Notepad++, Sublime Text, EditPlus .....
+          etc.
         </li>
         <li>
           <strong>IDEs (Integrated Development Environments)</strong>
           <br />
-          <em>Examples:</em> Visual Studio Code (VSC), Dreamweaver, Atom, etc.
+          <em>Examples:</em> Visual Studio Code (VSC), Dreamweaver, WebStorm....
+          etc.
         </li>
       </ol>
 
@@ -220,7 +222,7 @@ export const htmlDataChapter1 = {
       </ol>
 
       <CodeBlock>
-        {`<!DOCTYPE html>
+        {`<!DOCTYPE>
 <html>
   <head>
     <title>Welcome</title>
@@ -231,9 +233,7 @@ export const htmlDataChapter1 = {
   </body>
 </html>`}
       </CodeBlock>
-     <BrowserPreview htmlCode={FirstWebPage} />
-   
-
+      <BrowserPreview htmlCode={htmlCode} />
     </div>
   ),
 };

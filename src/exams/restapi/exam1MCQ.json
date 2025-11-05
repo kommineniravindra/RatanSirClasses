@@ -1,27 +1,375 @@
 [
+
   {
-    "question": "What is the size of int variable in Java?",
-    "options": ["4 bytes", "8 bytes", "Depends on the platform", "None of the above"],
-    "answer": "4 bytes"
+    "question": "Who is the author of Spring framework?",
+    "options": ["James Gosling", "Rod Johnson", "Dennis Ritchie", "Ratan sir"],
+    "answer": "Rod Johnson"
   },
   {
-    "question": "Which keyword is used to prevent method overriding in Java?",
-    "options": ["final", "abstract", "static", "private"],
-    "answer": "final"
+    "question": "Who is the Trainer of Spring framework?",
+    "options": ["James Gosling", "Rod Johnson", "Dennis Ritchie", "Ratan sir"],
+    "answer": "Ratan sir"
   },
   {
-    "question": "What is the output of 10 >> 2 in Java?",
-    "options": ["2", "2.5", "2.25", "2.75"],
-    "answer": "2"
+    "question": "Spring is what type of framework?",
+    "options": ["Only Web Framework", "Only ORM (Object Relational Mapping) Framework", "UI Framework", "Modular Framework"],
+    "answer": "Modular Framework"
   },
   {
-    "question": "Which of the following is not a primitive data type in Java?",
-    "options": ["int", "float", "String", "double"],
-    "answer": "String"
+    "question": "Which of the following is TRUE about a Framework?",
+    "options": [
+      "Framework is fully developed software, ready to use directly.",
+      "Framework is a semi-developed software that provides infrastructure support.",
+      "Framework is only used for database operations.",
+      "Framework removes the need for business logic."
+    ],
+    "answer": "Framework is a semi-developed software that provides infrastructure support."
   },
   {
-    "question": "Which access modifier makes the member accessible only within its own class?",
-    "options": ["public", "protected", "private", "default"],
-    "answer": "private"
+    "question": "What is a Spring Bean?",
+    "options": [
+      "A database object managed by Hibernate",
+      "A normal Java class managed by the Spring IoC container",
+      "A special annotation in Spring",
+      "An XML configuration tag"
+    ],
+    "answer": "A normal Java class managed by the Spring IoC container"
+  },
+  {
+    "question": "What is IoC in Spring?",
+    "options": ["Inversion of Class", "Inversion of Control", "Input of Configuration", "Internal object Container"],
+    "answer": "Inversion of Control"
+  },
+  {
+    "question": "Which IoC container performs lazy loading?",
+    "options": ["BeanFactory", "ApplicationContext", "All of the above"],
+    "answer": "BeanFactory"
+  },
+  {
+    "question": "Which IoC container eagerly loads all beans at startup?",
+    "options": ["ApplicationContext", "BeanFactory", "All of the above"],
+    "answer": "ApplicationContext"
+  },
+  {
+    "question": "Which is the latest stable version of Spring Framework (as of 2025)?",
+    "options": ["4.x", "5.x", "6.x", "3.x"],
+    "answer": "6.x"
+  },
+  {
+    "question": "Which of the following are types of DI?",
+    "options": ["Constructor Injection", "Setter Injection", "Field Injection", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "The Spring IoC container manages?",
+    "options": ["Database schema", "Transactions", "Servlet mapping", "Bean Object lifecycle"],
+    "answer": "Bean Object lifecycle"
+  },
+  {
+    "question": "Which of the following is the correct order of a Spring Bean lifecycle?",
+    "options": [
+      "Creation → Initialization → Dependency Injection → Destruction",
+      "Creation → Dependency Injection → Initialization → Destruction",
+      "Dependency Injection → Creation → Initialization → Destruction",
+      "Creation → Initialization → Destruction → Dependency Injection"
+    ],
+    "answer": "Creation → Dependency Injection → Initialization → Destruction"
+  },
+  {
+    "question": "Which of the following is NOT a stereotype annotation in Spring?",
+    "options": ["@Component", "@Controller", "@Bean", "@Service"],
+    "answer": "@Bean"
+  },
+  {
+    "question": "Which of the following is stereotype annotation in Spring?",
+    "options": ["@Component", "@Controller", "@Repository", "@Service", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which principle does Inversion of Control (IoC) implement?",
+    "options": [
+      "Objects control their own dependencies",
+      "Developers manually configure all dependencies",
+      "Dependencies are resolved at runtime using reflection only",
+      "Dependencies object created injected by the framework."
+    ],
+    "answer": "Dependencies object created injected by the framework."
+  },
+  {
+    "question": "What does a Java-based configuration class in Spring contain?",
+    "options": [
+      "All rest methods declarations",
+      "classes annotated with @Component to define Spring beans.",
+      "Methods annotated with @Bean to define Spring beans.",
+      "This class annotated with @Service."
+    ],
+    "answer": "Methods annotated with @Bean to define Spring beans."
+  },
+  {
+    "question": "The default autowiring mode of @Autowired is?",
+    "options": ["ByName", "ByType", "Constructor", "No"],
+    "answer": "ByType"
+  },
+  {
+    "question": "If multiple beans of the same type exist and no qualifier is given, Spring throws?",
+    "options": [
+      "NullPointerException",
+      "BeanCreationException",
+      "NoUniqueBeanDefinitionException",
+      "IllegalArgumentException"
+    ],
+    "answer": "NoUniqueBeanDefinitionException"
+  },
+  {
+    "question": "@Primary annotation is used when?",
+    "options": [
+      "We want to define a bean with highest priority",
+      "We want to define a lazy bean",
+      "We want to disable autowiring",
+      "We want to define prototype scope"
+    ],
+    "answer": "We want to define a bean with highest priority"
+  },
+  {
+    "question": "@Qualifier annotation is used to?",
+    "options": [
+      "Select a specific bean when multiple beans are available",
+      "Make a bean primary",
+      "Define a custom scope",
+      "Inject configuration properties"
+    ],
+    "answer": "Select a specific bean when multiple beans are available"
+  },
+  {
+    "question": "What if both @Primary & @Qualifier are used in autowiring?",
+    "options": ["@Primary takes the priority", "@Qualifier takes the priority", "Exception raised", "Compilation fail"],
+    "answer": "@Qualifier takes the priority"
+  },
+  {
+    "question": "Which are the main types of Spring configuration?",
+    "options": ["XML-based configuration", "Java-based configuration", "Annotation-based configuration", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "If the Spring bean creation itself fails what exception is raised?",
+    "options": [
+      "NoSuchBeanDefinitionException",
+      "BeanCreationException",
+      "NoUniqueBeanDefinitionException",
+      "NullPointerException"
+    ],
+    "answer": "BeanCreationException"
+  },
+  {
+    "question": "If the mandatory dependency not found then what exception raised?",
+    "options": [
+      "NoSuchBeanDefinitionException",
+      "BeanCreationException",
+      "NoUniqueBeanDefinitionException",
+      "NullPointerException"
+    ],
+    "answer": "NoSuchBeanDefinitionException"
+  },
+  {
+    "question": "@Qualifier('beanName') is used along with?",
+    "options": ["@Value", "@Autowired", "@Bean", "@Configuration"],
+    "answer": "@Autowired"
+  },
+  {
+    "question": "What is the default behavior of @Autowired?",
+    "options": ["Required = false", "Required = true", "Always lazy", "Always eager"],
+    "answer": "Required = true"
+  },
+  {
+    "question": "Which of the following can break a circular dependency in Spring?",
+    "options": ["Setter Injection", "@Lazy", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which design pattern is used by Spring IoC for creating objects?",
+    "options": ["Factory Pattern", "Singleton Pattern", "Proxy Pattern", "Adapter Pattern"],
+    "answer": "Factory Pattern"
+  },
+  {
+    "question": "Circular dependency occurs when?",
+    "options": [
+      "One bean depends on itself",
+      "Two beans depend on each other",
+      "Bean has no dependency",
+      "Multiple beans exist in container"
+    ],
+    "answer": "Two beans depend on each other"
+  },
+  {
+    "question": "Setter Injection is useful when dependency is:",
+    "options": ["Mandatory", "Optional", "Dynamic", "Temporary"],
+    "answer": "Optional"
+  },
+  {
+    "question": "What is the primary purpose of Spring Expression Language (SpEL)?",
+    "options": [
+      "To read values from application.properties files",
+      "To write SQL queries",
+      "To evaluate expressions, perform calculations, and call bean methods",
+      "To define REST endpoints"
+    ],
+    "answer": "To evaluate expressions, perform calculations, and call bean methods"
+  },
+  {
+    "question": "Where does a Spring Boot application execution start?",
+    "options": [
+      "Any @Service class",
+      "Any @Controller class",
+      "Main method annotated with @SpringBootApplication",
+      "application.properties file"
+    ],
+    "answer": "Main method annotated with @SpringBootApplication"
+  },
+  {
+    "question": "Which of the following is an embedded database supported by Spring Boot?",
+    "options": ["HSQL", "Apache Derby", "H2", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which Spring Boot annotation automatically enables configuration, component scan, and auto-configuration?",
+    "options": ["@SpringBootConfiguration", "@EnableAutoConfiguration", "@SpringBootApplication", "@ComponentScan"],
+    "answer": "@SpringBootApplication"
+  },
+  {
+    "question": "What is the main purpose of application.properties in Spring Boot?",
+    "options": [
+      "Database configuration",
+      "Server configuration",
+      "Logger configuration",
+      "External resource configuration",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which embedded server is enabled by default in Spring Boot?",
+    "options": ["Jetty", "Undertow", "Tomcat", "All of the above"],
+    "answer": "Tomcat"
+  },
+  {
+    "question": "What are the embedded servers provided by Spring Boot?",
+    "options": ["Jetty", "Undertow", "Tomcat", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following is a key benefit of Spring Boot over traditional Spring?",
+    "options": [
+      "Embedded server support",
+      "Starter dependencies",
+      "Auto-configuration",
+      "Embedded database support",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following statements is TRUE about @ComponentScan?",
+    "options": [
+      "Scans for XML configuration only",
+      "Only scans JPA entities",
+      "Only scans main Spring Boot class",
+      "Detects annotations and creates beans automatically"
+    ],
+    "answer": "Detects annotations and creates beans automatically"
+  },
+  {
+    "question": "Loose coupling in Spring is achieved when:",
+    "options": [
+      "You create objects manually using new keyword.",
+      "IOC container injects dependencies through interfaces.",
+      "You use static methods to call other classes.",
+      "Classes extend concrete implementations directly."
+    ],
+    "answer": "IOC container injects dependencies through interfaces."
+  },
+  {
+    "question": "Tight coupling occurs in which scenario?",
+    "options": [
+      "Dependencies are injected via constructor or setter by Spring.",
+      "You program to interfaces and let Spring inject implementations.",
+      "You manually create objects for classes using new keyword.",
+      "Using @Autowired on interfaces."
+    ],
+    "answer": "You manually create objects for classes using new keyword."
+  },
+  {
+    "question": "Which approach promotes loose coupling?",
+    "options": [
+      "Manually instantiating classes",
+      "Using Spring IOC container to inject dependencies",
+      "Extending concrete classes directly",
+      "Using static methods to access objects"
+    ],
+    "answer": "Using Spring IOC container to inject dependencies"
+  },
+  {
+    "question": "What is the main purpose of Spring Boot starter dependencies?",
+    "options": [
+      "To write SQL queries",
+      "To automatically create beans",
+      "To deploy the application on Tomcat",
+      "To reduce configuration overhead by grouping related dependencies"
+    ],
+    "answer": "To reduce configuration overhead by grouping related dependencies"
+  },
+  {
+    "question": "What is Autowiring in Spring?",
+    "options": [
+      "IOC creates the objects.",
+      "Manually creating objects and setting dependencies using setters",
+      "bean creation automation process.",
+      "The process Spring IoC automatically injects dependencies"
+    ],
+    "answer": "The process Spring IoC automatically injects dependencies"
+  },
+  {
+    "question": "What is Dependency Injection (DI) in Spring?",
+    "options": [
+      "A process where the developer manually creates and manages all objects",
+      "A process define the dependencies that your object required IOC will inject.",
+      "bean creation automation process.",
+      "IOC creates the objects."
+    ],
+    "answer": "A process define the dependencies that your object required IOC will inject."
+  },
+  {
+    "question": "Which of the following is the correct order for forwarding data in a Spring application?",
+    "options": [
+      "Repository -> Service -> Controller -> Client",
+      "Client -> Controller -> Repository -> Service",
+      "Client -> Controller -> Service -> Repository",
+      "Service -> Repository -> Controller -> Client"
+    ],
+    "answer": "Client -> Controller -> Service -> Repository"
+  },
+  {
+    "question": "Which of the following is the correct order for returning data from the database to the client?",
+    "options": [
+      "Repository -> Service -> Controller -> Client",
+      "Client -> Controller -> Service -> Repository",
+      "Repository -> Controller -> Service -> Client",
+      "Service -> Repository -> Controller -> Client"
+    ],
+    "answer": "Repository -> Service -> Controller -> Client"
+  },
+  {
+    "question": "In a Spring application, to pass data from one layer to another, which method is used?",
+    "options": ["return statement", "method argument", "constructor injection", "@Autowired annotation"],
+    "answer": "method argument"
+  },
+  {
+    "question": "To send the result back to the client, which is used?",
+    "options": ["method argument", "return statement", "@Component annotation", "setter method"],
+    "answer": "return statement"
+  },
+  {
+    "question": "What are the layers in Web Application?",
+    "options": ["Repository Layer", "Controller Layer", "Service Layer", "All of the above"],
+    "answer": "All of the above"
   }
 ]

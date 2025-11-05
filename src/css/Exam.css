@@ -10,9 +10,7 @@
 /* --- CSS Variables for a new vibrant theme --- */
 :root {
   --primary-color-start: #6d28d9;
-  /* Violet */
   --primary-color-end: #4f46e5;
-  /* Indigo */
   --primary-gradient: linear-gradient(45deg, var(--primary-color-start), var(--primary-color-end));
   --primary-color-light: #f5f3ff;
   --success-color: #16a34a;
@@ -29,9 +27,13 @@
 }
 
 /* --- Global Styles --- */
+.page-container {
+  padding-top: 80px;
+}
+
 .exam-container {
-  max-width: 830px;
-  margin: 1.5rem auto;
+  max-width: 900px;
+  margin: 1rem auto;
   padding: 1.5rem;
   font-family: 'Poppins', sans-serif;
   border: 1px solid rgba(0, 0, 0, 0.201);
@@ -45,13 +47,25 @@ pre {
   font-family: 'Courier New', Courier, monospace;
 }
 
-/* --- Header --- */
+/* ---------------------------------------------------- */
+/* --- FIXED TOP BAR CONTAINER (Header + Palette) --- */
+/* ---------------------------------------------------- */
+.top-fixed-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2000;
+  background-color: var(--card-background);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Exam Header (Title/Timer/Submit) --- */
 .exam-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 2px;
+  padding: 1px;
   flex-wrap: wrap;
 }
 
@@ -64,8 +78,7 @@ pre {
   text-fill-color: transparent;
   font-family: "Libertinus Serif", serif;
   font-weight: 700;
-  font-size: 3.5rem;
-  /* Adjust font size responsively */
+  font-size: 2rem;
 }
 
 .header-controls {
@@ -121,7 +134,7 @@ pre {
 }
 
 
-/* Style for the initial loading message */
+/* --- Loading / Malpractice --- */
 .loading-screen {
   display: flex;
   justify-content: center;
@@ -133,7 +146,6 @@ pre {
   font-family: 'Poppins', sans-serif;
 }
 
-/* Container for the malpractice warning on the results page */
 .malpractice-warning {
   background-color: var(--error-color-light);
   border: 1px solid var(--error-color);
@@ -144,7 +156,6 @@ pre {
   text-align: center;
 }
 
-/* The h3 title inside the malpractice warning */
 .malpractice-warning h3 {
   margin-top: 0;
   margin-bottom: 0.5rem;
@@ -152,13 +163,11 @@ pre {
   font-size: 1.25rem;
 }
 
-/* The paragraph text inside the malpractice warning */
 .malpractice-warning p {
   margin: 0;
   color: var(--text-color);
 }
 
-/* The triangle icon used in the malpractice warning */
 .warning-icon {
   font-size: 2.5rem;
   color: var(--error-color);
@@ -168,13 +177,13 @@ pre {
   margin-right: auto;
 }
 
-/* --- Pagination --- */
+/* --- Pagination (MCQ/Blanks/Coding tabs) --- */
 .pagination-buttons {
   display: flex;
   margin-bottom: 0px;
   padding: 0.4rem;
   border: 1px solid var(--border-color);
-  flex-wrap: wrap; /* Added for responsiveness */
+  flex-wrap: wrap;
 }
 
 .pagination-buttons button {
@@ -191,7 +200,7 @@ pre {
   cursor: pointer;
   border-radius: 4px;
   transition: all 0.2s ease;
-  min-width: 40px; /* Ensures buttons don't shrink too much */
+  min-width: 40px;
 }
 
 .pagination-buttons button:hover {
@@ -203,13 +212,13 @@ pre {
   color: var(--primary-color-end);
 }
 
-/* --- Question Area --- */
+/* --- Question Area Styles (MCQ, Blanks, Coding) --- */
 .questions-area {
   padding-top: 0.1rem;
 }
 
 .question-block {
-  padding: 10px;
+  padding: 1px;
   padding-top: 0px;
   padding-bottom: 0px;
   border-radius: var(--border-radius);
@@ -218,17 +227,16 @@ pre {
 
 .question-title {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 475;
   color: #000000;
   margin-bottom: 1px;
 }
 
 .question-title1 {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  font-size: 1rem;
-  font-weight: 475;
-  color: #000000;
+  font-family: "Source Serif Pro", serif;
+  color: #040404;
+  font-size:15px;
   margin-bottom: 1px;
 }
 
@@ -254,6 +262,7 @@ pre {
 .option-label {
   display: flex;
   padding: 5px;
+  padding-bottom: 1px;
   align-items: center;
   color: #000000af;
   font-family: "Source Serif Pro", serif !important;
@@ -278,7 +287,6 @@ pre {
 .inline-blank-input {
   display: inline-block;
   width: 180px;
-  /* Reduced default width for better scaling */
   max-width: 80%;
   padding: 0.1rem 0.5rem;
   margin: 0 5px;
@@ -287,7 +295,6 @@ pre {
   border-radius: 4px;
   box-sizing: border-box;
   vertical-align: middle;
-  /* Ensures the input aligns nicely with the text */
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -325,13 +332,10 @@ pre {
   color: #4f46e5;
 }
 
-/* This is the key container for the top-and-bottom layout */
 .codepad-container {
   display: flex;
   flex-direction: column;
-  /* This is the key change for stacking vertically */
   height: auto;
-  /* Allow height to adjust to content */
   gap: 20px;
   margin-top: 1rem;
 }
@@ -513,7 +517,7 @@ details summary:hover {
 .go-to-dashboard-button {
   display: block;
   width: 200px;
-  max-width: 90%; /* Added max-width for better scaling */
+  max-width: 90%;
   margin: 30px auto;
   padding: 12px 20px;
   background-color: #007bff;
@@ -617,9 +621,6 @@ details summary:hover {
   text-align: center;
 }
 
-.modal-body {}
-
-/* Modal Header Styles */
 .modal-content h3 {
   color: #d9534f;
   font-size: 1.5rem;
@@ -632,7 +633,6 @@ details summary:hover {
   margin-bottom: 20px;
 }
 
-/* Modal Footer - Contains the button and is pushed to the bottom */
 .modal-footer {
   width: 100%;
   text-align: center;
@@ -658,26 +658,111 @@ details summary:hover {
   background-color: #b30000;
 }
 
+/* ---------------------------------------------------- */
+/* --- SINGLE LINE SCROLLABLE QUESTION PALETTE FIX --- */
+/* ---------------------------------------------------- */
+.question-palette-fixed-header {
+  position: relative;
+  width: 100%;
+  background-color: var(--card-background);
+  z-index: 2000;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  /* Consistent height */
+  border-top: 1px solid var(--border-color);
+}
+
+.question-palette-fixed-header .palette-inner {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  gap: 1px;
+  padding: 10px 0;
+}
+
+.question-palette-fixed-header .palette-inner::-webkit-scrollbar {
+  height: 0px;
+}
+
+.question-palette-fixed-header .palette-inner::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.question-palette-fixed-header .palette-inner::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.palette-section h5 {
+  display: none;
+}
+
+/* --- Circular Button Styles --- */
+.palette-button {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  flex-shrink: 0;
+  /* MUST NOT shrink */
+  transition: all 0.2s ease;
+}
+
+/* --- State Color Coding --- */
+.palette-button.unanswered {
+  background-color: var(--card-background);
+  color: var(--text-color-light);
+  border-color: var(--border-color);
+}
+
+.palette-button.answered {
+  background-color: var(--success-color);
+  color: white;
+  border-color: var(--success-color);
+}
+
+.palette-button.current-in-view {
+  background: var(--primary-gradient);
+  color: white;
+  /* border: 3px solid #ffc107; */
+  transform: scale(1.1);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  z-index: 20;
+}
+
 /* ------------------------------------------- */
-/* ---------- Responsive Design Updates (Based on Scales) ---------- */
+/* ---------- Responsive Design Updates ---------- */
 /* ------------------------------------------- */
 
-/* Large Screens (1200px and up) - No change needed, base styles apply */
-
-/* Medium Screens/Higher Zoom (Max-width 992px) - Better for 125% scale */
 @media (max-width: 992px) {
   .exam-container {
     padding: 1rem;
-    max-width: 768px; /* Slightly tighter constraint */
+    max-width: 768px;
   }
 
   .exam-header h1 {
-    font-size: 3rem;
+    font-size: 2.25rem;
   }
 }
 
-/* Tablets/Lower Zoom (Max-width 768px) - Better for 150% scale */
 @media (max-width: 768px) {
+  .page-container {
+    padding-top: 200px;
+    /* More clearance for stacked header/palette */
+  }
+
   .exam-container {
     margin: 0.5rem;
     padding: 0.75rem;
@@ -686,63 +771,62 @@ details summary:hover {
   .exam-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem; /* Added small gap when stacked */
+    padding: 10px 15px;
   }
 
   .exam-header h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     width: 100%;
-    text-align: center;
-    padding-bottom: 0.5rem;
+    text-align: left;
   }
 
   .header-controls {
     width: 100%;
     justify-content: space-between;
-    gap: 0.75rem; /* Reduced gap */
+    gap: 0.75rem;
     margin-top: 0.5rem;
   }
-  
+
   .timer,
   .submit-button {
-      flex-grow: 1; /* Allow controls to fill the width better */
-      text-align: center;
-      justify-content: center;
+    flex-grow: 1;
+    text-align: center;
+    justify-content: center;
   }
-  
+
+  .question-palette-fixed-header {
+    padding: 0 15px 10px 15px;
+  }
+
   .pagination-buttons {
     flex-direction: column;
     gap: 0.5rem;
   }
 
-  /* Coding section */
   .codepad-container {
     flex-direction: column;
     gap: 15px;
   }
-  
+
   .codepad-editor,
   .codepad-preview {
-      /* Explicitly setting height for code areas when stacked on mobile */
-      min-height: 250px;
+    min-height: 250px;
   }
 
   .score-details {
     flex-direction: column;
     gap: 0.5rem;
   }
-
-  .coding-block .sample-box {
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 1rem; /* Reduced padding */
-  }
 }
 
-/* Mobile/High Zoom (Max-width 500px) - Better for 175% to 200% scale */
 @media (max-width: 500px) {
   .exam-header h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
+  }
+
+  .header-controls {
+    flex-wrap: wrap;
+    justify-content: space-around;
   }
 
   .timer {
@@ -753,55 +837,34 @@ details summary:hover {
   .submit-button,
   .run-button {
     font-size: 0.8rem;
-    padding: 0.5rem 0.75rem; /* Further reduced padding */
+    padding: 0.5rem 0.75rem;
   }
-  
-  .header-controls {
-      /* Allow buttons and timer to be side-by-side if they fit, otherwise let flex-wrap handle it */
-      flex-wrap: wrap; 
+
+  .timer,
+  .submit-button {
+    flex-basis: calc(50% - 0.5rem);
+    margin-bottom: 0.5rem;
   }
-  
-  .timer, .submit-button {
-      flex-basis: calc(50% - 0.5rem); /* Try to keep them 2-up */
-      margin-bottom: 0.5rem;
-  }
-  
+
   .run-button {
-      width: 100%;
+    width: 100%;
   }
 
-  .go-to-dashboard-button {
-    width: 150px;
-    font-size: 14px;
-  }
-
-  .modal-content {
-    padding: 20px;
-  }
-
-  .modal-content h3 {
-    font-size: 1.2rem;
-  }
-
-  .modal-content p {
-    font-size: 0.9rem;
-  }
-  
   .inline-blank-input {
-      width: 100%; /* Force fill blank on small screens for better typing */
-      max-width: none;
-      margin: 5px 0;
+    width: 100%;
+    max-width: none;
+    margin: 5px 0;
   }
 }
 
-/* Extra Small Screens (Max-width 360px) */
 @media (max-width: 360px) {
-    .exam-header h1 {
-        font-size: 1.75rem;
-    }
-    
-    .timer, .submit-button {
-        flex-basis: 100%; /* Force controls to stack on very small screens */
-        margin-bottom: 0.5rem;
-    }
+  .exam-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .timer,
+  .submit-button {
+    flex-basis: 100%;
+    margin-bottom: 0.5rem;
+  }
 }

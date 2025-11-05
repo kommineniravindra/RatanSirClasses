@@ -854,7 +854,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: linear-gradient(90deg, #16b7ff, #7f20ff, #f35b2e, #16b7ff);
+  background: linear-gradient(90deg, #16b5ff64, #8120ff4d, #f35b2e, #16b7ff);
   background-size: 400% 100%;
   animation: flow 15s linear infinite;
   box-shadow: 0 0 10px rgba(22, 183, 255, 0.5), 0 0 20px rgba(127, 32, 255, 0.5);

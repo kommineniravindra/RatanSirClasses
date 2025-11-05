@@ -4,7 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import "../css/AccountDetails.css";
 import "boxicons/css/boxicons.min.css";
-import loginImage from "../assets/login3.jpg";
+// import loginImage from "./login.png";
 
 const AccountDetails = ({ onLogin }) => {
   const [active, setActive] = useState(false);
@@ -128,17 +128,46 @@ const AccountDetails = ({ onLogin }) => {
             Login
           </button>
           <p className="social-text">or continue with</p>
-          <div className="social-icons">
-            <a href="#" className="google" title="Google">
+          <div
+            className="social-icons"
+          >
+            <a
+              href="https://www.google.com/"
+              className="google"
+              title="Google"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <i className="bx bxl-google"></i>
             </a>
-            <a href="#" className="facebook" title="Facebook">
+
+            <a
+              href="https://www.facebook.com/"
+              className="facebook"
+              title="Facebook"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <i className="bx bxl-facebook"></i>
             </a>
-            <a href="#" className="github" title="GitHub">
+
+            <a
+              href="https://github.com/"
+              className="github"
+              title="GitHub"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <i className="bx bxl-github"></i>
             </a>
-            <a href="#" className="linkedin" title="LinkedIn">
+
+            <a
+              href="https://www.linkedin.com/"
+              className="linkedin"
+              title="LinkedIn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <i className="bx bxl-linkedin"></i>
             </a>
           </div>
@@ -289,7 +318,7 @@ const AccountDetails = ({ onLogin }) => {
       {/* Toggle Panels */}
       <div className="toggle-box">
         <div className="toggle-panel toggle-left">
-          <img src={loginImage} alt="Welcome" className="welcome-image" />
+          <img src="/login.png" alt="Welcome" className="welcome-image" />
           <h1>Hello, Welcome!</h1>
           <p>Don't have an account?</p>
           <button
@@ -301,7 +330,7 @@ const AccountDetails = ({ onLogin }) => {
           </button>
         </div>
         <div className="toggle-panel toggle-right">
-          <img src={loginImage} alt="Welcome" className="welcome-image" />
+          <img src="/login.png" alt="Welcome" className="welcome-image" />
           <h1>Welcome Back!</h1>
           <p>Already have an account?</p>
           <button
