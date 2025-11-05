@@ -54,7 +54,9 @@ const AccountDetails = ({ onLogin }) => {
     };
 
     try {
-      await axios.post("http://localhost:5000/api/auth/register", apiPayload);
+      // await axios.post("http://localhost:5000/api/auth/register", apiPayload);
+            await axios.post("http://160.153.178.78/api/auth/register", apiPayload);
+
       Swal.fire(
         "Success!",
         "Registration successful! Please log in.",
@@ -77,7 +79,9 @@ const AccountDetails = ({ onLogin }) => {
       };
 
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        // "http://localhost:5000/api/auth/login",
+                "http://160.153.178.78/api/auth/login",
+
         loginPayload
       );
 
