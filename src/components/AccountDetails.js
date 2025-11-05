@@ -55,7 +55,10 @@ const AccountDetails = ({ onLogin }) => {
 
     try {
       // await axios.post("http://localhost:5000/api/auth/register", apiPayload);
-            await axios.post("http://160.153.178.78/api/auth/register", apiPayload);
+      // await axios.post("http://160.153.178.78/api/auth/register", apiPayload);
+
+      // For register
+      await axios.post("/api/auth/register", apiPayload);
 
       Swal.fire(
         "Success!",
@@ -78,12 +81,9 @@ const AccountDetails = ({ onLogin }) => {
         password: loginData.password,
       };
 
-      const response = await axios.post(
-        // "http://localhost:5000/api/auth/login",
-                "http://160.153.178.78/api/auth/login",
-
-        loginPayload
-      );
+      const response = await axios.post("/api/auth/login", apiPayload);
+      // "http://localhost:5000/api/auth/login",
+      // "http://160.153.178.78/api/auth/login",
 
       const { token, studentName } = response.data;
 
@@ -132,9 +132,7 @@ const AccountDetails = ({ onLogin }) => {
             Login
           </button>
           <p className="social-text">or continue with</p>
-          <div
-            className="social-icons"
-          >
+          <div className="social-icons">
             <a
               href="https://www.google.com/"
               className="google"
