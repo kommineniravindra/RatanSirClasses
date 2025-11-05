@@ -81,7 +81,7 @@ const AccountDetails = ({ onLogin }) => {
         password: loginData.password,
       };
 
-      const response = await axios.post("/api/auth/login", apiPayload);
+      const response = await axios.post("/api/auth/login", loginPayload);
       // "http://localhost:5000/api/auth/login",
       // "http://160.153.178.78/api/auth/login",
 
