@@ -28,7 +28,7 @@ const QnAComponent = () => {
 
   const fetchQuestions = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/questions");
+      const response = await axios.get("http://160.153.178.78:5000/api/questions");
       setQnaList(response.data);
     } catch (error) {
       console.error("Failed to fetch questions:", error);
@@ -52,7 +52,7 @@ const QnAComponent = () => {
       expectedOutput: expectedOutputInput,
     };
     try {
-      await axios.post("http://localhost:5000/api/questions", newQuestion);
+      await axios.post("http://160.153.178.78:5000/api/questions", newQuestion);
       setQuestionInput("");
       setQuestionName("");
       setCodeInput("");
@@ -77,7 +77,7 @@ const QnAComponent = () => {
     };
     try {
       await axios.post(
-        `http://localhost:5000/api/questions/${questionId}/answers`,
+        `http://160.153.178.78:5000/api/questions/${questionId}/answers`,
         newAnswer
       );
       setAnswerInputs({ ...answerInputs, [questionId]: "" });

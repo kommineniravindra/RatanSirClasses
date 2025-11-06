@@ -264,7 +264,7 @@ const Quiz = () => {
       // Save/update results in the database
       try {
         await axios.post(
-          "http://localhost:5000/api/quizzes/submit",
+          "http://160.153.178.78:5000/api/quizzes/submit",
           payload,
           authHeaders
         );
@@ -275,7 +275,7 @@ const Quiz = () => {
           error.response.data.message.includes("already exists")
         ) {
           await axios.patch(
-            "http://localhost:5000/api/quizzes/submit",
+            "http://160.153.178.78:5000/api/quizzes/submit",
             payload,
             authHeaders
           );
