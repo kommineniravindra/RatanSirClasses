@@ -40,6 +40,11 @@ const AccountDetails = ({ onLogin }) => {
       return;
     }
 
+    if (registerData.password !== registerData.confirmPassword) {
+      Swal.fire("Registration Error", "Passwords do not match!", "error");
+      return;
+    }
+
     const apiPayload = {
       email: registerData.email,
       password: registerData.password,
@@ -219,6 +224,18 @@ const AccountDetails = ({ onLogin }) => {
             />
             <i className="bx bxs-envelope"></i>
           </div>
+          {/* <div className="input-box">
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={registerData.password}
+              onChange={(e) => handleChange(e, setRegisterData)}
+              required
+            />
+            <i className="bx bxs-lock-alt"></i>
+          </div> */}
+          {/* *** NEW INPUT BOX FOR PASSWORD *** */}
           <div className="input-box">
             <input
               type="password"
@@ -230,6 +247,20 @@ const AccountDetails = ({ onLogin }) => {
             />
             <i className="bx bxs-lock-alt"></i>
           </div>
+
+          {/* *** NEW INPUT BOX FOR CONFIRM PASSWORD *** */}
+          <div className="input-box">
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              name="confirmPassword"
+              value={registerData.confirmPassword}
+              onChange={(e) => handleChange(e, setRegisterData)}
+              required
+            />
+            <i className="bx bxs-lock"></i> {/* Changed icon to distinguish */}
+          </div>
+          {/* ************************************** */}
           <div className="input-box">
             <input
               type="tel"
@@ -241,7 +272,7 @@ const AccountDetails = ({ onLogin }) => {
             />
             <i className="bx bxs-phone"></i>
           </div>
-          <div className="input-box">
+          {/* <div className="input-box">
             <input
               type="date"
               placeholder="Date of Birth"
@@ -251,7 +282,7 @@ const AccountDetails = ({ onLogin }) => {
               required
             />
             <i className="bx bxs-calendar"></i>
-          </div>
+          </div> */}
           <div className="input-box">
             <select
               name="gender"
