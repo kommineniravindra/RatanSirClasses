@@ -25,11 +25,11 @@ export const htmlDataChapter1 = {
     <div>
       <h4>Q. What is HTML?</h4>
       <p>
-        HTML stands for "HyperText Markup Language". <br />
-       &emsp;&emsp; Markup language means that consists of set of tags.{" "}
-        <br />
-       &emsp;&emsp; Hypertext means hyperlinks(Clickable) that allow users
-        can navigate from one page to another.
+        {" "}
+        this is Updated HTML stands for "HyperText Markup Language". <br />
+        &emsp;&emsp; Markup language means that consists of set of tags. <br />
+        &emsp;&emsp; Hypertext means hyperlinks(Clickable) that allow users can
+        navigate from one page to another.
       </p>
       <h4> Q. What is the purpose of HTML? </h4>
       <p>HTML used to create the web pages,</p>
@@ -177,7 +177,7 @@ export const htmlDataChapter1 = {
 
   Versions: (
     <div>
-      <ol style={{ paddingLeft: "1em" }}> 
+      <ol style={{ paddingLeft: "1em" }}>
         <li>
           <strong>1991 – HTML 1.0</strong>
           <br />- Created by <strong>Tim Berners-Lee</strong> at CERN.
