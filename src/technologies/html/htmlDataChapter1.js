@@ -25,8 +25,7 @@ export const htmlDataChapter1 = {
     <div>
       <h4>Q. What is HTML?</h4>
       <p>
-        {" "}
-        this is Updated HTML stands for "HyperText Markup Language". <br />
+        HTML stands for "HyperText Markup Language". <br />
         &emsp;&emsp; Markup language means that consists of set of tags. <br />
         &emsp;&emsp; Hypertext means hyperlinks(Clickable) that allow users can
         navigate from one page to another.

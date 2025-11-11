@@ -28,7 +28,7 @@ const QnAComponent = () => {
 
   const fetchQuestions = async () => {
     try {
-      const response = await axios.get("https://codepulse-r.com/api/questions");
+      const response = await axios.get("/api/questions");
       setQnaList(response.data);
     } catch (error) {
       console.error("Failed to fetch questions:", error);
@@ -52,7 +52,7 @@ const QnAComponent = () => {
       expectedOutput: expectedOutputInput,
     };
     try {
-      await axios.post("https://codepulse-r.com/api/questions", newQuestion);
+      await axios.post("/api/questions", newQuestion);
       setQuestionInput("");
       setQuestionName("");
       setCodeInput("");
@@ -76,10 +76,7 @@ const QnAComponent = () => {
       answerBy: answerAuthor,
     };
     try {
-      await axios.post(
-        `https://codepulse-r.com/api/questions/${questionId}/answers`,
-        newAnswer
-      );
+      await axios.post(`/api/questions/${questionId}/answers`, newAnswer);
       setAnswerInputs({ ...answerInputs, [questionId]: "" });
       setAnswerNames({ ...answerNames, [questionId]: "" });
       toast.success("Answer posted!");

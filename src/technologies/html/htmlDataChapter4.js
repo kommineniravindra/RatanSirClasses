@@ -1,11 +1,38 @@
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coy, prism } from "react-syntax-highlighter/dist/esm/styles/prism";
+import BrowserPreview from "../../components/BrowserPreview";
 
 const CodeBlock = ({ language = "html", children }) => (
   <SyntaxHighlighter language={language} style={coy}>
     {children}
   </SyntaxHighlighter>
 );
+
+
+const Entities = `
+<html>
+<head> 
+  <title>Entity Example</title> 
+</head> 
+<body>
+  <p> SathyaTech CopyRight &copy; &#169; 2025-2030 </p>
+  <p> SathyaTech Job Oriented &reg; &#174;</p> 
+  <p> Trademark &trade;</p>
+  <p> Ratam sir classes &hearts; are nice &hearts; good perfect </p>
+  <p> Indian Rupees &#8377; </p>
+  <p> Currency Symbols: &dollar; &#8377; &yen; </p>
+  <p> Chess Symbols: &#9812; &#9813; &#9814; </p>
+  <p> Ratan sir suffering from fever 102&deg;F </p>
+  <p> Today task completed <span style="color:green">&check;</span> </p>
+  <p> Today task failed <span style="color:red">&cross;</span> </p>
+  <p> Playing cards: &spades; &clubs; &hearts; &diams; </p> 
+  <p> Sugar weight: &#189; </p> 
+  <p> Today class &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; completed </p>
+  <p> Today class &emsp; completed </p>
+</body> 
+</html>
+
+`;
 
 export const htmlDataChapter4 = {
   "HTML Entity": (
@@ -101,6 +128,8 @@ export const htmlDataChapter4 = {
 </html>
       `}
       </CodeBlock>
+            <BrowserPreview htmlCode={Entities} />
+      
     </div>
   ),
 
