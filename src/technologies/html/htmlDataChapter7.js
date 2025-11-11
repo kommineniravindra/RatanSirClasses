@@ -45,7 +45,7 @@ export const htmlDataChapter7 = {
       </CodeBlock>
 
       <iframe
-        width="500"
+        width="750"
         height="300"
         src="https://www.youtube.com/embed/FFhYBalnqAE"
         title="Java Number Programs || PALINDROME NUMBER || Ratan Sir"
@@ -87,7 +87,7 @@ export const htmlDataChapter7 = {
 
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15225.712917880797!2d78.4343206380527!3d17.439206206844496!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb90c55bb43183%3A0x1abc135b23ee2703!2sAmeerpet%2C%20Hyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1724128220958!5m2!1sen!2sin"
-        width="400"
+        width="500"
         height="200"
         style={{ border: 0 }}
         allowFullScreen
@@ -174,7 +174,7 @@ export const htmlDataChapter7 = {
 
     <CodeBlock>
       {
-        `<iframe height="400" width="900" name="myframe"></iframe>
+        `<iframe height="400" width="600" name="myframe"></iframe>
 <br/>
 <a href="https://vijetha.in/" target="myframe">Vijetha Super Market</a> 
 <a href="https://www.zomato.com/" target="myframe">Zomato</a> 
@@ -183,7 +183,7 @@ export const htmlDataChapter7 = {
       }
     </CodeBlock>
       <b style={{color:'yellowgreen'}}> Frame Displays Multiple websites......</b>
-    <iframe height="400" width="900" name="myframe"></iframe>
+    <iframe height="400" width="700" name="myframe"></iframe>
     <br/>
     <a href="https://vijetha.in/" target="myframe">Vijetha Super Market</a> |{" "}
     <a href="https://www.zomato.com/" target="myframe">zomato</a> |{" "}

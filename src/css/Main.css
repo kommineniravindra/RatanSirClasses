@@ -91,7 +91,7 @@
     color: rgb(0, 0, 0);
     padding: 0px;
     font-family: "Source Serif Pro", serif;
-    text-indent: 2.9rem;
+    text-indent: 2.6rem;
 }
 
 .content-section ul {
@@ -112,6 +112,7 @@
     font-family: "Source Serif Pro", serif;
     margin-bottom: 0.1rem;
     margin-left: 26px;
+    
 }
 
 .content-section ul li::before {

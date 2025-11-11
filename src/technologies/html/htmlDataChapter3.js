@@ -55,7 +55,7 @@ export const htmlDataChapter3 = {
   "List Types": (
     <div>
       <p>There are three types of lists in HTML:</p>
-      <ol>
+      <ol style={{ paddingLeft: "2.5em" }}>
         <li>
           Ordered List (<code>&lt;ol&gt;</code>)
         </li>

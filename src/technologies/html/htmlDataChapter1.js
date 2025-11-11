@@ -26,14 +26,14 @@ export const htmlDataChapter1 = {
       <h4>Q. What is HTML?</h4>
       <p>
         HTML stands for "HyperText Markup Language". <br />
-        Markup language means that consists of set of tags.{" "}
+       &emsp;&emsp; Markup language means that consists of set of tags.{" "}
         <br />
-        Hypertext means hyperlinks(Clickable) that allow users
+       &emsp;&emsp; Hypertext means hyperlinks(Clickable) that allow users
         can navigate from one page to another.
       </p>
       <h4> Q. What is the purpose of HTML? </h4>
       <p>HTML used to create the web pages,</p>
-      <ol>
+      <ol style={{ paddingLeft: "2em" }}>
         <li>
           The web page can contain forms such as <code>login.html</code> and{" "}
           <code>register.html</code>.
@@ -80,7 +80,7 @@ export const htmlDataChapter1 = {
   "IDEs & Editors": (
     <div>
       <h4>Options to Write HTML Code</h4>
-      <ol>
+      <ol style={{ paddingLeft: "1em" }}>
         <li>
           <strong>Editors</strong>
           <br />
@@ -119,7 +119,7 @@ export const htmlDataChapter1 = {
   "Document Structure": (
     <div>
       <h4>Structure of an HTML Document</h4>
-      <ol>
+      <ol style={{ paddingLeft: "1em" }}>
         <li>
           <strong>Document Type Declaration (DOCTYPE)</strong>
           <br />- The HTML document starts with{" "}
@@ -177,7 +177,7 @@ export const htmlDataChapter1 = {
 
   Versions: (
     <div>
-      <ol>
+      <ol style={{ paddingLeft: "1em" }}> 
         <li>
           <strong>1991 – HTML 1.0</strong>
           <br />- Created by <strong>Tim Berners-Lee</strong> at CERN.
@@ -213,7 +213,7 @@ export const htmlDataChapter1 = {
   "First Web Page": (
     <div>
       <h4>First Application Steps</h4>
-      <ol>
+      <ol style={{ paddingLeft: "2em" }}>
         <li>Write the HTML code.</li>
         <li>
           Save the code with the <code>.html</code> extension.

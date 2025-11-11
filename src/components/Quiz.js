@@ -263,22 +263,14 @@ const Quiz = () => {
 
       // Save/update results in the database
       try {
-        await axios.post(
-          "http://160.153.178.78:5000/api/quizzes/submit",
-          payload,
-          authHeaders
-        );
+        await axios.post("/api/quizzes/submit", payload, authHeaders);
       } catch (error) {
         if (
           error.response &&
           error.response.status === 400 &&
           error.response.data.message.includes("already exists")
         ) {
-          await axios.patch(
-            "http://160.153.178.78:5000/api/quizzes/submit",
-            payload,
-            authHeaders
-          );
+          await axios.patch("/api/quizzes/submit", payload, authHeaders);
         } else {
           throw error; // Rethrow other errors to be caught by the outer block
         }
@@ -764,7 +756,6 @@ const Quiz = () => {
                                 {q.maxMarks || 1}
                               </p>
                             </div>
-                            
                           )}
                         </div>
                       )}
@@ -786,7 +777,10 @@ const Quiz = () => {
                             />
                           </div>
                           <div className="codepad-preview">
-                                                    <span> <b>Note:</b> To Get Marks Run & Evaluate</span>
+                            <span>
+                              {" "}
+                              <b>Note:</b> To Get Marks Run & Evaluate
+                            </span>
 
                             <iframe
                               srcDoc={createPreviewContent(
@@ -798,7 +792,7 @@ const Quiz = () => {
                               frameBorder="0"
                             />
                           </div>
-                        </div>                      
+                        </div>
 
                         <button
                           onClick={() =>

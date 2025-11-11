@@ -209,7 +209,7 @@ export const htmlDataChapter2 = {
   "Paired Unpaired Tags": (
     <div>
       <h3>Types of Tags</h3>
-      <ol>
+      <ol style={{ paddingLeft: "1em" }}>
         <li>
           <strong>Paired Tags:</strong>
           Must contain both opening and closing tags. <br />
@@ -297,7 +297,7 @@ Using HTML we can create complex e-commerce site.
   "HTML elements parts": (
     <div>
 <p>The HTML element consists of 5 parts:</p>
-<ol>
+<ol style={{ paddingLeft: "2.7em" }}>
   <li><strong>Start / Opening Tag:</strong> <code>&lt; &gt;</code> ✅ Marks the beginning of an element.</li>
   <li><strong>End / Closing Tag:</strong> <code>&lt;/ &gt;</code> ✅ Marks the end of an element.</li>
   <li><strong>Content of the Element:</strong> The text or data contained within the element.</li>
