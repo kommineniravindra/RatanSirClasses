@@ -26,15 +26,15 @@ const QnAComponent = () => {
 
   // --- API Functions ---
 
-  const fetchQuestions = async () => {
-    try {
-      const response = await axios.get("/api/questions");
-      setQnaList(response.data);
-    } catch (error) {
-      console.error("Failed to fetch questions:", error);
-      toast.error("Failed to load questions from the server.");
-    }
-  };
+    const fetchQuestions = async () => {
+      try {
+        const response = await axios.get("/api/questions");
+        setQnaList(response.data);
+      } catch (error) {
+        console.error("Failed to fetch questions:", error);
+        toast.error("Failed to load questions from the server.");
+      }
+    };
 
   useEffect(() => {
     fetchQuestions();

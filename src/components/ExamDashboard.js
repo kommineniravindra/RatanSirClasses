@@ -173,7 +173,7 @@ const ExamDashboard = ({ onLogout }) => {
       const authHeaders = { headers: { Authorization: `Bearer ${token}` } };
       try {
         const profileResponse = await axios.get(
-          "http://160.153.178.78:5000/api/auth/profile",
+          "/api/auth/profile",
           authHeaders
         );
         setProfile(profileResponse.data);
@@ -181,11 +181,11 @@ const ExamDashboard = ({ onLogout }) => {
         if (userId) {
           const [examRes, quizRes] = await Promise.all([
             axios.get(
-              `http://160.153.178.78:5000/api/exams/user/${userId}`,
+              `/api/exams/user/${userId}`,
               authHeaders
             ),
             axios.get(
-              `http://160.153.178.78:5000/api/quizzes/user/${userId}`,
+              `/api/quizzes/user/${userId}`,
               authHeaders
             ),
           ]);

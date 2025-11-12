@@ -24,12 +24,16 @@ export const htmlDataChapter1 = {
   "HTML Importance": (
     <div>
       <h4>Q. What is HTML?</h4>
-      <p>
-        HTML stands for "HyperText Markup Language". <br />
-        &emsp;&emsp; Markup language means that consists of set of tags. <br />
-        &emsp;&emsp; Hypertext means hyperlinks(Clickable) that allow users can
-        navigate from one page to another.
-      </p>
+      <ul>
+        <li>
+          HTML stands for <strong>HyperText Markup Language</strong>.
+        </li>
+        <li>Markup language means it consists of a set of tags.</li>
+        <li>
+          HyperText means <strong>hyperlinks (clickable links)</strong> that
+          allow users to navigate from one page to another.
+        </li>
+      </ul>
       <h4> Q. What is the purpose of HTML? </h4>
       <p>HTML used to create the web pages,</p>
       <ol style={{ paddingLeft: "2em" }}>
