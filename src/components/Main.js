@@ -221,8 +221,8 @@ const Main = ({
       if (quizNum || examNum) {
         setModalType(quizNum ? "quiz" : "exam");
         const link = quizNum
-          ? `/ratan-tutotrials/quiz/${selectedTechnology}/${quizNum}`
-          : `/ratan-tutotrials/exam/${selectedTechnology.toLowerCase()}/exam${examNum}`;
+          ? `/quiz/${selectedTechnology}/${quizNum}`
+          : `/exam/${selectedTechnology.toLowerCase()}/exam${examNum}`;
         setModalLink(link);
         setShowModal(true);
       } else {
@@ -254,10 +254,10 @@ const Main = ({
     const examNum = examNumberMap[activeGroup.name];
 
     if (quizNum) {
-      navigate(`/ratan-tutotrials/quiz/${selectedTechnology}/${quizNum}`);
+      navigate(`/quiz/${selectedTechnology}/${quizNum}`);
     } else if (examNum) {
       navigate(
-        `/ratan-tutotrials/exam/${selectedTechnology.toLowerCase()}/exam${examNum}`
+        `/exam/${selectedTechnology.toLowerCase()}/exam${examNum}`
       );
     }
   };
@@ -296,7 +296,7 @@ const Main = ({
                   <div className="nav-buttons">
                     <button
                       onClick={handlePrevious}
-                      className="nav-btn"
+                      className="nav-btn1"
                       disabled={currentItemIndex === 0}
                     >
                       ← Previous
@@ -310,7 +310,7 @@ const Main = ({
                     </button>
                     <button
                       onClick={handleNext}
-                      className="nav-btn"
+                      className="nav-btn1"
                       disabled={currentItemIndex === flatSubItems.length - 1}
                     >
                       Next →

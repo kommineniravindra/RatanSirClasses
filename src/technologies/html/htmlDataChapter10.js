@@ -1,6 +1,6 @@
-import { color } from "framer-motion";
+// import { color } from "framer-motion";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { coy, prism } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { coy } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const CodeBlock = ({ language = "html", children }) => (
   <SyntaxHighlighter language={language} style={coy}>

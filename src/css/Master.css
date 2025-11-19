@@ -1,6 +1,4 @@
-/* =========================
-   MASTER GRID LAYOUT
-========================= */
+/* 
 .master-grid {
   display: grid;
   grid-template-columns: 18% 67% 15%;
@@ -9,8 +7,91 @@
   width: 100%;
   margin: 0;
   padding: 0;
-  gap: 0; /* no spacing between columns */
-  overflow: hidden; /* hide overflow on grid */
+  gap: 0; 
+  overflow: hidden; 
+  
+}
+
+.master-grid > * {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto; 
+  
+  scrollbar-width: none;       
+  -ms-overflow-style: none;   
+}
+
+.master-grid > *::-webkit-scrollbar {
+  display: none; 
+}
+
+.master-grid .left-menu,
+.master-grid .main-container {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+
+.intro-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; 
+  height: 100vh;
+  background-color: #000; 
+  z-index: 10000; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.intro-video {
+  width: 100%;
+  height: 100%;
+  object-fit: fill; 
+}
+
+.skip-btn {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: rgb(0, 0, 0);
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  backdrop-filter: blur(5px);
+  transition: background 0.3s;
+  z-index: 10001; 
+}
+
+.skip-btn:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+} */
+
+
+
+
+/* =========================
+   MASTER GRID LAYOUT (Desktop Default)
+========================= */
+.master-grid {
+  display: grid;
+  grid-template-columns: 18% 67% 15%; /* Desktop: 3 Columns */
+  grid-template-rows: 100%;
+  height: calc(100vh - 30px);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
 }
 
 /* All grid items */
@@ -19,15 +100,15 @@
   padding: 0;
   height: 100%;
   box-sizing: border-box;
-  overflow-y: auto; /* vertical scroll if content exceeds */
+  overflow-y: auto;
   
   /* Hide scrollbars */
-  scrollbar-width: none;       /* Firefox */
-  -ms-overflow-style: none;    /* IE 10+ */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .master-grid > *::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
 /* Left menu and main container adjustments */
@@ -37,4 +118,91 @@
   height: 100%;
   padding: 0;
   margin: 0;
+}
+
+
+/* =========================
+   VIDEO OVERLAY STYLES
+========================= */
+.intro-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; 
+  height: 100vh;
+  background-color: #000; 
+  z-index: 10000; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.intro-video {
+  width: 100%;
+  height: 100%;
+  object-fit: fill; 
+}
+
+.skip-btn {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: rgb(0, 0, 0);
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  backdrop-filter: blur(5px);
+  transition: background 0.3s;
+  z-index: 10001; 
+}
+
+.skip-btn:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+}
+
+
+/* =========================================
+   MOBILE RESPONSIVENESS (Add this at bottom)
+   ========================================= */
+@media screen and (max-width: 768px) {
+  
+  /* 1. CHANGE GRID TO VERTICAL FLEX */
+  .master-grid {
+    display: flex;        /* Disable Grid, use Flex */
+    flex-direction: column; /* Stack items vertically */
+    grid-template-columns: none; /* Remove column constraints */
+    height: auto;         /* Allow page to grow with content */
+    overflow: visible;    /* Allow scrolling the whole page */
+  }
+
+  /* 2. HIDE RIGHT MENU */
+  .grid-right-menu {
+    display: none !important; /* Force hide */
+  }
+
+  /* 3. ADJUST LEFT MENU AND MAIN CONTENT */
+  .grid-left-menu, 
+  .grid-main {
+    width: 100%; 
+    height: auto; 
+    flex: none;   
+  }
+
+
+  
+  .grid-left-menu {
+    max-height: 300px;
+    border-bottom: 2px solid #ccc;
+  }
+
+  /* Ensure internal containers fill width */
+  .master-grid .left-menu,
+  .master-grid .main-container {
+    width: 100%;
+    height: auto;
+  }
 }

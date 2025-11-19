@@ -58,6 +58,11 @@ import {
   FaChartLine,
   FaTrophy,
   FaHistory,
+  FaStar,
+  FaWaveSquare,
+  FaRocket,
+  FaUserPlus,
+  FaGlobe,
 } from "react-icons/fa";
 import { SiSpringboot } from "react-icons/si";
 
@@ -362,6 +367,18 @@ const CircularSlider = ({ onStartLearning }) => {
 
   return (
     <div className="carousel" style={{ background: currentCourse.color }}>
+          <div className="abx-wrap">
+            {/* floating decorative icons */}
+            <div className="abx-floating-icons">
+              <FaBolt className="abx-float abx-f1" />
+              <FaStar className="abx-float abx-f3" />
+              <FaWaveSquare className="abx-float abx-f2" />
+              <FaCode className="abx-float abx-f4" />
+              <FaRocket className="abx-float abx-f5" />
+              <FaUserPlus className="abx-float abx-f6" />
+              <FaGlobe className="abx-float abx-f7" />
+            </div>
+            </div>
       <div className="carousel-inner">
         <div className="image-box">
           <div className="main-icon-container">

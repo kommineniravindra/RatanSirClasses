@@ -1,0 +1,95 @@
+[
+  {
+    "question": "What is the range of heading tags in HTML?",
+    "options": [
+      "<h1> to <h5>",
+      "<h1> to <h4>",
+      "<h1> to <h6>",
+      "<h1> to <h3>"
+    ],
+    "answer": "<h1> to <h6>"
+  },
+  {
+    "question": "In HTML, data inside a <p> tag are:",
+    "options": [
+      "Preserved exactly as typed",
+      "Ignored and collapsed into a single space",
+      "Converted into tabs",
+      "Converted into underscores"
+    ],
+    "answer": "Ignored and collapsed into a single space"
+  },
+  {
+    "question": "Which of the following are Unpaired tags?",
+    "options": [
+      "<hr>",
+      "<br>",
+      "<img>",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "In HTML, text inside the <pre> tag:",
+    "options": [
+      "Collapses multiple spaces into one",
+      "Preserves all spaces and line breaks exactly as typed",
+      "Converts all text to uppercase",
+      "Ignores spaces and line breaks"
+    ],
+    "answer": "Preserves all spaces and line breaks exactly as typed"
+  },
+  {
+    "question": "Which of the following are inline HTML elements?",
+    "options": [
+      "<b>",
+      "<q>",
+      "<small>",
+      "<span>",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which statement is true about <span>?",
+    "options": [
+      "It displays text exactly as typed and preserves all spaces and line breaks",
+      "It represents a portion of text inside a paragraph.",
+      "It automatically creates a new paragraph",
+      "It is a block-level element that starts on a new line"
+    ],
+    "answer": "It represents a portion of text inside a paragraph."
+  },
+  {
+    "question": "Which of the following are block-level HTML elements?",
+    "options": [
+      "<p>",
+      "<pre>",
+      "<h1>",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following are paired tags?",
+    "options": [
+      "<sup>",
+      "<i>",
+      "<mark>",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Every HTML element contains which of the following?",
+    "options": [
+      "Start / Opening Tag – marks the beginning of an element",
+      "End / Closing Tag – marks the end of an element",
+      "Content – the text or data contained within the element",
+      "Attribute – provides extra information to the element",
+      "Value – the value assigned to the attribute",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  }
+]

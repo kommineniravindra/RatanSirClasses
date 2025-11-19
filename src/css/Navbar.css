@@ -23,7 +23,7 @@
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.7), 0 0 14px rgba(255, 255, 255, 0.5);
 }
 
-.logo {
+/* .logo {
   width: calc(25px * var(--scale));
   height: calc(25px * var(--scale));
   border-radius: 50%;
@@ -35,7 +35,7 @@
 
 .logo:hover {
   transform: rotate(2deg) scale(calc(1.03 * var(--scale)));
-}
+} */
 
 /* --- Navbar container --- */
 .navbar {
@@ -45,7 +45,7 @@
   justify-content: space-around;
   padding: 0;
   margin: 0;
-  height: calc(35px * var(--scale));
+  height: calc(33px * var(--scale));
   background: linear-gradient(90deg, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.96));
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -65,18 +65,18 @@
   display: flex;
   align-items: center;
   list-style: none;
-  gap: calc(0.2rem * var(--scale));
+  /* gap: calc(0.1rem * var(--scale)); */
   margin: 0;
   padding: 0;
 }
 
 .navbar-item {
   margin: 0 calc(2px * var(--scale));
-  padding: calc(2px * var(--scale)) calc(5px * var(--scale));
+  padding: calc(1px * var(--scale)) calc(4px * var(--scale));
   color: #e2e8f0;
   font-family: "Baskervville", serif;
   font-weight: 500;
-  font-size: calc(0.75rem * var(--scale)); /* slightly larger than half-size */
+  font-size: calc(0.73rem * var(--scale)); /* slightly larger than half-size */
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -151,7 +151,7 @@
   top: calc(100% + 5px);
   left: 50%;
   transform: translateX(-50%);
-  min-width: calc(120px * var(--scale));
+  min-width: calc(100px * var(--scale));
   list-style: none;
   padding: calc(4px * var(--scale)) 0;
   margin: 0;

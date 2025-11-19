@@ -56,11 +56,13 @@
   overflow: hidden;
 }
 
-.face img {
+.face img,
+.face video {
   width: 60%;
   height: 100%;
-  object-fit: cover; /* fit image to face */
+  object-fit: var(--cube-width)k;
 }
+
 
 /* 3D cube positioning */
 .front  { transform: rotateY(0deg) translateZ(var(--z-offset)); }

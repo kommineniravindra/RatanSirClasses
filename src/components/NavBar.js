@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "../css/Navbar.css";
 import navbarItems from "../variables/NavbarItems";
-import { useNavigate } from "react-router-dom";
 import { FaAngleDown, FaBars, FaTimes, FaClipboardCheck } from "react-icons/fa";
 
-const NavBar = ({ onTechnologySelect, selectedTechnology }) => {
+// UPDATED: Added selectedPage to props
+const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
   const [scrolled, setScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -31,17 +29,11 @@ const NavBar = ({ onTechnologySelect, selectedTechnology }) => {
     setOpenDropdown(openDropdown === name ? null : name);
   };
 
-  const handleExam = () => {
-    window.open("/ratan-tutotrials/exam", "_blank");
-    setMenuOpen(false);
-  };
+  const handleExam = () => window.open("/exam", "_blank");
+  const handleStartLearning = () => window.open("/learning", "_blank");
 
   return (
     <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
-      <div className="navbar-left">
-        <span id="nav-header-content">CodePulse-R </span>
-      </div>
-
       <div className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
       </div>
@@ -54,14 +46,12 @@ const NavBar = ({ onTechnologySelect, selectedTechnology }) => {
           >
             <div
               className={`navbar-item ${
-                (
-                  item.type === "dropdown"
-                    ? item.subItems.some(
-                        (sub) => sub.name === selectedTechnology
-                      )
-                    : item.name === selectedTechnology ||
-                      (item.name === "Home" && !selectedTechnology)
-                )
+                item.type === "dropdown"
+                  ? item.subItems.some((sub) => sub.name === selectedTechnology)
+                    ? "active"
+                    : ""
+                  : // UPDATED LOGIC: Check selectedTechnology OR selectedPage
+                  item.name === selectedTechnology || item.name === selectedPage
                   ? "active"
                   : ""
               }`}
@@ -113,6 +103,13 @@ const NavBar = ({ onTechnologySelect, selectedTechnology }) => {
           <div className="navbar-content">
             <FaClipboardCheck />
             <span>Quiz</span>
+          </div>
+        </li>
+
+        <li onClick={handleStartLearning} className="navbar-item">
+          <div className="navbar-content">
+            <FaClipboardCheck />
+            <span>Learning</span>
           </div>
         </li>
       </ul>

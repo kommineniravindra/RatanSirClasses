@@ -56,6 +56,7 @@ const Example2 = `<html>
 	</body>
 </html> `;
 
+
 export const htmlDataChapter2 = {
   "All tags Information": (
     <div>
@@ -64,6 +65,8 @@ export const htmlDataChapter2 = {
 </p>
 
       <h3 style={{textAlign:'center'}}> HTML Text Formatting Tags</h3>
+
+
       <table border="2" cellspacing="0" cellpadding="8">
         <thead>
           <tr>

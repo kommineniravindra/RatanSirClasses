@@ -18,8 +18,8 @@ const technologyConfig = {
   javascript: { lang: 'javascript', style: vscDarkPlus },
   react: { lang: 'jsx', style: duotoneDark },
   java: { lang: 'java', style: atomDark },
-  restapi: { lang: 'json', style: okaidia },       // REST usually JSON
-  microservices: { lang: 'yaml', style: okaidia }, // configs in YAML
+  restapi: { lang: 'json', style: okaidia },       
+  microservices: { lang: 'yaml', style: okaidia }, 
   python: { lang: 'python', style: duotoneDark },
   sql: { lang: 'sql', style: prism },
 };

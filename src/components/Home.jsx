@@ -15,6 +15,7 @@ import "../css/Home.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Globe from "../components/Globe";
 import CircularSlider from '../components/CircularSlider';
+import HomeUI1 from "./HomeUI1";
 
 Modal.setAppElement('#root');
 
@@ -90,7 +91,11 @@ const Home = ({ onTechnologySelect }) => {
   const itemVariants = { hidden: { scale: 0.5, opacity: 0 }, visible: { scale: 1, opacity: 1, transition: { type: "spring" } }, exit: { opacity: 0, y: -50, transition: { duration: 0.5 } } };
 
   return (
+
+    <>
     <div className="home-container">
+
+       
       {/* --- Hero Section --- */}
       <motion.section className="hero-section" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}>
         <video autoPlay loop muted playsInline className="hero-video">
@@ -201,7 +206,9 @@ const Home = ({ onTechnologySelect }) => {
       {/* <div>
         <CircularSlider onStartLearning={onTechnologySelect} />
       </div> */}
+     <HomeUI1 />
     </div>
+    </>
   );
 };
 

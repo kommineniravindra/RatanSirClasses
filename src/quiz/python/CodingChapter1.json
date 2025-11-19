@@ -1,0 +1,37 @@
+[
+  {
+    "question": "Write a Python program to add two numbers.",
+    "answer": "a = 10\nb = 5\nprint(a + b)",
+    "sampleInput": "a=10, b=5",
+    "sampleOutput": "15",
+    "maxMarks": 10
+  },
+  {
+    "question": "Write a Python program to subtract two numbers.",
+    "answer": "a = 10\nb = 5\nprint(a - b)",
+    "sampleInput": "a=10, b=5",
+    "sampleOutput": "5",
+    "maxMarks": 10
+  },
+  {
+    "question": "Write a Python program to multiply two numbers.",
+    "answer": "a = 10\nb = 5\nprint(a * b)",
+    "sampleInput": "a=10, b=5",
+    "sampleOutput": "50",
+    "maxMarks": 10
+  },
+  {
+    "question": "Write a Python program to divide two numbers.",
+    "answer": "a = 10\nb = 5\nprint(a / b)",
+    "sampleInput": "a=10, b=5",
+    "sampleOutput": "2.0",
+    "maxMarks": 10
+  },
+  {
+    "question": "Write a Python program to check whether a number is even or odd.",
+    "answer": "num = 10\nif num % 2 == 0:\n    print(\"Even\")\nelse:\n    print(\"Odd\")",
+    "sampleInput": "num = 10",
+    "sampleOutput": "Even",
+    "maxMarks": 10
+  }
+]

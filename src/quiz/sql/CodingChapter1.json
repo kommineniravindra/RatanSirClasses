@@ -1,9 +1,37 @@
 [
   {
-    "question": "Write an SQL query to select all columns from the 'Students' table where the age is greater than 18.",
-    "answer": "SELECT * FROM Students WHERE age > 18;",
-    "sampleInput": "Table: Students\nColumns: id, name, age, grade\nData:\n1, 'Ravi', 17, 'A'\n2, 'Sita', 19, 'B'\n3, 'John', 20, 'A'",
-    "sampleOutput": "2, 'Sita', 19, 'B'\n3, 'John', 20, 'A'",
+    "question": "Write an SQL query to select all records from a table named 'students'.",
+    "answer": "SELECT * FROM students;",
+    "sampleInput": "students table",
+    "sampleOutput": "Displays all rows from students table.",
+    "maxMarks": 10
+  },
+  {
+    "question": "Write an SQL query to insert a new student with name 'Ravi' and age 20 into the students table.",
+    "answer": "INSERT INTO students (name, age) VALUES ('Ravi', 20);",
+    "sampleInput": "name = Ravi, age = 20",
+    "sampleOutput": "1 row inserted.",
+    "maxMarks": 10
+  },
+  {
+    "question": "Write an SQL query to update the age of a student named 'Ravi' to 21.",
+    "answer": "UPDATE students SET age = 21 WHERE name = 'Ravi';",
+    "sampleInput": "name = Ravi, new age = 21",
+    "sampleOutput": "1 row updated.",
+    "maxMarks": 10
+  },
+  {
+    "question": "Write an SQL query to delete a student whose name is 'Ravi'.",
+    "answer": "DELETE FROM students WHERE name = 'Ravi';",
+    "sampleInput": "name = Ravi",
+    "sampleOutput": "1 row deleted.",
+    "maxMarks": 10
+  },
+  {
+    "question": "Write an SQL query to select all students whose age is greater than 18.",
+    "answer": "SELECT * FROM students WHERE age > 18;",
+    "sampleInput": "age > 18",
+    "sampleOutput": "Shows students with age greater than 18.",
     "maxMarks": 10
   }
 ]

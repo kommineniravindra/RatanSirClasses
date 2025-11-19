@@ -27,9 +27,14 @@ const TOTAL_TIME = 900; // 5 minutes
 const AVAILABLE_CHAPTERS = [1, 2, 3, 4];
 
 // --- NEW: EmailJS Configuration ---
-const EMAILJS_SERVICE_ID = "service_o1fbb8a";
-const EMAILJS_TEMPLATE_ID = "template_oxeq679";
-const EMAILJS_PUBLIC_KEY = "QT4vFNSyQjWyMeDEz";
+// const EMAILJS_SERVICE_ID = "service_o1fbb8a";
+// const EMAILJS_TEMPLATE_ID = "template_oxeq679";
+// const EMAILJS_PUBLIC_KEY = "QT4vFNSyQjWyMeDEz";
+
+
+const EMAILJS_SERVICE_ID = "service_ocmb30h";
+const EMAILJS_TEMPLATE_ID = "template_sln74fh";
+const EMAILJS_PUBLIC_KEY = "JOzwEY9U5v3Nu1evJ";
 
 const languageConfig = {
   java: {
@@ -249,7 +254,9 @@ const Quiz = () => {
       }
     });
 
-    const finalScore = mcqMarks + blanksMarks + codingMarks;
+    // const finalScore = mcqMarks + blanksMarks + codingMarks;
+        const finalScore = mcqMarks + blanksMarks;
+
 
     try {
       const token = localStorage.getItem("token");
@@ -257,7 +264,9 @@ const Quiz = () => {
       const userName = localStorage.getItem("userName") || "Student";
 
       const quizCode = `${technology}-quiz${quizId}`;
-      const payload = { quizCode, mcqMarks, blanksMarks, codingMarks };
+      // const payload = { quizCode, mcqMarks, blanksMarks, codingMarks };
+            const payload = { quizCode, mcqMarks, blanksMarks, codingMarks:0 };
+
 
       const authHeaders = { headers: { Authorization: `Bearer ${token}` } };
 
@@ -280,12 +289,15 @@ const Quiz = () => {
       if (userEmail) {
         const totalPossibleMCQ = mcqs.length;
         const totalPossibleBlanks = blanks.length;
-        const totalPossibleCoding = coding.reduce(
-          (sum, q) => sum + (q.maxMarks || 1),
-          0
-        );
-        const totalPossibleTotal =
-          totalPossibleMCQ + totalPossibleBlanks + totalPossibleCoding;
+        // const totalPossibleCoding = coding.reduce(
+        //   (sum, q) => sum + (q.maxMarks || 1),
+        //   0
+        // );
+        // const totalPossibleTotal =
+        //   totalPossibleMCQ + totalPossibleBlanks + totalPossibleCoding;
+        const totalPossibleCoding = 0;
+         const totalPossibleTotal =
+          totalPossibleMCQ + totalPossibleBlanks;
 
         const templateParams = {
           student_name: userName,
@@ -508,8 +520,8 @@ const Quiz = () => {
     if (!showResults) return null;
     const totalPossibleMarks =
       mcqs.length +
-      blanks.length +
-      coding.reduce((sum, q) => sum + (q.maxMarks || 1), 0);
+      blanks.length;
+      // coding.reduce((sum, q) => sum + (q.maxMarks || 1), 0);
     const correctAnswers = score;
     const incorrectAnswers = totalPossibleMarks - correctAnswers;
     const percentage =
@@ -539,7 +551,7 @@ const Quiz = () => {
                 className="btn btn-quiz-option"
                 onClick={() =>
                   navigate(
-                    `/ratan-tutotrials/quiz/${selectedLanguage.toLowerCase()}/${num}`
+                    `/quiz/${selectedLanguage.toLowerCase()}/${num}`
                   )
                 }
               >
@@ -586,7 +598,7 @@ const Quiz = () => {
           </div>
 
           <div className="intro-setup">
-            <h1 className="intro-brand">Ratan Sir Classes</h1>
+            <h1 className="intro-brand">CodePulse-R</h1>
             <h2 className="intro-setup-title">Choose Your Arena</h2>
             <div className="language-grid">
               {languages.map((lang) => (
@@ -696,7 +708,7 @@ const Quiz = () => {
             })}
           </section>
 
-          {isCodingAvailable && (
+          {false && (
             <section className="question-type-section">
               {/* <h2 className="section-title">Coding Questions</h2> */}
               {coding.map((q, index) => (
@@ -969,7 +981,7 @@ const Quiz = () => {
             })}
 
             {/* Coding Questions */}
-            {coding.map((q, index) => {
+            {/* {coding.map((q, index) => {
               const isCorrect =
                 (codeResults[index]?.marks || 0) === (q.maxMarks || 1);
               return (
@@ -1006,7 +1018,7 @@ const Quiz = () => {
                   )}
                 </div>
               );
-            })}
+            })} */}
           </div>
         </div>
       </div>

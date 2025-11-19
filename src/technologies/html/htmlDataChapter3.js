@@ -1,5 +1,5 @@
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { coy, prism } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { coy} from "react-syntax-highlighter/dist/esm/styles/prism";
 import BrowserPreview from "../../components/BrowserPreview";
 
 const CodeBlock = ({ language = "html", children }) => (
@@ -41,7 +41,52 @@ const htmlCodeUnOrderedList = `
   </ul>
 </body>
 </html>
-`
+`;
+
+
+const htmlCodeDefinitionList = `<html>
+<head>
+  <title>Definition List</title>
+</head>
+<body>
+  <h2>HTML Questions & Answers</h2>
+  <dl style="margin: 0; padding: 0; font-family: Arial, sans-serif;">
+    <dt style="font-weight: bold; margin-top: 10px;">What is the purpose of HTML?</dt>
+    <dd style="margin-left: 20px;">HTML stands for Hypertext Markup Language. It is used to create web pages and structure the content of the page.</dd>
+
+    <dt style="font-weight: bold; margin-top: 10px;">HTML code is executed by?</dt>
+    <dd style="margin-left: 20px;">HTML code is executed by web browsers such as Google Chrome, Mozilla Firefox, Safari, etc.</dd>
+  </dl>
+</body>
+</html>`;
+
+
+const htmlCodeNestedList = `<html>
+<head>    
+<title>Complete List Information</title>	
+</head>
+<body>
+	<h1>Top Companies Names List</h1> 
+	<ol>  
+		<li>Google
+			<ol type="i">
+				<li>hyderabad</li>
+				<li>Bangalore</li>
+			</ol>
+		</li>  
+		<li>TCS</li>  
+		<li>Oracle
+			<ul type='square'>
+				<li>Hyderabad</li>
+				<li>Bangalore</li>
+				<li>Chennai</li>
+			</ul>
+		</li>
+		<li>IBM</li>
+		<li>Wipro</li>  
+	</ol>  
+</body>
+</html>`;
 
 export const htmlDataChapter3 = {
   "List Purpose": (
@@ -271,6 +316,8 @@ export const htmlDataChapter3 = {
 </html>
       `}
     </CodeBlock>
+      <BrowserPreview htmlCode={htmlCodeDefinitionList} />
+
 
      </div>
 ),
@@ -310,11 +357,10 @@ export const htmlDataChapter3 = {
 		<li>Wipro</li>  
 	</ol>  
 </body>
-</html>
-
-          `
+</html> `
         }
       </CodeBlock>
+      <BrowserPreview htmlCode={htmlCodeNestedList} />
     </div>
   ),
 };

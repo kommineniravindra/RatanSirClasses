@@ -12,5 +12,26 @@
     "sampleInput": "<p>Hello CSS</p>",
     "sampleOutput": "The text 'Hello CSS' appears in red color with font size 18px.",
     "maxMarks": 10
+  },
+  {
+    "question": "Write a CSS rule to center all text on the webpage.",
+    "answer": "body {\n    text-align: center;\n}",
+    "sampleInput": "<h1>Welcome</h1>",
+    "sampleOutput": "The text 'Welcome' appears centered on the page.",
+    "maxMarks": 10
+  },
+  {
+    "question": "Write a CSS rule to apply a green border of 2px to all images.",
+    "answer": "img {\n    border: 2px solid green;\n}",
+    "sampleInput": "<img src='pic.jpg'>",
+    "sampleOutput": "The image displays with a 2px solid green border.",
+    "maxMarks": 10
+  },
+  {
+    "question": "Write a CSS rule to make all headings (h1) blue and bold.",
+    "answer": "h1 {\n    color: blue;\n    font-weight: bold;\n}",
+    "sampleInput": "<h1>Hello</h1>",
+    "sampleOutput": "The heading 'Hello' appears blue and bold.",
+    "maxMarks": 10
   }
 ]

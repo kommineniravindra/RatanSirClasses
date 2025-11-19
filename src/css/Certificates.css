@@ -1,0 +1,299 @@
+/* Color variables for consistency across the application */
+:root {
+ --primary-bg: #f4f6f9;
+ --card-bg: #ffffff;
+ --text-dark: #2c3e50;
+ --text-light: #7f8c8d;
+ --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+ /* Course-specific colors (Ensure these match your StartLearning component) */
+ --js-color: #f0db4f; /* Yellow */
+ --html-color: #e44d26; /* Orange */
+ --css-color: #2965f1; /* Blue */
+ --python-color: #306998; /* Dark Blue */
+ --java-color: #5382a1; /* Gray Blue */
+ --sql-color: #00758f; /* Teal */
+}
+
+.certificates-container {
+ padding: 30px;
+ max-width: 1200px;
+ margin: 0 auto;
+ font-family: 'Poppins', sans-serif;
+}
+
+/* Header Styles */
+.certs-header {
+ font-size: 36px;
+ font-weight: 800;
+ color: var(--text-dark);
+ margin-bottom: 40px;
+ text-align: center;
+ border-bottom: 3px solid #ddd;
+ padding-bottom: 15px;
+ text-transform: uppercase;
+}
+
+.certs-subheader {
+ font-size: 28px;
+ font-weight: 700;
+ color: var(--text-dark);
+ margin-top: 50px;
+ margin-bottom: 30px;
+ display: flex;
+ align-items: center;
+ gap: 10px;
+}
+
+.certs-divider {
+ border: 0;
+ height: 2px;
+ background-image: linear-gradient(to right, transparent, #ccc, transparent);
+ margin: 50px 0;
+}
+
+/* --- 5. Dynamic Certificate Card Grid --- */
+.certs-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+ gap: 30px;
+}
+
+.certificate-card {
+ background: var(--card-bg);
+ border-radius: 12px;
+ box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+ overflow: hidden;
+ transform-style: preserve-3d;
+ perspective: 1000px;
+ transition: all 0.3s ease;
+ position: relative;
+ cursor: pointer;
+}
+
+/* 2. Ribbon/Seal of Excellence */
+.ribbon {
+ position: absolute;
+ top: 15px;
+ right: -25px;
+ padding: 5px 25px;
+ transform: rotate(45deg);
+ color: white;
+ font-weight: 700;
+ font-size: 12px;
+ letter-spacing: 1px;
+ box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+ z-index: 10;
+ display: flex;
+ align-items: center;
+ gap: 5px;
+}
+
+.cert-color-band {
+ /* Removed - using ribbon instead, kept for border effect if needed */
+ height: 10px;
+ width: 100%;
+ position: absolute;
+ top: 0;
+ left: 0;
+}
+
+.cert-content {
+ padding: 30px;
+ text-align: center;
+}
+
+.cert-icon {
+ font-size: 50px;
+ margin-bottom: 15px;
+}
+
+.cert-title {
+ font-size: 22px;
+ font-weight: 800;
+ color: var(--text-dark);
+ margin-bottom: 10px;
+}
+
+.cert-grade {
+ font-weight: 700;
+ padding: 3px 8px;
+ border-radius: 4px;
+ /* Color is dynamically set by JS inline style */
+}
+
+.cert-view-btn {
+ margin-top: 25px;
+ padding: 12px 25px;
+ border: none;
+ border-radius: 8px;
+ color: white;
+ font-weight: 600;
+ cursor: pointer;
+ transition: background-color 0.3s, transform 0.1s;
+ box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+ text-transform: uppercase;
+}
+
+/* --- 3. Advanced Pending Course Card Styles --- */
+.pending-grid {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 25px;
+}
+
+.pending-course-card {
+ flex: 1 1 300px;
+ background: var(--card-bg);
+ padding: 25px;
+ border-radius: 15px;
+ box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ min-height: 180px;
+ position: relative;
+ transition: all 0.3s ease;
+}
+
+.pending-header-icon {
+ font-size: 30px;
+ margin-bottom: 10px;
+}
+
+.pending-title {
+ font-size: 20px;
+ font-weight: 700;
+ color: var(--text-dark);
+ margin-bottom: 20px;
+}
+
+/* Progress Ring specific styles */
+.progress-ring-container {
+ margin-bottom: 10px;
+}
+.progress-ring-svg {
+ transition: all 0.5s ease;
+}
+
+.progress-text {
+ font-size: 14px;
+ font-weight: 600;
+ margin-bottom: 20px;
+ text-align: center;
+}
+
+.lock-icon-container {
+ padding: 5px 0;
+ color: var(--text-light);
+}
+
+.lock-icon {
+ font-size: 24px;
+}
+
+.claim-btn {
+ padding: 10px 20px;
+ border: none;
+ border-radius: 8px;
+ background-color: #28a745;
+ color: white;
+ font-weight: 600;
+ cursor: pointer;
+ transition: background-color 0.2s, transform 0.2s;
+ text-transform: uppercase;
+}
+
+/* --- 4. Certificate Modal Styles --- */
+.modal-backdrop {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background-color: rgba(0, 0, 0, 0.7);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ z-index: 1000;
+}
+
+.modal-content {
+ background: white;
+ padding: 30px;
+ border-radius: 15px;
+ width: 90%;
+ max-width: 600px;
+ box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+ position: relative;
+}
+
+.modal-close-btn {
+ position: absolute;
+ top: 15px;
+ right: 15px;
+ background: none;
+ border: none;
+ font-size: 24px;
+ cursor: pointer;
+ color: var(--text-dark);
+}
+
+.modal-header {
+ text-align: center;
+ padding-bottom: 15px;
+ margin-bottom: 20px;
+}
+
+.modal-icon {
+ font-size: 60px;
+ margin-bottom: 10px;
+}
+
+.modal-title {
+ font-size: 28px;
+ font-weight: 800;
+ color: var(--text-dark);
+}
+
+.modal-body p {
+ font-size: 16px;
+ margin: 10px 0;
+ color: var(--text-dark);
+}
+
+.modal-body hr {
+ margin: 20px 0;
+ border: 0;
+ border-top: 1px dashed #ccc;
+}
+
+.modal-grade {
+ padding: 4px 10px;
+ border-radius: 6px;
+ font-weight: 800;
+ /* Color is set inline by JS */
+}
+
+.modal-actions {
+ margin-top: 30px;
+ text-align: center;
+}
+
+.modal-download-btn {
+ padding: 12px 30px;
+ border: none;
+ border-radius: 8px;
+ color: white;
+ font-weight: 700;
+ cursor: pointer;
+ transition: transform 0.2s, opacity 0.2s;
+ display: inline-flex;
+ align-items: center;
+ gap: 10px;
+}
+
+.modal-download-btn:hover {
+ opacity: 0.9;
+ transform: translateY(-2px);
+}

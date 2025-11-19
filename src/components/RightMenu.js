@@ -1,51 +1,132 @@
+// import React, { useState, useEffect } from "react";
+// import "../css/RightMenu.css";
+
+// const images = ["/img19.jpg", "/img5.jpg", "/img7.png","/img10.jpg",];
+
+// const RightMenu = () => {
+//   const [currentRotation, setCurrentRotation] = useState(0);
+//   const angle = 90;
+//   const autoScrollInterval = 5000; // Time in milliseconds (3 seconds)
+
+//   useEffect(() => {
+//     const rotateNext = () => {
+//       setCurrentRotation((prevRotation) => prevRotation - angle);
+//     };
+
+//     const intervalId = setInterval(rotateNext, autoScrollInterval);
+
+//     return () => clearInterval(intervalId);
+//   }, [angle, autoScrollInterval]); 
+
+//   const cubeStyle = {
+//     transform: `rotateY(${currentRotation}deg)`,
+//   };
+
+//   return (
+//     <div className="right-menu-container">
+//       <div className="scene">
+//         <div className="cube" style={cubeStyle}>
+//           <div className="face front">
+//             <img src={images[0]} alt="Image 1" />
+//           </div>
+
+//           <div className="face right">
+//             <img src={images[1]} alt="Image 2" />
+//           </div>
+
+//           <div className="face back">
+//             <img src={images[2]} alt="Image 3" />
+//           </div>
+
+//           <div className="face left">
+//             <img src={images[3]} alt="Image 4" />
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+
+    
+//   );
+// };
+
+// export default RightMenu;
+
+
+
+
+
 import React, { useState, useEffect } from "react";
 import "../css/RightMenu.css";
 
-const images = ["/img3.jpg", "/img5.jpg", "/img7.jpg","/img10.jpg",];
+// First 2 videos, then images
+const media = [
+  { type: "video", src: "/rv1.mp4" },
+  { type: "video", src: "/rv2.mp4" },
+  { type: "image", src: "/img19.jpg" },
+  { type: "image", src: "/img5.jpg" }
+];
 
 const RightMenu = () => {
   const [currentRotation, setCurrentRotation] = useState(0);
-  const angle = 90; // Rotation angle for 4 faces
-  const autoScrollInterval = 5000; // Time in milliseconds (3 seconds)
+  const angle = 90;
+  const autoScrollInterval = 5250; // Time in milliseconds
 
   useEffect(() => {
     const rotateNext = () => {
-      setCurrentRotation((prevRotation) => prevRotation - angle);
+      setCurrentRotation(prevRotation => prevRotation - angle);
     };
-
-    const intervalId = setInterval(rotateNext, autoScrollInterval);
-
-    return () => clearInterval(intervalId);
-  }, [angle, autoScrollInterval]); 
+    const id = setInterval(rotateNext, autoScrollInterval);
+    return () => clearInterval(id);
+  }, []);
 
   const cubeStyle = {
-    transform: `rotateY(${currentRotation}deg)`,
+    transform: `rotateY(${currentRotation}deg)`
   };
 
   return (
     <div className="right-menu-container">
       <div className="scene">
         <div className="cube" style={cubeStyle}>
+
+          {/* FACE 1 */}
           <div className="face front">
-            <img src={images[0]} alt="Image 1" />
+            {media[0].type === "video" ? (
+              <video src={media[0].src} autoPlay muted loop />
+            ) : (
+              <img src={media[0].src} alt="Face 1" />
+            )}
           </div>
 
+          {/* FACE 2 */}
           <div className="face right">
-            <img src={images[1]} alt="Image 2" />
+            {media[1].type === "video" ? (
+              <video src={media[1].src} autoPlay muted loop />
+            ) : (
+              <img src={media[1].src} alt="Face 2" />
+            )}
           </div>
 
+          {/* FACE 3 */}
           <div className="face back">
-            <img src={images[2]} alt="Image 3" />
+            {media[2].type === "video" ? (
+              <video src={media[2].src} autoPlay muted loop />
+            ) : (
+              <img src={media[2].src} alt="Face 3" />
+            )}
           </div>
 
+          {/* FACE 4 */}
           <div className="face left">
-            <img src={images[3]} alt="Image 4" />
+            {media[3].type === "video" ? (
+              <video src={media[3].src} autoPlay muted loop />
+            ) : (
+              <img src={media[3].src} alt="Face 4" />
+            )}
           </div>
+
         </div>
       </div>
     </div>
-
-    
   );
 };
 

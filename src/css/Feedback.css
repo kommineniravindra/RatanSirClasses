@@ -1,0 +1,353 @@
+:root {
+  /* ... existing variables ... */
+  --background: radial-gradient(circle at top, #1b1c3d, #0c0d1f);
+  --glass: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.22);
+
+  --star-active: #ffdf47;
+  --star-inactive: #555;
+
+  --btn-bg: linear-gradient(135deg, #5e6bff, #8d54ff);
+  --btn-glow: #7a6bff;
+  
+  --textarea-focus: #7a6bff; /* New variable */
+}
+
+
+
+.feedback-wrapper {
+  height: 100vh;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 5. Particle System Background */
+.particle-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -2;
+}
+.particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Floating ambient glows */
+.glow-top,
+.glow-bottom {
+  /* ... existing styles ... */
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  filter: blur(140px);
+  opacity: 0.45;
+  z-index: -1;
+}
+
+.glow-top {
+  top: 0;
+  left: 25%;
+  background: #6a7dff;
+}
+
+.glow-bottom {
+  bottom: 0;
+  right: 20%;
+  background: #b056ff;
+}
+
+.feedback-card {
+  width: 460px;
+  padding: 42px;
+  border-radius: 28px;
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  /* Removed static border for animated border */
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden; /* Crucial for glass effect over border */
+}
+
+/* 1. Glass Border Animation: Moving Aurora Border */
+.aurora-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  /* Use a conic gradient for the moving border */
+  background: conic-gradient(from 0deg, #5e6bff 0%, #8d54ff 30%, transparent 60%, #5e6bff 100%);
+  animation: rotateBorder 4s linear infinite;
+  padding: 2px; /* Border thickness */
+  z-index: -1;
+  /* Mask to create the actual border effect */
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+@keyframes rotateBorder {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.feedback-title {
+  /* ... existing styles ... */
+  color: black;
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.feedback-subtitle {
+  /* ... existing styles ... */
+  color: #b8b8b8;
+  text-align: center;
+  font-size: 15px;
+  margin-bottom: 22px;
+}
+
+.stars-container {
+  /* ... existing styles ... */
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.star {
+  /* ... existing styles ... */
+  transition: color 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+}
+
+.feedback-textarea {
+  /* ... existing styles ... */
+  width: 100%;
+  height: 140px;
+  border-radius: 18px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid #666;
+  color: #000000;
+  font-size: 16px;
+  resize: none;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.feedback-textarea:focus {
+  border: 1px solid var(--textarea-focus);
+  box-shadow: 0 0 18px var(--textarea-focus);
+}
+
+/* 3. Shimmer Placeholder / Glow While Typing */
+.shimmer-placeholder::placeholder {
+  color: #999;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+  0% { text-shadow: 0 0 0px #999; }
+  50% { text-shadow: 0 0 8px rgba(122, 107, 255, 0.7); }
+  100% { text-shadow: 0 0 0px #999; }
+}
+
+/* 6. Character Count + Progress Bar */
+.char-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 8px;
+  padding: 0 5px;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  margin-bottom: 5px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0; /* Animated by Framer Motion */
+  border-radius: inherit;
+  background-color: var(--btn-glow);
+  transition: background-color 0.3s ease;
+}
+
+.char-count {
+  font-size: 12px;
+  color: #b8b8b8;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.char-count.warning {
+  color: var(--star-active);
+  font-weight: 600;
+}
+
+/* Premium Button */
+.premium-btn {
+  /* ... existing styles ... */
+  width: 100%;
+  padding: 16px;
+  margin-top: 24px;
+  font-size: 17px;
+  font-weight: 600;
+  border-radius: 14px;
+  background: var(--btn-bg);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 12px rgba(94, 107, 255, 0.6);
+  transition: background 0.3s, box-shadow 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.premium-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+/* Spinner for Submitting */
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Button Ripple (Existing) */
+.btn-ripple {
+  /* ... existing styles ... */
+  position: absolute;
+  width: 160%;
+  height: 160%;
+  background: rgba(255, 255, 255, 0.35);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%;
+  animation: ripple 2s infinite ease-out;
+}
+
+@keyframes ripple {
+  from { transform: translate(-50%, -50%) scale(0); opacity: 0.9; }
+  to { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+}
+
+/* 8. Success Card Animation (Modal) */
+.success-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(12, 13, 31, 0.8); /* Dark overlay */
+  z-index: 100;
+}
+
+.success-card {
+  width: 380px;
+  padding: 50px;
+  border-radius: 28px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.success-icon {
+  font-size: 70px;
+  color: #4aff9a;
+  filter: drop-shadow(0 0 15px #4aff9a);
+  margin-bottom: 20px;
+}
+
+.success-title {
+  color: #fff;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.success-message {
+  color: #ccc;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.success-btn {
+  margin-top: 0;
+}
+
+/* 2. Confetti/Fireworks (CSS only simulation) */
+.confetti-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: transparent;
+  border-radius: 50%;
+  /* Multiple colors for variety */
+  box-shadow: 
+    -30px 0 0 3px #ff7300, 
+    30px 0 0 3px #00aaff, 
+    0 -30px 0 3px #ff4aff, 
+    0 30px 0 3px #4aff4a;
+}
+/* Adjusting confetti shapes/colors for better effect */
+.confetti:nth-child(even) {
+  width: 5px;
+  height: 15px;
+  background-color: #ffdf47;
+  box-shadow: none;
+  border-radius: 2px;
+}
+.confetti:nth-child(3n) {
+  background-color: #ff4a4a;
+  box-shadow: none;
+}

@@ -182,8 +182,6 @@ const QuestionPalette = ({
   quiz,
   blanks,
   coding,
-  currentPage,
-  setCurrentPage,
   handleQuestionJump,
   isCodingRoundAvailable,
   calculateAnswerStatus,
@@ -547,10 +545,10 @@ const Exam = () => {
 
           await emailjs
             .send(
-              "service_o1fbb8a",
-              "template_oxeq679",
+              "service_ocmb30h",
+              "template_sln74fh",
               templateParams,
-              "QT4vFNSyQjWyMeDEz"
+              "JOzwEY9U5v3Nu1evJ"
             )
             .then(() => {
               Swal.fire({

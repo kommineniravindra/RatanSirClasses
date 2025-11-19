@@ -82,34 +82,34 @@ const examAccessCodes = {
 
 const technologies = [
   { key: "html", name: "HTML", icon: <FaHtml5 />, quizChapters: [1, 2, 3, 4, 5, 6] },
-  { key: "css", name: "CSS", icon: <FaCss3Alt />, quizChapters: [1, 2, 3, 4, 5, 6]  },
-  {
-    key: "javascript",
-    name: "JavaScript",
-    icon: <FaJs />,
-    quizChapters: [1, 2, 3, 4, 5, 6, 7, 8] ,
-  },
+  // { key: "css", name: "CSS", icon: <FaCss3Alt />, quizChapters: [1, 2, 3, 4, 5, 6]  },
+  // {
+  //   key: "javascript",
+  //   name: "JavaScript",
+  //   icon: <FaJs />,
+  //   quizChapters: [1, 2, 3, 4, 5, 6, 7, 8] ,
+  // },
   { key: "react", name: "React", icon: <FaReact />, quizChapters: [1, 2, 3, 4, 5, 6]  },
-  { key: "java", name: "Java", icon: <FaJava />, quizChapters:[1, 2, 3, 4, 5, 6]  },
-  {
-    key: "python",
-    name: "Python",
-    icon: <FaPython />,
-    quizChapters: [1, 2, 3, 4, 5, 6] ,
-  },
-   {
-    key: "restapi",
-    name: "Spring Boot",
-    icon: <FaServer />,
-    quizChapters: [1, 2, 3, 4, 5, 6] ,
-  },
-  {
-    key: "microservices",
-    name: "Microservices",
-    icon: <FaServer />,
-    quizChapters: [1, 2, 3, 4, 5, 6] ,
-  },
-  { key: "sql", name: "SQL", icon: <FaDatabase />, quizChapters: [1, 2, 3, 4, 5, 6,]  },
+  // { key: "java", name: "Java", icon: <FaJava />, quizChapters:[1, 2, 3, 4, 5, 6]  },
+  // {
+  //   key: "python",
+  //   name: "Python",
+  //   icon: <FaPython />,
+  //   quizChapters: [1, 2, 3, 4, 5, 6] ,
+  // },
+  //  {
+  //   key: "restapi",
+  //   name: "Spring Boot",
+  //   icon: <FaServer />,
+  //   quizChapters: [1, 2, 3, 4, 5, 6] ,
+  // },
+  // {
+  //   key: "microservices",
+  //   name: "Microservices",
+  //   icon: <FaServer />,
+  //   quizChapters: [1, 2, 3, 4, 5, 6] ,
+  // },
+  // { key: "sql", name: "SQL", icon: <FaDatabase />, quizChapters: [1, 2, 3, 4, 5, 6,]  },
  
 ];
 
@@ -244,7 +244,7 @@ const ExamDashboard = ({ onLogout }) => {
           <button
             className="confirm-btn"
             onClick={() => {
-              navigate(`/ratan-tutotrials/exam/${tech.key}/exam${examNumber}`);
+              navigate(`/exam/${tech.key}/exam${examNumber}`);
               setModalOpen(false);
             }}
           >
@@ -345,7 +345,7 @@ const ExamDashboard = ({ onLogout }) => {
         className="quiz-selection-btn"
         onClick={() => {
           setModalOpen(false);
-          navigate(`/ratan-tutotrials/quiz/${tech.key}/${num}`);
+          navigate(`/quiz/${tech.key}/${num}`);
         }}
       >
         <i className="bx bxs-file-archive"></i> Quiz {num}
@@ -529,28 +529,30 @@ const ExamDashboard = ({ onLogout }) => {
             accept="image/*"
           />
           <h2>{profile.studentName}</h2>
-          <p>{profile.email}</p>
+          <p >{profile.email}</p>
           <button onClick={handleLogout} className="logout-btn" title="Logout">
             <i className="bx bx-log-out"></i> Logout
           </button>
+          <hr></hr>
         </div>
         <div className="profile-details">
+          
           <h3>Your Information</h3>
           <ProfileDetailItem
             icon="bx bxs-phone"
             label="Mobile"
             value={profile.mobile}
           />
-          <ProfileDetailItem
+          {/* <ProfileDetailItem
             icon="bx bxs-calendar"
             label="Date of Birth"
             value={new Date(profile.dob).toLocaleDateString()}
-          />
-          <ProfileDetailItem
+          /> */}
+          {/* <ProfileDetailItem
             icon="bx bxs-user-detail"
             label="Gender"
             value={profile.gender}
-          />
+          /> */}
           <ProfileDetailItem
             icon="bx bxs-institution"
             label="College"
@@ -748,9 +750,9 @@ const ExamDashboard = ({ onLogout }) => {
 };
 
 const ProfileDetailItem = ({ icon, label, value }) => (
-  <div className="profile-item">
+  <div className="profile-items">
     <i className={icon}></i>
-    <div className="profile-item-details">
+    <div className="profile-item-detail">
       <span className="label">{label}</span>
       <span className="value">{value || "N/A"}</span>
     </div>
