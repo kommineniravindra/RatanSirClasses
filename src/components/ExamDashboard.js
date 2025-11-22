@@ -495,6 +495,10 @@ const ExamDashboard = ({ onLogout }) => {
       },
     },
   });
+const maskMobile = (mobile) => {
+  if (!mobile) return "";
+  return mobile.replace(/(\d{2})\d{5}(\d{3})/, "$1XXXXX$2");
+};
 
   if (error) return <div className="feedback-message error">{error}</div>;
   if (!profile)
@@ -539,10 +543,11 @@ const ExamDashboard = ({ onLogout }) => {
           
           <h3>Your Information</h3>
           <ProfileDetailItem
-            icon="bx bxs-phone"
-            label="Mobile"
-            value={profile.mobile}
-          />
+  icon="bx bxs-phone"
+  label="Mobile"
+  value={maskMobile(profile.mobile)}
+/>
+
           {/* <ProfileDetailItem
             icon="bx bxs-calendar"
             label="Date of Birth"

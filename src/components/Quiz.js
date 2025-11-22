@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { coy } from "react-syntax-highlighter/dist/esm/styles/prism";
-import Editor from "@monaco-editor/react";
 import loginImage from "../assets/quiz-img.png";
 import emailjs from "@emailjs/browser";
 
@@ -27,54 +24,34 @@ const TOTAL_TIME = 900; // 5 minutes
 const AVAILABLE_CHAPTERS = [1, 2, 3, 4];
 
 // --- NEW: EmailJS Configuration ---
-// const EMAILJS_SERVICE_ID = "service_o1fbb8a";
-// const EMAILJS_TEMPLATE_ID = "template_oxeq679";
-// const EMAILJS_PUBLIC_KEY = "QT4vFNSyQjWyMeDEz";
 
-
-const EMAILJS_SERVICE_ID = "service_ocmb30h";
-const EMAILJS_TEMPLATE_ID = "template_sln74fh";
-const EMAILJS_PUBLIC_KEY = "JOzwEY9U5v3Nu1evJ";
+const EMAILJS_SERVICE_ID = "service_o1fbb8a";
+const EMAILJS_TEMPLATE_ID = "template_oxeq679";
+const EMAILJS_PUBLIC_KEY = "QT4vFNSyQjWyMeDEz";
 
 const languageConfig = {
   java: {
-    language: "java",
-    judge0Id: 62,
-    type: "judge0",
-    boilerplate: `public class Main {\n    public static void main(String[] args) {\n        // Your code here\n    }\n}`,
+    language: "java"
   },
   python: {
-    language: "python",
-    judge0Id: 71,
-    type: "judge0",
-    boilerplate: `# Your code here`,
+    language: "python"
   },
   javascript: {
-    language: "javascript",
-    judge0Id: 63,
-    type: "judge0",
-    boilerplate: `// Your code here`,
+    language: "javascript"
   },
   sql: {
-    language: "sql",
-    judge0Id: 82,
-    type: "judge0",
-    boilerplate: `-- Your SQL query here`,
+    language: "sql"
   },
   html: {
-    language: "html",
-    type: "codepad",
-    boilerplate: `<!DOCTYPE html>\n<html>\n<head>\n    <title>My HTML Page</title>\n</head>\n<body>\n    <h1>Hello, World!</h1>\n    <p>This is a sample HTML structure.</p>\n</body>\n</html>`,
+    language: "html"
   },
   css: {
-    language: "css",
-    type: "codepad",
-    boilerplate: `/* Type your CSS code here */\nbody {\n  font-family: sans-serif;\n}`,
+    language: "css"
   },
-  react: { language: "javascript", type: "none" },
-  microservices: { language: "plaintext", type: "none" },
-  restapi: { language: "plaintext", type: "none" },
-  default: { language: "plaintext", type: "none" },
+  react: { language: "javascript" },
+  microservices: { language: "plaintext" },
+  restapi: { language: "plaintext" },
+  default: { language: "plaintext" },
 };
 
 const shuffleArray = (array) => {
@@ -86,67 +63,7 @@ const shuffleArray = (array) => {
   return newArray;
 };
 
-const JUDGE0_API = "https://ce.judge0.com";
 
-const runCode = async (userCode, customInput, languageId) => {
-  if (!languageId) return { error: "Execution not supported.", output: "" };
-  try {
-    const res = await fetch(
-      `${JUDGE0_API}/submissions?base64_encoded=false&wait=true`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          source_code: userCode,
-          language_id: languageId,
-          stdin: customInput || "",
-        }),
-      }
-    );
-    const data = await res.json();
-    const compileError = data.compile_output
-      ? data.compile_output.trim()
-      : null;
-    const runError = data.stderr ? data.stderr.trim() : null;
-    if (compileError) return { error: compileError, output: "" };
-    if (runError) return { error: runError, output: "" };
-    return { error: null, output: data.stdout ? data.stdout.trim() : "" };
-  } catch (err) {
-    return { error: err.message, output: "" };
-  }
-};
-
-const calculateAccuracyMarks = (expectedOutput, actualOutput, maxMarks) => {
-  if (!expectedOutput || !actualOutput) return 0;
-  const s1 = expectedOutput.trim().replace(/\s+/g, " ");
-  const s2 = actualOutput.trim().replace(/\s+/g, " ");
-  if (s1 === s2) return maxMarks;
-
-  const levenshteinDistance = (a, b) => {
-    const matrix = Array(b.length + 1)
-      .fill(null)
-      .map(() => Array(a.length + 1).fill(null));
-    for (let i = 0; i <= a.length; i += 1) matrix[0][i] = i;
-    for (let j = 0; j <= b.length; j += 1) matrix[j][0] = j;
-    for (let i = 1; i <= a.length; i += 1) {
-      for (let j = 1; j <= b.length; j += 1) {
-        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-        matrix[j][i] = Math.min(
-          matrix[j][i - 1] + 1,
-          matrix[j - 1][i] + 1,
-          matrix[j - 1][i - 1] + cost
-        );
-      }
-    }
-    return matrix[b.length][a.length];
-  };
-
-  const maxLength = Math.max(s1.length, s2.length);
-  if (maxLength === 0) return maxMarks;
-  const distance = levenshteinDistance(s1, s2);
-  const similarity = (maxLength - distance) / maxLength;
-  return Math.round(Math.max(0, similarity) * maxMarks);
-};
 
 // --- Flexible Spinner Component ---
 const iconMap = {
@@ -182,10 +99,8 @@ const Quiz = () => {
   const [currentChapter, setCurrentChapter] = useState(0);
   const [mcqs, setMcqs] = useState([]);
   const [blanks, setBlanks] = useState([]);
-  const [coding, setCoding] = useState([]);
   const [answersMCQ, setAnswersMCQ] = useState([]);
   const [answersBlanks, setAnswersBlanks] = useState([]);
-  const [answersCoding, setAnswersCoding] = useState([]);
   const [codeResults, setCodeResults] = useState({});
   const [score, setScore] = useState(0);
   const [showResults, setShowResults] = useState(false);
@@ -203,10 +118,7 @@ const Quiz = () => {
       },
     [selectedLanguage]
   );
-  const isCodingAvailable = useMemo(
-    () => techConfig.type === "judge0" || techConfig.type === "codepad",
-    [techConfig]
-  );
+
 
   const handleSubmit = useCallback(async () => {
     const result = await Swal.fire({
@@ -230,32 +142,21 @@ const Quiz = () => {
       if (answersMCQ[i] === q.answer) mcqMarks++;
     });
 
-    let blanksMarks = 0;
+    let fillMarks = 0;
     blanks.forEach((q, i) => {
       if (
         (answersBlanks[i] || "").trim().toLowerCase() ===
         q.answer.trim().toLowerCase()
       )
-        blanksMarks++;
+        fillMarks++;
     });
 
     let codingMarks = 0;
-    coding.forEach((q, i) => {
-      if (techConfig.type === "judge0") {
-        codingMarks += codeResults[i]?.marks || 0;
-      } else if (techConfig.type === "codepad") {
-        const marks = calculateAccuracyMarks(
-          q.answer,
-          answersCoding[i] || "",
-          q.maxMarks || 1
-        );
-        codingMarks += marks;
-        setCodeResults((prev) => ({ ...prev, [i]: { marks } }));
-      }
-    });
+
+   
 
     // const finalScore = mcqMarks + blanksMarks + codingMarks;
-        const finalScore = mcqMarks + blanksMarks;
+        const finalScore = mcqMarks + fillMarks;
 
 
     try {
@@ -265,7 +166,7 @@ const Quiz = () => {
 
       const quizCode = `${technology}-quiz${quizId}`;
       // const payload = { quizCode, mcqMarks, blanksMarks, codingMarks };
-            const payload = { quizCode, mcqMarks, blanksMarks, codingMarks:0 };
+            const payload = { quizCode, mcqMarks, fillMarks, codingMarks:0 };
 
 
       const authHeaders = { headers: { Authorization: `Bearer ${token}` } };
@@ -289,12 +190,6 @@ const Quiz = () => {
       if (userEmail) {
         const totalPossibleMCQ = mcqs.length;
         const totalPossibleBlanks = blanks.length;
-        // const totalPossibleCoding = coding.reduce(
-        //   (sum, q) => sum + (q.maxMarks || 1),
-        //   0
-        // );
-        // const totalPossibleTotal =
-        //   totalPossibleMCQ + totalPossibleBlanks + totalPossibleCoding;
         const totalPossibleCoding = 0;
          const totalPossibleTotal =
           totalPossibleMCQ + totalPossibleBlanks;
@@ -304,7 +199,7 @@ const Quiz = () => {
           technology: selectedLanguage,
           exam_number: currentChapter,
           mcq_marks: `${mcqMarks} / ${totalPossibleMCQ}`,
-          blanks_marks: `${blanksMarks} / ${totalPossibleBlanks}`,
+          blanks_marks: `${fillMarks} / ${totalPossibleBlanks}`,
           coding_marks: `${codingMarks} / ${totalPossibleCoding}`,
           total_marks: `${finalScore} / ${totalPossibleTotal}`,
           to_email: userEmail,
@@ -342,14 +237,11 @@ const Quiz = () => {
   }, [
     answersMCQ,
     answersBlanks,
-    answersCoding,
-    codeResults,
     technology,
     quizId,
     mcqs,
     blanks,
-    coding,
-    techConfig.type,
+  
     selectedLanguage,
     currentChapter,
   ]);
@@ -363,15 +255,13 @@ const Quiz = () => {
     setIsModalOpen(false);
     setScore(0);
     setShowResults(false);
-    setShowAnswerReview(false);
     setTimer(TOTAL_TIME);
-    setCodeResults({});
+    
 
     const lang = language.toLowerCase().replace(/\s+/g, "");
     const currentTechConfig = languageConfig[lang] || { type: "none" };
     let mcqData = [];
     let blanksData = [];
-    let codingData = [];
 
     try {
       const mcqModule = await import(
@@ -401,29 +291,10 @@ const Quiz = () => {
       );
     }
 
-    if (
-      currentTechConfig.type === "judge0" ||
-      currentTechConfig.type === "codepad"
-    ) {
-      try {
-        const codingModule = await import(
-          `../quiz/${lang}/CodingChapter${chapterNumber}.json`
-        );
-        codingData = shuffleArray(codingModule.default);
-      } catch (error) {
-        console.warn(
-          `No Coding questions found for ${lang} Chapter ${chapterNumber}.`
-        );
-      }
-    }
-
-    setMcqs(mcqData);
+       setMcqs(mcqData);
     setBlanks(blanksData);
-    setCoding(codingData);
-    setAnswersMCQ(new Array(mcqData.length).fill(""));
-    setAnswersBlanks(new Array(blanksData.length).fill(""));
-    setAnswersCoding(new Array(codingData.length).fill(""));
-
+    setAnswersMCQ(Array(mcqData.length).fill(null));
+    setAnswersBlanks(Array(blanksData.length).fill(null));
     setTimerRunning(true);
     setIsLoading(false);
   }, []);
@@ -453,60 +324,12 @@ const Quiz = () => {
     newAnswers[index] = value;
     setAnswersBlanks(newAnswers);
   };
-  const handleAnswerChangeCoding = (index, value) => {
-    const newAnswers = [...answersCoding];
-    newAnswers[index] = value;
-    setAnswersCoding(newAnswers);
-  };
+
 
   const handleRetryQuiz = () => {
     if (selectedLanguage && currentChapter) {
       startQuiz(selectedLanguage, currentChapter);
     }
-  };
-
-  const handleRunCode = async (index, code) => {
-    if (!code) return;
-    // setIsLoading(true);
-    const question = coding[index];
-    const result = await runCode(
-      code,
-      question.sampleInput,
-      techConfig.judge0Id
-    );
-
-    let marks = 0;
-    if (!result.error) {
-      marks = calculateAccuracyMarks(
-        question.sampleOutput,
-        result.output,
-        question.maxMarks || 1
-      );
-    }
-
-    setCodeResults((prev) => ({ ...prev, [index]: { ...result, marks } }));
-    // setIsLoading(false);
-  };
-
-  const handleEvaluateCodePad = (index, code) => {
-    const question = coding[index];
-    const marks = calculateAccuracyMarks(
-      question.answer,
-      code,
-      question.maxMarks || 1
-    );
-    setCodeResults((prev) => ({
-      ...prev,
-      [index]: { marks, evaluated: true },
-    }));
-  };
-
-  const createPreviewContent = (code, type) => {
-    if (type === "html") return code;
-    if (type === "css") {
-      return `<html><head><style>${code}</style></head><body><h1>Styled Heading</h1><p>A sample paragraph.</p><button>Button</button></body></html>`;
-    }
-    return "";
   };
 
   const handleLanguageSelect = (lang) => {
@@ -521,7 +344,7 @@ const Quiz = () => {
     const totalPossibleMarks =
       mcqs.length +
       blanks.length;
-      // coding.reduce((sum, q) => sum + (q.maxMarks || 1), 0);
+
     const correctAnswers = score;
     const incorrectAnswers = totalPossibleMarks - correctAnswers;
     const percentage =
@@ -529,7 +352,7 @@ const Quiz = () => {
         ? Math.round((correctAnswers / totalPossibleMarks) * 100)
         : 0;
     return { totalPossibleMarks, correctAnswers, incorrectAnswers, percentage };
-  }, [showResults, score, mcqs, blanks, coding]);
+  }, [showResults, score, mcqs, blanks]);
 
   // --- Render Functions ---
   const renderChapterSelectionModal = () => {
@@ -551,7 +374,7 @@ const Quiz = () => {
                 className="btn btn-quiz-option"
                 onClick={() =>
                   navigate(
-                    `/quiz/${selectedLanguage.toLowerCase()}/${num}`
+                    `/ratan-tutotrials/quiz/${selectedLanguage.toLowerCase()}/${num}`
                   )
                 }
               >
@@ -598,7 +421,7 @@ const Quiz = () => {
           </div>
 
           <div className="intro-setup">
-            <h1 className="intro-brand">CodePulse-R</h1>
+            <h1 className="intro-brand">Ratan Sir Classes</h1>
             <h2 className="intro-setup-title">Choose Your Arena</h2>
             <div className="language-grid">
               {languages.map((lang) => (
@@ -707,131 +530,6 @@ const Quiz = () => {
               );
             })}
           </section>
-
-          {false && (
-            <section className="question-type-section">
-              {/* <h2 className="section-title">Coding Questions</h2> */}
-              {coding.map((q, index) => (
-                <div key={`code-${index}`} className="question-panel">
-                  <p className="question-text">
-                    {mcqs.length + blanks.length + index + 1}. {q.question}
-                  </p>
-                  <div className="sample-box">
-                    <div>
-                      <p>
-                        <strong>Sample Input:</strong>
-                      </p>
-                      <pre>{q.sampleInput || "N/A"}</pre>
-                    </div>
-                    <div>
-                      <p>
-                        <strong>Sample Output:</strong>
-                      </p>
-                      <pre>{q.sampleOutput || "N/A"}</pre>
-                    </div>
-                  </div>
-                  {techConfig.type === "judge0" && (
-                    <>
-                      <Editor
-                        height="250px"
-                        language={techConfig.language}
-                        theme="vs-dark"
-                        defaultValue={techConfig.boilerplate}
-                        onChange={(val) =>
-                          handleAnswerChangeCoding(index, val || "")
-                        }
-                      />
-                      <button
-                        onClick={() =>
-                          handleRunCode(index, answersCoding[index])
-                        }
-                        disabled={isLoading}
-                        className="btn btn-run"
-                      >
-                        {isLoading ? "Running..." : "Run & Evaluate"}
-                      </button>
-                      {codeResults[index] && (
-                        <div className="code-output-panel">
-                          {codeResults[index].error ? (
-                            <div className="output-error">
-                              <h4>Error</h4>
-                              <pre>{codeResults[index].error}</pre>
-                            </div>
-                          ) : (
-                            <div className="output-success">
-                              <h4>Your Output:</h4>
-                              <pre>
-                                {codeResults[index].output || "(No output)"}
-                              </pre>
-                              <p className="marks-display">
-                                Marks: {codeResults[index].marks} /{" "}
-                                {q.maxMarks || 1}
-                              </p>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </>
-                  )}
-                  {techConfig.type === "codepad" && (
-                    <>
-                      <div className="codepad-wrapper">
-                        <div className="codepad-main">
-                          <div className="codepad-editor">
-                            <Editor
-                              height="300px"
-                              language={techConfig.language}
-                              theme="vs-dark"
-                              defaultValue={techConfig.boilerplate}
-                              onChange={(val) =>
-                                handleAnswerChangeCoding(index, val || "")
-                              }
-                            />
-                          </div>
-                          <div className="codepad-preview">
-                            <span>
-                              {" "}
-                              <b>Note:</b> To Get Marks Run & Evaluate
-                            </span>
-
-                            <iframe
-                              srcDoc={createPreviewContent(
-                                answersCoding[index] || techConfig.boilerplate,
-                                techConfig.language
-                              )}
-                              title={`Preview for question ${index + 1}`}
-                              sandbox="allow-scripts allow-same-origin"
-                              frameBorder="0"
-                            />
-                          </div>
-                        </div>
-
-                        <button
-                          onClick={() =>
-                            handleEvaluateCodePad(index, answersCoding[index])
-                          }
-                          className="btn btn-run"
-                        >
-                          Run & Evaluate
-                        </button>
-
-                        {codeResults[index]?.evaluated && (
-                          <div className="code-output-panel">
-                            <div className="output-success">
-                              <p className="marks-display">
-                                Marks: {codeResults[index].marks} /{" "}
-                                {q.maxMarks || 1}
-                              </p>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </>
-                  )}
-                </div>
-              ))}
-            </section>
-          )}
         </div>
       </div>
     </div>
@@ -909,9 +607,6 @@ const Quiz = () => {
                 </button>
               </div>
             </div>
-            {/* <div className="results-image">
-              <img src={loginImage} alt="Welcome" className="welcome-image" />
-            </div> */}
           </div>
 
           {/* Always show Answer Review */}
@@ -980,45 +675,7 @@ const Quiz = () => {
               );
             })}
 
-            {/* Coding Questions */}
-            {/* {coding.map((q, index) => {
-              const isCorrect =
-                (codeResults[index]?.marks || 0) === (q.maxMarks || 1);
-              return (
-                <div
-                  key={`coding-${index}`}
-                  className={`review-item ${
-                    isCorrect ? "correct" : "incorrect"
-                  }`}
-                >
-                  <p className="review-question-text">
-                    {mcqs.length + blanks.length + index + 1}. {q.question}
-                  </p>
-                  <div className="code-review-wrapper">
-                    <h5>Your Answer:</h5>
-                    <SyntaxHighlighter
-                      language={techConfig.language}
-                      style={coy}
-                    >
-                      {answersCoding[index] || "// Not Answered"}
-                    </SyntaxHighlighter>
-                  </div>
-                  {!isCorrect && (
-                    <div className="code-review-wrapper">
-                      <h5>
-                        <FaCheck className="answer-icon" /> Correct Answer:
-                      </h5>
-                      <SyntaxHighlighter
-                        language={techConfig.language}
-                        style={coy}
-                      >
-                        {q.answer}
-                      </SyntaxHighlighter>
-                    </div>
-                  )}
-                </div>
-              );
-            })} */}
+           
           </div>
         </div>
       </div>

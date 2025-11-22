@@ -212,7 +212,7 @@ function StartLearning() {
   const [chapterExampleCounts, setChapterExampleCounts] = useState({});
   const [currentChapterData, setCurrentChapterData] = useState([]);
 
-  const [userProfile, setUserProfile] = useState({ studentName: "Student", _id: null, email: null, mobile: null, college: null, qualification: null, passingYear: null, cgpa: null, });
+  const [userProfile, setUserProfile] = useState({ studentName: "Student", _id: null, email: null, mobile: null ,dob:null, college: null, qualification: null, passingYear: null, cgpa: null, });
   const [isProfileLoading, setIsProfileLoading] = useState(false);
 
   const allCourseMaxMarks = useMemo(() => {
@@ -386,6 +386,7 @@ function StartLearning() {
         _id: null,
         email: null,
         mobile: null,
+        dob:null,
         college: null,
         qualification: null,
         passingYear: null,
@@ -1144,7 +1145,11 @@ function StartLearning() {
 
       if (isProfileLoading)
         return <h1 className="learning-content-header">Loading Profile...</h1>;
-
+      
+const maskMobile = (mobile) => {
+  if (!mobile) return "";
+  return mobile.replace(/(\d{2})\d{5}(\d{3})/, "$1XXXXX$2");
+};
       return (
         <div className="learning-dashboard">
           <h1 className="learning-content-header">
@@ -1164,7 +1169,12 @@ function StartLearning() {
                 <strong>Email:</strong> <span>{profile.email || "N/A"}</span>
               </div>
               <div className="profile-item">
-                <strong>Mobile:</strong> <span>{profile.mobile || "N/A"}</span>
+                <strong>Mobile:</strong> 
+                <span>{maskMobile(profile.mobile) || "N/A"}</span>
+              </div>
+              <div className="profile-item">
+                <strong>Date of Birth:</strong>{" "}
+                <span>{profile.dob || "N/A"}</span>
               </div>
 
               <div className="profile-item academic-header">
