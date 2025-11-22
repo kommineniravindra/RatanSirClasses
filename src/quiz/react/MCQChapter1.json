@@ -1,52 +1,148 @@
 [
   {
-    "question": "Which of the following is used to create components in React?",
-    "options": ["Functions and Classes", "Only Functions", "Only Classes", "Objects"],
-    "answer": "Functions and Classes"
+    "question": "What is the main purpose of React?",
+    "options": ["To build backend rest APis.", "To build user interfaces.", "To manage databases.", "To host websites."],
+    "answer": "To build user interfaces."
   },
   {
-    "question": "React uses _______ to update the UI efficiently.",
-    "options": ["Virtual DOM", "Real DOM", "Shadow DOM", "Document Object Model"],
-    "answer": "Virtual DOM"
+    "question": "React was developed by which company?",
+    "options": ["Google", "Microsoft", "Facebook", "Amazon"],
+    "answer": "Facebook"
   },
   {
-    "question": "Which hook is used to manage state in functional components?",
-    "options": ["useState", "useEffect", "useReducer", "useContext"],
-    "answer": "useState"
+    "question": "In React, UI is built using?",
+    "options": ["Templates", "Components", "Controllers", "Modules"],
+    "answer": "Components"
   },
   {
-    "question": "Which hook is used to perform side effects in React components?",
-    "options": ["useEffect", "useState", "useMemo", "useRef"],
-    "answer": "useEffect"
+    "question": "What is the purpose of props?",
+    "options": ["Manage component’s own state", "Pass data between components", "Style components", "Create database connections"],
+    "answer": "Pass data between components"
   },
   {
-    "question": "Props in React are _______.",
-    "options": ["Read-only", "Mutable", "Variables", "States"],
-    "answer": "Read-only"
+    "question": "What is the role of JSX in React?",
+    "options": [
+      "It allows writing JavaScript inside HTML.",
+      "It allows writing HTML-like syntax inside JavaScript.",
+      "It is used only to style React components.",
+      "It replaces the need for JavaScript completely."
+    ],
+    "answer": "It allows writing HTML-like syntax inside JavaScript."
   },
   {
-    "question": "Which of the following is used to pass data from parent to child?",
-    "options": ["Props", "State", "Context", "Reducer"],
-    "answer": "Props"
-  },
-  {
-    "question": "What is JSX in React?",
-    "options": ["JavaScript XML", "JavaScript Extension", "Java Simple XML", "JSON Syntax eXtension"],
+    "question": "What is the full form of JSX?",
+    "options": ["Java Syntax Extension", "JavaScript XML", "JSON XML", "JavaScript XHTML"],
     "answer": "JavaScript XML"
   },
   {
-    "question": "Which of the following is a correct way to create a React component?",
-    "options": ["function MyComponent() {}", "component MyComponent {}", "MyComponent = function {}", "class MyComponent() {}"],
-    "answer": "function MyComponent() {}"
+    "question": "What is the main role of Axios in a React application?",
+    "options": [
+      "Component-based architecture.",
+      "Only the required section is loaded, not the whole page.",
+      "React connect with backend Rest APIs.",
+      "Pass data between components"
+    ],
+    "answer": "React connect with backend Rest APIs."
   },
   {
-    "question": "Which React method is used to render components to the DOM?",
-    "options": ["ReactDOM.render()", "React.render()", "DOM.render()", "render()"],
-    "answer": "ReactDOM.render()"
+    "question": "What is a SPA (Single Page Application)?",
+    "options": ["The entire page reloads on every click", "Only the required section is loaded, not the whole page", "An application used only for mobile devices", "A server-side rendered application"],
+    "answer": "Only the required section is loaded, not the whole page"
   },
   {
-    "question": "Which feature allows React components to share data without passing props?",
-    "options": ["Context API", "Redux only", "Hooks only", "Virtual DOM"],
-    "answer": "Context API"
+    "question": "What is the role of React Native?",
+    "options": ["Web applications", "Desktop applications", "Mobile applications", "Backend APIs"],
+    "answer": "Mobile applications"
+  },
+  {
+    "question": "What is the role of NPM?",
+    "options": ["To create UI components", "To create the project Folders", "To install and manage packages️", "To compile React code"],
+    "answer": "To install and manage packages️"
+  },
+  {
+    "question": "What does NPM stand for?",
+    "options": ["Node Program Manager", "New Package Module", "Network Package Manager", "Node Package Manager"],
+    "answer": "Node Package Manager"
+  },
+  {
+    "question": "What is the Virtual DOM?",
+    "options": [
+      "A DOM present in Browser",
+      "A in-memory copy of DOM used by React",
+      "A DOM present in HTML",
+      "A DOM present in Database."
+    ],
+    "answer": "A in-memory copy of DOM used by React"
+  },
+  {
+    "question": "What is Redux used for?",
+    "options": [
+      "To maintain the local state of only one component",
+      "To connect frontend React to backend REST APIs",
+      "Managing global state data required for all components.",
+      "An in-memory copy of DOM used by React"
+    ],
+    "answer": "Managing global state data required for all components."
+  },
+  {
+    "question": "What is Diffing in React?",
+    "options": [
+      "Converting HTML + JS into JSX.",
+      "Comparing new and previous Virtual DOM to find changes.",
+      "Converting the JSX into JS",
+      "Connecting frontend and backend."
+    ],
+    "answer": "Comparing new and previous Virtual DOM to find changes."
+  },
+  {
+    "question": "What is Reconciliation in React?",
+    "options": [
+      "Comparing new and previous Virtual DOM to find changes.",
+      "A way to reset the Virtual DOM.",
+      "Updating the Real DOM based on Diffing results.",
+      "Process of maintain two virtual DOMS at react side."
+    ],
+    "answer": "Updating the Real DOM based on Diffing results."
+  },
+  {
+    "question": "When does Diffing occur?",
+    "options": [
+      "When React app is first created.",
+      "When Chrome is refreshed",
+      "Whenever component state changes.",
+      "When Node.js version changes"
+    ],
+    "answer": "Whenever component state changes."
+  },
+  {
+    "question": "Which of the following is true about DOM?",
+    "options": [
+      "HTML elements are represented as a tree of objects.",
+      "Created by the browser when the page loads.",
+      "Stands for Document Object Model.",
+      "All of the above."
+    ],
+    "answer": "All of the above."
+  },
+  {
+    "question": "What are the key features of React?",
+    "options": ["Virtual DOM", "Components", "Redux", "Axios", "Props", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What is the role of React?",
+    "options": [
+      "To build fast User Interfaces using components",
+      "To reduce the server burden by writing the logic at the client",
+      "To create Single Page Applications (SPA)",
+      "To make UI updates efficient using Virtual DOM",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "React is a ___.",
+    "options": ["Programming language", "Backend framework", "JavaScript library", "Database"],
+    "answer": "JavaScript library"
   }
 ]
