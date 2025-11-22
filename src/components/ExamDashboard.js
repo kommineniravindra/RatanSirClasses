@@ -142,7 +142,6 @@ const getTechnologyFromCode = (code) => {
 };
 
 const TOTAL_POSSIBLE_MARKS = 35;
-const TOTAL_QUIZ_POSSIBLE_MARKS = 25;
 const capitalize = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : "");
 
 const ExamDashboard = ({ onLogout }) => {
@@ -372,7 +371,7 @@ const ExamDashboard = ({ onLogout }) => {
         {
           label: "Score (%)",
           data: sorted.map((result) =>
-            ((result.grandTotal / TOTAL_POSSIBLE_MARKS) * 100).toFixed(1)
+            ((result.grandTotal / result.totalMarksPossible) * 100).toFixed(1)
           ),
           backgroundColor: sorted.map(
             (result) =>
@@ -426,7 +425,7 @@ const ExamDashboard = ({ onLogout }) => {
         {
           label: "Score (%)",
           data: sorted.map((r) =>
-            ((r.grandTotal / TOTAL_QUIZ_POSSIBLE_MARKS) * 100).toFixed(1)
+            ((r.grandTotal / r.totalMarksPossible) * 100).toFixed(1)
           ),
           backgroundColor: sorted.map(
             (r) => techChartColors[getTechnologyFromCode(r.quizCode)]?.bg
@@ -440,7 +439,7 @@ const ExamDashboard = ({ onLogout }) => {
     const techData = {};
     quizHistory.forEach((result) => {
       const tech = getTechnologyFromCode(result.quizCode);
-      const score = (result.grandTotal / TOTAL_QUIZ_POSSIBLE_MARKS) * 100;
+      const score = (result.grandTotal / result.totalMarksPossible) * 100;
       if (!techData[tech]) techData[tech] = { totalScore: 0, count: 0 };
       techData[tech].totalScore += score;
       techData[tech].count++;
@@ -647,7 +646,7 @@ const maskMobile = (mobile) => {
                       <div className="history-card-body">
                         <p>
                           <strong>Score:</strong> {result.grandTotal} /{" "}
-                          {TOTAL_QUIZ_POSSIBLE_MARKS}
+                          {result.totalMarksPossible}
                         </p>
                         <p>
                           <FaCalendarAlt /> <strong>Completed:</strong>{" "}

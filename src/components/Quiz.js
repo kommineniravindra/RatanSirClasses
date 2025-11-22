@@ -20,7 +20,7 @@ import axios from "axios";
 import "../css/Quiz.css";
 
 // --- Config and Helper Functions ---
-const TOTAL_TIME = 900; // 5 minutes
+const TOTAL_TIME = 1200; // 5 minutes
 const AVAILABLE_CHAPTERS = [1, 2, 3, 4];
 
 // --- NEW: EmailJS Configuration ---
@@ -101,7 +101,6 @@ const Quiz = () => {
   const [blanks, setBlanks] = useState([]);
   const [answersMCQ, setAnswersMCQ] = useState([]);
   const [answersBlanks, setAnswersBlanks] = useState([]);
-  const [codeResults, setCodeResults] = useState({});
   const [score, setScore] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [timer, setTimer] = useState(TOTAL_TIME);
@@ -157,6 +156,8 @@ const Quiz = () => {
 
     // const finalScore = mcqMarks + blanksMarks + codingMarks;
         const finalScore = mcqMarks + fillMarks;
+        const totalMarksPossible = mcqs.length + blanks.length;
+
 
 
     try {
@@ -166,7 +167,7 @@ const Quiz = () => {
 
       const quizCode = `${technology}-quiz${quizId}`;
       // const payload = { quizCode, mcqMarks, blanksMarks, codingMarks };
-            const payload = { quizCode, mcqMarks, fillMarks, codingMarks:0 };
+            const payload = { quizCode, mcqMarks, fillMarks, codingMarks:0 , totalMarksPossible   };
 
 
       const authHeaders = { headers: { Authorization: `Bearer ${token}` } };
