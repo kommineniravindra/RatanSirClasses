@@ -1,1 +1,127 @@
-[]
+[
+  {
+    "question": "Which command is used to create a new React application using Vite?",
+    "options": ["npm start my-first-app", "npx create my-first-app", "npm create vite@latest", "node create app"],
+    "answer": "npm create vite@latest"
+  },
+  {
+    "question": "Which command starts the Vite dev server?",
+    "options": ["npm run build", "npm start", "npm run dev", "npm create vite@latest"],
+    "answer": "npm run dev"
+  },
+  {
+    "question": "Which command used to install the packages?",
+    "options": ["npm run build", "npm install", "npm run dev", "npm create vite@latest"],
+    "answer": "npm install"
+  },
+  {
+    "question": "What is the entry point of the React Application?",
+    "options": ["Main.jsx", "App.jsx", "index.html", "Greeting.jsx"],
+    "answer": "Main.jsx"
+  },
+  {
+    "question": "Which file is actually displayed in the browser?",
+    "options": ["App.jsx", "Home.jsx", "main.jsx", "index.html"],
+    "answer": "index.html"
+  },
+  {
+    "question": "Which React component controls all other components?",
+    "options": ["main.jsx", "App.jsx", "index.html", "Header.jsx"],
+    "answer": "App.jsx"
+  },
+  {
+    "question": "What is scaffolding?",
+    "options": [
+      "Converting the JSX into JS.",
+      "Auto-generating project folder and files",
+      "Comparing old & new virtual DOM identify Changes.",
+      "Sending the changes part to real DOM."
+    ],
+    "answer": "Auto-generating project folder and files"
+  },
+  {
+    "question": "Which folder stores all user react components?",
+    "options": ["public", "node_modules", "src", "package.json"],
+    "answer": "src"
+  },
+  {
+    "question": "Which folder contains all installed dependencies in a React project?",
+    "options": ["public", "node_modules", "src", "package.json"],
+    "answer": "node_modules"
+  },
+  {
+    "question": "Which file contains dependencies & project metadata information?",
+    "options": ["public", "node_modules", "src", "package.json"],
+    "answer": "package.json"
+  },
+  {
+    "question": "What is the correct React component extension?",
+    "options": [".html", ".jsx", ".reactjs", ".css"],
+    "answer": ".jsx"
+  },
+  {
+    "question": "When will we get the node_modules folder?",
+    "options": [
+      "Once the project created",
+      "After the Project running",
+      "After changing the directory",
+      "Once we run the npm install"
+    ],
+    "answer": "Once we run the npm install"
+  },
+  {
+    "question": "What is the default port number for a React application created using Vite?",
+    "options": ["3000", "8080", "5173", "4200"],
+    "answer": "5173"
+  },
+  {
+    "question": "Which file needs changes to update the port number?",
+    "options": ["package.json", "vite.config.js", "config.vite.js", "vite.react.js"],
+    "answer": "vite.config.js"
+  },
+  {
+    "question": "What is the role of main.jsx in a React (Vite) project?",
+    "options": [
+      "It is the entry point of the React application",
+      "It renders the App component into the index.html root div",
+      "It enables StrictMode for all components",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "In index.html, which element is responsible for displaying the React application data?",
+    "options": ["<body>", "Main.jsx", "<div id=\"root\"></div>", "<head>"],
+    "answer": "<div id=\"root\"></div>"
+  },
+  {
+    "question": "How to change terminal control to your project folder?",
+    "options": [
+      "cd project-folder-name",
+      "change project-folder-name",
+      "goto project-folder-name",
+      "open project-folder-name"
+    ],
+    "answer": "cd project-folder-name"
+  },
+  {
+    "question": "What is the default URL to access your React application after running npm run dev?",
+    "options": ["http://localhost:3000/", "http://localhost:5173/", "http://localhost:8080/", "http://localhost:4200/"],
+    "answer": "http://localhost:5173/"
+  },
+  {
+    "question": "Why do we need to install Node.js before creating a React application?",
+    "options": [
+      "Used to create the react folders & components.",
+      "Provides server-side JavaScript runtime environment",
+      "Provides Editor to write and run the code",
+      "Convert JSX into JavaScript"
+    ],
+    "answer": "Provides server-side JavaScript runtime environment"
+  },
+  {
+    "question": "React is Declarative UI. What does this mean?",
+    "options": ["Tell how to do", "Tell what to do", "Tell both how and what to do", "Very nice and perfect UI with Virtual DOM"],
+    "answer": "Tell what to do"
+  }
+]
