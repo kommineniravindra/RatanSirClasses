@@ -20,33 +20,33 @@ import axios from "axios";
 import "../css/Quiz.css";
 
 // --- Config and Helper Functions ---
-const TOTAL_TIME = 1200; // 5 minutes
+const TOTAL_TIME = 1200; // 20 minutes in seconds
 const AVAILABLE_CHAPTERS = [1, 2, 3, 4];
+const STORAGE_KEY = "quiz_progress"; 
 
-// --- NEW: EmailJS Configuration ---
-
+// --- EmailJS Configuration ---
 const EMAILJS_SERVICE_ID = "service_o1fbb8a";
 const EMAILJS_TEMPLATE_ID = "template_oxeq679";
 const EMAILJS_PUBLIC_KEY = "QT4vFNSyQjWyMeDEz";
 
 const languageConfig = {
   java: {
-    language: "java"
+    language: "java",
   },
   python: {
-    language: "python"
+    language: "python",
   },
   javascript: {
-    language: "javascript"
+    language: "javascript",
   },
   sql: {
-    language: "sql"
+    language: "sql",
   },
   html: {
-    language: "html"
+    language: "html",
   },
   css: {
-    language: "css"
+    language: "css",
   },
   react: { language: "javascript" },
   microservices: { language: "plaintext" },
@@ -62,8 +62,6 @@ const shuffleArray = (array) => {
   }
   return newArray;
 };
-
-
 
 // --- Flexible Spinner Component ---
 const iconMap = {
@@ -107,17 +105,15 @@ const Quiz = () => {
   const [timerRunning, setTimerRunning] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [showAnswerReview, setShowAnswerReview] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const techConfig = useMemo(
-    () =>
-      languageConfig[selectedLanguage.toLowerCase().replace(/\s+/g, "")] || {
-        type: "none",
-      },
-    [selectedLanguage]
-  );
-
+  // const techConfig = useMemo(
+  //   () =>
+  //     languageConfig[selectedLanguage.toLowerCase().replace(/\s+/g, "")] || {
+  //       type: "none",
+  //     },
+  //   [selectedLanguage]
+  // );
 
   const handleSubmit = useCallback(async () => {
     const result = await Swal.fire({
@@ -152,13 +148,8 @@ const Quiz = () => {
 
     let codingMarks = 0;
 
-   
-
-    // const finalScore = mcqMarks + blanksMarks + codingMarks;
-        const finalScore = mcqMarks + fillMarks;
-        const totalMarksPossible = mcqs.length + blanks.length;
-
-
+    const finalScore = mcqMarks + fillMarks;
+    const totalMarksPossible = mcqs.length + blanks.length;
 
     try {
       const token = localStorage.getItem("token");
@@ -166,9 +157,13 @@ const Quiz = () => {
       const userName = localStorage.getItem("userName") || "Student";
 
       const quizCode = `${technology}-quiz${quizId}`;
-      // const payload = { quizCode, mcqMarks, blanksMarks, codingMarks };
-            const payload = { quizCode, mcqMarks, fillMarks, codingMarks:0 , totalMarksPossible   };
-
+      const payload = {
+        quizCode,
+        mcqMarks,
+        fillMarks,
+        codingMarks: 0,
+        totalMarksPossible,
+      };
 
       const authHeaders = { headers: { Authorization: `Bearer ${token}` } };
 
@@ -192,8 +187,7 @@ const Quiz = () => {
         const totalPossibleMCQ = mcqs.length;
         const totalPossibleBlanks = blanks.length;
         const totalPossibleCoding = 0;
-         const totalPossibleTotal =
-          totalPossibleMCQ + totalPossibleBlanks;
+        const totalPossibleTotal = totalPossibleMCQ + totalPossibleBlanks;
 
         const templateParams = {
           student_name: userName,
@@ -221,6 +215,7 @@ const Quiz = () => {
         title: "Submitted!",
         text: "Your quiz has been submitted successfully.",
       });
+      
     } catch (error) {
       console.error("Submission failed:", error);
       Swal.fire({
@@ -231,6 +226,8 @@ const Quiz = () => {
           "An unexpected error occurred. Please try again.",
       });
     } finally {
+      localStorage.removeItem(STORAGE_KEY); 
+      
       setIsSubmitting(false);
       setScore(finalScore);
       setShowResults(true);
@@ -242,7 +239,7 @@ const Quiz = () => {
     quizId,
     mcqs,
     blanks,
-  
+
     selectedLanguage,
     currentChapter,
   ]);
@@ -257,10 +254,9 @@ const Quiz = () => {
     setScore(0);
     setShowResults(false);
     setTimer(TOTAL_TIME);
-    
+    setTimerRunning(false); // Do not start timer until questions are loaded
 
     const lang = language.toLowerCase().replace(/\s+/g, "");
-    const currentTechConfig = languageConfig[lang] || { type: "none" };
     let mcqData = [];
     let blanksData = [];
 
@@ -292,19 +288,76 @@ const Quiz = () => {
       );
     }
 
-       setMcqs(mcqData);
+    setMcqs(mcqData);
     setBlanks(blanksData);
     setAnswersMCQ(Array(mcqData.length).fill(null));
     setAnswersBlanks(Array(blanksData.length).fill(null));
-    setTimerRunning(true);
     setIsLoading(false);
+    setTimerRunning(true); 
   }, []);
 
   useEffect(() => {
     if (technology && quizId) {
-      startQuiz(technology, Number(quizId));
+      const storedProgress = localStorage.getItem(STORAGE_KEY);
+      const requestedChapter = Number(quizId);
+
+      if (storedProgress) {
+        try {
+          const progress = JSON.parse(storedProgress);
+          // Check if the stored data belongs to the currently requested quiz
+          if (
+            progress.selectedLanguage.toLowerCase() === technology.toLowerCase() &&
+            progress.currentChapter === requestedChapter
+          ) {
+            // Restore persisted state
+            setSelectedLanguage(progress.selectedLanguage);
+            setCurrentChapter(progress.currentChapter);
+            setMcqs(progress.mcqs);
+            setBlanks(progress.blanks);
+            setAnswersMCQ(progress.answersMCQ);
+            setAnswersBlanks(progress.answersBlanks);
+            setTimer(progress.timer);
+            setTimerRunning(progress.timer > 0); // Only run timer if time remains
+            setIsLoading(false);
+            console.log('Restored quiz progress from local storage.');
+            return; // Stop here, use restored state
+          }
+        } catch (e) {
+          console.error("Error parsing stored progress:", e);
+          localStorage.removeItem(STORAGE_KEY);
+        }
+      }
+      
+      // If no matching data is found, start a new quiz
+      startQuiz(technology, requestedChapter);
     }
   }, [technology, quizId, startQuiz]);
+
+
+  useEffect(() => {
+    if (timerRunning && mcqs.length > 0) {
+      const progress = {
+        selectedLanguage,
+        currentChapter,
+        mcqs,
+        blanks,
+        answersMCQ,
+        answersBlanks,
+        timer,
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    }
+  }, [
+    timer,
+    answersMCQ,
+    answersBlanks,
+    mcqs,
+    blanks,
+    selectedLanguage,
+    currentChapter,
+    timerRunning,
+  ]);
+
 
   useEffect(() => {
     if (timerRunning && timer > 0) {
@@ -326,8 +379,9 @@ const Quiz = () => {
     setAnswersBlanks(newAnswers);
   };
 
-
   const handleRetryQuiz = () => {
+    // Clear storage before retrying
+    localStorage.removeItem(STORAGE_KEY); 
     if (selectedLanguage && currentChapter) {
       startQuiz(selectedLanguage, currentChapter);
     }
@@ -342,9 +396,7 @@ const Quiz = () => {
 
   const quizStats = useMemo(() => {
     if (!showResults) return null;
-    const totalPossibleMarks =
-      mcqs.length +
-      blanks.length;
+    const totalPossibleMarks = mcqs.length + blanks.length;
 
     const correctAnswers = score;
     const incorrectAnswers = totalPossibleMarks - correctAnswers;
@@ -675,8 +727,6 @@ const Quiz = () => {
                 </div>
               );
             })}
-
-           
           </div>
         </div>
       </div>
@@ -700,7 +750,7 @@ const Quiz = () => {
     return renderResultsPage();
   }
 
-  if (timerRunning) {
+  if (timerRunning || mcqs.length > 0) {
     return renderQuizPage();
   }
 

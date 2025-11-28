@@ -81,7 +81,7 @@ const examAccessCodes = {
 };
 
 const technologies = [
-  { key: "html", name: "HTML", icon: <FaHtml5 />, quizChapters: [1, 2, 3, 4, 5, 6] },
+  { key: "html", name: "HTML", icon: <FaHtml5 />, quizChapters: [1, 2,3] },
   // { key: "css", name: "CSS", icon: <FaCss3Alt />, quizChapters: [1, 2, 3, 4, 5, 6]  },
   // {
   //   key: "javascript",
@@ -89,7 +89,7 @@ const technologies = [
   //   icon: <FaJs />,
   //   quizChapters: [1, 2, 3, 4, 5, 6, 7, 8] ,
   // },
-  { key: "react", name: "React", icon: <FaReact />, quizChapters: [1, 2, 3, 4, 5, 6]  },
+  { key: "react", name: "React", icon: <FaReact />, quizChapters: [1, 2, 3]  },
   // { key: "java", name: "Java", icon: <FaJava />, quizChapters:[1, 2, 3, 4, 5, 6]  },
   // {
   //   key: "python",
@@ -141,7 +141,6 @@ const getTechnologyFromCode = (code) => {
   return "default";
 };
 
-const TOTAL_POSSIBLE_MARKS = 35;
 const capitalize = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : "");
 
 const ExamDashboard = ({ onLogout }) => {
@@ -235,7 +234,7 @@ const ExamDashboard = ({ onLogout }) => {
         <ul>
           <li>Timer starts immediately.</li>
           <li>
-            Duration: <strong>15 minutes</strong>.
+            Duration: <strong>30 minutes</strong>.
           </li>
           <li>Switching tabs will auto-submit the test.</li>
         </ul>
@@ -392,7 +391,7 @@ const ExamDashboard = ({ onLogout }) => {
     const techData = {};
     examHistory.forEach((result) => {
       const tech = getTechnologyFromCode(result.examCode);
-      const score = (result.grandTotal / TOTAL_POSSIBLE_MARKS) * 100;
+      const score = (result.grandTotal / result.totalMarksPossible) * 100;
       if (!techData[tech]) techData[tech] = { totalScore: 0, count: 0 };
       techData[tech].totalScore += score;
       techData[tech].count++;
@@ -727,7 +726,7 @@ const maskMobile = (mobile) => {
                     <div className="history-card-body">
                       <p>
                         <strong>Score:</strong> {result.grandTotal} /{" "}
-                        {TOTAL_POSSIBLE_MARKS}
+                        {result.totalMarksPossible}
                       </p>
                       <p>
                         <FaCalendarAlt /> <strong>Completed:</strong>{" "}

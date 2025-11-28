@@ -16,6 +16,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Globe from "../components/Globe";
 import CircularSlider from '../components/CircularSlider';
 import HomeUI1 from "./HomeUI1";
+import NixieClock from "./NixieClock";
 
 Modal.setAppElement('#root');
 
@@ -206,7 +207,8 @@ const Home = ({ onTechnologySelect }) => {
       {/* <div>
         <CircularSlider onStartLearning={onTechnologySelect} />
       </div> */}
-     <HomeUI1 />
+     {/* <HomeUI1 /> */}
+     {/* <NixieClock /> */}
     </div>
     </>
   );

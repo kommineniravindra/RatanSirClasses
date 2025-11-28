@@ -250,6 +250,24 @@
   animation: floatCube 4.2s ease-in-out infinite;
 }
 
+.hero-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.clock-wrapper {
+  position: absolute;
+  right: -40px;        /* adjust position */
+  top: 60px;           /* adjust vertical alignment */
+  transform: scale(0.9);
+  z-index: 10;
+}
+
+.new-illustration {
+  position: relative;
+}
 
 /* Animations */
 @keyframes pulseGlow {

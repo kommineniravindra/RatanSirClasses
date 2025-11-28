@@ -1,0 +1,196 @@
+[
+  {
+    "question": "What is the primary purpose of useEffect() in React?",
+    "options": [
+      "To trigger a function whenever the component is re-rendered",
+      "To handle side effects like data fetching, DOM manipulation",
+      "To trigger a function whenever the component loaded at first",
+      "To trigger a function whenever the component specific state changes",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following will cause useEffect() to run every time the component is rendered?",
+    "options": [
+      "useEffect(() => { ... }, [])",
+      "useEffect(() => { ... }, [dependency])",
+      "useEffect(() => { ... })",
+      "return () => { ... }"
+    ],
+    "answer": "useEffect(() => { ... })"
+  },
+  {
+    "question": "Which of the following will cause useEffect() to run whenever the component loaded at first?",
+    "options": [
+      "useEffect(() => { ... }, [])",
+      "useEffect(() => { ... }, [dependency])",
+      "useEffect(() => { ... })",
+      "return () => { ... }"
+    ],
+    "answer": "useEffect(() => { ... }, [])"
+  },
+  {
+    "question": "You want useEffect() to run every time ANY state changes. Which option does that?",
+    "options": [
+      "useEffect(() => { ... }, [])",
+      "useEffect(() => { ... }, [dependency])",
+      "useEffect(() => { ... })",
+      "return () => { ... }"
+    ],
+    "answer": "useEffect(() => { ... })"
+  },
+  {
+    "question": "Which of the following will cause useEffect() to run whenever the component unmount?",
+    "options": [
+      "useEffect(() => { ... }, [])",
+      "useEffect(() => { ... }, [dependency])",
+      "useEffect(() => { ... })",
+      "return () => { ... }"
+    ],
+    "answer": "return () => { ... }"
+  },
+  {
+    "question": "What is the return value of useEffect() in React?",
+    "options": [
+      "A promise",
+      "A cleanup function",
+      "The current state value",
+      "The components previous render state"
+    ],
+    "answer": "A cleanup function"
+  },
+  {
+    "question": "You set an interval inside useEffect() but forget to clean it up. What happens in a real app?",
+    "options": [
+      "Multiple intervals keep running after component unmount.",
+      "The app becomes slow over time",
+      "Memory leaks may happen",
+      "React will not automatically clean up.",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What is the role of setInterval()?",
+    "options": [
+      "It executes a function once after a delay",
+      "It executes a function repeatedly at specified time intervals",
+      "It stops a running timer",
+      "It cleans up subscriptions"
+    ],
+    "answer": "It executes a function repeatedly at specified time intervals"
+  },
+  {
+    "question": "What is the role of clearInterval()?",
+    "options": [
+      "It starts a timer",
+      "It executes a function repeatedly",
+      "It stops a timer started by setInterval()",
+      "It updates state automatically"
+    ],
+    "answer": "It stops a timer started by setInterval()"
+  },
+  {
+    "question": "How do you correctly start and stop a timer in a React component?",
+    "options": [
+      "clearInterval(stop)",
+      "clearInterval(timer)",
+      "timer.stop()",
+      "useEffect.stop(timer)"
+    ],
+    "answer": "clearInterval(timer)"
+  },
+
+  {
+    "question": "If a parent component re-renders 10 times, how many times will a child component re-render?",
+    "options": ["1 time, always", "10 times, unless optimized", "0 times", "5 times"],
+    "answer": "10 times, unless optimized"
+  },
+  {
+    "question": "Parent component passed props to a child component, how to stop unnecessary re-renders of child?",
+    "options": [
+      "By using useCallback() on the function in the parent component",
+      "By using useEffect() in the child component",
+      "By using React.memo() in the child component",
+      "By setting the props with default value"
+    ],
+    "answer": "By using React.memo() in the child component"
+  },
+  {
+    "question": "What types of data can be passed as props in React?",
+    "options": [
+      "A primitive data can be passed as props",
+      "A function can be passed as props",
+      "Object data can be passed as props",
+      "Array data can be passed as props",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What is a callback function?",
+    "options": [
+      "A function that automatically runs when the component mounts.",
+      "A function passed as a prop, and its execution is decided by the child",
+      "A function that returns another function",
+      "A function passed to child as props"
+    ],
+    "answer": "A function passed as a prop, and its execution is decided by the child"
+  },
+  {
+    "question": "Which is TRUE about useCallback()?",
+    "options": [
+      "It re-create the function when the component is re-render",
+      "It should not re-create the function every re-render",
+      "It is stop the child component re-render.",
+      "The child is re-render only when the props changes."
+    ],
+    "answer": "It should not re-create the function every re-render"
+  },
+  {
+    "question": "In a two-way data binding scenario (parent ↔ child), what is typically passed to the child?",
+    "options": [
+      "A copy of the parent’s state.",
+      "A callback function to update the parent state.",
+      "A useCallBack() function.",
+      "A React.memo() function."
+    ],
+    "answer": "A callback function to update the parent state."
+  },
+  {
+    "question": "Which of the following is true about React.memo()?",
+    "options": [
+      "It re-create the function when the component is re-render",
+      "When the parent is re-render child re-render",
+      "It is stop the child component re-render",
+      "It is stop the parent component re-render"
+    ],
+    "answer": "It is stop the child component re-render"
+  },
+  {
+    "question": "Parent wants to update its state when child interacts. What must be passed?",
+    "options": ["State only", "UseCallback() function", "Callback function", "Props drilling"],
+    "answer": "Callback function"
+  },
+  {
+    "question": "React.memo() will stop child re-render, But when the child is re-render?",
+    "options": [
+      "when the parent re-render",
+      "when the props changes",
+      "when the parent state changes",
+      "When the function not re-created"
+    ],
+    "answer": "when the props changes"
+  },
+  {
+    "question": "Which of the following is not true about React Component Communication?",
+    "options": [
+      "By default One-way communication parent → child",
+      "Two-way communication is enable using React.memo()",
+      "Two-way communication is enable using callback functions.",
+      "The React component will communication using props."
+    ],
+    "answer": "Two-way communication is enable using React.memo()"
+  }
+]
