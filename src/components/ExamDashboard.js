@@ -89,7 +89,7 @@ const technologies = [
   //   icon: <FaJs />,
   //   quizChapters: [1, 2, 3, 4, 5, 6, 7, 8] ,
   // },
-  { key: "react", name: "React", icon: <FaReact />, quizChapters: [1, 2, 3]  },
+  { key: "react", name: "React", icon: <FaReact />, quizChapters: [1, 2, 3,4]  },
   // { key: "java", name: "Java", icon: <FaJava />, quizChapters:[1, 2, 3, 4, 5, 6]  },
   // {
   //   key: "python",
@@ -556,11 +556,11 @@ const maskMobile = (mobile) => {
             label="Gender"
             value={profile.gender}
           /> */}
-          <ProfileDetailItem
+          {/* <ProfileDetailItem
             icon="bx bxs-institution"
             label="College"
             value={profile.college}
-          />
+          /> */}
           <ProfileDetailItem
             icon="bx bxs-graduation"
             label="Qualification"

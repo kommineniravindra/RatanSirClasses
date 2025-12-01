@@ -522,6 +522,7 @@
 
 /* ---------- Question Text ---------- */
 .question-text {
+  margin-top: 20px;
   font-family: "Libertinus Serif", serif;
   font-size: 1.1rem;
   font-weight: 450;

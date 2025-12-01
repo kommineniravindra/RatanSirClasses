@@ -1,0 +1,154 @@
+[
+  {
+    "question": "When we call the REST API using Axios what does it return?",
+    "options": ["Promise", "Thunk", "async/await", "Synchronous"],
+    "answer": "Promise"
+  },
+  {
+    "question": "What dependency do you need to install to use Axios in a project?",
+    "options": ["npm install axios", "npm install react-axios", "npm install axios-react", "npm install redux"],
+    "answer": "npm install axios"
+  },
+  {
+    "question": "What types of communication does React support?",
+    "options": ["Synchronous", "Asynchronous", "Both A & B", "None"],
+    "answer": "Both A & B"
+  },
+  {
+    "question": "What is synchronous communication?",
+    "options": [
+      "A request is sent and the program waits for the response before continuing",
+      "A request is sent and the program continues without waiting",
+      "Both sides communicate continuously in real time",
+      "Communication happens without sending any response"
+    ],
+    "answer": "A request is sent and the program waits for the response before continuing"
+  },
+  {
+    "question": "What is the correct flow for an Axios call in Redux Toolkit with createAsyncThunk?",
+    "options": [
+      "Button click → dispatch to Thunk → Thunk calls Axios → returns Promise → handled by extraReducers → updates state → component accesses state",
+      "Button click → dispatch to Thunk → Thunk calls Axios → returns Promise → component directly updates without extraReducers",
+      "Button click → dispatch normal action → Thunk calls Axios → state updated automatically without extraReducers → component accesses state",
+      "Button click → Axios call → returns data → dispatch normal action → extraReducers updates state → component accesses state"
+    ],
+    "answer": "Button click → dispatch to Thunk → Thunk calls Axios → returns Promise → handled by extraReducers → updates state → component accesses state"
+  },
+  {
+    "question": "What is Axios used for?",
+    "options": ["Managing Global State", "Making HTTP requests to backend", "Handling the store", "To work with database"],
+    "answer": "Making HTTP requests to backend"
+  },
+  {
+    "question": "What does async & await help with?",
+    "options": ["Handling synchronous code", "Handling asynchronous code", "Handling REST operation", "Handling the Thunk Creation"],
+    "answer": "Handling asynchronous code"
+  },
+  {
+    "question": "Which of the following is NOT a REST method?",
+    "options": ["GET", "POST", "PUT", "DELETE", "PATCH", "None of the above"],
+    "answer": "None of the above"
+  },
+  {
+    "question": "Which REST method is used to create new data?",
+    "options": ["GET", "POST", "PUT", "PATCH"],
+    "answer": "POST"
+  },
+  {
+    "question": "Which is not true about await?",
+    "options": [
+      "Used before the API call.",
+      "Waits for the promise to resolve.",
+      "await can be used only in an asynchronous function.",
+      "await can be used only in a synchronous function."
+    ],
+    "answer": "await can be used only in a synchronous function."
+  },
+  {
+    "question": "What is NOT true about async?",
+    "options": [
+      "async makes a function return a Promise",
+      "async allows the use of await inside a function",
+      "async makes the code run synchronously",
+      "async is used to handle asynchronous operation"
+    ],
+    "answer": "async makes the code run synchronously"
+  },
+  {
+    "question": "How do you get actual data from an Axios call inside async/await?",
+    "options": [
+      "const data = axios.get('/apicall')",
+      "const data = await axios.get('/apicall')",
+      "axios.get('/api').then() without await",
+      "axios.get('/api') returns data synchronously"
+    ],
+    "answer": "const data = await axios.get('/apicall')"
+  },
+  {
+    "question": "Which of the following are valid Axios function calls?",
+    "options": [
+      "axios.get(url)",
+      "axios.post(url, data)",
+      "axios.put(url, data)",
+      "axios.patch(url, data)",
+      "axios.delete(url)",
+      "All of the Above"
+    ],
+    "answer": "All of the Above"
+  },
+  {
+    "question": "Which of the following are NOT valid Axios function calls that take input?",
+    "options": ["post", "put", "patch", "delete"],
+    "answer": "delete"
+  },
+  {
+    "question": "How do you create an Axios instance with a base URL?",
+    "options": [
+      "axios.create('https://api.example.com')",
+      "axios.create({ baseURL: 'https://api.example.com' })",
+      "axios.urlbase({ baseURL: 'https://api.example.com'})",
+      "axios.baseURL('https://api.example.com')"
+    ],
+    "answer": "axios.create({ baseURL: 'https://api.example.com' })"
+  },
+  {
+    "question": "What is the purpose of createAsyncThunk?",
+    "options": [
+      "To create reducers automatically",
+      "To handle asynchronous logic and automatically dispatch pending, fulfilled, and rejected actions",
+      "To replace the Redux store",
+      "To update React components directly"
+    ],
+    "answer": "To handle asynchronous logic and automatically dispatch pending, fulfilled, and rejected actions"
+  },
+  {
+    "question": "Which property in createSlice is used to handle createAsyncThunk actions?",
+    "options": ["reducers", "extraReducers", "state", "middleware"],
+    "answer": "extraReducers"
+  },
+  {
+    "question": "What are the possible states of a JavaScript Promise?",
+    "options": ["Fulfilled", "Rejected", "Pending", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What is the role of .then() in a Promise?",
+    "options": [
+      "To handle errors",
+      "To execute code after a Promise is fulfilled",
+      "To make the Promise synchronous",
+      "To reject the Promise"
+    ],
+    "answer": "To execute code after a Promise is fulfilled"
+  },
+  {
+    "question": "What is the role of .catch() in a Promise?",
+    "options": [
+      "To execute code after a Promise is fulfilled",
+      "To handle errors or rejected Promises",
+      "To pause the Promise",
+      "To make the Promise synchronous"
+    ],
+    "answer": "To handle errors or rejected Promises"
+  }
+]

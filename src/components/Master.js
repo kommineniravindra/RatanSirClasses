@@ -19,6 +19,7 @@ import { microservicesMenuData } from "../technologies/microservices/menuOptions
 import { cssMenuData } from "../technologies/css/menuOptions";
 import { restApiMenuData } from "../technologies/restapi/menuOptions";
 import { reactMenuData } from "../technologies/react/menuOptions";
+import { gitMenuData } from "../technologies/git/menuOptions";
 
 const Master = () => {
   // 1. RETRIEVE STATE FROM STORAGE (To remember where the user was)
@@ -66,6 +67,7 @@ const Master = () => {
       Microservices: microservicesMenuData,
       RESTAPI: restApiMenuData,
       React: reactMenuData,
+      GIT:gitMenuData,
     }),
     []
   );
@@ -110,7 +112,7 @@ const Master = () => {
           onEnded={handleVideoComplete}
         >
           {/* UPDATED: Directly referencing the file in public folder */}
-          <source src="/v2.mp4" type="video/mp4" />
+          <source src="/v3.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 

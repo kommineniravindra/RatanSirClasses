@@ -1,301 +1,267 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom"; // Import useNavigate
-import Swal from 'sweetalert2'; 
-import { 
-    FaCertificate, FaCrown, FaCheckCircle, FaLock, FaDownload, 
-    FaStar, FaCode, FaCss3Alt, FaJs, FaJava, FaPython, FaDatabase 
-} from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
-import "../css/Certificates.css";
-
-// --- ALL COURSES ---
-const DEFAULT_ALL_COURSES_DATA = [
-    { title: "HTML", id: 1, icon: FaCode, color: "#E44D26", description: "Proficiency in semantic HTML5, accessibility standards (ARIA), and form validation." },
-    { title: "CSS", id: 2, icon: FaCss3Alt, color: "#2965F1", description: "Expertise in Flexbox, Grid Layout, complex animations, and responsive design principles." },
-    { title: "JavaScript", id: 3, icon: FaJs, color: "#F0DB4F", description: "Completed ES6 projects, async programming, and DOM manipulation." },
-    { title: "Java", id: 4, icon: FaJava, color: "#5382A1", description: "Mastered OOP, DSA basics, and multithreading." },
-    { title: "Python", id: 5, icon: FaPython, color: "#306998", description: "Skilled in automation, web scraping, and app logic." },
-    { title: "SQL", id: 6, icon: FaDatabase, color: "#00758F", description: "Strong in querying, normalization, indexing, and DB design." },
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { FaTrophy, FaLock, FaCheckCircle, FaChartLine, FaDownload, FaShieldAlt } from "react-icons/fa";
+import { motion } from 'framer-motion';
+import QRCode from 'react-qr-code';
+import html2canvas from 'html2canvas'; 
+import { jsPDF } from 'jspdf';       
+// You must centralize these constants, but for this file, we define them here:
+const ALL_COURSES = [
+    { title: "HTML", color: "#E44D26" },
+    { title: "CSS", color: "#2965F1" },
+    { title: "JavaScript", color: "#F0DB4F" },
+    { title: "Java", color: "#5382A1" },
+    { title: "Python", color: "#306998" },
+    { title: "SQL", color: "#00758F" }
 ];
+const FALLBACK_MAX_MARKS = 250; 
 
-// --- CERTIFICATE MODAL ---
-const CertificateModal = ({ cert, onClose, courseMap }) => {
-    // FIX 1: Hook moved to the top level
-    const [isDownloading, setIsDownloading] = useState(false); 
+// Utility function to calculate progress (Needed here for item status)
+const calculateProgressMetrics = (courseData, maxMarksMap) => {
+    const { course: title, totalMarks, contests } = courseData;
+    const meta = ALL_COURSES.find((c) => c.title === title);
+    const key = title.toLowerCase();
+    const maxMarks = maxMarksMap[key] || FALLBACK_MAX_MARKS;
+    const rawPercent = (totalMarks / maxMarks) * 100;
+    const progressPercent = Math.min(100, rawPercent);
+    return {
+        ...meta,
+        totalMarks,
+        maxMarks,
+        progressPercent: Number(progressPercent.toFixed(1)),
+        completedExamples: contests.length
+    };
+};
+
+
+// -------------------------------------------------------------
+// === HIGH-FIDELITY CERTIFICATE DISPLAY ===
+// -------------------------------------------------------------
+const CertificateDisplay = ({ course, userName }) => {
+    const certificateRef = useRef(null); 
+    const currentUserName = userName || "Recipinus Namel";
+    const certId = `CERT-${new Date().getFullYear()}-XP${Math.floor(Math.random() * 900) + 100}`;
+    const courseTitle = course.title;
+    const organization = "CodePulse-R";
+    const qrDataContent = `https://codepulse-r.com/verify/${certId}`; 
     
-    if (!cert) return null;
+    // --- DOWNLOAD FUNCTION: Generates PDF from HTML ---
+    const handleDownload = async () => {
+        if (!certificateRef.current) return;
 
-    const mapData = courseMap[cert.title.toLowerCase()] || {};
-    const isAwarded = cert.isCompleted;
+        Swal.fire({
+            title: 'Generating PDF...',
+            text: 'Please wait, this might take a moment.',
+            allowOutsideClick: false,
+            didOpen: () => { Swal.showLoading(); }
+        });
 
-    // *** MOCK DOWNLOAD HANDLER ***
-    const handleDownload = () => {
-        if (!isAwarded) return;
+        try {
+            const canvas = await html2canvas(certificateRef.current, { scale: 2, useCORS: true, logging: false });
+            const imgData = canvas.toDataURL('image/jpeg', 1.0);
+            const pdf = new jsPDF('l', 'mm', 'a4'); 
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-        setIsDownloading(true);
-        // In a real application, you would make an API call here to generate/fetch the file URL
-        setTimeout(() => {
-            setIsDownloading(false);
-            
-            // Mock success notification
-            Swal.fire({
-                title: 'Download Complete!',
-                text: `${cert.title} Certificate is ready to download. (Simulated file download)`,
-                icon: 'success',
-                confirmButtonColor: mapData.color,
-            });
+            pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save(`${currentUserName}_${courseTitle}_Certificate.pdf`);
 
-            onClose(); 
-        }, 1500); 
+            Swal.close();
+            Swal.fire('Success!', 'Your certificate has been downloaded.', 'success');
+
+        } catch (error) {
+            console.error("PDF generation failed:", error);
+            Swal.close();
+            Swal.fire('Error', 'Failed to generate PDF. Check console for details.', 'error');
+        }
     };
 
     return (
-        <motion.div 
-            className="modal-backdrop"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            onClick={onClose}
+        <motion.div
+            className="certificate-wrapper"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
         >
-            <motion.div 
-                className="modal-content"
-                initial={{ scale: 0.8 }} animate={{ scale: 1 }} exit={{ scale: 0.8 }}
-                transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                onClick={(e) => e.stopPropagation()}
-            >
-                <button className="modal-close-btn" onClick={onClose}>&times;</button>
+            <div className="certificate-mock-page" ref={certificateRef}> 
+                <div className="certificate-frame">
+                    <div className="certificate-content">
+                        {/* Logo and Title */}
+                        <div className="cert-header">
+                            <svg className="cert-logo-icon" viewBox="0 0 512 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm0 464c-114.7 0-208-93.3-208-208S141.3 48 256 48s208 93.3 208 208-93.3 208-208 208zm-40-184H96v-40h120V96h40v144h152v40H296v128h-40V280z"/>
+                            </svg>
+                            <h1 className="cert-company">{organization}</h1>
+                        </div>
 
-                <div className="modal-header" style={{ borderBottom: `3px solid ${mapData.color}` }}>
-                    {React.createElement(mapData.icon || FaCertificate, { className: "modal-icon", style: { color: mapData.color } })}
-                    <h2 className="modal-title">{cert.title} Certification</h2>
-                </div>
-
-                <div className="modal-body">
-                    {isAwarded ? (
-                        <>
-                            <p><strong>Certified On:</strong> {cert.date}</p>
-                            <p><strong>Final Grade:</strong> <span className="modal-grade" style={{ backgroundColor: mapData.color }}>A+</span></p>
-                            <p>{mapData.description}</p>
-
-                            <div className="modal-actions">
-                                <button 
-                                    className="modal-download-btn" 
-                                    style={{ backgroundColor: mapData.color }}
-                                    onClick={handleDownload} 
-                                    disabled={isDownloading}
-                                >
-                                    {isDownloading ? (
-                                        <span>Downloading...</span>
-                                    ) : (
-                                        <>
-                                            <FaDownload /> Download Certificate
-                                        </>
-                                    )}
-                                </button>
+                        <h2 className="cert-course-completed">COURSE COMPLETED</h2>
+                        
+                        <div className="cert-body-text">
+                            <p>
+                                This certifies that <strong className="cert-user-name">{currentUserName}</strong>
+                                <br />has successfully completed the specialized <strong className="cert-user-name">{courseTitle}</strong> course in web development, as verified by {organization}.
+                            </p>
+                        </div>
+                        
+                        {/* Footer Details: QR, Seal, Signature */}
+                        <div className="cert-footer-details">
+                            <div className="cert-qr-and-id">
+                                <div className="cert-qr-code">
+                                    <QRCode value={qrDataContent} size={70} style={{ height: "auto", maxWidth: "100%", width: "100%" }}/>
+                                </div>
+                                <div className="cert-id-tag">{certId}</div>
                             </div>
-                        </>
-                    ) : (
-                        <>
-                            <h4 style={{ color: "red" }}>Not Completed</h4>
-                            <p>Your progress: {cert.progress}%</p>
-                            <button className="modal-download-btn" disabled>
-                                <FaLock /> Complete Course To Download
-                            </button>
-                        </>
-                    )}
+
+                            <div className="cert-center-seal">
+                                <div className="cert-seal-icon"> <FaShieldAlt /> </div>
+                            </div>
+
+                            <div className="cert-signature-area">
+                                <div className="cert-signature-line"></div>
+                                <p className="cert-signature-name">Mr.Ratan sir</p>
+                                <p className="cert-signature-title">Lead Instructor</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </motion.div>
+            </div>
+            
+            <motion.button
+                className="cert-download-btn"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleDownload} 
+            >
+                <FaDownload style={{ marginRight: '8px' }} /> Download Certificate (PDF)
+            </motion.button>
         </motion.div>
     );
 };
 
-// ===================================================
-// 			MAIN CERTIFICATES
-// ===================================================
-const Certificates = ({ 
-    allCourses = DEFAULT_ALL_COURSES_DATA, 
-}) => {
-    const location = useLocation();
-    const navigate = useNavigate(); // For redirecting if data is missing
-    const [selectedCert, setSelectedCert] = useState(null);
 
-    // *** RETRIEVE STATE DATA ***
-    const passedState = location.state || {};
-    const allProgressData = passedState.progressData || []; 
-    const completedTitles = passedState.completedCourses || [];
-    
-    // CASE INSENSITIVE MAP for lookup
-    const COURSE_MAP = allCourses.reduce((acc, course) => {
-        acc[course.title.toLowerCase()] = course;
-        return acc;
-    }, {});
+// -------------------------------------------------------------
+// === CERTIFICATES LIST ITEM ===
+// -------------------------------------------------------------
+const CertificateListItem = ({ course, maxMarksMap, userId, currentUserName }) => {
+    const [courseData, setCourseData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [showVisual, setShowVisual] = useState(false);
 
-    // --- NAVIGATION/DATA GUARD ---
-    // If navigating directly or refreshing, state data is often lost.
-    if (allProgressData.length === 0 && completedTitles.length === 0 && location.key !== 'default') {
-        return (
-            <div className="certificates-container" style={{ textAlign: 'center', padding: '50px' }}>
-                <h1 className="certs-header"><FaCrown /> Certificates</h1>
-                <p className="learning-info-box" style={{ backgroundColor: '#fff3cd', color: '#856404', borderLeft: '5px solid #ffc107', padding: '15px', borderRadius: '8px' }}>
-                    ⚠️ **Data Error.** Please navigate back to the **Progress** page and click 'View Certificates' again. 
-                    Course data was not loaded or was lost during refresh.
-                </p>
-                <button 
-                    onClick={() => navigate('/', { replace: true })} 
-                    style={{ marginTop: '20px', padding: '10px 20px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                >
-                    Go to Dashboard
-                </button>
-            </div>
-        );
+    const fetchProgress = useCallback(async () => {
+        if (!userId) {
+             setIsLoading(false);
+             return;
+        }
+        try {
+            const res = await axios.get(`/api/contests/${userId}/course?course=${course.title}`);
+            const metrics = calculateProgressMetrics(res.data, maxMarksMap);
+            setCourseData(metrics);
+        } catch (error) {
+             console.error(`Failed to fetch progress for ${course.title}:`, error);
+             setCourseData(calculateProgressMetrics({ course: course.title, totalMarks: 0, contests: [] }, maxMarksMap));
+        } finally {
+            setIsLoading(false);
+        }
+    }, [course, maxMarksMap, userId]);
+
+    useEffect(() => {
+        fetchProgress();
+    }, [fetchProgress]);
+
+    if (isLoading) {
+        return <div className="certificate-list-item skeleton"></div>;
     }
-    // -----------------------------
 
-
-    // -------------------------
-    // 		AWARDED LIST
-    // -------------------------
-    const awardedCertificates = completedTitles
-        .map(title => {
-            const mapData = COURSE_MAP[title.toLowerCase()];
-            if (!mapData) return null;
-
-            return {
-                id: mapData.id,
-                title: mapData.title,
-                isCompleted: true,
-                color: mapData.color,
-                icon: mapData.icon,
-                date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
-                grade: "A+",
-                details: mapData.description
-            };
-        })
-        .filter(x => x);
-
-    // -------------------------
-    // 	PENDING COURSE LIST (Uses actual progress data now)
-    // -------------------------
-    const comprehensiveCourseList = allProgressData
-        .filter(course => course.progressPercent < 100) // Only include courses not yet complete
-        .map(course => ({
-            id: COURSE_MAP[course.title.toLowerCase()].id, // Use ID from mapData for consistency
-            title: course.title,
-            color: course.color,
-            icon: COURSE_MAP[course.title.toLowerCase()].icon, // Get icon from COURSE_MAP
-            progress: course.progressPercent,
-            isCompleted: false
-        }));
-
-    const ProgressRing = ({ radius, stroke, progress, color }) => {
-        const norm = radius - stroke * 2;
-        const circ = norm * 2 * Math.PI;
-        const offset = circ - (progress / 100) * circ;
-
-        return (
-            <svg width={radius * 2} height={radius * 2}>
-                <circle stroke="#ddd" fill="transparent" strokeWidth={stroke} r={norm} cx={radius} cy={radius} />
-                <motion.circle
-                    stroke={color}
-                    fill="transparent"
-                    strokeWidth={stroke}
-                    strokeDasharray={circ}
-                    style={{ strokeDashoffset: offset }}
-                    strokeLinecap="round"
-                    r={norm}
-                    cx={radius}
-                    cy={radius}
-                    transform={`rotate(-90 ${radius} ${radius})`}
-                    initial={{ strokeDashoffset: circ }}
-                    animate={{ strokeDashoffset: offset }}
-                    transition={{ duration: 1.2 }}
-                />
-                <text x="50%" y="50%" textAnchor="middle" dy="5px">{progress}%</text>
-            </svg>
-        );
-    };
-
-    const handleCardClick = (course) => {
-        const mapData = COURSE_MAP[course.title.toLowerCase()];
-        setSelectedCert({
-            ...course,
-            details: mapData.description,
-            icon: mapData.icon
-        });
-    };
+    const isCompleted = courseData?.progressPercent >= 100;
+    const progress = courseData?.progressPercent || 0;
+    const statusText = isCompleted ? "Earned & Available" : `Progress: ${progress}%`;
+    const statusIcon = isCompleted ? <FaCheckCircle style={{ color: '#28a745' }} /> : <FaChartLine style={{ color: course.color }} />;
 
     return (
-        <div className="certificates-container">
-            <h1 className="certs-header"><FaCrown /> My Certificates</h1>
+        <div className="certificate-item-container">
+            <motion.div 
+                className="certificate-list-item" 
+                style={{ borderLeftColor: course.color }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+            >
+                <div className="item-icon" style={{ background: course.color + '20', color: course.color }}>
+                    {course.title.substring(0, 2)}
+                </div>
+                <div className="item-details">
+                    <h4 className="item-title">{course.title} Certification</h4>
+                    <div className="item-progress-bar-container">
+                        <div className="item-progress-bar-fill" style={{ width: `${progress}%`, background: course.color }}></div>
+                    </div>
+                </div>
+                <div className="item-action">
+                    <p className="item-status">{statusIcon} {statusText}</p>
+                    {isCompleted ? (
+                        <button className="view-cert-btn" onClick={() => setShowVisual(!showVisual)}>
+                            {showVisual ? "Hide Certificate" : "View/Download"}
+                        </button>
+                    ) : (
+                        <button className="view-cert-btn locked" disabled>
+                            <FaLock /> Locked
+                        </button>
+                    )}
+                </div>
+            </motion.div>
 
-            <h2 className="certs-subheader">Awarded Certificates ({awardedCertificates.length})</h2>
-            <hr />
-
-            {/* AWARDED SECTION */}
-            <div className="certs-grid">
-                {awardedCertificates.length > 0 ? (
-                    awardedCertificates.map(cert => (
-                        <motion.div key={cert.id}
-                            className="certificate-card awarded"
-                            whileHover={{ scale: 1.05 }}
-                            onClick={() => handleCardClick(cert)}
-                        >
-                            <div className="cert-color-band" style={{ background: cert.color }}></div>
-                            <div className="cert-content">
-                                {React.createElement(cert.icon, { className: "cert-icon", style: { color: cert.color } })}
-                                <h3>{cert.title} Certificate</h3>
-                                <p>Certified: {cert.date}</p>
-                                <span className="cert-grade" style={{ background: cert.color }}>A+</span>
-                                <button className="cert-view-btn" style={{ backgroundColor: cert.color }}>
-                                    View / Download
-                                </button>
-                            </div>
-                        </motion.div>
-                    ))
-                ) : (
-                    <p className="learning-info-box">No certificates yet. Complete a course to unlock.</p>
-                )}
-            </div>
-
-            <hr />
-
-            {/* PROGRESS SECTION */}
-            <h2 className="certs-subheader"><FaCheckCircle /> Continue Learning</h2>
-
-            <div className="pending-grid">
-                {comprehensiveCourseList.length > 0 ? (
-                    comprehensiveCourseList.map(course => {
-                        const Icon = course.icon;
-                        return (
-                            <motion.div key={course.id}
-                                className="pending-course-card"
-                                whileHover={{ scale: 1.05 }}
-                                onClick={() => handleCardClick(course)}
-                            >
-                                <Icon className="pending-header-icon" style={{ color: course.color }} />
-                                <h4>{course.title}</h4>
-
-                                <ProgressRing radius={40} stroke={5} progress={course.progress} color={course.color} />
-
-                                <p className="progress-text">{course.progress}% Completed</p>
-                                <FaLock className="lock-icon" />
-                            </motion.div>
-                        );
-                    })
-                ) : (
-                    <p className="learning-info-box">Great job! All defined courses are complete. </p>
-                )}
-            </div>
-
-            <AnimatePresence>
-                {selectedCert && (
-                    <CertificateModal 
-                        cert={selectedCert} 
-                        onClose={() => setSelectedCert(null)} 
-                        courseMap={COURSE_MAP}
+            {/* Display the CertificateDisplay component when the user clicks 'View' */}
+            {isCompleted && showVisual && (
+                <div className="full-certificate-display-container">
+                    <CertificateDisplay 
+                        course={course} 
+                        userName={currentUserName} 
                     />
-                )}
-            </AnimatePresence>
+                </div>
+            )}
         </div>
     );
 };
+
+
+// -------------------------------------------------------------
+// === MAIN CERTIFICATES COMPONENT ===
+// -------------------------------------------------------------
+function Certificates({ userId, allCourseMaxMarks, currentUserName }) {
+    if (!userId) {
+         return (
+            <div className="certificate-page-list-container">
+                <h1 className="title-white"><FaTrophy /> All Certificate Status</h1>
+                <div className="certificate-list-placeholder">
+                    <p>Please **log in** to track your course progress and view your earned certificates.</p>
+                </div>
+            </div>
+        );
+    }
+    
+    return (
+        <div className="certificate-page-list-container">
+            <h1 className="title-white"><FaTrophy /> All Certificate Status</h1>
+            
+            <p className="section-title-white">
+                Review the status of all available course certificates.
+                Certificates are unlocked upon achieving  100% progress.
+            </p>
+            
+            <div className="certificate-list-grid">
+                {ALL_COURSES.map(course => (
+                    <CertificateListItem 
+                        key={course.title} 
+                        course={course} 
+                        maxMarksMap={allCourseMaxMarks} 
+                        userId={userId} 
+                        currentUserName={currentUserName}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+}
 
 export default Certificates;

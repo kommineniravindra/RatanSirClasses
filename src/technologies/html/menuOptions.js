@@ -52,15 +52,15 @@ name: 'Text Formatting Tags',
       { name: 'Table Parts', url: 'html-table-span', icon: 'images/html.png' },
     ],
   },
-  // {
-  //   name: 'HTML Forms',
-  //   subItems: [
-  //     { name: 'Forms Purpose', url: 'html-input-types', icon: 'images/html.png' },
-  //     { name: 'Form Tags', url: 'html-labels', icon: 'images/html.png' },
-  //     { name: 'Register Form', url: 'html-radio-checkbox', icon: 'images/html.png' },
-  //     { name: 'Advanced Concepts', url: 'html-select-datalist', icon: 'images/html.png' },
-  //   ],
-  // },
+  {
+    name: 'HTML Forms',
+    subItems: [
+      { name: 'Forms Purpose', url: 'html-input-types', icon: 'images/html.png' },
+      { name: 'Form Tags', url: 'html-labels', icon: 'images/html.png' },
+      { name: 'Register Form', url: 'html-radio-checkbox', icon: 'images/html.png' },
+      { name: 'Advanced Concepts', url: 'html-select-datalist', icon: 'images/html.png' },
+    ],
+  },
 
   // {
   //   name: 'Audio & Video',

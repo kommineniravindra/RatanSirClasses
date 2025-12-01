@@ -1,0 +1,190 @@
+/* =======================================
+    GLOBAL FONT
+======================================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.tech-class-container {
+    padding: 0; 
+    font-family: 'Poppins', sans-serif;
+    max-width: 1200px; 
+    margin: 0 auto;
+}
+
+.tech-class-container h2 {
+    color: #2c3e50;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+/* =======================================
+    FIXED HEADER DROPDOWNS
+======================================= */
+
+.controls-group {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff; 
+    padding: 5px; 
+    display: flex;
+    align-items: center; 
+    gap: 30px; 
+    flex-wrap: wrap; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+    z-index: 1000;
+}
+
+.controls-group label {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-right: 10px;
+}
+
+.controls-group select {
+    padding: 10px 14px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    min-width: 220px;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #ffffff;
+}
+
+.controls-group select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 6px rgba(52, 152, 219, 0.4);
+    outline: none;
+}
+
+/* =======================================
+    SCROLLABLE CONTENT
+======================================= */
+
+.questions-scroll-wrapper {
+    /* Fixed header height changed to 65px in JSX, adjusting CSS calc */
+    height: calc(100vh - 65px); 
+    overflow-y: scroll; 
+    padding: 60px 20px 20px 20px; 
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.questions-scroll-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+/* =======================================
+    QUESTION ITEM STYLES (ALIGNMENT FIX HERE)
+======================================= */
+
+.question-item h3 {
+    color: #34495e;
+    font-size: 1.25em;
+    font-weight: 600;
+}
+
+.question-item p {
+    line-height: 1.7;
+    color: #333;
+    font-size: 1em;
+    /* FIX: Use text-indent to move the first line back, and padding to move the rest forward */
+    padding-left: 30px; /* Creates the space for the label */
+    text-indent: -45px; /* Moves the first line (the label) back into the space */
+    margin-bottom: 5px;
+}
+
+.question-item p strong {
+    color: #2c3e50;
+    /* Reset padding-right/display, as text-indent now controls alignment */
+    padding-right: 5px; 
+    display: inline;
+}
+
+.question-item img {
+    /* Center the image within its container */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    max-width: 75%; 
+    height: auto;
+    border-radius: 8px;
+}
+
+.question-separator {
+    border: 0;
+    border-top: 1px dashed #ccc;
+    margin: 5px 0;
+}
+
+/* =======================================
+    PAGINATION BUTTONS
+======================================= */
+
+.navigation-controls {
+    display: flex;
+    justify-content: center; 
+    margin: 25px 0;
+}
+
+.navigation-controls button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1em;
+    background-color: #3498db;
+    color: white;
+    transition: 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.navigation-controls button:hover:not(:disabled) {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.navigation-controls button:disabled {
+    background-color: #e5e5e5;
+    color: #b5b5b5;
+    cursor: not-allowed;
+}
+
+/* =======================================
+    FIXED SCROLL BUTTONS
+======================================= */
+
+.scroll-button {
+    position: fixed !important; 
+    right: 20px !important;
+    width: 52px !important;
+    height: 52px !important;
+    border-radius: 50%;
+    border: none;
+    background-color: #3498db !important; 
+    color: white !important; 
+    font-size: 1.3em; 
+    display: flex !important; 
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25) !important; 
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 99999 !important; 
+}
+
+.scroll-button:hover {
+    background-color: #2980b9 !important;
+    transform: scale(1.10);
+}
+
+.scroll-up {
+    bottom: 85px !important; 
+}
+
+.scroll-down {
+    bottom: 25px !important;
+}

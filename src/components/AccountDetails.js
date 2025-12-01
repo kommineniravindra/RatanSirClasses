@@ -28,11 +28,11 @@ const AccountDetails = ({ onLogin }) => {
     password: "",
     confirmPassword: "",
     mobileNumber: "",
-    collegeName: "",
+    // collegeName: "",
     qualification: "",
     yearOfPassing: "",
     cgpa: "",
-    dob: "",
+    // dob: "",
     gender: "",
   });
 
@@ -92,11 +92,11 @@ const AccountDetails = ({ onLogin }) => {
       password: registerData.password,
       studentName: registerData.studentName,
       mobile: registerData.mobileNumber,
-      college: registerData.collegeName,
+      // college: registerData.collegeName,
       qualification: registerData.qualification,
       passingYear: Number(registerData.yearOfPassing),
       cgpa: Number(registerData.cgpa),
-      dob: registerData.dob,
+      // dob: registerData.dob,
       gender: registerData.gender,
     };
 
@@ -146,7 +146,9 @@ const AccountDetails = ({ onLogin }) => {
       <h1>
         <i className="bx bxs-lock-open-alt" style={{ fontSize: "45px" }}></i>{" "}
         Welcome back!
+        
       </h1>
+     
 
       <div className="input-box">
         <input
@@ -175,6 +177,13 @@ const AccountDetails = ({ onLogin }) => {
       <button type="submit" className="glass-btn">
         Login
       </button>
+
+      <h6 className="form-toggle-text">
+        Don't have an account?{" "}
+        <a href="#" onClick={() => setIsRegistering(true)}>
+          Register
+        </a>
+      </h6>
       <hr />
 
       <div className="social-login-container">
@@ -210,13 +219,6 @@ const AccountDetails = ({ onLogin }) => {
           <i className="bx bxl-github"></i>Continue With GitHub
         </button>
       </div>
-
-      <p className="form-toggle-text">
-        Don't have an account?{" "}
-        <a href="#" onClick={() => setIsRegistering(true)}>
-          Register
-        </a>
-      </p>
     </form>
   );
 
@@ -304,7 +306,7 @@ const AccountDetails = ({ onLogin }) => {
             </p>
           )}
 
-          <div className="input-box">
+          {/* <div className="input-box">
             <input
               type="date"
               name="dob"
@@ -313,7 +315,7 @@ const AccountDetails = ({ onLogin }) => {
               required
             />
             <i className="bx bxs-calendar"></i>
-          </div>
+          </div> */}
         </div>
 
         {/* Right Column */}
@@ -347,7 +349,7 @@ const AccountDetails = ({ onLogin }) => {
             <i className="bx bxs-phone"></i>
           </div>
 
-          <div className="input-box">
+          {/* <div className="input-box">
             <input
               type="text"
               placeholder="College / University"
@@ -357,7 +359,7 @@ const AccountDetails = ({ onLogin }) => {
               required
             />
             <i className="bx bxs-institution"></i>
-          </div>
+          </div> */}
 
           <div className="input-box">
             <input
@@ -404,12 +406,12 @@ const AccountDetails = ({ onLogin }) => {
         Register
       </button>
 
-      <p className="form-toggle-text">
+      <h6 className="form-toggle-text">
         Already have an account?{" "}
         <a href="#" onClick={() => setIsRegistering(false)}>
           Login
         </a>
-      </p>
+      </h6>
     </form>
   );
 

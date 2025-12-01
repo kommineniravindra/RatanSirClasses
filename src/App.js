@@ -7,7 +7,7 @@ import Learning from './components/StartLearning';
 import ExamDashboard from './components/ExamDashboard';
 import AccountDetails from './components/AccountDetails';
 import "./App.css";
-
+import TechClass from './components/TechClass';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -34,47 +34,52 @@ const App = () => {
 
   return (
     <>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Master />} />
-        <Route 
-          path="/account" 
-          element={!isAuthenticated ? <AccountDetails onLogin={handleLogin} /> : <Navigate to="/dashboard" replace />} 
-        />
+      <BrowserRouter>
+        <Routes>
 
-        <Route element={isAuthenticated ? <Outlet /> : <Navigate to="/account" replace />}>
-          <Route 
-            path="/dashboard" 
-            element={<ExamDashboard onLogout={handleLogout} />} 
-          />
-          
-          <Route 
-            path="/quiz" 
-            element={<Quiz />} 
-          />
-          <Route 
-            path="/learning" 
-            element={<Learning />}
-          />
+          <Route path="/" element={<Master />} />
 
           <Route 
-            path="/quiz/:technology/:quizId" 
-            element={<Quiz />} 
+            path="/account" 
+            element={!isAuthenticated ? <AccountDetails onLogin={handleLogin} /> : <Navigate to="/dashboard" replace />} 
           />
-          <Route 
-            path="/exam/:technology/:examId" 
-            element={<Exam />} 
-          />
-        </Route>
+
+          {/* 🔐 Protected Routes */}
+          <Route element={isAuthenticated ? <Outlet /> : <Navigate to="/account" replace />}>
+
+            <Route 
+              path="/dashboard" 
+              element={<ExamDashboard onLogout={handleLogout} />} 
+            />
+
+            <Route path="/quiz" element={<Quiz />} />
+            <Route path="/learning" element={<Learning />} />
+
+            {/* ⭐ NEW ROUTE → TechClas Opens in New Page */}
+           <Route path="/teachingclasses" element={<TechClass />} />
 
 
-        <Route
-          path="/exam"
-          element={<Navigate to="/dashboard" replace />}
-        />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </BrowserRouter>
+            <Route 
+              path="/quiz/:technology/:quizId" 
+              element={<Quiz />} 
+            />
+
+            <Route 
+              path="/exam/:technology/:examId" 
+              element={<Exam />} 
+            />
+
+          </Route>
+
+          <Route
+            path="/exam"
+            element={<Navigate to="/dashboard" replace />}
+          />
+
+          <Route path="*" element={<Navigate to="/" replace />} />
+
+        </Routes>
+      </BrowserRouter>
     </>
   );
 };

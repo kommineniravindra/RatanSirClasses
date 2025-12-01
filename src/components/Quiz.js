@@ -25,9 +25,14 @@ const AVAILABLE_CHAPTERS = [1, 2, 3, 4];
 const STORAGE_KEY = "quiz_progress"; 
 
 // --- EmailJS Configuration ---
-const EMAILJS_SERVICE_ID = "service_o1fbb8a";
-const EMAILJS_TEMPLATE_ID = "template_oxeq679";
-const EMAILJS_PUBLIC_KEY = "QT4vFNSyQjWyMeDEz";
+// const EMAILJS_SERVICE_ID = "service_o1fbb8a";
+// const EMAILJS_TEMPLATE_ID = "template_oxeq679";
+// const EMAILJS_PUBLIC_KEY = "QT4vFNSyQjWyMeDEz";
+
+
+const EMAILJS_SERVICE_ID = "service_ocmb30h";
+const EMAILJS_TEMPLATE_ID = "template_sln74fh";
+const EMAILJS_PUBLIC_KEY = "JOzwEY9U5v3Nu1evJ";
 
 const languageConfig = {
   java: {

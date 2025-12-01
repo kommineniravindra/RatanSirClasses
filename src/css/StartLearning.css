@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Libertinus+Serif:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=FF+Tisa+Web+Pro:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital,wght@0,400..700;1,400..700&display=swap');
+
+
 /* --- Global Variables & Container (White Theme) --- */
 :root {
   --color-light-bg: #ffffff;
@@ -47,14 +54,18 @@
   /* background-color: var(--color-light-bg); */
   color: var(--color-text-dark);
   transition: background-color var(--timing-smooth);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  /* font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; */
+   font-family: 'IBM Plex Sans', sans-serif;
 }
 
 /* TARGETED STYLES FOR HEADINGS */
 .learning-content-header {
   color: var(--color-text-dark);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding-bottom: 10px;
+  /* color: red; */
+  font-family: 'Merriweather', serif;
+    font-style: italic;
   border-bottom: 1px solid var(--color-card-border);
 }
 
@@ -154,7 +165,7 @@
   top: 0;
   bottom: 0;
   width: 5px;
-  background: white;
+  background:var(--color-primary);
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
@@ -181,6 +192,7 @@
 /* --- Header Styling --- */
 
 .upgraded-catalog-header {
+    font-family: 'Merriweather', serif;
     font-size: 2.2rem;
     font-weight: 900;
     color: var(--text-primary);
@@ -234,13 +246,13 @@
 }
 
 .upgraded-course-card:hover .card-background-accent {
-    opacity: 0.20; /* Increase visibility on hover */
+    opacity: 0.25;
 }
 
 /* --- Main Content Layer (Sits on top) --- */
 .upgraded-card-content {
     position: relative;
-    z-index: 2; /* Ensures content is always visible above the accent */
+    z-index: 2;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -256,10 +268,12 @@
 }
 
 .text-details-area {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .upgraded-course-title {
+      font-family: "Libertinus Serif", serif;
+
     font-size: 1.4rem;
     font-weight: 800;
     color: var(--text-primary);
@@ -267,7 +281,9 @@
 }
 
 .upgraded-course-description {
-    font-size: 0.85rem;
+  font-family: "Libertinus Serif", serif;
+  font-style: italic;
+    font-size: 0.9rem;
     color: var(--text-secondary);
     line-height: 1.4;
     margin: 0 0 10px 0; /* Reduced margin */
@@ -321,12 +337,11 @@
 .learning-chapters-container {
   max-width: auto;
   margin: auto;
-  background: linear-gradient(135deg,
+  /* background: linear-gradient(135deg,
       rgba(255, 166, 0, 0.043),
       rgba(98, 185, 108, 0.121),
-      /* rgba(255, 165, 0, 0.25), */
       rgba(135, 206, 250, 0.313),
-      rgba(128, 0, 128, 0.094));
+      rgba(128, 0, 128, 0.094)); */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 15px;
@@ -357,12 +372,7 @@
   animation: float 8s infinite ease-in-out;
 }
 
-/* Different colors & positions */
-/* .trophy { color: gold; top: 18%; left: 71%; animation-delay: 0s; }
-.star { color: #ffcc00; top: 38%; left: 30%; animation-delay: 1s; }
-.medal { color: #ff6600; top: 50%; left: 50%; animation-delay: 2s; }
-.award { color: #00ccff; top: 60%; left: 25%; animation-delay: 3s; }
-.certificate { color: #ff33cc64; top: 20%; left: 20%; animation-delay: 4s; } */
+
 
 /* Floating animation */
 @keyframes float {
@@ -401,6 +411,7 @@
   transition: all 0.3s ease;
   /* background-color: var(--color-light-bg); */
   position: relative;
+
 }
 
 .chapter-accordion-header {
@@ -526,6 +537,7 @@
   align-items: center;
   gap: 20px;
   padding: 15px 0;
+  
   border-bottom: 1px solid var(--color-card-border);
 }
 
@@ -594,35 +606,60 @@
 
 /* --- ⭐️ END Exercise List ⭐️ --- */
 
-/* --- ⭐️ NEW Course Progress Sidebar ⭐️ --- */
+/* --- ⭐️ Premium Course Progress Sidebar ⭐️ --- */
 .course-progress-sidebar {
-  /* background-color: var(--color-content-bg); */
-  border: 1px solid var(--color-card-border);
-  border-radius: 10px;
-  padding: 20px;
-  height: fit-content;
-  /* Sticks to top */
+  border-radius: 16px;
+  padding: 24px;
   position: sticky;
   top: 30px;
+
+  animation: fadeInUp 0.4s ease;
 }
 
 .course-progress-sidebar h3 {
   margin-top: 0;
-  font-size: 1.3rem;
+  margin-bottom: 12px;
+  font-size: 1.4rem;
+  font-weight: 700;
   color: var(--color-text-dark);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
+.course-progress-sidebar h3 i {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+}
+
+/* Stats Section */
 .progress-stats {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
+/* ⭐️ Pulse Animation Added */
 .progress-percentage {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--color-primary);
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--color-primary), #7b5bff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.9;
+  }
 }
 
 .progress-fraction {
@@ -631,22 +668,45 @@
   color: var(--color-text-muted);
 }
 
+/* Progress Bar */
 .progress-bar-container {
   width: 100%;
-  height: 10px;
+  height: 12px;
   background-color: var(--color-card-border);
-  border-radius: 5px;
+  border-radius: 6px;
   overflow: hidden;
 }
 
 .progress-bar-fill {
   height: 100%;
-  background-color: var(--color-primary);
-  border-radius: 5px;
-  transition: width 0.5s ease-out;
+  background: linear-gradient(90deg, var(--color-primary), #7b5bff);
+  border-radius: 6px;
+  transition: width 0.6s ease-out;
+
+  /* Glow */
+  box-shadow: 0 0 12px var(--color-primary);
 }
 
-/* --- ⭐️ END Course Progress Sidebar ⭐️ --- */
+/* Motivation text */
+.progress-status-message {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+/* Fade Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* --- ⭐️ END Premium Sidebar ⭐️ --- */
 
 .learning-question-view {
   animation: entranceFade var(--timing-quick);
@@ -987,9 +1047,11 @@
 }
 
 .profile-details-card h2 {
+      font-family: "Libertinus Serif", serif;
+
   font-size: 22px;
   font-weight: 800;
-  color: #0d2d4d;
+  color: #0e3a66;
   /* deep blue for contrast */
   display: flex;
   align-items: center;

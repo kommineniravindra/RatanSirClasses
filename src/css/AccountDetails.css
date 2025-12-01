@@ -331,12 +331,15 @@ Form toggle link
 ================================= */
 .form-toggle-text {
   margin-top: -5px;
-  font-size: 14px;
+  font-size: 18px;
   color: #444;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-style: italic;
 }
 
 .form-toggle-text a {
-  color: #ffb77d;
+  /* color: #ffb77d; */
+  color: red;
   font-weight: 600;
   text-decoration: none;
 }

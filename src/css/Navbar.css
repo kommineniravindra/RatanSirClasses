@@ -75,8 +75,8 @@
   padding: calc(1px * var(--scale)) calc(4px * var(--scale));
   color: #e2e8f0;
   font-family: "Baskervville", serif;
-  font-weight: 500;
-  font-size: calc(0.73rem * var(--scale)); /* slightly larger than half-size */
+  font-weight: 450;
+  font-size: calc(0.7rem * var(--scale)); /* slightly larger than half-size */
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -149,7 +149,7 @@
   font-weight: 500;
   position: absolute;
   top: calc(100% + 5px);
-  left: 50%;
+  left: 60%;
   transform: translateX(-50%);
   min-width: calc(100px * var(--scale));
   list-style: none;
@@ -205,13 +205,13 @@
 .dropdown-item.active {
   background: linear-gradient(90deg, rgba(59, 130, 246, 0.3), rgba(34, 197, 94, 0.3));
   color: #ffffff;
-  font-weight: 600;
+  font-weight: 500;
   border-left: calc(1.5px * var(--scale)) solid #3b82f6;
   padding-left: calc(8px * var(--scale));
 }
 
 .dropdown-arrow {
-  margin-left: calc(3px * var(--scale));
+  margin-left: calc(1px * var(--scale));
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
@@ -224,7 +224,7 @@
   display: none;
   color: #ffffff;
   cursor: pointer;
-  z-index: 1001;
+  z-index: 1000;
 }
 
 .mobile-overlay {

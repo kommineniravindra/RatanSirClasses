@@ -29,6 +29,8 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
     setOpenDropdown(openDropdown === name ? null : name);
   };
 
+
+const handleClass = () => window.open("/teachingclasses", "_blank");
   const handleExam = () => window.open("/exam", "_blank");
   const handleStartLearning = () => window.open("/learning", "_blank");
 
@@ -99,6 +101,14 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
           </li>
         ))}
 
+
+         <li onClick={handleClass} className="navbar-item">
+          <div className="navbar-content">
+            <FaClipboardCheck />
+            <span>Class</span>
+          </div>
+        </li>
+
         <li onClick={handleExam} className="navbar-item">
           <div className="navbar-content">
             <FaClipboardCheck />
@@ -106,12 +116,12 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
           </div>
         </li>
 
-        <li onClick={handleStartLearning} className="navbar-item">
+        {/* <li onClick={handleStartLearning} className="navbar-item">
           <div className="navbar-content">
             <FaClipboardCheck />
             <span>Learning</span>
           </div>
-        </li>
+        </li> */}
       </ul>
     </nav>
   );

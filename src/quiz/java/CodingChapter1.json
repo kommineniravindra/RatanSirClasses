@@ -5,33 +5,5 @@
     "sampleInput": "a=10, b=5",
     "sampleOutput": "15",
     "maxMarks": 10
-  },
-  {
-    "question": "Write a Java program to subtract two numbers.",
-    "answer": "public class Subtract {\n    public static void main(String[] args) {\n        int a = 10, b = 5;\n        System.out.println(a - b);\n    }\n}",
-    "sampleInput": "a=10, b=5",
-    "sampleOutput": "5",
-    "maxMarks": 10
-  },
-  {
-    "question": "Write a Java program to multiply two numbers.",
-    "answer": "public class Multiply {\n    public static void main(String[] args) {\n        int a = 10, b = 5;\n        System.out.println(a * b);\n    }\n}",
-    "sampleInput": "a=10, b=5",
-    "sampleOutput": "50",
-    "maxMarks": 10
-  },
-  {
-    "question": "Write a Java program to divide two numbers.",
-    "answer": "public class Divide {\n    public static void main(String[] args) {\n        int a = 10, b = 5;\n        System.out.println(a / b);\n    }\n}",
-    "sampleInput": "a=10, b=5",
-    "sampleOutput": "2",
-    "maxMarks": 10
-  },
-  {
-    "question": "Write a Java program to check whether a number is even or odd.",
-    "answer": "public class EvenOdd {\n    public static void main(String[] args) {\n        int num = 10;\n        if(num % 2 == 0)\n            System.out.println(\"Even\");\n        else\n            System.out.println(\"Odd\");\n    }\n}",
-    "sampleInput": "num = 10",
-    "sampleOutput": "Even",
-    "maxMarks": 10
   }
 ]

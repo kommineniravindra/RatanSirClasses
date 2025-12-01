@@ -11,6 +11,8 @@ import {
   FaCode,
   FaEnvelope,
   FaUser,
+  FaGit,
+  FaGitAlt,
 } from "react-icons/fa";
 import { IoLogoJavascript } from "react-icons/io5";
 import { SiSpringboot } from "react-icons/si";
@@ -28,14 +30,26 @@ const navbarItems = [
       { name: "React", icon: <FaReact />, type: "technology" },
     ],
   },
+  {
+    name: "Backend",
+    type: "dropdown",
+    subItems: [
+      { name: "Java", icon: <FaJava />, type: "technology" },
+      { name: "Python", icon: <FaPython />, type: "technology" },
+    ],
+  },
+  ,
+  {
+    name: "Tools",
+    type: "dropdown",
+    subItems: [{ name: "GIT", icon: <FaGitAlt />, type: "technology" }],
+  },
 
-  { name: "Java", icon: <FaJava />, type: "technology" },
   { name: "RESTAPI", icon: <SiSpringboot />, type: "technology" },
   { name: "Microservices", icon: <FaProjectDiagram />, type: "technology" },
-  { name: "Python", icon: <FaPython />, type: "technology" },
   { name: "SQL", icon: <FaDatabase />, type: "technology" },
 
-  { name: "Q&A", icon: <FaQuestionCircle />, type: "Q&A" },
+  // { name: "Q&A", icon: <FaQuestionCircle />, type: "Q&A" },
   { name: "DSA", icon: <FaCode />, type: "DSA" },
   { name: "AboutUs", icon: <FaUser />, type: "AboutUs" },
   { name: "ContactUs", icon: <FaEnvelope />, type: "ContactUs" },

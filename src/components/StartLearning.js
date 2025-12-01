@@ -5,6 +5,12 @@ import Swal from "sweetalert2";
 import "../css/StartLearning.css";
 import Feedback from "./Feedback";
 import Certificates from "./Certificates";
+import htmlTopics from "../quiz/html/htmlTopics";
+import cssTopics from "../quiz/css/cssTopics";
+import javascriptTopics from "../quiz/javascript/javascriptTopics";
+import javaTopics from "../quiz/java/javaTopics";
+import pythonTopics from "../quiz/python/pythonTopics";
+import sqlTopics from "../quiz/sql/sqlTopics";
 import Progress from "./Progress";
 import AceEditor from "react-ace";
 import ace from "ace-builds";
@@ -132,30 +138,54 @@ const quizContexts = {
   python: require.context("../quiz/python", false, /CodingChapter\d+\.json$/),
   sql: require.context("../quiz/sql", false, /CodingChapter\d+\.json$/),
 };
-
-const getChapterInfo = (context) => {
+const TOPIC_LIST_MAP = {
+    html: htmlTopics,
+    css: cssTopics,
+    javascript: javascriptTopics,
+    java: javaTopics,
+    python: pythonTopics,
+    sql: sqlTopics,
+};
+const getChapterInfo = (context, lang) => {
   const keys = context.keys()
                       .filter((key) => key.match(/CodingChapter\d+\.json$/));
   const chapterKeys = keys
                       .map((key) => Number(key.match(/CodingChapter(\d+)\.json$/)[1]))
                       .sort((a, b) => a - b);
-  const chapters = chapterKeys.map((keyNum) => {
+
+
+  const currentTopicList = TOPIC_LIST_MAP[lang.toLowerCase()] || [];
+  const chapters = chapterKeys.map((keyNum, index) => {
     try {
       const data = context(`./CodingChapter${keyNum}.json`);
+      let chapterTitle = `Chapter ${keyNum}`;
+
+
+     if (currentTopicList.length > 0 && index < currentTopicList.length) {
+     const topicName = currentTopicList[index];
+     
+       
+     chapterTitle = `Chapter ${keyNum}${'\u00A0'.repeat(30)} ${topicName}`; 
+     
+   } else {
+          // Fallback to existing logic: Try to get title from JSON
+          chapterTitle = data[0]?.chapterTitle || `Chapter ${keyNum}`;
+      }
       return {
         num: keyNum,
-        title: data[0]?.chapterTitle || `Chapter ${keyNum}`,
+        title:chapterTitle ,
       };
     } catch {
       return { num: keyNum, title: `Chapter ${keyNum}` };
     }
   });
   return { count: keys.length, keys, chapterKeys, chapters };
+  
 };
 
 const chapterInfoByLang = {};
 Object.entries(quizContexts).forEach(([lang, ctx]) => {
-  chapterInfoByLang[lang] = getChapterInfo(ctx);
+  chapterInfoByLang[lang] = getChapterInfo(ctx, lang);
 });
 
 // Judge0 config
@@ -758,29 +788,51 @@ function StartLearning() {
     if (totalExamplesInCourse > 0) {
       percentage = (totalCompletedInCourse / totalExamplesInCourse) * 100;
     }
+return (
+  <div className="course-progress-sidebar">
+    <h3>
+      <i className="fa-solid fa-chart-simple"></i>
+      Course Progress
+    </h3>
 
-    return (
-      <div className="course-progress-sidebar">
-        <h3>Course Progress</h3>
-        <div className="progress-stats">
-          <span className="progress-percentage">{Math.round(percentage)}%</span>
-          <span className="progress-fraction">
-            {totalCompletedInCourse} / {totalExamplesInCourse}
-          </span>
-        </div>
-        <div className="progress-bar-container">
-          <div
-            className="progress-bar-fill"
-            style={{ width: `${percentage}%` }}
-          ></div>
-        </div>
-      </div>
-    );
+    <div className="progress-stats">
+      <span className="progress-percentage">
+        {Math.round(percentage)}%
+      </span>
+
+      <span className="progress-fraction">
+        {totalCompletedInCourse} / {totalExamplesInCourse}
+      </span>
+    </div>
+
+    <div className="progress-bar-container">
+      <div
+        className="progress-bar-fill"
+        style={{ width: `${percentage}%` }}
+      ></div>
+    </div>
+
+    <div className="progress-status-message">
+      {percentage === 100
+        ? "🎉 Excellent! You’ve fully completed this course!"
+        : percentage >= 70
+        ? "🔥 Great job! You're almost there!"
+        : percentage >= 40
+        ? "💡 Good progress — keep going!"
+        : "🚀 Start learning and boost your progress!"}
+    </div>
+  </div>
+);
+
   };
 
   // ----------------- Render Content -----------------
   const renderMainContent = () => {
-    if (activeSection === "certificates") return <Certificates />;
+    if (activeSection === "certificates") return <Certificates 
+            userId={userProfile._id} 
+            allCourseMaxMarks={allCourseMaxMarks}
+            currentUserName={userProfile.studentName} 
+        />;
     if (activeSection === "feedback") return <Feedback />;
     if (activeSection === "Progress") {
       if (!userProfile._id && !isProfileLoading) {
@@ -794,6 +846,7 @@ function StartLearning() {
         <Progress
           userId={userProfile._id}
           allCourseMaxMarks={allCourseMaxMarks}
+          currentUserName={userProfile.studentName}
         />
       );
     }
@@ -955,11 +1008,6 @@ function StartLearning() {
 
         return (
           <div className="learning-chapters-container">
-            {/* <FaTrophy className="animated-icon trophy" />
-<FaStar className="animated-icon star" />
-<FaMedal className="animated-icon medal" />
-<FaAward className="animated-icon award" />
-<FaCertificate className="animated-icon certificate" /> */}
             <button className="learning-back-btn" onClick={handleBack}>
               ← Back to Courses
             </button>
@@ -1153,7 +1201,7 @@ const maskMobile = (mobile) => {
       return (
         <div className="learning-dashboard">
           <h1 className="learning-content-header">
-            👋 Welcome, {greetingName}
+            👋 Welcome !  {greetingName}
           </h1>
 
           <div className="profile-details-card">
@@ -1172,18 +1220,18 @@ const maskMobile = (mobile) => {
                 <strong>Mobile:</strong> 
                 <span>{maskMobile(profile.mobile) || "N/A"}</span>
               </div>
-              <div className="profile-item">
+              {/* <div className="profile-item">
                 <strong>Date of Birth:</strong>{" "}
                 <span>{profile.dob || "N/A"}</span>
-              </div>
+              </div> */}
 
               <div className="profile-item academic-header">
                 <h3>Academic Information</h3>
               </div>
-              <div className="profile-item">
+              {/* <div className="profile-item">
                 <strong>College Name:</strong>{" "}
                 <span>{profile.college || "N/A"}</span>
-              </div>
+              </div> */}
               <div className="profile-item">
                 <strong>Qualification:</strong>{" "}
                 <span>{profile.qualification || "N/A"}</span>

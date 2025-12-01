@@ -777,6 +777,9 @@ import axios from "axios";
 import emailjs from "emailjs-com";
 import "../css/Exam.css";
 
+// Assuming these files exist in the specified path structure for context
+const examsContext = require.context("../exams", true, /\.json$/);
+
 const ExamConfig = {
   mcqCount: 50, // no of MCQ
   blankCount: 50, // no of blanks
@@ -835,6 +838,7 @@ const languageConfig = {
 
 const JUDGE0_API = "https://ce.judge0.com";
 
+// --- HELPER FUNCTION: Run code using Judge0 API ---
 const runCode = async (userCode, customInput, languageId) => {
   if (!languageId)
     return { compileError: "Execution not supported.", output: "" };
@@ -863,6 +867,7 @@ const runCode = async (userCode, customInput, languageId) => {
   }
 };
 
+// --- HELPER FUNCTION: Calculate marks based on Levenshtein distance ---
 const calculateAccuracyMarks = (expectedOutput, actualOutput, maxMarks) => {
   if (!expectedOutput || !actualOutput) return 0;
   const s1 = expectedOutput.trim().replace(/\s+/g, " ");
@@ -913,8 +918,6 @@ const examCodeMap = {
   "restapi-exam1": "REST101",
   "restapi-exam2": "REST202",
 };
-
-const examsContext = require.context("../exams", true, /\.json$/);
 
 // --- HELPER FUNCTION: Get the question section based on a global index ---
 const getQuestionDetailsFromGlobalIndex = (
@@ -1150,6 +1153,7 @@ const Exam = () => {
         setIsLoading(true);
         setError(null);
 
+        // Load MCQ
         const quizModule = examsContext(`./${technology}/${examId}MCQ.json`);
         let shuffledMCQ = shuffleArray(quizModule).slice(
           0,
@@ -1157,6 +1161,7 @@ const Exam = () => {
         );
         shuffledMCQ = shuffleAnswers(shuffledMCQ);
 
+        // Load Blanks
         const blanksModule = examsContext(
           `./${technology}/${examId}Blanks.json`
         );
@@ -1165,6 +1170,7 @@ const Exam = () => {
           ExamConfig.blankCount
         );
 
+        // Load Coding
         let shuffledCoding = [];
         if (isCodingRoundAvailable) {
           const codingModule = examsContext(
@@ -1231,6 +1237,7 @@ const Exam = () => {
       if (isCodingRoundAvailable) {
         selectedCoding.forEach((q, i) => {
           if (techConfig.type === "codepad" && !codeResults[i]?.evaluated) {
+            // For codepad, calculate marks if not already evaluated (e.g., if user skipped 'Run & Evaluate')
             const marks = calculateAccuracyMarks(
               q.answer,
               answers[`code-${i}`] || "",
@@ -1238,6 +1245,7 @@ const Exam = () => {
             );
             codingTotal += marks;
           } else {
+            // For judge0, or already evaluated codepad, use stored marks
             codingTotal += codeResults[i]?.marks || 0;
           }
         });
@@ -1252,6 +1260,21 @@ const Exam = () => {
         if (!token || !userEmail)
           throw new Error("Authentication details not found.");
 
+        // --- FIX START: Calculate maxTotalMarks before use ---
+        const totalPossibleMCQ = selectedQuiz.length * ExamConfig.mcqMarks;
+        const totalPossibleBlanks =
+          selectedBlanks.length * ExamConfig.blankMarks;
+        const totalPossibleCoding = isCodingRoundAvailable
+          ? selectedCoding.reduce(
+              (sum, q) => sum + (q.maxMarks || ExamConfig.codingMarks),
+              0
+            )
+          : 0;
+
+        const maxTotalMarks =
+          totalPossibleMCQ + totalPossibleBlanks + totalPossibleCoding;
+        // --- FIX END: Calculate maxTotalMarks ---
+
         const examKey = `${technology}-${examId}`;
         const examCode = examCodeMap[examKey];
         if (!examCode) throw new Error("Invalid exam identifier.");
@@ -1262,14 +1285,17 @@ const Exam = () => {
           mcqMarks: mcqTotal,
           fillMarks: blanksTotal,
           codingMarks: codingTotal,
+          totalMarksPossible: maxTotalMarks, // Correctly using the calculated value
         };
 
         const authHeaders = { headers: { Authorization: `Bearer ${token}` } };
 
         try {
+          // Attempt to save new result
           await axios.post("/api/exams", payload, authHeaders);
         } catch (error) {
           if (
+            // If result already exists, attempt to update (patch)
             error.response &&
             error.response.status === 400 &&
             error.response.data.message.includes("already exists")
@@ -1282,15 +1308,7 @@ const Exam = () => {
 
         if (userEmail) {
           const totalMarks = mcqTotal + blanksTotal + codingTotal;
-          const totalPossibleMCQ = selectedQuiz.length * ExamConfig.mcqMarks;
-          const totalPossibleBlanks =
-            selectedBlanks.length * ExamConfig.blankMarks;
-          const totalPossibleCoding = selectedCoding.reduce(
-            (sum, q) => sum + (q.maxMarks || ExamConfig.codingMarks),
-            0
-          );
-          const totalPossibleTotal =
-            totalPossibleMCQ + totalPossibleBlanks + totalPossibleCoding;
+          // Reusing the calculated 'totalPossible' variables for the email template
 
           const templateParams = {
             to_email: userEmail,
@@ -1305,7 +1323,7 @@ const Exam = () => {
             coding_marks: isCodingRoundAvailable
               ? `${codingTotal} / ${totalPossibleCoding}`
               : "N/A",
-            total_marks: `${totalMarks} / ${totalPossibleTotal}`,
+            total_marks: `${totalMarks} / ${maxTotalMarks}`,
             malpractice_message: isMalpractice
               ? "Malpractice Detected: Your test was auto-submitted due to leaving the page."
               : null,
@@ -1456,6 +1474,17 @@ const Exam = () => {
 
   const examNumber = examId ? examId.replace("exam", "") : "";
 
+  // Calculate Max Total Marks for Result Display (used only in the return block)
+  const maxTotalMarksDisplay =
+    selectedQuiz.length * ExamConfig.mcqMarks +
+    selectedBlanks.length * ExamConfig.blankMarks +
+    (isCodingRoundAvailable
+      ? selectedCoding.reduce(
+          (sum, q) => sum + (q.maxMarks || ExamConfig.codingMarks),
+          0
+        )
+      : 0);
+
   return (
     <>
       {/* Top Fixed Bar Container (Header + Palette) */}
@@ -1515,8 +1544,8 @@ const Exam = () => {
             quiz={selectedQuiz}
             blanks={selectedBlanks}
             coding={selectedCoding}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
+            // currentPage={currentPage} // Removed unused prop
+            // setCurrentPage={setCurrentPage} // Removed unused prop
             handleQuestionJump={handleQuestionJump}
             isCodingRoundAvailable={isCodingRoundAvailable}
             calculateAnswerStatus={calculateAnswerStatus}
@@ -1823,15 +1852,7 @@ const Exam = () => {
                   Grand Total:{" "}
                   <span>
                     {totals.mcq + totals.blanks + totals.coding} /{" "}
-                    {selectedQuiz.length * ExamConfig.mcqMarks +
-                      selectedBlanks.length * ExamConfig.blankMarks +
-                      (isCodingRoundAvailable
-                        ? selectedCoding.reduce(
-                            (sum, q) =>
-                              sum + (q.maxMarks || ExamConfig.codingMarks),
-                            0
-                          )
-                        : 0)}
+                    {maxTotalMarksDisplay}
                   </span>
                 </p>
                 <button
@@ -1937,4 +1958,4 @@ const Exam = () => {
   );
 };
 
-export default Exam;              
+export default Exam;
