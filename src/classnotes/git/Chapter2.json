@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "question": "What is a branch in Git?",
+    "answer": "A branch is a parallel version of a repository. It allows you to work on different features without affecting the main codebase.",
+    "image": null
+  },
+  {
+    "id": 2,
+    "question": "How do you merge branches?",
+    "answer": "Using 'git merge <branch_name>', which combines the history of the specified branch into the current branch.",
+    "image": null
+  },
+  {
+    "id": 3,
+    "question": "What is a merge conflict?",
+    "answer": "It occurs when Git cannot automatically resolve differences in code between two commits being merged.",
+    "image": null
+  },
+  {
+    "id": 4,
+    "question": "What is 'git rebase'?",
+    "answer": "Rebasing moves or combines a sequence of commits to a new base commit, creating a linear history.",
+    "image": null
+  },
+  {
+    "id": 5,
+    "question": "What is 'git stash'?",
+    "answer": "It temporarily shelves (stashes) changes you've made to your working copy so you can work on something else, and then come back and re-apply them later.",
+    "image": null
+  },
+  {
+    "id": 6,
+    "question": "What is 'git cherry-pick'?",
+    "answer": "It allows you to pick specific commits from one branch and apply them to another.",
+    "image": null
+  },
+  {
+    "id": 7,
+    "question": "Difference between 'git fetch' and 'git pull'?",
+    "answer": "'git fetch' downloads changes but doesn't integrate them. 'git pull' downloads and immediately merges them.",
+    "image": null
+  },
+  {
+    "id": 8,
+    "question": "What is 'git reset'?",
+    "answer": "It undoes changes by moving the HEAD pointer to a specific commit, potentially modifying the working directory.",
+    "image": null
+  },
+  {
+    "id": 9,
+    "question": "What is 'git revert'?",
+    "answer": "It creates a new commit that undoes the changes made in a previous commit, preserving history.",
+    "image": null
+  },
+  {
+    "id": 10,
+    "question": "What are Git Tags?",
+    "answer": "Tags are used to mark specific points in history as important, typically used for releases (e.g., v1.0).",
+    "image": null
+  }
+]

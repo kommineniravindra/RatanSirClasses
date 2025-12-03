@@ -12,19 +12,8 @@ import javaTopics from "../quiz/java/javaTopics";
 import pythonTopics from "../quiz/python/pythonTopics";
 import sqlTopics from "../quiz/sql/sqlTopics";
 import Progress from "./Progress";
-import AceEditor from "react-ace";
-import ace from "ace-builds";
-import "ace-builds/src-noconflict/theme-monokai";
-import "ace-builds/src-noconflict/mode-html";
-import "ace-builds/src-noconflict/mode-css";
-import "ace-builds/src-noconflict/mode-javascript";
-import "ace-builds/src-noconflict/mode-java";
-import "ace-builds/src-noconflict/mode-python";
-import "ace-builds/src-noconflict/mode-sql";
+import CodingExercise from "./CodingExercise";
 
-import "ace-builds/src-noconflict/ext-language_tools";
-ace.config.set("basePath","https://cdn.jsdelivr.net/npm/ace-builds@1.35.0/src-noconflict/");
-ace.config.set("workerPath","https://cdn.jsdelivr.net/npm/ace-builds@1.35.0/src-noconflict/");
 
 // ----------------- Config & Helpers -----------------
 const ExamConfig = { codingMarks: 10 };
@@ -54,7 +43,68 @@ const calculatePartialMarks = (expectedOutput, userOutput, maxMarks) => {
 
 const normalizeWhitespace = (s) => (s || "").replace(/\s+/g, " ").trim();
 
-const evaluateOutputs = (expectedRaw, actualRaw, maxMarks) => {
+const validateHtmlStructure = (expectedHtml, userHtml) => {
+  const parser = new DOMParser();
+  const expectedDoc = parser.parseFromString(expectedHtml, "text/html");
+  const userDoc = parser.parseFromString(userHtml, "text/html");
+
+  const normalize = (str) => (str || "").replace(/\s+/g, " ").trim().toLowerCase();
+
+  // Helper to get all significant elements from body
+  const getElements = (doc) => Array.from(doc.body.querySelectorAll("*"));
+
+  const expectedElements = getElements(expectedDoc);
+  const userElements = getElements(userDoc);
+
+  // If expected has no tags, just compare text content of body
+  if (expectedElements.length === 0) {
+    const expText = normalize(expectedDoc.body.textContent);
+    const userText = normalize(userDoc.body.textContent);
+    return expText === userText ? 100 : 0;
+  }
+
+  let matchCount = 0;
+  let totalChecks = 0;
+
+  // Check if user has at least the same number of elements (rough check)
+  // Better: Iterate through expected elements and try to find a match in user elements
+  // This is a simplified structural check.
+  
+  expectedElements.forEach((expEl) => {
+    totalChecks++;
+    // Try to find a matching element in userDoc that hasn't been "used" yet? 
+    // For simplicity, we just check if *any* matching element exists.
+    // We check Tag Name + Text Content + Critical Attributes
+    
+    const tag = expEl.tagName.toLowerCase();
+    const text = normalize(expEl.textContent);
+    
+    // Find candidates with same tag
+    const candidates = Array.from(userDoc.body.getElementsByTagName(tag));
+    
+    const match = candidates.find(cand => {
+        const candText = normalize(cand.textContent);
+        // Check text if expected element has text
+        if (text && !candText.includes(text)) return false;
+        
+        // Check attributes if needed (e.g., type="button", src="...", href="...")
+        // We can add specific attribute checks here if strictness is required.
+        if (expEl.hasAttribute("type") && expEl.getAttribute("type") !== cand.getAttribute("type")) return false;
+        if (expEl.hasAttribute("src") && !cand.getAttribute("src")?.includes(expEl.getAttribute("src"))) return false;
+        if (expEl.hasAttribute("href") && !cand.getAttribute("href")?.includes(expEl.getAttribute("href"))) return false;
+
+        return true;
+    });
+
+    if (match) matchCount++;
+  });
+
+  if (totalChecks === 0) return 100; // Should have been caught by text check, but safety net.
+  
+  return Math.floor((matchCount / totalChecks) * 100);
+};
+
+const evaluateOutputs = (expectedRaw, actualRaw, maxMarks, language = "text") => {
   const expected =
     expectedRaw === undefined || expectedRaw === null
       ? ""
@@ -64,6 +114,20 @@ const evaluateOutputs = (expectedRaw, actualRaw, maxMarks) => {
 
   if (!actual.trim()) {
     return { score: 0, reason: "No output produced (empty or error)." };
+  }
+
+  // Special handling for HTML
+  if (language === "html") {
+      const similarity = validateHtmlStructure(expected, actual);
+      if (similarity === 100) {
+          return { score: maxMarks, reason: "Perfect structural match!" };
+      } else if (similarity >= 80) {
+          return { score: maxMarks, reason: "Good match! (Minor differences ignored)" };
+      } else if (similarity >= 50) {
+          return { score: Math.round(maxMarks * 0.5), reason: "Partial structural match." };
+      }
+      // Fallthrough to standard checks if structural check fails significantly, 
+      // just in case it's a text-only answer.
   }
 
   if (actual === expected) {
@@ -194,25 +258,7 @@ const JUDGE0_LANG_IDS = { javascript: 63, java: 62, python: 71, sql: 82, };
 const CODEPAD_LANGS = ["html", "css"];
 
 // Ace mode mapping
-const getAceMode = (course) => {
-  const lang = (course || "").toLowerCase();
-  switch (lang) {
-    case "html":
-      return "html";
-    case "css":
-      return "css";
-    case "javascript":
-      return "javascript";
-    case "java":
-      return "java";
-    case "python":
-      return "python";
-    case "sql":
-      return "sql";
-    default:
-      return "text";
-  }
-};
+
 
 const languageBoilerplates = {
   HTML: `<!DOCTYPE html>\n<html>\n<head>\n<title>Welcome</title>\n</head>\n<body>\n\n\n</body>\n</html>`,
@@ -653,7 +699,8 @@ function StartLearning() {
           const { score, reason } = evaluateOutputs(
             expectedOutput,
             actualFromCode,
-            maxMarks
+            maxMarks,
+            langKey
           );
           setOutput(createPreviewContent(code, langKey));
           setEvaluationResult({
@@ -706,7 +753,8 @@ function StartLearning() {
         const { score, reason } = evaluateOutputs(
           expectedOutput,
           cleanedUserOutput,
-          maxMarks
+          maxMarks,
+          langKey
         );
         finalScore = score;
         resultMessage =
@@ -854,146 +902,23 @@ return (
     if (activeSection === "My Courses") {
       // VIEW 1: A specific exercise is open
       if (selectedCourse && selectedExample && questionData) {
-        const langType = selectedCourse.toLowerCase();
-        const isCodepad = CODEPAD_LANGS.includes(langType);
-        const aceMode = getAceMode(selectedCourse);
-
-        const evaluateButtonText = isRunning
-          ? isCodepad
-            ? "Running Live Preview..."
-            : "Evaluating with Judge0..."
-          : "Run";
-
         return (
-          <div className="learning-question-view">
-            <button className="learning-back-btn" onClick={handleBack}>
-              ← Back to Chapters
-            </button>
-            <h2 className="learning-content-header">
-              {selectedCourse} Chapter {expandedChapter} : Exercise{" "}
-              {selectedExample}
-            </h2>
-
-            <div className="question-compiler-columns">
-              <div className="question-area-left-column">
-                <div className="learning-question-card">
-                  <h3>Question</h3>
-                  <p>{questionData.question}</p>
-
-                  <h4 className="sample-header">📥 Sample Input:</h4>
-                  <pre>{questionData.sampleInput || "N/A"}</pre>
-
-                  <h4 className="sample-header">📤 Expected Output:</h4>
-                  <pre>{questionData.sampleOutput || "N/A"}</pre>
-                </div>
-              </div>
-
-              <div className="compiler-area-right">
-                <div className="compiler-area">
-                  <div className="compiler-buttons dual-button-group">
-                    <h4>💻 Code Editor ({selectedCourse})</h4>
-                    <button
-                      className="evaluate-code-btn"
-                      onClick={handleEvaluateCode}
-                      disabled={isRunning}
-                    >
-                      {evaluateButtonText}
-                    </button>
-
-                    <button
-                      className="complete-chapter-btn"
-                      onClick={handleFinalSubmit}
-                      disabled={isRunning || !evaluationResult}
-                    >
-                      🎉Save
-                    </button>
-                  </div>
-                  <AceEditor
-                    mode={aceMode}
-                    theme="monokai"
-                    name="code-editor"
-                    value={code}
-                    onChange={setCode}
-                    editorProps={{ $blockScrolling: true }}
-                    setOptions={{
-                      enableBasicAutocompletion: true,
-                      enableLiveAutocompletion: true,
-                      enableSnippets: true,
-                      showLineNumbers: true,
-                      tabSize: 4,
-                      fontSize: 14,
-                      fontFamily: "'Fira Code', 'Consolas', monospace",
-                    }}
-                    style={{
-                      width: "100%",
-                      height: "350px",
-                      borderRadius: "8px",
-                      border: "none",
-                      boxShadow: "inset 0 2px 5px rgba(0, 0, 0, 0.3)",
-                    }}
-                  />
-                </div>
-
-                {evaluationResult && (
-                  <div
-                    className={`evaluation-result-box ${
-                      evaluationResult.isCorrect ? "correct" : "incorrect"
-                    }`}
-                  >
-                    <h3>📊 Evaluation Summary</h3>
-                    <p>
-                      <strong>Status:</strong> {evaluationResult.message}
-                    </p>
-
-                    {!isCodepad && (
-                      <div className="evaluation-details-section">
-                        <h4>Your Code's Output:</h4>
-                        <pre
-                          className="evaluation-details"
-                          style={{ whiteSpace: "pre-wrap" }}
-                        >
-                          {evaluationResult.userOutput || "No output generated"}
-                        </pre>
-                        {evaluationResult.score <
-                          (questionData.maxMarks || ExamConfig.codingMarks) && (
-                          <>
-                            <h4>Expected Answer Output:</h4>
-                            <pre
-                              className="evaluation-details"
-                              style={{ whiteSpace: "pre-wrap" }}
-                            >
-                              {evaluationResult.expectedOutput}
-                            </pre>
-                          </>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {showOutput && (
-                  <div className="output-box-container">
-                    <h4>🧾Output/Preview:</h4>
-                    {isCodepad ? (
-                      <iframe
-                        title="Preview"
-                        srcDoc={output}
-                        style={{
-                          width: "100%",
-                          height: "80%",
-                          border: "1px solid #000000ff",
-                          borderRadius: "8px",
-                          background: "#fff",
-                        }}
-                      />
-                    ) : (
-                      <pre className="compiler-output">{output}</pre>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+          <CodingExercise
+            selectedCourse={selectedCourse}
+            expandedChapter={expandedChapter}
+            selectedExample={selectedExample}
+            questionData={questionData}
+            code={code}
+            setCode={setCode}
+            isRunning={isRunning}
+            handleEvaluateCode={handleEvaluateCode}
+            handleFinalSubmit={handleFinalSubmit}
+            evaluationResult={evaluationResult}
+            showOutput={showOutput}
+            output={output}
+            handleBack={handleBack}
+            codingMarks={ExamConfig.codingMarks}
+          />
         );
       }
 
@@ -1313,16 +1238,18 @@ const maskMobile = (mobile) => {
     setQuestionData(null);
   };
 
+  const isExamActive = activeSection === "My Courses" && selectedCourse && selectedExample && questionData;
+
   return (
     <div className="learning-container">
       {/* --- Sidebar --- */}
       <aside
-        className={`learning-sidebar ${isSidebarOpen ? "open" : ""}`}
-        onMouseEnter={() => setIsSidebarOpen(true)}
+        className={`learning-sidebar ${isSidebarOpen && !isExamActive ? "open" : ""}`}
+        onMouseEnter={() => !isExamActive && setIsSidebarOpen(true)}
         onMouseLeave={() => setIsSidebarOpen(false)}
       >
         <div className="learning-sidebar-header">
-          {isSidebarOpen ? (
+          {isSidebarOpen && !isExamActive ? (
             "CodePulse-R Portal"
           ) : (
             <FaBars className="menu-icon" />
@@ -1338,7 +1265,7 @@ const maskMobile = (mobile) => {
               onClick={() => handleMenuItemClick(item)}
             >
               <span className="menu-icon">{item.icon}</span>
-              {isSidebarOpen && (
+              {isSidebarOpen && !isExamActive && (
                 <span className="learning-menu-text">{item.name}</span>
               )}
             </li>

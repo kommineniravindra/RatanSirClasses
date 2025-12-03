@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "question": "What is API Gateway?",
+    "answer": "A server that acts as an API front-end, receiving API requests, enforcing throttling and security policies, passing requests to the back-end service, and then passing the response back to the requester.",
+    "image": null
+  },
+  {
+    "id": 2,
+    "question": "What is Service Discovery?",
+    "answer": "The process of automatically detecting devices and services on a computer network.",
+    "image": null
+  },
+  {
+    "id": 3,
+    "question": "What is Circuit Breaker Pattern?",
+    "answer": "A design pattern used to detect failures and encapsulate the logic of preventing a failure from constantly recurring.",
+    "image": null
+  },
+  {
+    "id": 4,
+    "question": "What is Event-Driven Architecture?",
+    "answer": "A software architecture paradigm promoting the production, detection, consumption of, and reaction to events.",
+    "image": null
+  },
+  {
+    "id": 5,
+    "question": "What is Docker?",
+    "answer": "A platform for developing, shipping, and running applications in containers.",
+    "image": null
+  },
+  {
+    "id": 6,
+    "question": "What is Kubernetes?",
+    "answer": "An open-source system for automating deployment, scaling, and management of containerized applications.",
+    "image": null
+  },
+  {
+    "id": 7,
+    "question": "What is Blue-Green Deployment?",
+    "answer": "A technique that reduces downtime and risk by running two identical production environments called Blue and Green.",
+    "image": null
+  },
+  {
+    "id": 8,
+    "question": "What is Saga Pattern?",
+    "answer": "A sequence of local transactions where each transaction updates data within a single service.",
+    "image": null
+  },
+  {
+    "id": 9,
+    "question": "What is Distributed Tracing?",
+    "answer": "A method used to profile and monitor applications, especially those built using a microservices architecture.",
+    "image": null
+  },
+  {
+    "id": 10,
+    "question": "What is Chaos Engineering?",
+    "answer": "The discipline of experimenting on a system in order to build confidence in the system's capability to withstand turbulent conditions in production.",
+    "image": null
+  }
+]

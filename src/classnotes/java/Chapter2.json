@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "question": "What is Inheritance?",
+    "answer": "A mechanism where one class acquires the properties and behaviors of a parent class.",
+    "image": null
+  },
+  {
+    "id": 2,
+    "question": "What is Polymorphism?",
+    "answer": "The ability of an object to take on many forms. In Java, it mainly refers to method overloading and overriding.",
+    "image": null
+  },
+  {
+    "id": 3,
+    "question": "What is the Java Collections Framework?",
+    "answer": "A unified architecture for representing and manipulating collections, enabling them to be manipulated independently of implementation details.",
+    "image": null
+  },
+  {
+    "id": 4,
+    "question": "What is a Stream API?",
+    "answer": "Introduced in Java 8, it is used to process collections of objects. A stream is a sequence of objects that supports various methods which can be pipelined to produce the desired result.",
+    "image": null
+  },
+  {
+    "id": 5,
+    "question": "What is Exception Handling?",
+    "answer": "A mechanism to handle runtime errors so that the normal flow of the application can be maintained.",
+    "image": null
+  },
+  {
+    "id": 6,
+    "question": "What is an Interface?",
+    "answer": "A reference type in Java. It is similar to a class but can only contain constants, method signatures, default methods, static methods, and nested types.",
+    "image": null
+  },
+  {
+    "id": 7,
+    "question": "What is an Abstract Class?",
+    "answer": "A class that is declared with the abstract keyword. It may or may not have abstract methods and cannot be instantiated.",
+    "image": null
+  },
+  {
+    "id": 8,
+    "question": "What is Multithreading?",
+    "answer": "The concurrent execution of two or more parts of a program for maximum utilization of CPU.",
+    "image": null
+  },
+  {
+    "id": 9,
+    "question": "What is Serialization?",
+    "answer": "The mechanism of converting the state of an object into a byte stream.",
+    "image": null
+  },
+  {
+    "id": 10,
+    "question": "What is Dependency Injection?",
+    "answer": "A design pattern used to implement IoC (Inversion of Control), allowing the creation of dependent objects outside of a class and providing those objects to a class.",
+    "image": null
+  }
+]

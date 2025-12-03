@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "question": "What is a Decorator?",
+    "answer": "A design pattern in Python that allows a user to add new functionality to an existing object without modifying its structure.",
+    "image": null
+  },
+  {
+    "id": 2,
+    "question": "What is a Lambda function?",
+    "answer": "A small anonymous function. It can take any number of arguments, but can only have one expression.",
+    "image": null
+  },
+  {
+    "id": 3,
+    "question": "What are Modules?",
+    "answer": "Files containing Python code (functions, classes, variables) that can be imported into other Python scripts.",
+    "image": null
+  },
+  {
+    "id": 4,
+    "question": "What is PIP?",
+    "answer": "The standard package manager for Python. It allows you to install and manage additional packages that are not part of the Python standard library.",
+    "image": null
+  },
+  {
+    "id": 5,
+    "question": "What is List Comprehension?",
+    "answer": "A concise way to create lists. It consists of brackets containing an expression followed by a for clause.",
+    "image": null
+  },
+  {
+    "id": 6,
+    "question": "What are Generators?",
+    "answer": "Functions that return an iterable set of items, one at a time, in a special way using the 'yield' keyword.",
+    "image": null
+  },
+  {
+    "id": 7,
+    "question": "What is Exception Handling in Python?",
+    "answer": "Managing errors using try, except, else, and finally blocks.",
+    "image": null
+  },
+  {
+    "id": 8,
+    "question": "What is 'self'?",
+    "answer": "It represents the instance of the class. By using the 'self' keyword we can access the attributes and methods of the class in python.",
+    "image": null
+  },
+  {
+    "id": 9,
+    "question": "What is Virtual Environment?",
+    "answer": "A tool that helps to keep dependencies required by different projects separate by creating isolated python environments.",
+    "image": null
+  },
+  {
+    "id": 10,
+    "question": "What is the Global Interpreter Lock (GIL)?",
+    "answer": "A mutex that protects access to Python objects, preventing multiple threads from executing Python bytecodes at once.",
+    "image": null
+  }
+]

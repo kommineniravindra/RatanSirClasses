@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "question": "What are Hooks?",
+    "answer": "Functions that let you 'hook into' React state and lifecycle features from function components (e.g., useState, useEffect).",
+    "image": null
+  },
+  {
+    "id": 2,
+    "question": "What is useEffect?",
+    "answer": "A Hook that lets you perform side effects in function components (like data fetching, subscriptions, or manually changing the DOM).",
+    "image": null
+  },
+  {
+    "id": 3,
+    "question": "What is the Virtual DOM?",
+    "answer": "A lightweight copy of the actual DOM. React uses it to verify what parts of the UI need to be updated.",
+    "image": null
+  },
+  {
+    "id": 4,
+    "question": "What is Context API?",
+    "answer": "A way to pass data through the component tree without having to pass props down manually at every level.",
+    "image": null
+  },
+  {
+    "id": 5,
+    "question": "What is Redux?",
+    "answer": "A predictable state container for JavaScript apps. It helps you write applications that behave consistently.",
+    "image": null
+  },
+  {
+    "id": 6,
+    "question": "What is Prop Drilling?",
+    "answer": "The process of passing data from a parent component down to a deep child component through intermediate components.",
+    "image": null
+  },
+  {
+    "id": 7,
+    "question": "What is useMemo?",
+    "answer": "A Hook that returns a memoized value. It only recomputes the memoized value when one of the dependencies has changed.",
+    "image": null
+  },
+  {
+    "id": 8,
+    "question": "What is useCallback?",
+    "answer": "A Hook that returns a memoized callback function.",
+    "image": null
+  },
+  {
+    "id": 9,
+    "question": "What are Higher-Order Components (HOC)?",
+    "answer": "A function that takes a component and returns a new component, used for reusing component logic.",
+    "image": null
+  },
+  {
+    "id": 10,
+    "question": "What is React Router?",
+    "answer": "A standard library for routing in React. It enables the navigation among views of various components in a React Application.",
+    "image": null
+  }
+]

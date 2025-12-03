@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import "../css/AccountDetails.css";
@@ -20,6 +20,7 @@ import {
 const AccountDetails = ({ onLogin }) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [registerData, setRegisterData] = useState({
     studentName: "",
@@ -131,7 +132,8 @@ const AccountDetails = ({ onLogin }) => {
       localStorage.setItem("userName", studentName);
 
       onLogin();
-      navigate("/dashboard");
+      const fromPath = location.state?.from?.pathname || "/dashboard";
+      navigate(fromPath, { replace: true });
     } catch (error) {
       Swal.fire(
         "Login Failed",

@@ -1,68 +1,62 @@
 [
   {
     "id": 1,
-    "question": "What is Git and why is it used?",
-    "answer": "Git is a version control system used to track code changes. It helps developers manage project history, collaborate with teammates, and roll back to previous versions when needed.",
+    "question": "What is CSS?",
+    "answer": "Cascading Style Sheets. It describes how HTML elements are to be displayed on screen, paper, or in other media.",
     "image": null
   },
   {
     "id": 2,
-    "question": "Which command initializes a new Git repository?",
-    "answer": "The command is 'git init'. It creates a new .git folder in your project so Git can begin tracking changes.",
+    "question": "What are the three ways to insert CSS?",
+    "answer": "External CSS (linked file), Internal CSS (<style> tag), and Inline CSS (style attribute).",
     "image": null
   },
   {
     "id": 3,
-    "question": "How do you check the status of your files in Git?",
-    "answer": "Use 'git status'. It shows which files are modified, staged, or not tracked, helping you understand what will be committed next.",
+    "question": "What is a CSS selector?",
+    "answer": "A pattern used to select the element(s) you want to style (e.g., .class, #id, element).",
     "image": null
   },
   {
     "id": 4,
-    "question": "How do you stage all files for committing?",
-    "answer": "Use 'git add .'. This stages every modified and new file so they can be included in your next commit.",
+    "question": "What is the Box Model?",
+    "answer": "It is a box that wraps around every HTML element. It consists of: margins, borders, padding, and the actual content.",
     "image": null
   },
   {
     "id": 5,
-    "question": "How do you commit changes with a message?",
-    "answer": "Use 'git commit -m \"your message\"'. This saves your staged changes into Git history with a meaningful description.",
+    "question": "What is the difference between class and id?",
+    "answer": "A class (.) can be used on multiple elements, while an id (#) must be unique to one element on a page.",
     "image": null
   },
   {
     "id": 6,
-    "question": "How do you upload your local commits to a remote repository?",
-    "answer": "Use 'git push origin main'. This sends your committed changes to the remote repository’s main branch.",
+    "question": "What is the 'display' property?",
+    "answer": "It specifies the display behavior (the type of rendering box) of an element (e.g., block, inline, none).",
     "image": null
   },
   {
     "id": 7,
-    "question": "How do you download and apply the latest changes from a remote repository?",
-    "answer": "Use 'git pull'. It fetches the newest changes from the remote repo and merges them into your current branch.",
+    "question": "What is 'position: relative'?",
+    "answer": "It positions an element relative to its normal position.",
     "image": null
   },
   {
     "id": 8,
-    "question": "How do you create and switch to a new branch in Git?",
-    "answer": "Use 'git checkout -b feature-branch'. This creates a new branch and switches to it immediately.",
-    "image": {
-      "url": "https://raw.githubusercontent.com/git/git-scm.com/master/public/images/branching.png",
-      "caption": "Git branch example"
-    }
+    "question": "What is 'position: absolute'?",
+    "answer": "It positions an element relative to the nearest positioned ancestor.",
+    "image": null
   },
   {
     "id": 9,
-    "question": "How do you merge a branch into your current branch?",
-    "answer": "Use 'git merge feature-branch'. This combines the changes from feature-branch into your current branch.",
+    "question": "What is Specificity?",
+    "answer": "The means by which browsers decide which CSS property values are the most relevant to an element and, therefore, will be applied.",
     "image": null
   },
   {
     "id": 10,
-    "question": "How do you clone a repository from GitHub?",
-    "answer": "Use 'git clone <repository-url>'. It downloads the entire repository, including all branches and commit history, to your machine.",
-    "image": {
-      "url": "https://git-scm.com/book/en/v2/images/remote-repos.png",
-      "caption": "Git remote clone example"
-    }
+    "question": "What is the 'float' property?",
+    "answer": "It specifies that an element should be placed along the left or right side of its container.",
+    "image": null
   }
 ]

@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "question": "What is a JOIN?",
+    "answer": "A JOIN clause is used to combine rows from two or more tables, based on a related column between them.",
+    "image": null
+  },
+  {
+    "id": 2,
+    "question": "Difference between INNER JOIN and LEFT JOIN?",
+    "answer": "INNER JOIN returns records with matching values in both tables. LEFT JOIN returns all records from the left table, and the matched records from the right table.",
+    "image": null
+  },
+  {
+    "id": 3,
+    "question": "What is Normalization?",
+    "answer": "The process of organizing data in a database to reduce redundancy and improve data integrity.",
+    "image": null
+  },
+  {
+    "id": 4,
+    "question": "What is an Index?",
+    "answer": "A database structure that improves the speed of data retrieval operations on a database table.",
+    "image": null
+  },
+  {
+    "id": 5,
+    "question": "What is a Stored Procedure?",
+    "answer": "A prepared SQL code that you can save, so the code can be reused over and over again.",
+    "image": null
+  },
+  {
+    "id": 6,
+    "question": "What is a View?",
+    "answer": "A virtual table based on the result-set of an SQL statement.",
+    "image": null
+  },
+  {
+    "id": 7,
+    "question": "What is a Trigger?",
+    "answer": "A special type of stored procedure that automatically executes when an event occurs in the database server.",
+    "image": null
+  },
+  {
+    "id": 8,
+    "question": "What is ACID?",
+    "answer": "Atomicity, Consistency, Isolation, Durability. Properties that guarantee database transactions are processed reliably.",
+    "image": null
+  },
+  {
+    "id": 9,
+    "question": "What is a Cursor?",
+    "answer": "A database object used to retrieve, manipulate, and traverse through a result set row-by-row.",
+    "image": null
+  },
+  {
+    "id": 10,
+    "question": "What is NoSQL?",
+    "answer": "Non-relational databases that provide a mechanism for storage and retrieval of data that is modeled in means other than the tabular relations used in relational databases.",
+    "image": null
+  }
+]

@@ -20,6 +20,49 @@ import NixieClock from "./NixieClock";
 
 Modal.setAppElement('#root');
 
+// --- Data Arrays (Moved outside component to prevent re-creation on render) ---
+const courses = [
+  { icon: <FaHtml5 />, title: "HTML5", description: "Learn to structure the web with HTML5.", content: "Covers semantic tags, forms, multimedia, canvas, and accessibility best practices." },
+  { icon: <FaCss3Alt />, title: "CSS3", description: "Style modern and responsive web pages.", content: "Covers Flexbox, Grid, Animations, Media Queries, and advanced CSS techniques." },
+  { icon: <FaJs />, title: "JavaScript", description: "Become proficient in modern JavaScript.", content: "Covers ES6+, DOM manipulation, Async programming, Fetch API, and advanced concepts like closures and promises." },
+  { icon: <FaJava />, title: "Java Programming", description: "Learn the fundamentals of Java from scratch.", content: "Covers OOP concepts, Collections, Multithreading, Exception Handling, and Java best practices." },
+  { icon: <SiSpringboot />, title: "Spring REST API", description: "Build scalable backend services with Spring Boot.", content: "Learn Spring Boot, REST API design, JPA, Hibernate, Spring Security, and API documentation with Swagger." },
+  { icon: <FaProjectDiagram />, title: "Microservices", description: "Design and build distributed systems like Netflix & Amazon.", content: "Learn Microservices patterns, Spring Cloud, API Gateway, Service Discovery, Circuit Breaker, and Event-driven architecture." },
+  { icon: <FaPython />, title: "Python", description: "Unlock Python for backend and web development.", content: "Covers Django, Flask, REST APIs, Databases, and deployment strategies." },
+  { icon: <FaDatabase />, title: "SQL & Databases", description: "Master SQL for backend and analytics.", content: "Learn MySQL, PostgreSQL, Queries, Joins, Transactions, Indexing, Normalization, and stored procedures." },
+  { icon: <FaReact />, title: "React.js Frontend", description: "Build modern, interactive, and fast UIs with React.", content: "Covers components, hooks, state management, React Router, Context API, and integration with backend APIs." },
+  { icon: <FaCloud />, title: "Cloud & DevOps", description: "Deploy, scale, and manage applications in the cloud.", content: "Learn AWS basics, Docker containerization, Kubernetes orchestration, CI/CD pipelines, and cloud deployment strategies." }
+];
+
+const features = [
+  { icon: <FaChalkboardTeacher size={40} />, title: "Expert Instructors", text: "Learn from industry professionals with years of real-world experience." },
+  { icon: <FaBookOpen size={40} />, title: "Practical Curriculum", text: "Our courses are project-based, ensuring you build a solid portfolio." },
+  { icon: <FaUserCheck size={40} />, title: "Career Support", text: "Get help with your resume, portfolio, and interview preparation." },
+  { icon: <FaUsers size={40} />, title: "Vibrant Community", text: "Connect with fellow learners, share ideas, and get help in our active community forums." },
+  { icon: <FaInfinity size={40} />, title: "Lifetime Access", text: "Enroll once and get lifetime access to course materials, including all future updates." },
+  { icon: <FaRocket size={40} />, title: "Cutting-Edge Content", text: "Our curriculum is constantly updated to keep you ahead with the latest technologies." },
+  { icon: <FaCertificate size={40} />, title: "Certification", text: "Earn industry-recognized certificates to showcase your expertise to employers." },
+  { icon: <FaHandsHelping size={40} />, title: "1-on-1 Mentorship", text: "Get personalized guidance and mentorship to accelerate your learning journey." },
+  { icon: <FaLaptopCode size={40} />, title: "Hands-On Projects", text: "Work on real-world projects to apply your knowledge and build confidence." },
+  { icon: <FaGlobe size={40} />, title: "Global Networking", text: "Join an international network of learners and professionals across industries." }
+];
+
+const careerSupportSteps = [
+  { icon: <FaGithub />, title: "GitHub Profile", description: "Guidance on creating and maintaining a professional GitHub profile to showcase technical projects and coding process." },
+  { icon: <FaLinkedin />, title: "LinkedIn Profile", description: "Assistance in crafting a compelling LinkedIn profile for networking and visibility among recruiters." },
+  { icon: <FaFileAlt />, title: "Resume Preparation", description: "Expert advice on resume writing to effectively highlight skills, experience, and achievements." },
+  { icon: <FaLightbulb />, title: "Help in Applying", description: "Support in identifying suitable job opportunities and navigating the application process." },
+  { icon: <FaProjectDiagram />, title: "Real-Time Project", description: "Hands-on experience with real-time projects to apply theoretical knowledge and build industry-relevant skills." }
+];
+
+const testimonials = [
+  { name: "Alex Johnson", course: "Full Stack Java", quote: "This course was a game-changer! The hands-on projects helped me land my dream job." },
+  { name: "Priya Sharma", course: "JavaScript & React", quote: "The instructor explained complex topics so clearly. I finally understand React Hooks!" },
+  { name: "Michael Lee", course: "Python & Django", quote: "I loved the hands-on projects. They really helped me understand how to build real web apps." },
+  { name: "Sara Williams", course: "React.js Frontend Development", quote: "The React course made everything so easy to grasp. The projects were fun and practical." },
+  { name: "David Kim", course: "Cloud & DevOps", quote: "Thanks to the cloud & DevOps course, I confidently deployed my first project to AWS." }
+];
+
 //  Accept the 'onTechnologySelect' prop from the parent component (Master.js)
 const Home = ({ onTechnologySelect }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -40,46 +83,6 @@ const Home = ({ onTechnologySelect }) => {
   const handleExploreClick = () => {
     coursesSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
-
-  // --- Data Arrays (Courses, Features, etc.) ---
-  const courses = [
-    { icon: <FaHtml5 />, title: "HTML5", description: "Learn to structure the web with HTML5.", content: "Covers semantic tags, forms, multimedia, canvas, and accessibility best practices." },
-    { icon: <FaCss3Alt />, title: "CSS3", description: "Style modern and responsive web pages.", content: "Covers Flexbox, Grid, Animations, Media Queries, and advanced CSS techniques." },
-    { icon: <FaJs />, title: "JavaScript", description: "Become proficient in modern JavaScript.", content: "Covers ES6+, DOM manipulation, Async programming, Fetch API, and advanced concepts like closures and promises." },
-    { icon: <FaJava />, title: "Java Programming", description: "Learn the fundamentals of Java from scratch.", content: "Covers OOP concepts, Collections, Multithreading, Exception Handling, and Java best practices." },
-    { icon: <SiSpringboot />, title: "Spring REST API", description: "Build scalable backend services with Spring Boot.", content: "Learn Spring Boot, REST API design, JPA, Hibernate, Spring Security, and API documentation with Swagger." },
-    { icon: <FaProjectDiagram />, title: "Microservices", description: "Design and build distributed systems like Netflix & Amazon.", content: "Learn Microservices patterns, Spring Cloud, API Gateway, Service Discovery, Circuit Breaker, and Event-driven architecture." },
-    { icon: <FaPython />, title: "Python", description: "Unlock Python for backend and web development.", content: "Covers Django, Flask, REST APIs, Databases, and deployment strategies." },
-    { icon: <FaDatabase />, title: "SQL & Databases", description: "Master SQL for backend and analytics.", content: "Learn MySQL, PostgreSQL, Queries, Joins, Transactions, Indexing, Normalization, and stored procedures." },
-    { icon: <FaReact />, title: "React.js Frontend", description: "Build modern, interactive, and fast UIs with React.", content: "Covers components, hooks, state management, React Router, Context API, and integration with backend APIs." },
-    { icon: <FaCloud />, title: "Cloud & DevOps", description: "Deploy, scale, and manage applications in the cloud.", content: "Learn AWS basics, Docker containerization, Kubernetes orchestration, CI/CD pipelines, and cloud deployment strategies." }
-  ];
-  const features = [
-    { icon: <FaChalkboardTeacher size={40} />, title: "Expert Instructors", text: "Learn from industry professionals with years of real-world experience." },
-    { icon: <FaBookOpen size={40} />, title: "Practical Curriculum", text: "Our courses are project-based, ensuring you build a solid portfolio." },
-    { icon: <FaUserCheck size={40} />, title: "Career Support", text: "Get help with your resume, portfolio, and interview preparation." },
-    { icon: <FaUsers size={40} />, title: "Vibrant Community", text: "Connect with fellow learners, share ideas, and get help in our active community forums." },
-    { icon: <FaInfinity size={40} />, title: "Lifetime Access", text: "Enroll once and get lifetime access to course materials, including all future updates." },
-    { icon: <FaRocket size={40} />, title: "Cutting-Edge Content", text: "Our curriculum is constantly updated to keep you ahead with the latest technologies." },
-    { icon: <FaCertificate size={40} />, title: "Certification", text: "Earn industry-recognized certificates to showcase your expertise to employers." },
-    { icon: <FaHandsHelping size={40} />, title: "1-on-1 Mentorship", text: "Get personalized guidance and mentorship to accelerate your learning journey." },
-    { icon: <FaLaptopCode size={40} />, title: "Hands-On Projects", text: "Work on real-world projects to apply your knowledge and build confidence." },
-    { icon: <FaGlobe size={40} />, title: "Global Networking", text: "Join an international network of learners and professionals across industries." }
-  ];
-  const careerSupportSteps = [
-    { icon: <FaGithub />, title: "GitHub Profile", description: "Guidance on creating and maintaining a professional GitHub profile to showcase technical projects and coding process." },
-    { icon: <FaLinkedin />, title: "LinkedIn Profile", description: "Assistance in crafting a compelling LinkedIn profile for networking and visibility among recruiters." },
-    { icon: <FaFileAlt />, title: "Resume Preparation", description: "Expert advice on resume writing to effectively highlight skills, experience, and achievements." },
-    { icon: <FaLightbulb />, title: "Help in Applying", description: "Support in identifying suitable job opportunities and navigating the application process." },
-    { icon: <FaProjectDiagram />, title: "Real-Time Project", description: "Hands-on experience with real-time projects to apply theoretical knowledge and build industry-relevant skills." }
-  ];
-  const testimonials = [
-    { name: "Alex Johnson", course: "Full Stack Java", quote: "This course was a game-changer! The hands-on projects helped me land my dream job." },
-    { name: "Priya Sharma", course: "JavaScript & React", quote: "The instructor explained complex topics so clearly. I finally understand React Hooks!" },
-    { name: "Michael Lee", course: "Python & Django", quote: "I loved the hands-on projects. They really helped me understand how to build real web apps." },
-    { name: "Sara Williams", course: "React.js Frontend Development", quote: "The React course made everything so easy to grasp. The projects were fun and practical." },
-    { name: "David Kim", course: "Cloud & DevOps", quote: "Thanks to the cloud & DevOps course, I confidently deployed my first project to AWS." }
-  ];
   
   useEffect(() => {
     const interval = setInterval(() => {

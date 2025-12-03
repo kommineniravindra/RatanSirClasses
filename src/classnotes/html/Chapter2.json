@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "question": "What are Semantic Elements?",
+    "answer": "Elements with meaning, like <header>, <footer>, <article>, and <section>, which clearly describe their content to the browser and developer.",
+    "image": null
+  },
+  {
+    "id": 2,
+    "question": "What is the HTML5 <canvas> element?",
+    "answer": "It is used to draw graphics, on the fly, via scripting (usually JavaScript).",
+    "image": null
+  },
+  {
+    "id": 3,
+    "question": "How do you create a form in HTML?",
+    "answer": "Using the <form> element, which can contain input elements like text fields, checkboxes, radio buttons, and submit buttons.",
+    "image": null
+  },
+  {
+    "id": 4,
+    "question": "What is the purpose of the 'alt' attribute?",
+    "answer": "It specifies an alternate text for an image, if the image cannot be displayed, and is crucial for accessibility.",
+    "image": null
+  },
+  {
+    "id": 5,
+    "question": "What is Local Storage in HTML5?",
+    "answer": "It allows web applications to store data locally within the user's browser with no expiration date.",
+    "image": null
+  },
+  {
+    "id": 6,
+    "question": "What is the <!DOCTYPE> declaration?",
+    "answer": "It is an instruction to the web browser about what version of HTML the page is written in.",
+    "image": null
+  },
+  {
+    "id": 7,
+    "question": "What are Meta tags?",
+    "answer": "Tags within the <head> that provide metadata about the HTML document, such as description, keywords, and viewport settings.",
+    "image": null
+  },
+  {
+    "id": 8,
+    "question": "What is an Iframe?",
+    "answer": "An inline frame used to embed another document within the current HTML document.",
+    "image": null
+  },
+  {
+    "id": 9,
+    "question": "How do you embed Audio/Video?",
+    "answer": "Using the <audio> and <video> tags introduced in HTML5.",
+    "image": null
+  },
+  {
+    "id": 10,
+    "question": "What is SVG?",
+    "answer": "Scalable Vector Graphics. An XML-based format for defining vector-based graphics for the web.",
+    "image": null
+  }
+]

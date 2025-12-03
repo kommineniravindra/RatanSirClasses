@@ -1,68 +1,62 @@
 [
   {
     "id": 1,
-    "question": "What is Git and why is it used?",
-    "answer": "Git is a version control system used to track code changes. It helps developers manage project history, collaborate with teammates, and roll back to previous versions when needed.",
+    "question": "What is JavaScript?",
+    "answer": "A programming language that enables interactive web pages. It is an essential part of web applications.",
     "image": null
   },
   {
     "id": 2,
-    "question": "Which command initializes a new Git repository?",
-    "answer": "The command is 'git init'. It creates a new .git folder in your project so Git can begin tracking changes.",
+    "question": "What are variables in JS?",
+    "answer": "Containers for storing data values. Declared using var, let, or const.",
     "image": null
   },
   {
     "id": 3,
-    "question": "How do you check the status of your files in Git?",
-    "answer": "Use 'git status'. It shows which files are modified, staged, or not tracked, helping you understand what will be committed next.",
+    "question": "Difference between '==' and '==='?",
+    "answer": "'==' checks for value equality (loose equality), while '===' checks for both value and type equality (strict equality).",
     "image": null
   },
   {
     "id": 4,
-    "question": "How do you stage all files for committing?",
-    "answer": "Use 'git add .'. This stages every modified and new file so they can be included in your next commit.",
+    "question": "What is a function?",
+    "answer": "A block of code designed to perform a particular task. It is executed when 'invoked' (called).",
     "image": null
   },
   {
     "id": 5,
-    "question": "How do you commit changes with a message?",
-    "answer": "Use 'git commit -m \"your message\"'. This saves your staged changes into Git history with a meaningful description.",
+    "question": "What is the DOM?",
+    "answer": "The Document Object Model. It is a programming interface for HTML and XML documents, representing the page so that programs can change the document structure, style, and content.",
     "image": null
   },
   {
     "id": 6,
-    "question": "How do you upload your local commits to a remote repository?",
-    "answer": "Use 'git push origin main'. This sends your committed changes to the remote repository’s main branch.",
+    "question": "What are Data Types in JS?",
+    "answer": "Primitive types (String, Number, Boolean, Null, Undefined, Symbol) and Objects.",
     "image": null
   },
   {
     "id": 7,
-    "question": "How do you download and apply the latest changes from a remote repository?",
-    "answer": "Use 'git pull'. It fetches the newest changes from the remote repo and merges them into your current branch.",
+    "question": "What is an Array?",
+    "answer": "A special variable, which can hold more than one value at a time.",
     "image": null
   },
   {
     "id": 8,
-    "question": "How do you create and switch to a new branch in Git?",
-    "answer": "Use 'git checkout -b feature-branch'. This creates a new branch and switches to it immediately.",
-    "image": {
-      "url": "https://raw.githubusercontent.com/git/git-scm.com/master/public/images/branching.png",
-      "caption": "Git branch example"
-    }
+    "question": "What is an Object?",
+    "answer": "A collection of properties, where a property is an association between a name (key) and a value.",
+    "image": null
   },
   {
     "id": 9,
-    "question": "How do you merge a branch into your current branch?",
-    "answer": "Use 'git merge feature-branch'. This combines the changes from feature-branch into your current branch.",
+    "question": "What is 'NaN'?",
+    "answer": "Not-a-Number. It indicates that a value is not a legal number.",
     "image": null
   },
   {
     "id": 10,
-    "question": "How do you clone a repository from GitHub?",
-    "answer": "Use 'git clone <repository-url>'. It downloads the entire repository, including all branches and commit history, to your machine.",
-    "image": {
-      "url": "https://git-scm.com/book/en/v2/images/remote-repos.png",
-      "caption": "Git remote clone example"
-    }
+    "question": "What is an Event?",
+    "answer": "Things that happen to HTML elements (e.g., clicks, keypresses) that JavaScript can react to.",
+    "image": null
   }
 ]

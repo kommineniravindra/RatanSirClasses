@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "question": "What is HATEOAS?",
+    "answer": "Hypermedia As The Engine Of Application State. A constraint of REST application architecture that distinguishes it from other network application architectures.",
+    "image": null
+  },
+  {
+    "id": 2,
+    "question": "What is Content Negotiation?",
+    "answer": "The mechanism that is used for serving different representations of a resource at the same URI, so that the user agent can specify which is best suited for the user.",
+    "image": null
+  },
+  {
+    "id": 3,
+    "question": "REST vs SOAP?",
+    "answer": "REST is an architectural style, SOAP is a protocol. REST is typically faster and uses less bandwidth.",
+    "image": null
+  },
+  {
+    "id": 4,
+    "question": "What is URI Design?",
+    "answer": "Designing clear, logical URLs that represent resources (nouns) rather than actions (verbs).",
+    "image": null
+  },
+  {
+    "id": 5,
+    "question": "What is Richardson Maturity Model?",
+    "answer": "A model that breaks down the principal elements of a REST approach into three steps (resources, http verbs, hypermedia controls).",
+    "image": null
+  },
+  {
+    "id": 6,
+    "question": "What is Safe Method?",
+    "answer": "An HTTP method that does not modify resources (e.g., GET, HEAD).",
+    "image": null
+  },
+  {
+    "id": 7,
+    "question": "What is GraphQL?",
+    "answer": "A query language for APIs and a runtime for fulfilling those queries with your existing data. An alternative to REST.",
+    "image": null
+  },
+  {
+    "id": 8,
+    "question": "What is gRPC?",
+    "answer": "A high-performance, open-source universal RPC framework.",
+    "image": null
+  },
+  {
+    "id": 9,
+    "question": "What is Webhook?",
+    "answer": "A method of augmenting or altering the behavior of a web page or web application with custom callbacks.",
+    "image": null
+  },
+  {
+    "id": 10,
+    "question": "What is API Security?",
+    "answer": "Practices to prevent attacks on APIs, such as using HTTPS, OAuth, API keys, and input validation.",
+    "image": null
+  }
+]

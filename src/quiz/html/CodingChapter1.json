@@ -1,45 +1,41 @@
 [
   {
-    "question": "Create a simple HTML page with title 'Welcome', heading 'Welcome to Ratan sir classes', and a paragraph 'This is my first HTML document by Your Name.'",
-    "sampleInput": "Title    => Welcome\nHeading  => Welcome to Ratan sir classes\nPara      => This is my first HTML document by Your Name.",
-    "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Welcome</title>\n</head>\n<body>\n    <h1>Welcome to Ratan sir classes</h1>\n    <p>This is my first HTML document by Your Name.</p>\n</body>\n</html>",
-    "sampleOutput": "Welcome\nWelcome to Ratan sir classes\nThis is my first HTML document by Your Name.",
+    "question": "Create an HTML button with the text 'Click Me'.",
+    "sampleInput": "Button Text => Click Me",
+    "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Button Task</title>\n</head>\n<body>\n    <button>Click Me</button>\n</body>\n</html>",
+    "sampleOutput": "<button>Click Me</button>",
     "maxMarks": 10,
-     "description": "Description of the task to be performed."
+    "description": "Create a button element with the specified text."
   },
-
   {
-    "question": "Create an HTML document with a heading 'About Me' and two paragraphs describing yourself.",
-    "sampleInput": "Heading-> About Me\nPara1-> I am learning HTML.\nPara2-> I love coding.",
-    "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>About Me</title>\n</head>\n<body>\n    <h1>About Me</h1>\n    <p>I am learning HTML.</p>\n    <p>I love coding.</p>\n</body>\n</html>",
-    "sampleOutput": "About Me\nI am learning HTML.\nI love coding.",
+    "question": "Create an HTML table with 3 columns: Name, Age, and City, and add two rows of sample data.",
+    "sampleInput": "Column1-> Name\nColumn2-> Age\nColumn3-> City\nRow1-> Ravi, 22, Mumbai\nRow2-> Priya, 20, Delhi",
+    "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Student Table</title>\n</head>\n<body>\n    <table border=\"1\">\n        <tr>\n            <th>Name</th>\n            <th>Age</th>\n            <th>City</th>\n        </tr>\n        <tr>\n            <td>Ravi</td>\n            <td>22</td>\n            <td>Mumbai</td>\n        </tr>\n        <tr>\n            <td>Priya</td>\n            <td>20</td>\n            <td>Delhi</td>\n        </tr>\n    </table>\n</body>\n</html>",
+    "sampleOutput": "<table border='1'><tr><th>Name</th><th>Age</th><th>City</th></tr><tr><td>Ravi</td><td>22</td><td>Mumbai</td></tr><tr><td>Priya</td><td>20</td><td>Delhi</td></tr></table>",
     "maxMarks": 10,
-     "description": "Description of the task to be performed."
+    "description": "The student must create an HTML table using table, tr, td, and th tags with proper structure."
   },
-
   {
     "question": "Create an HTML page with title 'My Hobbies' and an unordered list containing three hobbies.",
     "sampleInput": "Title-> My Hobbies\nHobby1-> Reading\nHobby2-> Coding\nHobby3-> Playing Cricket",
     "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>My Hobbies</title>\n</head>\n<body>\n    <h1>My Hobbies</h1>\n    <ul>\n        <li>Reading</li>\n        <li>Coding</li>\n        <li>Playing Cricket</li>\n    </ul>\n</body>\n</html>",
-    "sampleOutput": "My Hobbies\n• Reading\n• Coding\n• Playing Cricket",
+    "sampleOutput": "<ul><li>Reading</li><li>Coding</li><li>Playing Cricket</li></ul>",
     "maxMarks": 10,
-      "description": "Description of the task to be performed."
+    "description": "Description of the task to be performed."
   },
-
   {
     "question": "Create an HTML page with a title 'Contact Info' and a table showing Name and Phone number.",
     "sampleInput": "Title-> Contact Info\nName-> Ratan\nPhone-> 98XXXXXX10",
     "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Contact Info</title>\n</head>\n<body>\n    <h1>Contact Info</h1>\n    <table border='1'>\n        <tr>\n            <th>Name</th>\n            <th>Phone</th>\n        </tr>\n        <tr>\n            <td>Ratan</td>\n            <td>98XXXXXX10</td>\n        </tr>\n    </table>\n</body>\n</html>",
-    "sampleOutput": "Contact Info\nName | Phone\nRatan | 98XXXXXX10",
+    "sampleOutput": "<table border='1'><tr><th>Name</th><th>Phone</th></tr><tr><td>Ratan</td><td>98XXXXXX10</td></tr></table>",
     "maxMarks": 10,
     "description": "Description of the task to be performed."
   },
-
   {
     "question": "Create an HTML page with title 'My Image' and display an image from source 'mypic.jpg' with width 200px.",
-    "sampleInput": "Title-> My Image\nImage-> mypic.jpg\nWidth-> 200px",
+    "sampleInput": "Title-> My Image\nImage-> img17.jpg\nWidth-> 200px",
     "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>My Image</title>\n</head>\n<body>\n    <h1>My Image</h1>\n    <img src='mypic.jpg' width='200px' />\n</body>\n</html>",
-    "sampleOutput": "My Image\n[Image displayed with width 200px]",
+    "sampleOutput": "<img src='./img17.jpg' width='200px' alt='My Image' />",
     "maxMarks": 10,
     "description": "create image tag with given source and width."
   }

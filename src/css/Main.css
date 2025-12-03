@@ -267,6 +267,30 @@ td:first-child {
     justify-content: center;
 }
 
+.try-btn {
+    position: absolute;
+    top: 10px;
+    right: 80px; /* Positioned to the left of copy-btn */
+    background-color: transparent;
+    border: none;
+    color: #4b4b4b;
+    font-size: 14px;
+    padding: 2px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.try-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #007bff; /* Blue color on hover */
+}
+
 .copy-btn:hover {
     background-color: rgba(255, 255, 255, 0.1);
     color: #000000;

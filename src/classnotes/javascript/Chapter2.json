@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "question": "What is ES6?",
+    "answer": "ECMAScript 2015 (ES6) is a major update to JavaScript that added new features like arrow functions, classes, and template literals.",
+    "image": null
+  },
+  {
+    "id": 2,
+    "question": "What is a Promise?",
+    "answer": "An object representing the eventual completion or failure of an asynchronous operation.",
+    "image": null
+  },
+  {
+    "id": 3,
+    "question": "What is 'this' keyword?",
+    "answer": "It refers to the object that is executing the current function. Its value depends on how the function is called.",
+    "image": null
+  },
+  {
+    "id": 4,
+    "question": "What are Arrow Functions?",
+    "answer": "A syntactically compact alternative to regular function expressions. They do not have their own bindings to this or super.",
+    "image": null
+  },
+  {
+    "id": 5,
+    "question": "What is Async/Await?",
+    "answer": "Syntactic sugar built on top of Promises that makes asynchronous code look and behave more like synchronous code.",
+    "image": null
+  },
+  {
+    "id": 6,
+    "question": "What is Hoisting?",
+    "answer": "JavaScript's default behavior of moving declarations to the top of the current scope.",
+    "image": null
+  },
+  {
+    "id": 7,
+    "question": "What are Closures?",
+    "answer": "A feature where an inner function has access to the outer (enclosing) function's variables.",
+    "image": null
+  },
+  {
+    "id": 8,
+    "question": "What is Destructuring?",
+    "answer": "A syntax that makes it possible to unpack values from arrays, or properties from objects, into distinct variables.",
+    "image": null
+  },
+  {
+    "id": 9,
+    "question": "What is the Spread Operator?",
+    "answer": "The '...' operator allows an iterable to be expanded in places where zero or more arguments or elements are expected.",
+    "image": null
+  },
+  {
+    "id": 10,
+    "question": "What are Modules in JS?",
+    "answer": "Files containing code that can be exported and imported into other files using 'export' and 'import'.",
+    "image": null
+  }
+]

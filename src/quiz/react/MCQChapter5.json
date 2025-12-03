@@ -1,0 +1,183 @@
+[
+  {
+    "question": "Which hook is used to maintain local state of component updated by setters?",
+    "options": ["useEffect()", "useState()", "useRedux()", "useReducer()"],
+    "answer": "useState()"
+  },
+  {
+    "question": "What are props in React?",
+    "options": [
+      "Functions that change component state",
+      "Variables used only inside a component",
+      "Inputs passed from parent component to child component",
+      "Hooks that manage side effects"
+    ],
+    "answer": "Inputs passed from parent component to child component"
+  },
+  {
+    "question": "What is props drilling?",
+    "options": [
+      "Passing props only to a single child component",
+      "Passing props deeply through multiple components unnecessarily",
+      "Using props to update the Redux store",
+      "Passing props from child to parent component"
+    ],
+    "answer": "Passing props deeply through multiple components unnecessarily"
+  },
+  {
+    "question": "What is the main role of Redux library in a React application?",
+    "options": [
+      "To style components",
+      "To manage global state of the application centralized way.",
+      "To handle Rest API calls.",
+      "To handle routing in a React app"
+    ],
+    "answer": "To manage global state of the application centralized way."
+  },
+  {
+    "question": "Which command installs Redux Toolkit (RTK) along with React Redux?",
+    "options": [
+      "npm install redux react",
+      "npm install @reduxjs/toolkit react-redux",
+      "npm install redux-toolkit react",
+      "npm install react-store"
+    ],
+    "answer": "npm install @reduxjs/toolkit react-redux"
+  },
+  {
+    "question": "What is not true about Redux Store?",
+    "options": [
+      "To write the reducer logic and handle actions",
+      "Redux store is called the 'single source of truth'",
+      "To configure the global state and connect reducers.",
+      "We can save the extension using .js",
+      "Configure the store using ConfigureStore() hook."
+    ],
+    "answer": "Configure the store using ConfigureStore() hook."
+  },
+  {
+    "question": "How do you create a Redux store using Redux Toolkit?",
+    "options": [
+      "const store = configureStore({ reducers: { counter: counterSlice.reducer } });",
+      "const store = configureStore({ reducer: { counter: counterSlice.reducer } });",
+      "const store = configureStore(counterReducer);",
+      "const store = configureStore({ counter: counterSlice.reducer });"
+    ],
+    "answer": "const store = configureStore({ reducer: { counter: counterSlice.reducer } });"
+  },
+  {
+    "question": "Using which component do you make the Redux store available to all React components?",
+    "options": [
+      "<StoreProvider store={store}>",
+      "<Provider store={store}>",
+      "<ReduxProvider store={store}>",
+      "<GlobalState store={store}>"
+    ],
+    "answer": "<Provider store={store}>"
+  },
+  {
+    "question": "How do you dispatch an action using useDispatch in a React component?",
+    "options": [
+      "const dispatch = useDispatch(); dispatch(increment());",
+      "const dispatch = useSelector(); dispatch(increment());",
+      "useDispatch(increment());",
+      "dispatch = useDispatch();"
+    ],
+    "answer": "const dispatch = useDispatch(); dispatch(increment());"
+  },
+  {
+    "question": "How do you read a value from the Redux store using useSelector?",
+    "options": [
+      "const value = useSelector(state => state.counter.value);",
+      "const value = useDispatch(state => state.counter.value);",
+      "const value = useSelector(counter.value);",
+      "const value = store.useSelector(state => state.value);"
+    ],
+    "answer": "const value = useSelector(state => state.counter.value);"
+  },
+  {
+    "question": "Which hook is used to read data from the Redux store inside a React component?",
+    "options": ["useDispatch()", "useEffect()", "useSelector()", "useState()"],
+    "answer": "useSelector()"
+  },
+  {
+    "question": "Which hook is used to dispatch an action to the Redux store?",
+    "options": ["useAction()", "useSelector()", "useNavigate()", "useDispatch()"],
+    "answer": "useDispatch()"
+  },
+  {
+    "question": "What is the purpose of a Redux Toolkit slice?",
+    "options": [
+      "To define the global Redux store only",
+      "Specific part of the Redux state along with its reducers",
+      "A middleware used in Redux",
+      "To make API calls automatically"
+    ],
+    "answer": "Specific part of the Redux state along with its reducers"
+  },
+  {
+    "question": "Which of the following is the correct way to create a slice?",
+    "options": [
+      "const productSlice = createSlice({ name: 'product', state: {}, reducers: {} });",
+      "const productSlice = createSlice({ name: 'product', initialState: {}, reducers: {} });",
+      "const productSlice = createSlice({ state: {}, actions: {} });",
+      "const productSlice = createSlice();"
+    ],
+    "answer": "const productSlice = createSlice({ name: 'product', initialState: {}, reducers: {} });"
+  },
+  {
+    "question": "What is the role of reducers in Redux?",
+    "options": [
+      "Logics Dispatch actions to store",
+      "Logics read state from the Redux store",
+      "Logics update the Global State.",
+      "Logics It can return the JSX code."
+    ],
+    "answer": "Logics update the Global State."
+  },
+  {
+    "question": "In a Redux reducer arguments, what do state and action represent?",
+    "options": [
+      "state: Existing global state of the application | action: Input data describing what change should happen",
+      "state: HTML elements of the page | action: Function that updates the DOM",
+      "state: Local component state only | action: setter method to update the state value.",
+      "state: Props passed from parent | action: Middleware thunk function"
+    ],
+    "answer": "state: Existing global state of the application | action: Input data describing what change should happen"
+  },
+  {
+    "question": "Which of the following are features provided by Redux Toolkit?",
+    "options": ["useDispatch()", "useSelector()", "ConfigureStore()", "createSlice()", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "In Redux, the state can be updated by?",
+    "options": [
+      "Directly modifying the value in store.",
+      "Using reducers logics.",
+      "By Changing values inside components.",
+      "Using setter methods"
+    ],
+    "answer": "Using reducers logics."
+  },
+  {
+    "question": "What does 'Single Source of Truth' mean in Redux?",
+    "options": [
+      "Redux stores data in multiple places for easy access.",
+      "Redux keeps all the application state in one central store.",
+      "Redux allows each component to create its own store.",
+      "Redux shares state only between parent and child components."
+    ],
+    "answer": "Redux keeps all the application state in one central store."
+  },
+  {
+    "question": "How do you export multiple reducers from a Redux Toolkit slice?",
+    "options": [
+      "export default cartSlice.actions;",
+      "export const { addToCart, removeCart, incCart, decCart } = cartSlice.actions;",
+      "export const cartSlice = cartSlice.reducer;",
+      "export { addToCart, removeCart, incCart, decCart };"
+    ],
+    "answer": "export const { addToCart, removeCart, incCart, decCart } = cartSlice.actions;"
+  }
+]

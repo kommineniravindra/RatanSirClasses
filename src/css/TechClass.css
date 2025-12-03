@@ -1,190 +1,913 @@
 /* =======================================
-    GLOBAL FONT
+    GLOBAL FONT & VARIABLES
 ======================================= */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=Montserrat:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    --card-bg: #ffffff;
+    --text-dark: #2d3748;
+    --text-light: #4a5568;
+    --accent-color: #764ba2;
+}
 
 .tech-class-container {
-    padding: 0; 
-    font-family: 'Poppins', sans-serif;
-    max-width: 1200px; 
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    /* Global Body Font */
+    max-width: 100%;
     margin: 0 auto;
+    background: #ffffff;
+    min-height: 100vh;
 }
 
 .tech-class-container h2 {
-    color: #2c3e50;
-    font-size: 2em;
-    font-weight: 600;
+    color: var(--text-dark);
+    font-family: 'Outfit', sans-serif;
+    /* Premium Heading Font */
+    font-size: 1.5em;
+    font-weight: 700;
+    letter-spacing: -0.5px;
 }
 
 /* =======================================
-    FIXED HEADER DROPDOWNS
+    FULLSCREEN MODE
+======================================= */
+
+.tech-class-container.fullscreen-mode {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9990;
+    background-color: #ffffff;
+}
+
+.tech-class-container.fullscreen-mode .controls-group {
+    display: none !important;
+}
+
+.tech-class-container.fullscreen-mode .questions-scroll-wrapper {
+    height: 100vh !important;
+    margin-top: 0 !important;
+    padding-top: 40px;
+    width: 100%;
+}
+
+/* ------------------------------------
+    NEW: Fullscreen Toggle Button 
+------------------------------------ */
+.techclass-fullscreen-toggle {
+    position: fixed !important;
+    top: 60px !important;
+    right: 5px !important;
+    z-index: 10001 !important;
+}
+
+/* ------------------------------------
+    NEW: Erase Toggle Button 
+------------------------------------ */
+.techclass-erase-toggle {
+    position: fixed !important;
+    top: 115px !important;
+    right: 5px !important;
+    z-index: 10001 !important;
+}
+
+/* =======================================
+    MODAL STYLES (PREMIUM)
+======================================= */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: var(--accent-color);
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    color: var(--text-light);
+    margin-bottom: 25px;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1.1em;
+    transition: all 0.3s;
+    background: #f8fafc;
+    outline: none;
+}
+
+.modal-content input:focus {
+    border-color: #764ba2;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(118, 75, 162, 0.1);
+}
+
+.modal-content .input-error {
+    border-color: #e74c3c;
+    animation: shake 0.4s ease-in-out;
+}
+
+.modal-content .error-message {
+    color: #e74c3c;
+    margin-top: 10px;
+    font-weight: 500;
+    font-size: 0.9em;
+}
+
+/* =======================================
+    FIXED HEADER DROPDOWNS (FLAT & CLEAN)
 ======================================= */
 
 .controls-group {
-    position: fixed; 
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #ffffff; 
-    padding: 5px; 
+    background: #ffffff;
+    padding: 10px 20px;
     display: flex;
-    align-items: center; 
-    gap: 30px; 
-    flex-wrap: wrap; 
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+    align-items: center;
+    justify-content: space-between;
+    gap: 1px;
+    flex-wrap: wrap;
+    box-shadow: none !important;
     z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+
+/* =======================================
+    WEBSITE INFO SCREEN
+======================================= */
+.website-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+    padding: 40px 20px;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.website-info-container h1 {
+    font-size: 2.5rem;
+    background: var(--primary-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+.website-info-container .subtitle {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin-bottom: 40px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 40px;
+}
+
+.feature-card {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: #cbd5e0;
+}
+
+.feature-card h3 {
+    color: var(--accent-color);
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.feature-card p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.instruction-box {
+    background: #fff;
+    border: 1px dashed var(--accent-color);
+    padding: 15px 30px;
+    border-radius: 50px;
+    color: var(--text-dark);
+}
+
+/* =======================================
+    START CLASS BUTTON
+======================================= */
+
+
+/* =======================================
+    NEXT BUTTON (DISTINCT STYLE)
+======================================= */
+.navigation-controls {
+    background: rgb(255, 255, 255);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 15px 0;
+    box-shadow: none !important;
+}
+
+
+
+
+/* =======================================
+    RESPONSIVE DESIGN (UPDATED)
+======================================= */
+/* Mobile Devices */
+@media (max-width: 768px) {
+    .controls-group {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .start-class-btn {
+        width: 100%;
+        margin-left: 0 !important;
+        margin-top: 10px;
+    }
+
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        /* Stack cards */
+    }
+}
+
+.controls-group h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    background: var(--primary-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-right: 20px;
 }
 
 .controls-group label {
     font-weight: 600;
-    color: #2c3e50;
+    color: var(--text-light);
     margin-right: 10px;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .controls-group select {
-    padding: 10px 14px;
-    border: 1px solid #dcdcdc;
-    border-radius: 8px;
-    min-width: 220px;
-    font-size: 1em;
+    padding: 12px 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 50px;
+    min-width: 200px;
+    font-size: 0.95em;
     font-family: 'Poppins', sans-serif;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    background-color: #ffffff;
+    font-weight: 500;
+    color: var(--text-dark);
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23764ba2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px top 50%;
+    background-size: 10px auto;
+    padding-right: 40px;
+}
+
+.controls-group select:hover {
+    border-color: #cbd5e0;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .controls-group select:focus {
-    border-color: #3498db;
-    box-shadow: 0 0 6px rgba(52, 152, 219, 0.4);
+    border-color: #764ba2;
+    box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
     outline: none;
 }
 
+.controls-group select:disabled {
+    background-color: #f1f5f9;
+    color: #94a3b8;
+    cursor: not-allowed;
+    border-color: #e2e8f0;
+    transform: none;
+    box-shadow: none;
+}
+
 /* =======================================
-    SCROLLABLE CONTENT
+    SCROLLABLE CONTENT AREA
 ======================================= */
 
 .questions-scroll-wrapper {
-    /* Fixed header height changed to 65px in JSX, adjusting CSS calc */
-    height: calc(100vh - 65px); 
-    overflow-y: scroll; 
-    padding: 60px 20px 20px 20px; 
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    padding: 0px 20px 120px 20px;
+    scroll-behavior: smooth;
+
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
 
+/* Custom Scrollbar for Webkit */
 .questions-scroll-wrapper::-webkit-scrollbar {
     display: none;
 }
 
-/* =======================================
-    QUESTION ITEM STYLES (ALIGNMENT FIX HERE)
-======================================= */
-
-.question-item h3 {
-    color: #34495e;
-    font-size: 1.25em;
-    font-weight: 600;
-}
-
-.question-item p {
-    line-height: 1.7;
-    color: #333;
-    font-size: 1em;
-    /* FIX: Use text-indent to move the first line back, and padding to move the rest forward */
-    padding-left: 30px; /* Creates the space for the label */
-    text-indent: -45px; /* Moves the first line (the label) back into the space */
-    margin-bottom: 5px;
-}
-
-.question-item p strong {
-    color: #2c3e50;
-    /* Reset padding-right/display, as text-indent now controls alignment */
-    padding-right: 5px; 
-    display: inline;
-}
-
-.question-item img {
-    /* Center the image within its container */
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 15px;
-    max-width: 75%; 
-    height: auto;
-    border-radius: 8px;
-}
-
-.question-separator {
-    border: 0;
-    border-top: 1px dashed #ccc;
-    margin: 5px 0;
-}
-
-/* =======================================
-    PAGINATION BUTTONS
-======================================= */
-
-.navigation-controls {
+.questions-display-container {
+    max-width: 900px;
+    margin: 0 auto;
     display: flex;
-    justify-content: center; 
-    margin: 25px 0;
+    flex-direction: column;
+    gap: 5px;
+    background-color: white;
+    /* Space between cards */
 }
 
-.navigation-controls button {
-    padding: 10px 25px;
+/* =======================================
+    QUESTION CARDS (PREMIUM)
+======================================= */
+
+.question-item {
+    border-radius: 0;
+    padding: 5px 0;
+    box-shadow: none !important;
+    border: none !important;
+    transition: none;
+    position: relative;
+    overflow: visible;
+    background: #ffffff !important;
+    /* Pure white background as requested */
+}
+
+/* =======================================
+    FONT CONTROL BUTTONS
+======================================= */
+.font-controls-group {
+    position: fixed;
+    top: 170px;
+    right: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 10001;
+}
+
+
+
+
+
+/* =======================================
+    NEW: WATERDROP 3D BUTTONS
+======================================= */
+
+/* Base Button Style */
+.techclass-btn {
+    position: relative;
     border: none;
-    border-radius: 8px;
+    outline: none;
     cursor: pointer;
-    font-weight: 600;
-    font-size: 1em;
-    background-color: #3498db;
     color: white;
-    transition: 0.3s ease;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Outfit', sans-serif;
+    /* Premium Button Font */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 10;
+    overflow: hidden;
+
+    /* Waterdrop Base */
+    background: linear-gradient(145deg, #4a90e2, #0033cc);
+    box-shadow:
+        inset 2px 2px 5px rgba(255, 255, 255, 0.4),
+        inset -2px -2px 5px rgba(0, 0, 0, 0.3),
+        5px 5px 10px rgba(0, 0, 0, 0.2),
+        -5px -5px 10px rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
 }
 
-.navigation-controls button:hover:not(:disabled) {
-    background-color: #2980b9;
-    transform: translateY(-2px);
+/* Shine Effect (The "Gloss") */
+.techclass-btn::before {
+    content: '';
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 40%;
+    border-radius: 20px 20px 50px 50px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1));
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Hover State */
+.techclass-btn:hover:not(:disabled) {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow:
+        inset 2px 2px 5px rgba(255, 255, 255, 0.5),
+        inset -2px -2px 5px rgba(0, 0, 0, 0.3),
+        8px 8px 15px rgba(0, 0, 0, 0.25),
+        -5px -5px 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Active / Pressed State */
+.techclass-btn:active:not(:disabled) {
+    transform: translateY(2px) scale(0.98);
+    box-shadow:
+        inset 4px 4px 8px rgba(0, 0, 0, 0.3),
+        inset -4px -4px 8px rgba(255, 255, 255, 0.2),
+        2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Disabled State */
+.techclass-btn:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.2);
+    color: #ecf0f1;
+}
+
+/* --- Specific Button Types --- */
+
+/* Toggle Buttons (Fullscreen, Erase, Font) - Circular */
+.techclass-toggle {
+    width: 45px;
+    height: 45px;
+    border-radius: 50% !important;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    /* Light glass look */
+    color: var(--accent-color);
+}
+
+.techclass-toggle::before {
+    border-radius: 50%;
+    /* Match shape */
+    height: 45%;
+    top: 5%;
+}
+
+.techclass-toggle:hover:not(:disabled) {
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    color: #6a11cb;
+    /* Accent color on hover */
+}
+
+/* Erase Toggle Specifics */
+.techclass-erase-toggle {
+    color: #e74c3c;
+}
+
+.techclass-erase-toggle:hover:not(:disabled) {
+    color: #c0392b;
+}
+
+/* Scroll Buttons - Circular Fixed */
+.techclass-scroll-btn {
+    position: fixed !important;
+    right: 5px !important;
+    width: 45px !important;
+    height: 45px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999 !important;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6) !important;
+    color: var(--accent-color) !important;
+}
+
+.techclass-scroll-btn::before {
+    border-radius: 50%;
+}
+
+.techclass-scroll-up {
+    bottom: 120px !important;
+}
+
+.techclass-scroll-down {
+    bottom: 70px !important;
+}
+
+
+/* Modal Button */
+.techclass-modal-btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    background: linear-gradient(145deg, #6a11cb, #2575fc);
+}
+
+/* Start Class Button */
+.techclass-btn-start {
+    padding: 12px 30px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+/* Next Button - Sunset Orange Premium */
+.techclass-btn-next {
+    padding: 16px 25px;
+    border-radius: 50px;
+    background: linear-gradient(145deg, #ffffff, #ffffff);
+    color: rgb(0, 0, 0);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.techclass-btn-next:hover {
+    background: linear-gradient(145deg, #000000, #000000);
+    color: white;
+    transform: translateY(-3px) scale(1.02);
+}
+
+/* Ensure icons in buttons are visible */
+.techclass-btn svg {
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+}
+
+
+
+/* =======================================
+    CLASS COMPLETED MESSAGE
+======================================= */
+.class-completed-message {
+    text-align: center;
+    padding: 30px;
+    margin: 40px auto;
+    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+    border-radius: 20px;
+    color: #2d3748;
+    font-weight: 600;
+    font-size: 1.2rem;
+    box-shadow: 0 10px 25px rgba(142, 197, 252, 0.3);
+    animation: slideUp 0.5s ease-out;
+    max-width: 600px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* =======================================
+    NEXT BUTTON (PREMIUM STANDARD)
+======================================= */
+.navigation-controls {
+    background: rgb(255, 255, 255);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: flex-start;
+    /* Align to left */
+    width: 100%;
+    padding: 15px 20px;
+}
+
+
+
+.next-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(37, 117, 252, 0.3) !important;
 }
 
 .navigation-controls button:disabled {
-    background-color: #e5e5e5;
-    color: #b5b5b5;
+    background: #cbd5e0 !important;
+    color: #718096 !important;
     cursor: not-allowed;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.navigation-controls button:disabled::after {
+    display: none;
 }
 
 /* =======================================
     FIXED SCROLL BUTTONS
 ======================================= */
 
+
 .scroll-button {
-    position: fixed !important; 
-    right: 20px !important;
-    width: 52px !important;
-    height: 52px !important;
+    position: fixed !important;
+    right: 5px !important;
+    width: 45px !important;
+    height: 45px !important;
     border-radius: 50%;
-    border: none;
-    background-color: #3498db !important; 
-    color: white !important; 
-    font-size: 1.3em; 
-    display: flex !important; 
+    border: var(--glass-border) !important;
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(8px) !important;
+    color: var(--accent-color) !important;
+    font-size: 1.2em;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.25) !important; 
-    transition: opacity 0.3s, transform 0.3s;
-    z-index: 99999 !important; 
+    box-shadow: var(--glass-shadow) !important;
+    transition: all 0.3s ease !important;
+    z-index: 99999 !important;
 }
 
 .scroll-button:hover {
-    background-color: #2980b9 !important;
-    transform: scale(1.10);
+    background: var(--primary-gradient) !important;
+    color: white !important;
+    transform: scale(1.1) !important;
+    box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4) !important;
 }
 
-.scroll-up {
-    bottom: 85px !important; 
+.scroll-button:active {
+    transform: scale(0.95) !important;
 }
 
-.scroll-down {
-    bottom: 25px !important;
+/* Remove old premium-btn styles if inherited */
+.scroll-button::before,
+.scroll-button::after {
+    display: none !important;
+}
+
+
+
+/* =======================================
+    WELCOME MESSAGE & TYPING ANIMATION
+======================================= */
+
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    text-align: center;
+    background: transparent !important;
+}
+
+.typing-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    filter: drop-shadow(0 2px 4px rgba(118, 75, 162, 0.15));
+
+    white-space: pre-wrap;
+    overflow: hidden;
+    animation: blink-caret 0.75s step-end infinite;
+
+}
+
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: #764ba2;
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+/* =======================================
+    PREMIUM ANIMATIONS (Blur + Scale Reveal)
+======================================= */
+@keyframes blurScaleIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+        filter: blur(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+.animate-in .question-text {
+    opacity: 0;
+    animation: blurScaleIn 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.animate-in .answer-text {
+    opacity: 0;
+    animation: blurScaleIn 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.6s;
+}
+
+.animate-in .explanation-text,
+.animate-in .image-container {
+    opacity: 0;
+    animation: blurScaleIn 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 1.2s;
+}
+
+/* =======================================
+    SMOKE ERASE ANIMATION
+======================================= */
+@keyframes smokeEffect {
+    0% {
+        opacity: 1;
+        transform: scale(1) translateY(0) rotate(0deg);
+        filter: blur(0px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.1) translateY(-20px) rotate(2deg);
+        filter: blur(10px);
+    }
+}
+
+.smoke-out {
+    animation: smokeEffect 0.8s ease-out forwards;
+    pointer-events: none;
+}
+
+/* =======================================
+    TEXT INDENTATION FOR ANSWERS
+======================================= */
+.answer-text {
+    padding-left: 40px;
+    text-indent: -25px;
+    margin-left: 0;
+}
+
+.answer-text strong {
+    display: inline-block;
+    width: 22px;
+}
+
+/* =======================================
+    RESPONSIVE DESIGN
+======================================= */
+
+/* Tablet and smaller desktops */
+@media (max-width: 1024px) {
+    .questions-display-container {
+        max-width: 90%;
+    }
+
+    .controls-group {
+        padding: 15px 20px;
+        gap: 15px;
+    }
+
+    .controls-group select {
+        min-width: 150px;
+    }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+    .controls-group {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .controls-group h2 {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+    }
+
+    .controls-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 0.85rem;
+    }
+
+    .controls-group select {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .controls-group>div {
+        margin-left: 0 !important;
+        width: 100%;
+    }
+
+    .questions-scroll-wrapper {
+        padding: 140px 15px 100px 15px;
+    }
+
+    .question-item h2 {
+        font-size: 1.1em;
+    }
+
+    .answer-text,
+    .explanation-text {
+        font-size: 0.95em;
+    }
+
+    .navigation-controls {
+        justify-content: center;
+    }
+
+
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+    .questions-scroll-wrapper {
+        padding-top: 160px;
+        /* Even more space for stacked header */
+    }
+
+    .modal-content {
+        padding: 20px;
+        width: 95%;
+    }
+
+    .modal-content h2 {
+        font-size: 1.5rem;
+    }
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
+import { motion, AnimatePresence } from "framer-motion";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 
@@ -9,97 +10,115 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 export default function PDFViewer({ file }) {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
-  const [fade, setFade] = useState(true);
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
 
-  const changePageSmooth = (newPage) => {
-    setFade(false); // fade out
-    setTimeout(() => {
-      setPageNumber(newPage);
-      setFade(true); // fade in
-    }, 200); // fade duration
+  const changePage = (offset) => {
+    setPageNumber((prevPageNumber) => prevPageNumber + offset);
   };
 
   const goPrev = () => {
-    if (pageNumber > 1) changePageSmooth(pageNumber - 1);
+    if (pageNumber > 1) changePage(-1);
   };
 
   const goNext = () => {
-    if (pageNumber < numPages) changePageSmooth(pageNumber + 1);
+    if (pageNumber < numPages) changePage(1);
   };
 
   return (
     <div
       style={{
         position: "relative",
-        display: "inline-block", // tightly wraps the PDF
+        display: "inline-block",
         textAlign: "center",
+        width: "100%",
+        maxWidth: "1000px",
+        margin: "0 auto",
       }}
     >
       {/* PDF Document */}
-      <div
-        style={{
-          transition: "opacity 0.3s ease-in-out",
-          opacity: fade ? 1 : 0,
-        }}
-      >
-        <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
-          <Page
-            pageNumber={pageNumber}
-            renderAnnotationLayer={false}
-            renderTextLayer={false}
-            scale={0.8} // adjust smaller or larger
-          />
-        </Document>
+      <div style={{ position: "relative", overflow: "hidden", minHeight: "600px" }}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={pageNumber}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
+              <Page
+                pageNumber={pageNumber}
+                renderAnnotationLayer={false}
+                renderTextLayer={false}
+                scale={0.8}
+              />
+            </Document>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* Left Arrow */}
-      <button
+      <motion.button
         onClick={goPrev}
         disabled={pageNumber === 1}
+        whileHover={{ scale: 1.1, backgroundColor: "#000000cc" }}
+        whileTap={{ scale: 0.9 }}
         style={{
           position: "absolute",
           top: "50%",
-          left: "-30px",
+          left: "10px",
           transform: "translateY(-50%)",
-          fontSize: "22px",
+          fontSize: "24px",
           background: "#00000080",
           color: "white",
           border: "none",
-          padding: "6px 10px",
-          borderRadius: "6px",
+          padding: "10px 15px",
+          borderRadius: "50%",
           cursor: "pointer",
+          zIndex: 10,
+          opacity: pageNumber === 1 ? 0 : 1,
+          transition: "opacity 0.3s",
         }}
       >
         ◀
-      </button>
+      </motion.button>
 
       {/* Right Arrow */}
-      <button
+      <motion.button
         onClick={goNext}
         disabled={pageNumber === numPages}
+        whileHover={{ scale: 1.1, backgroundColor: "#000000cc" }}
+        whileTap={{ scale: 0.9 }}
         style={{
           position: "absolute",
           top: "50%",
-          right: "-30px",
+          right: "10px",
           transform: "translateY(-50%)",
-          fontSize: "22px",
+          fontSize: "24px",
           background: "#00000080",
           color: "white",
           border: "none",
-          padding: "6px 10px",
-          borderRadius: "6px",
+          padding: "10px 15px",
+          borderRadius: "50%",
           cursor: "pointer",
+          zIndex: 10,
+          opacity: pageNumber === numPages ? 0 : 1,
+          transition: "opacity 0.3s",
         }}
       >
         ▶
-      </button>
+      </motion.button>
 
-      <p style={{ marginTop: "5px", fontSize: "14px" }}>
-        Page {pageNumber} of {numPages}
+      <p style={{ marginTop: "10px", fontSize: "14px", color: "#555" }}>
+        Page {pageNumber} of {numPages || "--"}
       </p>
     </div>
   );

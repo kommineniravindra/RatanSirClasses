@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "question": "What are HTTP Status Codes?",
+    "answer": "Standard response codes given by web server applications (e.g., 200 OK, 404 Not Found, 500 Internal Server Error).",
+    "image": null
+  },
+  {
+    "id": 2,
+    "question": "Difference between PUT and PATCH?",
+    "answer": "PUT replaces the entire resource. PATCH applies partial modifications to a resource.",
+    "image": null
+  },
+  {
+    "id": 3,
+    "question": "What is Authentication vs Authorization?",
+    "answer": "Authentication verifies who you are. Authorization verifies what you have access to.",
+    "image": null
+  },
+  {
+    "id": 4,
+    "question": "What is a JWT?",
+    "answer": "JSON Web Token. A compact, URL-safe means of representing claims to be transferred between two parties.",
+    "image": null
+  },
+  {
+    "id": 5,
+    "question": "What is Idempotency?",
+    "answer": "A property where an operation can be applied multiple times without changing the result beyond the initial application.",
+    "image": null
+  },
+  {
+    "id": 6,
+    "question": "What is Rate Limiting?",
+    "answer": "A technique used to control the amount of incoming and outgoing traffic to or from a network.",
+    "image": null
+  },
+  {
+    "id": 7,
+    "question": "What is Pagination?",
+    "answer": "Dividing a large dataset into smaller chunks (pages) to improve performance and usability.",
+    "image": null
+  },
+  {
+    "id": 8,
+    "question": "What is CORS?",
+    "answer": "Cross-Origin Resource Sharing. A mechanism that allows restricted resources on a web page to be requested from another domain.",
+    "image": null
+  },
+  {
+    "id": 9,
+    "question": "What is Swagger/OpenAPI?",
+    "answer": "A set of rules and tools for describing, producing, consuming, and visualizing RESTful web services.",
+    "image": null
+  },
+  {
+    "id": 10,
+    "question": "What is API Versioning?",
+    "answer": "The practice of managing changes to an API. Common methods include URL versioning (v1/resource) or header versioning.",
+    "image": null
+  }
+]

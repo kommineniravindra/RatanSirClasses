@@ -89,7 +89,7 @@ const technologies = [
   //   icon: <FaJs />,
   //   quizChapters: [1, 2, 3, 4, 5, 6, 7, 8] ,
   // },
-  { key: "react", name: "React", icon: <FaReact />, quizChapters: [1, 2, 3,4]  },
+  { key: "react", name: "React", icon: <FaReact />, quizChapters: [1, 2, 3,4,5]  },
   // { key: "java", name: "Java", icon: <FaJava />, quizChapters:[1, 2, 3, 4, 5, 6]  },
   // {
   //   key: "python",
@@ -346,7 +346,8 @@ const ExamDashboard = ({ onLogout }) => {
           navigate(`/quiz/${tech.key}/${num}`);
         }}
       >
-        <i className="bx bxs-file-archive"></i> Quiz {num}
+        <i className="bx bx-edit"></i>
+Quiz {num}
       </button>
     ));
     setModalTitle(`Select a Quiz for ${tech.name}`);

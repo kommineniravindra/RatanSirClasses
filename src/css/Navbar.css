@@ -3,13 +3,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Baskervville:ital,wght@0,400..700;1,400..700&display=swap');
 
 :root {
-  --scale: 1; /* default scale */
+  --scale: 1;
+  /* default scale */
 }
 
 #nav-header-content {
   font-family: "Courgette", cursive;
   font-weight: 600;
-  font-size: calc(1.3rem * var(--scale)); /* increased font size */
+  font-size: calc(1.3rem * var(--scale));
+  /* increased font size */
   background: linear-gradient(90deg, #60a5fa, #ffffff, #68b6a9);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -76,7 +78,8 @@
   color: #e2e8f0;
   font-family: "Baskervville", serif;
   font-weight: 450;
-  font-size: calc(0.7rem * var(--scale)); /* slightly larger than half-size */
+  font-size: calc(0.7rem * var(--scale));
+  /* slightly larger than half-size */
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -166,8 +169,15 @@
 }
 
 @keyframes dropdownSlide {
-  from { opacity: 0; transform: translateX(-50%) translateY(-2.5px) scale(0.98); }
-  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-2.5px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
 }
 
 .dropdown-item {
@@ -244,39 +254,111 @@
 }
 
 /* --- Media Queries for 5 scales --- */
-@media (max-width: 2000px) { :root { --scale: 2; } }
-@media (max-width: 1750px) { :root { --scale: 1.75; } }
-@media (max-width: 1500px) { :root { --scale: 1.5; } }
-@media (max-width: 1250px) { :root { --scale: 1.25; } }
-@media (max-width: 1000px) { :root { --scale: 1; } }
+@media (max-width: 2000px) {
+  :root {
+    --scale: 2;
+  }
+}
+
+@media (max-width: 1750px) {
+  :root {
+    --scale: 1.75;
+  }
+}
+
+@media (max-width: 1500px) {
+  :root {
+    --scale: 1.5;
+  }
+}
+
+@media (max-width: 1250px) {
+  :root {
+    --scale: 1.25;
+  }
+}
+
+@media (max-width: 1000px) {
+  :root {
+    --scale: 1;
+  }
+}
 
 /* --- Mobile styling --- */
-@media (max-width: 768px) {
-  .menu-toggle { display: block; }
+/* --- Mobile styling --- */
+@media (max-width: 1024px) {
+  .navbar {
+    justify-content: space-between;
+    padding: 0 20px;
+    height: auto;
+    min-height: 60px;
+    align-items: center;
+  }
+
+  #nav-header-content {
+    font-size: 1.5rem;
+    z-index: 1100;
+    display: block;
+    color: #ffffff;
+    background: none;
+    -webkit-text-fill-color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    font-weight: 700;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
   .navbar-links {
     position: fixed;
     top: calc(35px * var(--scale));
     right: 0;
-    width: calc(120px * var(--scale));
+    width: calc(180px * var(--scale));
     height: auto;
     max-height: calc(100vh - 35px);
-    background: rgba(15,23,42,0.98);
+    background: rgba(15, 23, 42, 0.98);
     flex-direction: column;
     align-items: flex-start;
-    padding: calc(8px * var(--scale));
-    gap: calc(6px * var(--scale));
+    padding: calc(15px * var(--scale));
+    gap: calc(12px * var(--scale));
     transform: translateX(100%);
     opacity: 0;
     pointer-events: none;
     transition: transform 0.3s ease, opacity 0.3s ease;
     border-left: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
   }
+
   .navbar-links.open {
     transform: translateX(0);
     opacity: 1;
     pointer-events: auto;
   }
-  .navbar-item { width: 100%; padding: calc(4px * var(--scale)); }
-  .navbar-item::after { display: none; }
-  .dropdown-menu { position: static; min-width: 100%; background: transparent; padding-left: calc(6px * var(--scale)); box-shadow: none; border: none; }
+
+  .navbar-item {
+    width: 100%;
+    padding: calc(10px * var(--scale));
+    justify-content: flex-start;
+  }
+
+  .navbar-item::after {
+    display: none;
+  }
+
+  .dropdown-menu {
+    position: static;
+    min-width: 100%;
+    background: transparent;
+    padding-left: calc(15px * var(--scale));
+    box-shadow: none;
+    border: none;
+    transform: none;
+    opacity: 1;
+  }
+
+  .dropdown-item {
+    padding: 8px 12px;
+  }
 }
