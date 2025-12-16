@@ -62,14 +62,14 @@ import "../css/RightMenu.css";
 const media = [
   { type: "video", src: "/rv1.mp4" },
   { type: "video", src: "/rv2.mp4" },
-  { type: "image", src: "/img19.jpg" },
-  { type: "image", src: "/img5.jpg" }
+  { type: "image", src: "/img8.jpg" },
+  { type: "image", src: "/img9.jpg" }
 ];
 
 const RightMenu = () => {
   const [currentRotation, setCurrentRotation] = useState(0);
   const angle = 90;
-  const autoScrollInterval = 5250; // Time in milliseconds
+  const autoScrollInterval = 7500; // Time in milliseconds
 
   useEffect(() => {
     const rotateNext = () => {

@@ -29,12 +29,14 @@
 
 /* Scrollbar Hiding for .main-body */
 .main-body::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Edge */
+    display: none;
+    /* Chrome, Safari, Edge */
     width: 0;
 }
 
 .main-body {
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 .main-content {
@@ -75,10 +77,16 @@
 }
 
 
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,900&display=swap');
+
 .content-section h4 {
-    color: rgb(0, 0, 0);
+    color: rgb(7, 22, 66);
     margin-top: 20px;
     margin-bottom: 1px;
+    font-weight: 100px !important;
+    font-size: 1.1rem;
+    font-family: 'Merriweather', sans-serif;
 }
 
 
@@ -110,7 +118,7 @@
     font-family: "Source Serif Pro", serif;
     margin-bottom: 0.1rem;
     margin-left: 26px;
-    
+
 }
 
 .content-section ul li::before {
@@ -127,6 +135,7 @@
     color: #c0392b;
 }
 
+/* 
 table {
     width: 100%;
     border-collapse: collapse;
@@ -163,76 +172,149 @@ td:first-child {
     text-align: center;
     font-weight: bold;
     color: #4a90e2;
-}
+} */
 
-/* === 3D Button Styles (Kept as provided, though carousel buttons are removed) === */
-.nav-btn1,
-.action-btn {
-    margin-top: 25px;
-    position: relative;
+
+/* --- Global Table Container Style: Elegant Compact Base --- */
+table {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #ffffff;
+    box-shadow: 0 6px 15px rgba(27, 40, 60, 0.1);
+    border-radius: 8px;
     overflow: hidden;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
-    font-family: "Poppins", sans-serif;
-    border: none;
-    border-radius: 7px;
-    cursor: pointer;
-    z-index: 1;
-    padding: 0.3rem 1.1rem;
-    font-size: 1rem;
+    font-family: 'Georgia', serif;
+    color: #1a2333;
+}
+
+/* --- Table Head (Header Row) - Deep Navy/Blue --- */
+thead {
+    background: #1e3d59;
+    color: #ffc300;
+}
+
+/* --- Table Headers and Data Cells --- */
+th,
+td {
+    text-align: left;
+    font-family: inherit;
+    padding: 4px;
+    border-bottom: 1px solid #e0e0e0;
+    /* Clean, light gray border */
+}
+
+th {
+    font-size: 0.95em;
+    font-weight: 700;
+    text-transform: uppercase;
     letter-spacing: 0.5px;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    color: #ffffff;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.781),
-        0 3px 6px rgba(0, 0, 0, 0.725);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.nav-btn:hover,
-.action-btn:hover {
-    transform: translateY(-4px);
-    background: linear-gradient(135deg, #7b2ff7, #42a5f5);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2),
-        0 5px 10px rgba(0, 0, 0, 0.12);
+/* --- Row Stripes (Zebra Striping) - Subtle Shading --- */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+    /* Very light gray stripe */
 }
 
-.nav-btn:active,
-.action-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15),
-        0 2px 4px rgba(0, 0, 0, 0.1);
+/* --- Hover Effect - Highlight with Soft Gold Accent --- */
+tr:hover {
+    background-color: #fffaf0;
+    /* Creamy off-white/gold base */
+    /* Highlight the text with a soft blue */
+    color: #1e3d59;
+    box-shadow: inset 0 0 0 1px #ffc300;
+    transition: all 0.25s ease-in-out;
+    cursor: pointer;
 }
 
-.nav-btn:disabled,
-.action-btn:disabled {
-    background: #e0e0e0;
-    color: #a0a7b3;
+/* --- Styling for the First Column (Key/ID Column) - Deep Contrast --- */
+td:first-child {
+    text-align: center;
+    font-weight: 800;
+    color: #ffc300;
+    /* background-color: #1e3d59;  */
+    /* border-right: 2px solid #ffc300;  */
+    color: #000000;
+}
+
+/* --- Clean up the last row border --- */
+tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* ===============================
+   CLEAN BRIGHT UI BUTTON STYLES
+   =============================== */
+
+/* Base Button */
+.nav-btn1,
+.main-action-btn {
+
+    font-family: 'Merriweather', sans-serif !important;
+    /* margin-top: 25px; */
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    padding: 0.45rem 1.3rem;
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem !important;
+    font-weight: 500;
+    line-height: 1;
+    border-radius: 0px 20px;
+    cursor: pointer;
+    user-select: none;
+    /* Bright light color */
+    background-color: #d6e7ff;
+    /* light sky blue */
+    color: #1f3a5f;
+    border: 1.5px solid #6da3ff;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+/* Hover */
+.nav-btn1:hover,
+.main-action-btn:hover {
+    background-color: #dce9ff;
+    border-color: #6ea4ff;
+    transform: translateY(-1px);
+    border-radius: 20px 0px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* Active / Click */
+.nav-btn1:active,
+.main-action-btn:active {
+    background-color: #cfdfff;
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+/* Focus (keyboard accessibility) */
+.nav-btn1:focus-visible,
+.main-action-btn:focus-visible {
+    outline: none;
+    border-color: #4f8cff;
+    box-shadow: 0 0 0 3px rgba(79, 140, 255, 0.25);
+}
+
+/* Disabled */
+.nav-btn1:disabled,
+.main-action-btn:disabled {
+    background-color: #f2f5fa;
+    color: #9aa4b2;
+    border-color: #d6dce5;
     cursor: not-allowed;
-    transform: none;
     box-shadow: none;
-}
-
-.nav-btn::before,
-.action-btn::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -75%;
-    width: 200%;
-    height: 100%;
-    background: linear-gradient(to right,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.4) 50%,
-            rgba(255, 255, 255, 0) 100%);
-    transform: skewX(-20deg);
-    transition: transform 0.8s;
-}
-
-.nav-btn:hover::before,
-.action-btn:hover::before {
-    transform: skewX(-20deg) translateX(100%);
+    transform: none;
 }
 
 
@@ -256,7 +338,7 @@ td:first-child {
     background-color: transparent;
     border: none;
     color: #4b4b4b;
-    font-size: 14px;
+    font-size: 13px;
     padding: 2px;
     border-radius: 6px;
     cursor: pointer;
@@ -265,16 +347,19 @@ td:first-child {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: 'Merriweather', sans-serif;
+
 }
 
 .try-btn {
     position: absolute;
+    font-family: 'Merriweather', sans-serif;
     top: 10px;
-    right: 80px; /* Positioned to the left of copy-btn */
+    right: 80px;
     background-color: transparent;
     border: none;
     color: #4b4b4b;
-    font-size: 14px;
+    font-size: 12px;
     padding: 2px;
     border-radius: 6px;
     cursor: pointer;
@@ -288,12 +373,12 @@ td:first-child {
 
 .try-btn:hover {
     background-color: rgba(255, 255, 255, 0.1);
-    color: #007bff; /* Blue color on hover */
+    color: #007bff;
 }
 
 .copy-btn:hover {
     background-color: rgba(255, 255, 255, 0.1);
-    color: #000000;
+    color: #007bff;
 }
 
 .nav-buttons {
@@ -306,7 +391,6 @@ td:first-child {
 }
 
 /* === Modal Styles === */
-/* === Modal Styles (Corrected) === */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -318,8 +402,10 @@ td:first-child {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    padding: 1rem; /* Added padding for small screens */
-    overflow-y: auto; /* Ensure modal is scrollable if content overflows */
+    padding: 1rem;
+    /* Added padding for small screens */
+    overflow-y: auto;
+    /* Ensure modal is scrollable if content overflows */
 }
 
 .modal-content {
@@ -344,7 +430,8 @@ td:first-child {
 .modal-content p {
     color: #333;
     font-weight: 400;
-    font-size: 1rem; /* corrected from 90px */
+    font-size: 1rem;
+    /* corrected from 90px */
     font-style: italic;
     font-family: "Source Serif Pro", serif;
     margin: 0;
@@ -355,7 +442,8 @@ td:first-child {
     display: flex;
     justify-content: center;
     gap: 15px;
-    flex-wrap: wrap; /* Ensures buttons wrap on small screens */
+    flex-wrap: wrap;
+    /* Ensures buttons wrap on small screens */
 }
 
 .modal-proceed-btn,

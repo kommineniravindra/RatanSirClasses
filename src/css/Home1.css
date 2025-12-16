@@ -1,0 +1,640 @@
+/* --- General & Utilities --- */
+.section-heading {
+  text-align: center;
+  font-family: 'Merriweather', serif;
+  font-size: 2.5rem;
+  margin-top: 1px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #333;
+}
+
+/* --- Hero Section with Premium Video Background --- */
+.hero-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
+  height: auto;
+  padding: clamp(1rem, 5vw, 2rem);
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.2) 60%,
+      rgba(0, 0, 0, 0.8) 100%);
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 900px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  transform: translateY(0);
+  margin: 0 auto;
+}
+
+.hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: 1.9px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Lemonada:wght@300..700&display=swap');
+
+.hero-content p {
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(0.9rem, 2.5vw, 1.125rem);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.hero-cta-btn {
+  background: linear-gradient(45deg, #ffc371, #ff5f6d);
+  color: #fff;
+  border: none;
+  padding: 0.9rem 2rem;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+.hero-cta-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 95, 109, 0.4);
+  background: linear-gradient(45deg, #ffc97e, #ff6b79);
+}
+
+/* --- Responsive Adjustments for Hero Section --- */
+
+@media (max-width: 1024px) {
+  .hero-section {
+    height: 85vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 70vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    height: 65vh;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+}
+
+/* --- Why Choose Us (Infinite Scroll) --- */
+.features-section {
+  text-align: center;
+  padding: clamp(2rem, 5vw, 4rem) 0;
+  background: linear-gradient(135deg, #f9fafc 0%, #eef2f7 100%);
+  overflow: hidden;
+  position: relative;
+}
+
+.features-section .section-heading {
+  font-size: clamp(1.8rem, 5vw, 2rem);
+  margin-bottom: 1rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+}
+
+/* Scroll Wrapper */
+.scroll-wrapper {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  position: relative;
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+.scroll-track {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  animation: scrollRight 25s linear infinite;
+}
+
+.scroll-track.reverse-track {
+  animation: scrollLeft 25s linear infinite;
+}
+
+/* Pause on hover */
+.scroll-track:hover {
+  animation-play-state: paused;
+}
+
+/* Feature Card adapted for Scroll */
+.feature-card-scroll {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid rgba(200, 200, 200, 0.2);
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.feature-card-scroll:hover {
+  transform: translateY(-8px) scale(1.04);
+  border-color: #6a11cb;
+  box-shadow: 0 10px 25px rgba(106, 17, 203, 0.25);
+}
+
+.feature-icon {
+  height: 60px;
+  width: 60px;
+  margin: 0 auto 0.8rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: transform 0.4s ease;
+}
+
+.feature-card-scroll:hover .feature-icon {
+  transform: rotateY(360deg) scale(1.05);
+}
+
+.feature-card-scroll h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+  font-weight: 600;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400..700&display=swap');
+
+.feature-card-scroll p {
+  font-family: "El Messiri", sans-serif;
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Animations */
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    /* Move left by 50% because we duplicated items. 
+       Adjust based on content width. 
+       Ideally: -(single_set_width + gaps) */
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scrollRight {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* --- Premium Courses (Clean Light Theme) --- */
+.cards-container-section {
+  padding: clamp(3rem, 5vw, 5rem) 1rem;
+  background: linear-gradient(to bottom, #ffffff, #f8fafc);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cards-container-section .section-heading {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  margin-bottom: 3rem;
+  color: #0f172a;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.cards-container {
+  display: grid;
+  /* Optimized for 5 columns on large screens */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.course-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 50px;
+  padding: 1.5rem 1rem;
+  /* Compact padding for smaller cards */
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  /* Subtle initial shadow */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.course-card:hover {
+  transform: translateY(-5px);
+  border-color: #3b82f6;
+  /* Premium elevated shadow on hover */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+/* Hover shine effect */
+.course-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.8) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.course-card:hover::after {
+  transform: translateX(100%);
+}
+
+.course-card-icon {
+  font-size: 2.5rem;
+  /* Smaller icon for compact card */
+  margin-bottom: 1rem;
+  color: #3b82f6;
+  /* Premium Blue */
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.course-card:hover .course-card-icon {
+  transform: scale(1.1) rotate(5deg);
+  color: #2563eb;
+}
+
+.course-card h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.course-card p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* --- Responsive Tweaks --- */
+@media (max-width: 1200px) {
+  .cards-container {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    /* Allow shrinking for mid-size */
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    /* Larger cards on mobile */
+  }
+
+  .course-card {
+    padding: 2rem;
+  }
+}
+
+/* --- Testimonials --- */
+.testimonials-section {
+  text-align: center;
+  padding:1rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+.testimonials-section .section-heading {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #1a1a80;
+}
+
+.testimonials-container {
+  position: relative;
+  height: 120px;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .testimonials-container {
+    height: 300px;
+  }
+}
+
+.testimonial-card {
+  position: absolute;
+  width: 100%;
+  padding: 1rem 2rem;
+  border-radius: 15px;
+}
+
+.quote {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.author {
+  font-weight: 700;
+  color: #e74c3c;
+}
+
+.author span {
+  font-weight: 500;
+  color: #34495e;
+}
+
+/* --- Career Acceleration --- */
+.career-support-section {
+  background-color: #f8f9fa;
+  background-image: url('../assets/img10.jpg');
+  background-position: center;
+}
+
+.career-support-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1600px;
+  margin: 0 auto;
+  gap: 1rem;
+}
+
+.career-support-content {
+  flex: 1;
+  max-width: 550px;
+}
+
+.career-support-content .section-heading {
+  text-align: left;
+  margin-bottom: 2.5rem;
+  color: #1a1a2e;
+}
+
+.timeline-container {
+  position: relative;
+  padding-left: 90px;
+}
+
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  left: 65px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background-color: #c9c1c1;
+}
+
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.timeline-icon-container {
+  position: absolute;
+  left: -21px;
+  top: 5px;
+}
+
+.timeline-icon {
+  width: 30px;
+  height: 30px;
+  background-color: #fff;
+  border: 2px solid #6a11cb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6a11cb;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+}
+
+.timeline-item:hover .timeline-icon {
+  background-color: #6a11cb;
+  color: #fff;
+  transform: scale(1.2);
+}
+
+.timeline-text {
+  padding-left: 20px;
+}
+
+.timeline-text h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.timeline-text p {
+  font-family: "Sriracha", cursive;
+  color: #676767c7;
+  line-height: 1.6;
+}
+
+.contact-advisor-btn {
+  background: transparent;
+  color: #ff5f6d;
+  border: 2px solid #ff5f6d;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 50px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  margin-left: 65px;
+  transition: all 0.3s ease-in-out;
+}
+
+.contact-advisor-btn:hover {
+  background: #ff5f6d;
+  color: #fff;
+}
+
+.career-support-image {
+  flex: 2;
+  max-width: 550px;
+  text-align: center;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.career-support-image.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.career-support-image img {
+  max-width: 100%;
+  border-radius: 15px;
+  display: block;
+}
+
+
+/* --- Responsive Tweaks --- */
+@media (max-width: 1024px) {
+  .career-support-container {
+    flex-wrap: wrap;
+    padding: 2rem 1rem;
+  }
+
+  .career-support-content,
+  .career-support-image {
+    flex: 1 1 48%;
+    max-width: 48%;
+  }
+}
+
+@media (max-width: 768px) {
+  .career-support-container {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem 1rem;
+  }
+
+  .career-support-content,
+  .career-support-image {
+    max-width: 100%;
+  }
+
+  .timeline-container {
+    padding-left: 40px;
+  }
+
+  .timeline-container::before {
+    left: 20px;
+  }
+
+  .timeline-icon-container {
+    left: -35px;
+  }
+
+  .contact-advisor-btn {
+    margin: 20px auto;
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .features-container,
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-container {
+    padding-left: 25px;
+  }
+
+  .timeline-container::before {
+    left: 12px;
+  }
+
+  .timeline-icon-container {
+    left: -45px;
+  }
+
+  .timeline-icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .timeline-text h3 {
+    font-size: 1rem;
+  }
+
+  .timeline-text p {
+    font-size: 0.85rem;
+  }
+
+  .contact-advisor-btn {
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto;
+    font-size: 0.9rem;
+    padding: 0.7rem 1.5rem;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
+
+  .hero-cta-btn {
+    width: 80%;
+    max-width: 280px;
+  }
+}

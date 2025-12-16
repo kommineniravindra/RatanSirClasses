@@ -1,0 +1,20 @@
+.drawing-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9995;
+    /* Below modals but above everything else */
+    pointer-events: none;
+    /* Let clicks pass through when not active */
+    cursor: default;
+}
+
+.drawing-canvas.active {
+    pointer-events: all;
+    /* Capture clicks when active */
+    cursor: crosshair;
+    background: rgba(255, 255, 255, 0.05);
+    /* Slight tint to show it's active */
+}

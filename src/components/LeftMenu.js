@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { FaChevronCircleRight, FaLongArrowAltRight } from "react-icons/fa";
+import {
+  FaChevronCircleRight,
+  FaLongArrowAltRight,
+  FaBars,
+  FaTimes,
+} from "react-icons/fa";
 
 import "../css/LeftMenu.css";
 
@@ -19,6 +24,7 @@ const LeftMenu = ({ selectedItem, menuData, onItemClick }) => {
 
   const [mountedGroup, setMountedGroup] = useState(expandedItem);
   const [animateGroup, setAnimateGroup] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // New state for mobile toggle
 
   useEffect(() => {
     const parent = findParentGroup(selectedItem);
@@ -69,8 +75,25 @@ const LeftMenu = ({ selectedItem, menuData, onItemClick }) => {
   };
 
   return (
-    <div className="left-menu-container">
-      <ul className="left-menu list-group">
+    <div
+      className={`left-menu-container ${isMobileMenuOpen ? "mobile-open" : ""}`}
+    >
+      {/* Mobile Toggle Button */}
+      <div
+        className="mobile-menu-toggle"
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      >
+        <span className="toggle-text">
+          {isMobileMenuOpen ? "Close Menu" : "Select Topic"}
+        </span>
+        {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+      </div>
+
+      <ul
+        className={`left-menu list-group ${
+          isMobileMenuOpen ? "show-on-mobile" : ""
+        }`}
+      >
         {menuData.map((item, index) => (
           <li key={index} className="list-group-item">
             <h4
@@ -94,7 +117,10 @@ const LeftMenu = ({ selectedItem, menuData, onItemClick }) => {
                 {item.subItems.map((subitem, subindex) => (
                   <li key={subindex} className="list-group-item">
                     <div
-                      onClick={() => onItemClick(subitem.name)}
+                      onClick={() => {
+                        onItemClick(subitem.name);
+                        setIsMobileMenuOpen(false); // Close menu on mobile
+                      }}
                       className={`menu-sublist-item ${
                         selectedItem === subitem.name ? "active" : ""
                       }`}

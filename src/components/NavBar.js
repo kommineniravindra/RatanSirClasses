@@ -1,13 +1,67 @@
 import React, { useEffect, useState } from "react";
-import "../css/Navbar.css";
+// import "../css/Navbar1.css";
+import "../css/Navbar1.css";
 import navbarItems from "../variables/NavbarItems";
-import { FaAngleDown, FaBars, FaTimes, FaClipboardCheck } from "react-icons/fa";
+import {
+  FaAngleDown,
+  FaBars,
+  FaTimes,
+  FaClipboardCheck,
+  FaFileCode,
+} from "react-icons/fa";
 
 // UPDATED: Added selectedPage to props
 const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
   const [scrolled, setScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Theme Rotation Logic
+  // useEffect(() => {
+  //   const themes = [
+  //     {
+  //       bg: "rgba(225, 245, 254, 0.35)", // Sky Blue Glass (Default)
+  //       text: "#1e293b",
+  //     },
+  //     {
+  //       bg: "rgba(240, 253, 244, 0.45)", // Mint Green Glass
+  //       text: "#064e3b",
+  //     },
+  //     {
+  //       bg: "rgba(255, 247, 237, 0.45)", // Warm Orange Glass
+  //       text: "#7c2d12",
+  //     },
+  //     {
+  //       bg: "rgba(238, 242, 255, 0.45)", // Indigo Glass
+  //       text: "#312e81",
+  //     },
+  //     {
+  //       bg: "rgba(250, 245, 255, 0.45)", // Purple Glass
+  //       text: "#581c87",
+  //     },
+  //   ];
+
+  //   let currentThemeIndex = 0;
+
+  //   const applyTheme = (index) => {
+  //     const theme = themes[index];
+  //     const navbar = document.querySelector(".navbar");
+  //     if (navbar) {
+  //       navbar.style.setProperty("--nav-bg", theme.bg);
+  //       navbar.style.setProperty("--nav-text", theme.text);
+  //     }
+  //   };
+
+  //   // Initial Apply
+  //   applyTheme(0);
+
+  //   const intervalId = setInterval(() => {
+  //     currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+  //     applyTheme(currentThemeIndex);
+  //   }, 2 * 60 * 1000); // 5 Minutes
+
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -32,6 +86,7 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
   const handleClass = () => window.open("/teachingclasses", "_blank");
   const handleExam = () => window.open("/exam", "_blank");
   const handleStartLearning = () => window.open("/learning", "_blank");
+  const handleCompiler = () => window.open("/online-compiler", "_blank");
 
   return (
     <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
@@ -100,12 +155,12 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
           </li>
         ))}
 
-        <li onClick={handleClass} className="navbar-item">
+        {/* <li onClick={handleClass} className="navbar-item">
           <div className="navbar-content">
             <FaClipboardCheck />
             <span>Class</span>
           </div>
-        </li>
+        </li> */}
 
         <li onClick={handleExam} className="navbar-item">
           <div className="navbar-content">
@@ -114,12 +169,19 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
           </div>
         </li>
 
-        {/* <li onClick={handleStartLearning} className="navbar-item">
+        <li onClick={handleStartLearning} className="navbar-item">
           <div className="navbar-content">
             <FaClipboardCheck />
             <span>Learning</span>
           </div>
-        </li> */}
+        </li>
+
+        <li onClick={handleCompiler} className="navbar-item">
+          <div className="navbar-content">
+            <FaFileCode />
+            <span>Compiler's</span>
+          </div>
+        </li>
       </ul>
     </nav>
   );

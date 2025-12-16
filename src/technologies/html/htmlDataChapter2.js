@@ -20,7 +20,7 @@ const Example1 = `<html>
 	<p> 
 	HTML stands from <b><i>Hyper Text markup Language</i></b> used to create web pages. HTML will structure content of the web page.Markup language means that consists of set of tags. <u>Hypertext</u> means hyper links navigating to other pages. <br>HTML code is executed by web browsers such as <small>Google Chrome, Mozilla Firefox, Safari, etc</small>.
 	HTML documents are plain text files with a <q>.html</q> extension.	
-	HTML was created by <del>Tim Berners-Lee</del> in <mark>1991</mark>.Trained by <strong>mr.Ratan Sir</strong>. HTML maintained by <abbr title='World Wide Web Consortium'>W3C</abbr>. 
+	HTML was created by <del>Tim Berners-Lee</del> in <mark>1991</mark>.Trained by <strong>mr. Sir</strong>. HTML maintained by <abbr title='World Wide Web Consortium'>W3C</abbr>. 
 	</p>
 	<h2> HTML purpose ....</h2> 
 	<pre>HTML used to develop the Front-end. 
@@ -48,11 +48,11 @@ const Example2 = `<html>
 		<p> Enter Username <span style='color:red'>*</span> </p> 
 		<p> Enter Password <span style='color:green'>*</span> </p> 
 		
-		<p> Welcome to <bdo dir='rtl'>Ratan Sir </bdo> </p> 
+		<p> Welcome to <bdo dir='rtl'> Sir </bdo> </p> 
 		
 		<marquee direction='up' scrollamount='1'> Welcome to Hyderabad</marquee>
     <br>
-		<marquee direction='down' scrollamount='3'> Ratan sir classes Nice</marquee>	
+		<marquee direction='down' scrollamount='3'>  sir classes Nice</marquee>	
 	</body>
 </html> `;
 
@@ -78,7 +78,7 @@ export const htmlDataChapter2 = {
         <tbody>
           <tr>
             <td>1</td>
-            <td>&lt;h1&gt; to &lt;h6&gt;</td>
+            <td>&lt;h1&gt;.&lt;h6&gt;</td>
             <td>
               Heading tags used to define Main headings & subheadings. &lt;h1&gt;
               is the highest, &lt;h6&gt; is the lowest.
@@ -219,7 +219,7 @@ export const htmlDataChapter2 = {
           <mark>example:</mark> <br />
           <code>&lt;p&gt;Hi students how are you.&lt;/p&gt;</code>
           <br />
-          <code>&lt;h1&gt;Hi Ratan Sir&lt;/h1&gt;</code>
+          <code>&lt;h1&gt;Hi  Sir&lt;/h1&gt;</code>
         </li>
         <li>
           <strong>Unpaired Tags:</strong>
@@ -249,7 +249,7 @@ export const htmlDataChapter2 = {
 	<p> 
 	HTML stands from <b><i>Hyper Text markup Language</i></b> used to create web pages. HTML will structure content of the web page.Markup language means that consists of set of tags. <u>Hypertext</u> means hyper links navigating to other pages. <br>HTML code is executed by web browsers such as <small>Google Chrome, Mozilla Firefox, Safari, etc</small>.
 	HTML documents are plain text files with a <q>.html</q> extension.	
-	HTML was created by <del>Tim Berners-Lee</del> in <mark>1991</mark>.Trained by <strong>mr.Ratan Sir</strong>. HTML maintained by <abbr title='World Wide Web Consortium'>W3C</abbr>. 
+	HTML was created by <del>Tim Berners-Lee</del> in <mark>1991</mark>.Trained by <strong>mr. Sir</strong>. HTML maintained by <abbr title='World Wide Web Consortium'>W3C</abbr>. 
 	</p>
 	<h2> HTML purpose ....</h2> 
 	<pre>HTML used to develop the Front-end. 
@@ -283,10 +283,10 @@ Using HTML we can create complex e-commerce site.
 		<p> Enter Username <span style='color:red'>*</span> </p> 
 		<p> Enter Password <span style='color:green'>*</span> </p> 
 		
-		<p> Welcome to <bdo dir='rtl'>Ratan Sir </bdo> </p> 
+		<p> Welcome to <bdo dir='rtl'> Sir </bdo> </p> 
 		
 		<marquee direction='up' scrollamount='1'> Welcome to Hyderabad</marquee>
-		<marquee direction='down' scrollamount='3'> Ratan sir classes Nice</marquee>	
+		<marquee direction='down' scrollamount='3'>  sir classes Nice</marquee>	
 	</body>
 </html>
 
@@ -332,11 +332,11 @@ Using HTML we can create complex e-commerce site.
     </ul>
   </li>
   <li>
-    &lt;p class="nice"&gt;Welcome to Ratan Sir classes&lt;/p&gt;
+    &lt;p class="nice"&gt;Welcome to  Sir classes&lt;/p&gt;
     <ul>
   <li>Opening Tag: <b>&lt;p class="nice"&gt;</b></li>
   <li>Closing Tag: <b>&lt;/p&gt;</b></li>
-  <li>Content of the Element: <b>Welcome to Ratan Sir classes</b></li>
+  <li>Content of the Element: <b>Welcome to  Sir classes</b></li>
   <li>Attribute: <b>class</b></li>
   <li>Value: <b>nice</b></li>
   <li>Element Name: <b>p</b></li>

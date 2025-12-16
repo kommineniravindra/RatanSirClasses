@@ -75,7 +75,7 @@ pre {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
+  -webkit-text-fill-color: transparent;
   font-family: "Libertinus Serif", serif;
   font-weight: 700;
   font-size: 2rem;
@@ -236,7 +236,7 @@ pre {
 .question-title1 {
   font-family: "Source Serif Pro", serif;
   color: #040404;
-  font-size:15px;
+  font-size: 15px;
   margin-bottom: 1px;
 }
 
@@ -307,7 +307,8 @@ pre {
 /* --- Coding Section --- */
 .coding-block .sample-box {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 1rem;
   background-color: #f9fafb;
   padding: 1rem 2rem;
@@ -315,6 +316,11 @@ pre {
   margin: 1rem 0;
   font-family: 'Courier New', Courier, monospace;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.coding-block .sample-box>div {
+  flex: 1;
+  min-width: 300px;
 }
 
 .sample-box pre {
@@ -699,9 +705,7 @@ details summary:hover {
   background-color: transparent;
 }
 
-.palette-section h5 {
-  display: none;
-}
+
 
 /* --- Circular Button Styles --- */
 .palette-button {

@@ -16,14 +16,14 @@ const htmlCode = `
   </head>
   <body>
     <h1>Hello World!</h1>
-    <p>Welcome To Ratan sir classes.</p>
+    <p>Welcome To CodePulse-R.</p>
   </body>
 </html>`;
 
 export const htmlDataChapter1 = {
   "HTML Importance": (
     <div>
-      <h4>Q. What is HTML?</h4>
+      <h4>What is HTML?</h4>
       <ul>
         <li>
           HTML stands for <strong>HyperText Markup Language</strong>.
@@ -34,7 +34,7 @@ export const htmlDataChapter1 = {
           allow users to navigate from one page to another.
         </li>
       </ul>
-      <h4> Q. What is the purpose of HTML? </h4>
+      <h4>What is the purpose of HTML? </h4>
       <p>HTML used to create the web pages,</p>
       <ol style={{ paddingLeft: "2em" }}>
         <li>
@@ -232,7 +232,7 @@ export const htmlDataChapter1 = {
   </head>
   <body>
     <h1>Hello World!</h1>
-    <p>Welcome To Ratan sir classes.</p>
+    <p>Welcome To CodePusle-R.</p>
   </body>
 </html>`}
       </CodeBlock>

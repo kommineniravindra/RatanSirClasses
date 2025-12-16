@@ -77,40 +77,102 @@ const examAccessCodes = {
   "microservices-exam2": "MS202",
   "restapi-exam1": "REST101",
   "restapi-exam2": "REST202",
-
 };
 
+const loadQuizChapters = () => {
+  try {
+    const quizContext = require.context(
+      "../quiz",
+      true,
+      /MCQChapter\d+\.json$/
+    );
+    const chaptersByTech = {};
+
+    quizContext.keys().forEach((key) => {
+      // key format: ./java/MCQChapter1.json
+      const parts = key.split("/");
+      if (parts.length >= 3) {
+        const tech = parts[1]; // 'java'
+        const fileName = parts[2]; // 'MCQChapter1.json'
+        const match = fileName.match(/MCQChapter(\d+)\.json/);
+        if (match) {
+          const chapterNum = parseInt(match[1], 10);
+          if (!chaptersByTech[tech]) {
+            chaptersByTech[tech] = new Set();
+          }
+          chaptersByTech[tech].add(chapterNum);
+        }
+      }
+    });
+
+    const result = {};
+    for (const tech in chaptersByTech) {
+      result[tech] = Array.from(chaptersByTech[tech]).sort((a, b) => a - b);
+    }
+    return result;
+  } catch (e) {
+    console.warn("Could not load quiz chapters dynamically", e);
+    return {};
+  }
+};
+
+const dynamicChapters = loadQuizChapters();
+
 const technologies = [
-  { key: "html", name: "HTML", icon: <FaHtml5 />, quizChapters: [1, 2,3] },
-  // { key: "css", name: "CSS", icon: <FaCss3Alt />, quizChapters: [1, 2, 3, 4, 5, 6]  },
+  {
+    key: "html",
+    name: "HTML",
+    icon: <FaHtml5 />,
+    quizChapters: dynamicChapters["html"] || [],
+  },
+  // {
+  //   key: "css",
+  //   name: "CSS",
+  //   icon: <FaCss3Alt />,
+  //   quizChapters: dynamicChapters["css"] || [],
+  // },
   // {
   //   key: "javascript",
   //   name: "JavaScript",
   //   icon: <FaJs />,
-  //   quizChapters: [1, 2, 3, 4, 5, 6, 7, 8] ,
+  //   quizChapters: dynamicChapters["javascript"] || [],
   // },
-  { key: "react", name: "React", icon: <FaReact />, quizChapters: [1, 2, 3,4,5]  },
-  // { key: "java", name: "Java", icon: <FaJava />, quizChapters:[1, 2, 3, 4, 5, 6]  },
+  {
+    key: "react",
+    name: "React",
+    icon: <FaReact />,
+    quizChapters: dynamicChapters["react"] || [],
+  },
+  // {
+  //   key: "java",
+  //   name: "Java",
+  //   icon: <FaJava />,
+  //   quizChapters: dynamicChapters["java"] || [],
+  // },
   // {
   //   key: "python",
   //   name: "Python",
   //   icon: <FaPython />,
-  //   quizChapters: [1, 2, 3, 4, 5, 6] ,
+  //   quizChapters: dynamicChapters["python"] || [],
   // },
-  //  {
+  // {
   //   key: "restapi",
   //   name: "Spring Boot",
   //   icon: <FaServer />,
-  //   quizChapters: [1, 2, 3, 4, 5, 6] ,
+  //   quizChapters: dynamicChapters["restapi"] || [],
   // },
   // {
   //   key: "microservices",
   //   name: "Microservices",
   //   icon: <FaServer />,
-  //   quizChapters: [1, 2, 3, 4, 5, 6] ,
+  //   quizChapters: dynamicChapters["microservices"] || [],
   // },
-  // { key: "sql", name: "SQL", icon: <FaDatabase />, quizChapters: [1, 2, 3, 4, 5, 6,]  },
- 
+  {
+    key: "sql",
+    name: "SQL",
+    icon: <FaDatabase />,
+    quizChapters: dynamicChapters["sql"] || [],
+  },
 ];
 
 const techChartColors = {
@@ -178,14 +240,8 @@ const ExamDashboard = ({ onLogout }) => {
         const userId = profileResponse.data._id;
         if (userId) {
           const [examRes, quizRes] = await Promise.all([
-            axios.get(
-              `/api/exams/user/${userId}`,
-              authHeaders
-            ),
-            axios.get(
-              `/api/quizzes/user/${userId}`,
-              authHeaders
-            ),
+            axios.get(`/api/exams/user/${userId}`, authHeaders),
+            axios.get(`/api/quizzes/user/${userId}`, authHeaders),
           ]);
           setExamHistory(examRes.data);
           setQuizHistory(quizRes.data);
@@ -347,7 +403,7 @@ const ExamDashboard = ({ onLogout }) => {
         }}
       >
         <i className="bx bx-edit"></i>
-Quiz {num}
+        Quiz {num}
       </button>
     ));
     setModalTitle(`Select a Quiz for ${tech.name}`);
@@ -494,10 +550,10 @@ Quiz {num}
       },
     },
   });
-const maskMobile = (mobile) => {
-  if (!mobile) return "";
-  return mobile.replace(/(\d{2})\d{5}(\d{3})/, "$1XXXXX$2");
-};
+  const maskMobile = (mobile) => {
+    if (!mobile) return "";
+    return mobile.replace(/(\d{2})\d{5}(\d{3})/, "$1XXXXX$2");
+  };
 
   if (error) return <div className="feedback-message error">{error}</div>;
   if (!profile)
@@ -532,36 +588,19 @@ const maskMobile = (mobile) => {
             accept="image/*"
           />
           <h2>{profile.studentName}</h2>
-          <p >{profile.email}</p>
+          <p>{profile.email}</p>
           <button onClick={handleLogout} className="logout-btn" title="Logout">
             <i className="bx bx-log-out"></i> Logout
           </button>
           <hr></hr>
         </div>
         <div className="profile-details">
-          
           <h3>Your Information</h3>
           <ProfileDetailItem
-  icon="bx bxs-phone"
-  label="Mobile"
-  value={maskMobile(profile.mobile)}
-/>
-
-          {/* <ProfileDetailItem
-            icon="bx bxs-calendar"
-            label="Date of Birth"
-            value={new Date(profile.dob).toLocaleDateString()}
-          /> */}
-          {/* <ProfileDetailItem
-            icon="bx bxs-user-detail"
-            label="Gender"
-            value={profile.gender}
-          /> */}
-          {/* <ProfileDetailItem
-            icon="bx bxs-institution"
-            label="College"
-            value={profile.college}
-          /> */}
+            icon="bx bxs-phone"
+            label="Mobile"
+            value={maskMobile(profile.mobile)}
+          />
           <ProfileDetailItem
             icon="bx bxs-graduation"
             label="Qualification"
@@ -584,7 +623,7 @@ const maskMobile = (mobile) => {
       <main className="dashboard-main">
         {/* --- Quiz Grid --- */}
         <div className="tech-grid-section">
-          <h2>Select a Technology for Quizzes</h2>
+          <h2>📝 Pick a Technology to Begin Your Quizes</h2>
           <div className="tech-grid">
             {technologies
               .filter(
@@ -662,13 +701,13 @@ const maskMobile = (mobile) => {
 
         {/* Next-Level Cybernetic Flow Divider */}
 
-        <span className="cyber-message">
+        {/* <span className="cyber-message">
           Your curiosity is the spark. Our courses are the fuel.
-        </span>
+        </span> */}
 
         {/* --- Exam Grid --- */}
         <div className="tech-grid-section">
-          <h2>Select a Technology for Exams</h2>
+          <h2>📜 Pick a Technology to Begin Your Exam</h2>
           <div className="tech-grid">
             {technologies
               .filter((tech) =>

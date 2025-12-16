@@ -25,9 +25,9 @@
   --form-width: 95%;
 }
 
-body {
+/* body {
   font-size: var(--base-font-size);
-}
+} */
 
 .qna-container {
   margin: 8px auto;

@@ -84,7 +84,8 @@
 ========================= */
 .master-grid {
   display: grid;
-  grid-template-columns: 18% 67% 15%; /* Desktop: 3 Columns */
+  grid-template-columns: 18% 67% 15%;
+  /* Desktop: 3 Columns */
   grid-template-rows: 100%;
   height: calc(100vh - 30px);
   width: 100%;
@@ -95,19 +96,19 @@
 }
 
 /* All grid items */
-.master-grid > * {
+.master-grid>* {
   margin: 0;
   padding: 0;
   height: 100%;
   box-sizing: border-box;
   overflow-y: auto;
-  
+
   /* Hide scrollbars */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
-.master-grid > *::-webkit-scrollbar {
+.master-grid>*::-webkit-scrollbar {
   display: none;
 }
 
@@ -128,10 +129,10 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw; 
+  width: 100vw;
   height: 100vh;
-  background-color: #000; 
-  z-index: 10000; 
+  background-color: #000;
+  z-index: 10000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -140,7 +141,7 @@
 .intro-video {
   width: 100%;
   height: 100%;
-  object-fit: fill; 
+  object-fit: fill;
 }
 
 .skip-btn {
@@ -156,7 +157,7 @@
   font-size: 20px;
   backdrop-filter: blur(5px);
   transition: background 0.3s;
-  z-index: 10001; 
+  z-index: 10001;
 }
 
 .skip-btn:hover {
@@ -168,35 +169,49 @@
 /* =========================================
    MOBILE RESPONSIVENESS (Add this at bottom)
    ========================================= */
+/* =========================================
+   MOBILE RESPONSIVENESS (Add this at bottom)
+   ========================================= */
 @media screen and (max-width: 768px) {
-  
+
   /* 1. CHANGE GRID TO VERTICAL FLEX */
   .master-grid {
-    display: flex;        /* Disable Grid, use Flex */
-    flex-direction: column; /* Stack items vertically */
-    grid-template-columns: none; /* Remove column constraints */
-    height: auto;         /* Allow page to grow with content */
-    overflow: visible;    /* Allow scrolling the whole page */
+    display: flex;
+    /* Disable Grid, use Flex */
+    flex-direction: column;
+    /* Stack items vertically */
+    height: auto;
+    /* Allow page to grow with content */
+    overflow-y: auto;
+    /* Allow scrolling the whole page */
+    overflow-x: hidden;
   }
 
   /* 2. HIDE RIGHT MENU */
   .grid-right-menu {
-    display: none !important; /* Force hide */
+    display: none !important;
+    /* Force hide */
   }
 
   /* 3. ADJUST LEFT MENU AND MAIN CONTENT */
-  .grid-left-menu, 
-  .grid-main {
-    width: 100%; 
-    height: auto; 
-    flex: none;   
+  .grid-left-menu {
+    width: 100%;
+    height: auto;
+    flex: none;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    /* Keep menu above content */
+    background: white;
+    border-bottom: 1px solid #eee;
   }
 
-
-  
-  .grid-left-menu {
-    max-height: 300px;
-    border-bottom: 2px solid #ccc;
+  .grid-main {
+    width: 100%;
+    height: auto;
+    flex: 1;
+    overflow: visible;
+    /* Let content flow */
   }
 
   /* Ensure internal containers fill width */

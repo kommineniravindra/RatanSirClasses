@@ -104,11 +104,11 @@ export const htmlDataChapter5 = {
   <!-- Row 1 -->
   <tr>
     <td>101</td>
-    <td>Ratan</td>
-    <td>ratan@example.com</td>
+    <td>Ram</td>
+    <td>ram@example.com</td>
     <td>Male</td>
-    <td><a href="ratan_resume.pdf" target="_blank">Resume</a></td>
-    <td><img src="ratan.jpg" height="50" width="50" alt="Ratan Image"/></td>
+    <td><a href="ram_resume.pdf" target="_blank">Resume</a></td>
+    <td><img src="ram.jpg" height="50" width="50" alt="Ram Image"/></td>
   </tr>
 
   <!-- Row 2 -->
@@ -227,7 +227,7 @@ export const htmlDataChapter5 = {
       <li>
         <b>rowspan</b>: Used to merge <b>two or more rows</b> into one.  
         <br />
-        Example: <code>{`<td rowspan="2">Ratan Sir</td>`}</code>
+        Example: <code>{`<td rowspan="2">Chennai</td>`}</code>
       </li>
     </ol>
 
@@ -241,7 +241,7 @@ export const htmlDataChapter5 = {
     <th>Salary</th>
   </tr>
   <tr>
-    <td rowspan="2">Ratan Sir</td>
+    <td rowspan="2">Mani</td>
     <td>Training</td>
     <td>50,000</td>
   </tr>
@@ -260,7 +260,7 @@ export const htmlDataChapter5 = {
     <mark>Explanation:</mark>
     <ul>
       <li>
-        <code>rowspan="2"</code> → The cell <b>“Ratan Sir”</b> covers 2 rows.
+        <code>rowspan="2"</code> → The cell <b>“Mani”</b> covers 2 rows.
       </li>
       <li>
         <code>colspan="2"</code> → The cell <b>“Total Salary”</b> covers 2 columns.
@@ -269,7 +269,7 @@ export const htmlDataChapter5 = {
 
     <mark>Example Output:</mark>
     <p>
-      The table will display "Ratan Sir" once but span across two rows.  
+      The table will display "Mani" once but span across two rows.  
       The "Total Salary" will appear in a single cell across 2 columns.
     </p>
   </div>
@@ -369,10 +369,10 @@ export const htmlDataChapter5 = {
       </tr>
       <tr>
         <td>5</td>
-        <td>Ratan</td>
-        <td>Founder RatanGuides</td>
+        <td>Ram</td>
+        <td>Founder RamGuides</td>
         <td>$1000</td>
-        <td><a href="https://www.ratanguides.com/" target="_blank">Click Here</a></td>
+        <td><a href="https://www.ramguides.com/" target="_blank">Click Here</a></td>
       </tr>
     </tbody>
 
@@ -390,7 +390,5 @@ export const htmlDataChapter5 = {
     </CodeBlock>
   </div>
 ),
-
-
 
 };

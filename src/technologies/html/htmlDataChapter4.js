@@ -22,7 +22,7 @@ const Entities = `
   <p> Indian Rupees &#8377; </p>
   <p> Currency Symbols: &dollar; &#8377; &yen; </p>
   <p> Chess Symbols: &#9812; &#9813; &#9814; </p>
-  <p> Ratan sir suffering from fever 102&deg;F </p>
+  <p> Jhon suffering from fever 102&deg;F </p>
   <p> Today task completed <span style="color:green">&check;</span> </p>
   <p> Today task failed <span style="color:red">&cross;</span> </p>
   <p> Playing cards: &spades; &clubs; &hearts; &diams; </p> 
@@ -113,11 +113,10 @@ export const htmlDataChapter4 = {
   <p> SathyaTech CopyRight &copy; &#169; 2025-2030 </p>
   <p> SathyaTech Job Oriented &reg; &#174;</p> 
   <p> Trademark &trade;</p>
-  <p> Ratam sir classes &hearts; are nice &hearts; good perfect </p>
   <p> Indian Rupees &#8377; </p>
   <p> Currency Symbols: &dollar; &#8377; &yen; </p>
   <p> Chess Symbols: &#9812; &#9813; &#9814; </p>
-  <p> Ratan sir suffering from fever 102&deg;F </p>
+  <p> Jhon suffering from fever 102&deg;F </p>
   <p> Today task completed <span style="color:green">&check;</span> </p>
   <p> Today task failed <span style="color:red">&cross;</span> </p>
   <p> Playing cards: &spades; &clubs; &hearts; &diams; </p> 
@@ -181,11 +180,11 @@ export const htmlDataChapter4 = {
 <body>
   <h2>Author / Teacher Image</h2>
   <img 
-    src='ratan_sir.jpg' 
+    src='img1.jpg' 
     height='100' 
     width='100' 
-    alt='Ratan Sir Image not found' 
-    title='This is Ratan Sir image'>
+    alt=' Image not found' 
+    title='This is image'>
   
   <h2>Student Image</h2>
   <img 
@@ -230,7 +229,7 @@ export const htmlDataChapter4 = {
         </li>
         <li>
           <b>Images:</b> Open images on click. <br />
-          <CodeBlock>{`<a href='ratan.jpg'>My Image</a>`}</CodeBlock>
+          <CodeBlock>{`<a href='img1.jpg'>My Image</a>`}</CodeBlock>
         </li>
       </ul>
       <b>2. target Attribute:</b>
@@ -256,7 +255,7 @@ export const htmlDataChapter4 = {
   <a href='https://www.sathyatech.com' target="_blank">SathyaTech</a><br />
   <a href='myresume.pdf' target="_blank">Resume</a><br />
   <a href='veg.html'>Vegetables Page</a><br />
-  <a href='ratan.jpg'>My Image</a>
+  <a href='img1.jpg'>My Image</a>
 </body>
 </html>
       `}
@@ -286,7 +285,7 @@ export const htmlDataChapter4 = {
   <title>HTML Comments Example</title>
 </head>
 <body>
-  <h2>Welcome to Ratan Sir Classes</h2>
+  <h2>Welcome to CodePulse-R</h2>
   <!-- This paragraph explains the welcome message -->
   <p>Hello Students! Learn HTML, CSS, and JavaScript here.</p>
   

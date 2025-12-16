@@ -5,6 +5,53 @@ IMPORTS & GENERAL STYLES
 
 
 /* =================================
+   SPINNER ANIMATION
+================================= */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-icon {
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+.otp-timer {
+  font-size: 13px;
+  color: #ff6b6b;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  text-align: right;
+  font-weight: 500;
+}
+
+.resend-otp-btn {
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: #4a90e2;
+  /* Softer blue */
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  /* Keep it clearly a link/action */
+  padding: 0;
+  display: inline-block;
+  transition: color 0.2s;
+}
+
+.resend-otp-btn:hover {
+  color: #2c3e50;
+}
+
+/* =================================
 COMPONENT WRAPPER – PREMIUM SOFT UI
 ================================= */
 .component-wrapper {
@@ -17,23 +64,25 @@ COMPONENT WRAPPER – PREMIUM SOFT UI
   overflow: hidden;
 
   /* PREMIUM SOFT GRADIENT */
-background: linear-gradient(
-  135deg,
-  #ffffff 0%,      /* Pure white */
-  #e8f0ff 35%,     /* Deeper sky-blue tint */
-  #ffe9d6 100%     /* Stronger peach tint */
-);
+  background: linear-gradient(135deg,
+      #ffffff 0%,
+      #e8f0ff 35%,
+      #ffe9d6 100%);
 
 }
 
 /* Morphing animation for blob shapes */
 @keyframes morph {
-  0%, 100% {
+
+  0%,
+  100% {
     border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
   }
+
   30% {
     border-radius: 70% 30% 50% 50% / 50% 50% 50% 50%;
   }
+
   60% {
     border-radius: 60% 40% 30% 70% / 60% 40% 40% 60%;
   }
@@ -47,11 +96,9 @@ background: linear-gradient(
   left: -200px;
   width: 600px;
   height: 600px;
-  background: radial-gradient(
-    circle,
-    rgba(255, 196, 140, 0.45),
-    rgba(255, 175, 130, 0.28)
-  );
+  background: radial-gradient(circle,
+      rgba(255, 196, 140, 0.45),
+      rgba(255, 175, 130, 0.28));
   filter: blur(160px);
   z-index: 0;
   animation: morph 18s linear infinite alternate;
@@ -65,11 +112,9 @@ background: linear-gradient(
   right: -150px;
   width: 520px;
   height: 520px;
-  background: radial-gradient(
-    circle,
-    rgba(165, 220, 255, 0.45),
-    rgba(135, 195, 255, 0.30)
-  );
+  background: radial-gradient(circle,
+      rgba(165, 220, 255, 0.45),
+      rgba(135, 195, 255, 0.30));
   filter: blur(130px);
   z-index: 0;
   animation: morph 16s linear infinite reverse;
@@ -84,10 +129,9 @@ background: linear-gradient(
 }
 
 .form-column {
-  flex: 0 0 48%; /* each column takes 48% width */
+  flex: 0 0 48%;
 }
 
-/* Register container larger size */
 .register-glass-container {
   width: 800px;
   padding: 50px 40px;
@@ -147,9 +191,10 @@ GLASS CONTAINER – SOFT GLASS EFFECT
 }
 
 .glass-container h1 {
+  font-family:khmer os;
   font-size: 34px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: #333;
   text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
   display: flex;
@@ -161,8 +206,9 @@ GLASS CONTAINER – SOFT GLASS EFFECT
 .glass-container h1 i {
   font-size: 28px;
   margin-right: 10px;
-  color: #ffb77d;
+  color: #d4af37;
 }
+
 
 .glass-container p {
   font-size: 14px;
@@ -223,6 +269,7 @@ INPUT FIELDS – Soft pastel theme
 .input-box select {
   color: #777;
 }
+
 .input-box select:valid {
   color: #333;
 }
@@ -238,11 +285,9 @@ INPUT FIELDS – Soft pastel theme
   border-color: #7aff96;
 }
 
-/* Input icons */
-/* Icon on the left */
 .input-box i {
   position: absolute;
-  left: 15px;        /* move to left */
+  left: 15px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 20px;
@@ -250,11 +295,10 @@ INPUT FIELDS – Soft pastel theme
   transition: 0.3s;
 }
 
-/* Adjust input padding for left icon */
 .input-box input,
 .input-box select {
-  padding-left: 40px; /* space for icon */
-  padding-right: 15px; /* optional right padding */
+  padding-left: 40px;
+  padding-right: 15px;
 }
 
 
@@ -278,21 +322,21 @@ ERROR MESSAGE
 }
 
 
+
 /* =================================
 BUTTON – Soft Premium Button
 ================================= */
 .glass-btn {
   width: 70%;
   height: 50px;
-
   background: linear-gradient(135deg, #ffffff, #f8fbff);
   border-radius: 14px;
-
+    font-family: "Libertinus Serif", serif;
   border: 1px solid rgba(200, 215, 230, 0.8);
 
-  font-size: 17px;
+  font-size: 1.5rem;
   font-weight: 600;
-  color: #4a4a4a;
+  color: #12013c;
 
   cursor: pointer;
   margin-top: 5px;
@@ -338,8 +382,7 @@ Form toggle link
 }
 
 .form-toggle-text a {
-  /* color: #ffb77d; */
-  color: red;
+  color: rgb(5, 5, 5);
   font-weight: 600;
   text-decoration: none;
 }
@@ -407,20 +450,16 @@ Form toggle link
     GOOGLE BUTTON
 =========================================== */
 .google-btn {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.65),
-    rgba(255, 240, 220, 0.75)
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.804),
+      rgba(255, 240, 220, 0.804));
   border-color: rgba(255, 180, 120, 0.7);
 }
 
 .google-btn:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.75),
-    rgba(255, 230, 200, 0.85)
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.804),
+      rgba(255, 240, 220, 0.804));
 }
 
 
@@ -428,21 +467,17 @@ Form toggle link
     GITHUB BUTTON
 =========================================== */
 .github-btn {
-  background: linear-gradient(
-    135deg,
-    rgba(245, 245, 245, 0.75),
-    rgba(225, 230, 240, 1)
-  );
+  background: linear-gradient(135deg,
+      rgba(245, 245, 245, 0.804),
+      rgba(225, 230, 240, 1));
   border-color: rgba(160, 170, 180, 0.7);
   margin-bottom: 15px;
 }
 
 .github-btn:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.75),
-    rgba(220, 225, 235, 0.85)
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.804),
+      rgba(220, 225, 235, 0.804));
 }
 
 
@@ -457,12 +492,13 @@ Form toggle link
 }
 
 .google-btn:hover i {
-  color: #db4437; /* Google red */
+  color: #db4437;
 }
 
 .github-btn:hover i {
-  color: #000; /* GitHub black */
+  color: #000;
 }
+
 /* LEFT & RIGHT CONTAINERS */
 .float-left-side,
 .float-right-side {
@@ -482,7 +518,7 @@ Form toggle link
 .ac-float-icon {
   position: absolute;
   opacity: 0.85;
-  filter: drop-shadow(0 0 6px rgba(255,255,255,0.25));
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.25));
   animation: ac-floaty 10s ease-in-out infinite;
   z-index: 0;
 }
@@ -492,19 +528,88 @@ Form toggle link
 ========================= */
 
 /* Left side positions */
-.ac-f1 { left: 10%; top: 15%; font-size: 96px; color: #f9741662; animation-duration: 8s; }
-.ac-f3 { left: 62%; bottom: 0%; font-size: 94px; color: #7c3aed54; animation-duration: 12s; animation-delay: 1.1s; }
-.ac-f7 { left: 55%; top: -5%; font-size: 80px; color: #3b83f650; animation-duration: 13s; animation-delay: 1.2s; }
-.ac-f8 { left: 10%; bottom: 10%; font-size: 70px; color: #f59e0b4c; animation-duration: 9s; animation-delay: 0.5s; }
-.ac-f9 { left: 30%; top: 40%; font-size: 90px; color: #ec489954; animation-duration: 11s; animation-delay: 0.9s; }
+.ac-f1 {
+  left: 10%;
+  top: 15%;
+  font-size: 96px;
+  color: #f9741662;
+  animation-duration: 8s;
+}
+
+.ac-f3 {
+  left: 62%;
+  bottom: 0%;
+  font-size: 94px;
+  color: #7c3aed54;
+  animation-duration: 12s;
+  animation-delay: 1.1s;
+}
+
+.ac-f7 {
+  left: 55%;
+  top: -5%;
+  font-size: 80px;
+  color: #3b83f650;
+  animation-duration: 13s;
+  animation-delay: 1.2s;
+}
+
+.ac-f8 {
+  left: 10%;
+  bottom: 10%;
+  font-size: 70px;
+  color: #f59e0b4c;
+  animation-duration: 9s;
+  animation-delay: 0.5s;
+}
+
+.ac-f9 {
+  left: 30%;
+  top: 40%;
+  font-size: 90px;
+  color: #ec489954;
+  animation-duration: 11s;
+  animation-delay: 0.9s;
+}
 
 
 
 /* Right side positions */
-.ac-f2 { right: 8%; top: 10%; font-size: 72px; color: #06b5d459; animation-duration: 10s; animation-delay: 0.6s; }
-.ac-f4 { right: 12%; bottom: 12%; font-size: 90px; color: #10b9814c; animation-duration: 9s; animation-delay: 0.8s; }
-.ac-f6 { right: 50%; bottom: 18%; font-size: 88px; color: #8a5cf642; animation-duration: 10s; animation-delay: 1.0s; }
-.ac-f10 { right: 55%; top: 10%; font-size: 78px; color: #86aaf554; animation-duration: 12s; animation-delay: 1.3s; }
+.ac-f2 {
+  right: 8%;
+  top: 10%;
+  font-size: 72px;
+  color: #06b5d459;
+  animation-duration: 10s;
+  animation-delay: 0.6s;
+}
+
+.ac-f4 {
+  right: 12%;
+  bottom: 12%;
+  font-size: 90px;
+  color: #10b9814c;
+  animation-duration: 9s;
+  animation-delay: 0.8s;
+}
+
+.ac-f6 {
+  right: 50%;
+  bottom: 18%;
+  font-size: 88px;
+  color: #8a5cf642;
+  animation-duration: 10s;
+  animation-delay: 1.0s;
+}
+
+.ac-f10 {
+  right: 55%;
+  top: 10%;
+  font-size: 78px;
+  color: #86aaf554;
+  animation-duration: 12s;
+  animation-delay: 1.3s;
+}
 
 
 /* Center Float */
@@ -520,8 +625,15 @@ Form toggle link
 
 /* Floating animation */
 @keyframes ac-floaty {
-  0%, 100% { transform: translateY(-12px); }
-  50% { transform: translateY(12px); }
+
+  0%,
+  100% {
+    transform: translateY(-12px);
+  }
+
+  50% {
+    transform: translateY(12px);
+  }
 }
 
 
@@ -543,16 +655,16 @@ RESPONSIVE
   }
 
   .form-column {
-    flex-basis: 100%; 
+    flex-basis: 100%;
     width: 100%;
   }
 
   .glass-container h1 {
-    font-size: 30px; 
+    font-size: 30px;
   }
 
   .glass-btn {
-    width: 85%;     
+    width: 85%;
   }
 
   /* Center social buttons better */
@@ -571,12 +683,13 @@ RESPONSIVE
   .glass-container {
     width: 90%;
     padding: 28px 20px;
-    max-height: 95vh; 
+    max-height: 95vh;
   }
 
   .glass-container h1 {
     font-size: 26px;
   }
+
   .glass-btn {
     width: 100%;
   }
@@ -588,12 +701,13 @@ RESPONSIVE
     margin-right: 0;
   }
 
- 
+
   .component-wrapper::before,
   .component-wrapper::after {
     display: none;
   }
+
   .component-wrapper {
-    min-height: 100svh; 
+    min-height: 100svh;
   }
 }

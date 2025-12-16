@@ -308,13 +308,17 @@
   /* 1. Force the Sidebar to stack items Vertically */
   .dashboard-sidebar {
     display: flex;
-    flex-direction: column !important; /* Force Top-to-Bottom layout */
-    width: 100% !important;            /* Full width of the screen */
-    height: auto !important;           /* Let content decide height */
+    flex-direction: column !important;
+    /* Force Top-to-Bottom layout */
+    width: 100% !important;
+    /* Full width of the screen */
+    height: auto !important;
+    /* Let content decide height */
     padding: 20px 15px;
     position: relative;
     border-right: none;
-    border-bottom: 2px solid #ddd;     /* Separator at the bottom */
+    border-bottom: 2px solid #ddd;
+    /* Separator at the bottom */
     overflow: visible;
   }
 
@@ -322,12 +326,17 @@
   .profile-header,
   .profile-details,
   .logout-btn {
-    width: 100% !important;       /* Force full width so they can't be side-by-side */
+    width: 100% !important;
+    /* Force full width so they can't be side-by-side */
     max-width: 100%;
-    display: flex;                /* Use flex to control internal alignment */
-    flex-direction: column;       /* Stack internal items (like name under avatar) */
-    align-items: center;          /* Center align everything */
-    margin-bottom: 20px;          /* Add spacing between sections */
+    display: flex;
+    /* Use flex to control internal alignment */
+    flex-direction: column;
+    /* Stack internal items (like name under avatar) */
+    align-items: center;
+    /* Center align everything */
+    margin-bottom: 20px;
+    /* Add spacing between sections */
   }
 
   /* 3. Specific fix for the Avatar/Name section */
@@ -335,18 +344,21 @@
     margin-top: 10px;
     text-align: center;
   }
-  
+
   .profile-avatar-container {
-    margin: 0 auto 15px auto; /* Center the avatar image */
+    margin: 0 auto 15px auto;
+    /* Center the avatar image */
   }
 
   /* 4. Specific fix for the Email/Details list */
   .profile-details {
-    align-items: stretch; /* Let the list items stretch full width */
+    align-items: stretch;
+    /* Let the list items stretch full width */
   }
 
   .profile-items {
-    flex-direction: row;  /* Keep icon and text side-by-side inside the item */
+    flex-direction: row;
+    /* Keep icon and text side-by-side inside the item */
     justify-content: flex-start;
     background-color: rgba(255, 255, 255, 0.6);
     width: 100%;
@@ -355,9 +367,12 @@
 
   /* 5. Specific fix for Logout Button */
   .logout-btn {
-    width: 90% !important; /* Make button nice and wide */
-    margin: 10px auto 0 auto !important; /* Center horizontally */
-    flex-direction: row; /* Keep icon and text side-by-side */
+    width: 90% !important;
+    /* Make button nice and wide */
+    margin: 10px auto 0 auto !important;
+    /* Center horizontally */
+    flex-direction: row;
+    /* Keep icon and text side-by-side */
   }
 }
 
@@ -408,7 +423,7 @@
   font-size: 2.5rem;
   margin-top: 0;
   margin-bottom: 1rem;
-  color: #8e44ad;
+  color: #5a43a8;
   /* Rich Purple */
 }
 
@@ -638,13 +653,12 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 1rem;
-  /* background-color: transparent; */
   border: none;
   padding: 0px;
   box-shadow: none;
-  /* margin-top: 2rem; */
   animation: fadeInUp 1.5s ease;
-
+  width: 100%;
+  /* Ensure container takes full width */
 }
 
 /* Chart Box */
@@ -652,13 +666,17 @@
   margin-top: 12px;
   position: relative;
   height: 380px;
-  /* background: rgba(255, 255, 255, 0.15); */
+  width: 100%;
+  /* Enforce containment */
+  min-width: 0;
+  /* Critical for Grid flexible sizing */
   backdrop-filter: blur(12px);
   border-radius: 18px;
   padding: 16px;
-  /* box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18); */
   border: 1px solid rgba(54, 51, 51, 0.43);
   animation: floatChart 5s ease-in-out infinite;
+  overflow: hidden;
+  /* Prevent spillover */
 }
 
 /* --- ANIMATIONS --- */
@@ -892,7 +910,7 @@
   border-left: 4px solid #dc2626;
 }
 
-.cybernetic-divider-container {
+/* .cybernetic-divider-container {
   height: 50px;
   background-color: #f1f1f1;
   position: relative;
@@ -900,9 +918,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
-.cybernetic-divider {
+/* .cybernetic-divider {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -912,9 +930,9 @@
   background-size: 400% 100%;
   animation: flow 15s linear infinite;
   box-shadow: 0 0 10px rgba(22, 183, 255, 0.5), 0 0 20px rgba(127, 32, 255, 0.5);
-}
+} */
 
-.cybernetic-divider::before {
+/* .cybernetic-divider::before {
   content: '';
   position: absolute;
   top: 0;
@@ -925,9 +943,9 @@
   filter: blur(15px);
   opacity: 0.7;
   z-index: 1;
-}
+} */
 
-@keyframes flow {
+/* @keyframes flow {
   0% {
     background-position: 0% 0;
   }
@@ -935,21 +953,10 @@
   100% {
     background-position: 400% 0;
   }
-}
+} */
 
-.cyber-message {
-  position: relative;
-  z-index: 10;
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #ffffff;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8),
-    0 0 15px rgba(22, 183, 255, 0.7);
-  animation: fadeIn 1s ease-in-out;
-}
 
-@keyframes fadeInModal {
+/* @keyframes fadeInModal {
   from {
     opacity: 0;
   }
@@ -981,7 +988,7 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
+} */
 
 .cyber-message {
   margin-top: 30px;
@@ -992,32 +999,14 @@
   font-family: 'Playfair Display', serif;
   font-size: 1.5rem;
   font-weight: 600;
-  color: #ffffff;
-  text-shadow:
-    0 0 5px #16b7ff,
-    0 0 10px #7f20ff,
-    0 0 15px #38f32e,
-    0 0 20px #16b7ff;
+  color: #232323;
   padding: 0.2em 0.5em;
   border-radius: 8px;
-  background: linear-gradient(90deg, #16b7ff, #7f20ff, #0cd77f, #16b7ff);
-  background-size: 400% 100%;
-  animation: cyberFlow 10s linear infinite, fadeIn 1s ease-in-out;
+  border: 2px solid gray;
+  background: #f9f9f9;
 }
 
-.cyber-message::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: inherit;
-  filter: blur(15px);
-  opacity: 0.6;
-  border-radius: 8px;
-  z-index: -1;
-}
+
 
 @keyframes cyberFlow {
   0% {
@@ -1029,14 +1018,10 @@
   }
 }
 
-/* The existing fadeIn keyframes are kept above */
 
 /* --- 9. RESPONSIVE DESIGN --- */
-
-/* Laptops/Large Tablets: 1200px and under */
 @media (max-width: 1200px) {
 
-  /* Stack the progress reports (chart + summary) */
   .progress-reports-section {
     grid-template-columns: 1fr;
   }

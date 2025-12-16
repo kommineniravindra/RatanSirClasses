@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -15,10 +15,19 @@ import {
   FaHtml5,
   FaCss3Alt,
   FaDatabase,
+  FaSpinner,
 } from "react-icons/fa";
 
 const AccountDetails = ({ onLogin }) => {
   const [isRegistering, setIsRegistering] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [forgotPasswordStep, setForgotPasswordStep] = useState(1); // 1: Email, 2: OTP, 3: New Password
+  const [forgotPasswordData, setForgotPasswordData] = useState({
+    email: "",
+    otp: "",
+    newPassword: "",
+    confirmNewPassword: "",
+  });
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -41,6 +50,21 @@ const AccountDetails = ({ onLogin }) => {
     username: "",
     password: "",
   });
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [timer, setTimer] = useState(120);
+
+  useEffect(() => {
+    let interval;
+    if (forgotPasswordStep === 2 && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    } else if (timer === 0) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [forgotPasswordStep, timer]);
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
@@ -66,6 +90,89 @@ const AccountDetails = ({ onLogin }) => {
 
       return newData;
     });
+  };
+
+  const handleForgotPasswordChange = (e) => {
+    const { name, value } = e.target;
+    setForgotPasswordData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSendOtp = async (e) => {
+    e.preventDefault();
+
+    // Immediate transition
+    setForgotPasswordStep(2);
+    setTimer(120);
+
+    if (isLoading) return;
+    setIsLoading(true);
+
+    try {
+      await axios.post("/api/auth/forgotpassword", {
+        email: forgotPasswordData.email,
+      });
+      // OTP sent successfully
+      // Timer is already set
+    } catch (error) {
+      Swal.fire(
+        "Error",
+        error.response?.data?.message || "Failed to send OTP",
+        "error"
+      );
+      // Optional: Navigate back if it failed? Or just let them retry.
+      // For now, staying on step 2 so they can click "Resend" if needed.
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("/api/auth/verifyotp", {
+        email: forgotPasswordData.email,
+        otp: forgotPasswordData.otp,
+      });
+      Swal.fire("Success", "OTP Verified Successfully", "success");
+      setForgotPasswordStep(3);
+    } catch (error) {
+      Swal.fire(
+        "Error",
+        error.response?.data?.message || "Invalid OTP",
+        "error"
+      );
+    }
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    if (
+      forgotPasswordData.newPassword !== forgotPasswordData.confirmNewPassword
+    ) {
+      return Swal.fire("Error", "Passwords do not match", "error");
+    }
+    try {
+      await axios.put("/api/auth/resetpassword", {
+        email: forgotPasswordData.email,
+        otp: forgotPasswordData.otp,
+        password: forgotPasswordData.newPassword,
+      });
+      Swal.fire("Success", "Password Updated Successfully", "success");
+      setIsForgotPassword(false);
+      setForgotPasswordStep(1);
+      setForgotPasswordData({
+        email: "",
+        otp: "",
+        newPassword: "",
+        confirmNewPassword: "",
+      });
+    } catch (error) {
+      Swal.fire(
+        "Error",
+        error.response?.data?.message || "Failed to reset password",
+        "error"
+      );
+    }
   };
 
   const handleRegisterSubmit = async (e) => {
@@ -146,11 +253,9 @@ const AccountDetails = ({ onLogin }) => {
   const renderLoginForm = () => (
     <form onSubmit={handleLoginSubmit} className="login-form">
       <h1>
-        <i className="bx bxs-lock-open-alt" style={{ fontSize: "45px" }}></i>{" "}
-        Welcome back!
-        
+        {/* <i className="bx bxs-lock-open-alt header-icon-large"></i> */}
+        {"\u{1F60A}"} Happy to See You!
       </h1>
-     
 
       <div className="input-box">
         <input
@@ -179,12 +284,15 @@ const AccountDetails = ({ onLogin }) => {
       <button type="submit" className="glass-btn">
         Login
       </button>
-
       <h6 className="form-toggle-text">
-        Don't have an account?{" "}
-        <a href="#" onClick={() => setIsRegistering(true)}>
-          Register
+        <a href="#" onClick={() => setIsForgotPassword(true)}>
+          Forgot Password ? |
         </a>
+        <span className="text-blue">
+        <a href="#" onClick={() => setIsRegistering(true)}>
+          {" "}Register
+        </a>
+        </span>
       </h6>
       <hr />
 
@@ -195,7 +303,7 @@ const AccountDetails = ({ onLogin }) => {
             viewBox="0 0 533.5 544.3"
             width="20"
             height="20"
-            style={{ marginRight: "8px" }}
+            className="google-icon-svg"
           >
             <path
               d="M533.5 278.4c0-17.3-1.5-34-4.4-50.2H272v95.1h146.9c-6.3 34-25.2 62.9-53.8 82.3v68.3h87C496.4 420.2 533.5 354 533.5 278.4z"
@@ -227,8 +335,8 @@ const AccountDetails = ({ onLogin }) => {
   const renderRegisterForm = () => (
     <form onSubmit={handleRegisterSubmit} className="register-form">
       <h1>
-        <i className="bx bxs-user-plus" style={{ fontSize: "50px" }}></i>{" "}
-        Register
+        {/* <i className="bx bxs-user-plus header-icon-xl"></i>  */}
+        Start Your Journey 🎓
       </h1>
 
       <div className="form-columns">
@@ -271,11 +379,11 @@ const AccountDetails = ({ onLogin }) => {
             />
             <i className="bx bxs-envelope"></i>
           </div>
-          {emailError && (
+          {/* {emailError && (
             <p className="error-message">
               <i className="bx bxs-x-circle"></i> Emails do not match!
             </p>
-          )}
+          )} */}
 
           <div className="input-box">
             <input
@@ -302,11 +410,11 @@ const AccountDetails = ({ onLogin }) => {
             />
             <i className="bx bxs-lock"></i>
           </div>
-          {passwordError && (
+          {/* {passwordError && (
             <p className="error-message">
               <i className="bx bxs-x-circle"></i> Passwords do not match!
             </p>
-          )}
+          )} */}
 
           {/* <div className="input-box">
             <input
@@ -417,6 +525,129 @@ const AccountDetails = ({ onLogin }) => {
     </form>
   );
 
+  const renderForgotPasswordForm = () => (
+    <div className="forgot-password-form">
+      {forgotPasswordStep === 1 && (
+        <form onSubmit={handleSendOtp}>
+          <h1>
+            <i className="bx bxs-envelope header-icon-large"></i> Forgot
+            Password
+          </h1>
+          <p className="form-subtitle">Enter your email to receive an OTP.</p>
+          <div className="input-box">
+            <input
+              type="email"
+              placeholder="Enter Email"
+              name="email"
+              value={forgotPasswordData.email}
+              onChange={handleForgotPasswordChange}
+              required
+            />
+            <i className="bx bxs-envelope"></i>
+          </div>
+          <button type="submit" className="glass-btn" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <FaSpinner className="spinner-icon" /> Sending...
+              </>
+            ) : (
+              "Send OTP"
+            )}
+          </button>
+        </form>
+      )}
+
+      {forgotPasswordStep === 2 && (
+        <form onSubmit={handleVerifyOtp}>
+          <h1>
+            <i className="bx bxs-key header-icon-large"></i> Verify OTP
+          </h1>
+          <p className="form-subtitle">
+            Enter the OTP sent to {forgotPasswordData.email}
+          </p>
+          <div className="input-box">
+            <input
+              type="text"
+              placeholder="Enter OTP"
+              name="otp"
+              value={forgotPasswordData.otp}
+              onChange={handleForgotPasswordChange}
+              required
+            />
+            <i className="bx bxs-key"></i>
+          </div>
+
+          {timer > 0 ? (
+            <p className="otp-timer">
+              Resend OTP in {Math.floor(timer / 60)}:
+              {timer % 60 < 10 ? `0${timer % 60}` : timer % 60}
+            </p>
+          ) : (
+            <div className="otp-resend-container">
+              <button
+                type="button"
+                className="resend-otp-btn"
+                onClick={handleSendOtp}
+              >
+                Resend OTP
+              </button>
+            </div>
+          )}
+
+          <button type="submit" className="glass-btn">
+            Verify OTP
+          </button>
+        </form>
+      )}
+
+      {forgotPasswordStep === 3 && (
+        <form onSubmit={handleResetPassword}>
+          <h1>
+            <i className="bx bxs-lock-alt header-icon-large"></i> Reset Password
+          </h1>
+          <div className="input-box">
+            <input
+              type="password"
+              placeholder="New Password"
+              name="newPassword"
+              value={forgotPasswordData.newPassword}
+              onChange={handleForgotPasswordChange}
+              required
+            />
+            <i className="bx bxs-lock-alt"></i>
+          </div>
+          <div className="input-box">
+            <input
+              type="password"
+              placeholder="Confirm New Password"
+              name="confirmNewPassword"
+              value={forgotPasswordData.confirmNewPassword}
+              onChange={handleForgotPasswordChange}
+              required
+            />
+            <i className="bx bxs-lock"></i>
+          </div>
+          <button type="submit" className="glass-btn">
+            Reset Password
+          </button>
+        </form>
+      )}
+
+      <h6 className="form-toggle-text">
+       
+        <a
+          href="#"
+          onClick={() => {
+            setIsForgotPassword(false);
+            setForgotPasswordStep(1);
+          }}
+        >
+          Back to Login
+        </a>
+      </h6>
+    </div>
+  );
+
   return (
     <div className="component-wrapper">
       {/* LEFT SIDE FLOATING ICONS */}
@@ -442,7 +673,11 @@ const AccountDetails = ({ onLogin }) => {
           isRegistering ? "register-glass-container" : ""
         }`}
       >
-        {isRegistering ? renderRegisterForm() : renderLoginForm()}
+        {isForgotPassword
+          ? renderForgotPasswordForm()
+          : isRegistering
+          ? renderRegisterForm()
+          : renderLoginForm()}
       </div>
     </div>
   );

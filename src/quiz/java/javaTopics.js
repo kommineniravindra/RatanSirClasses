@@ -1,5 +1,5 @@
 const javaTopics = [
-  "Java Basics & Data Types",
+  "Java List of Collections",
   "Control Flow (If/Else, Loops)",
   "Methods and Functions",
   "Object-Oriented Programming (OOP) Principles",

@@ -1,62 +1,125 @@
 [
   {
     "id": 1,
-    "question": "What is SQL?",
-    "answer": "Structured Query Language. Used to communicate with and manipulate databases.",
-    "image": null
+    "question": "What is the purpose of Database?",
+    "answer": [
+      "<p>A database is used to <b>store, manage, and organize data</b>.</p>",
+      "<p>In today’s world, data is everywhere. It has become one of the most valuable resources, just like money, oil, or electricity. Businesses and governments depend on data to make decisions.</p>"
+    ],
+    "explanation": [
+      "<h3>Scenarios: How People Generate Data Every Second</h3>",
+      "<p><b>1. Walking on the street</b><br>CCTV cameras record footage; sensors capture location.</p>",
+      "<p><b>2. Using your mobile</b><br>Calls, messages, GPS, and health apps create data.</p>",
+      "<p><b>3. Buying tea or snacks</b><br>Shopkeepers maintain records of time, date, and amount spent.</p>",
+      "<p><b>4. Making a payment</b><br>UPI/Card transactions generate Transaction IDs and merchant details.</p>",
+      "<p><b>5. Shopping (Amazon, Flipkart)</b><br>Search history, purchases, and bill amounts are stored.</p>",
+      "<details>",
+      "<summary style='color: blue; cursor: pointer; font-weight: bold;'>Read more scenarios...</summary>",
+      "<p><b>6. Social media (Instagram, Twitter)</b><br>Likes, comments, shares, uploads, and search activity.</p>",
+      "<p><b>7. Health Information</b><br>Medical history, diagnoses, prescriptions, and test results.</p>",
+      "<p><b>8. Online food delivery (Swiggy, Zomato)</b><br>Search history, orders, and delivery locations.</p>",
+      "<p><b>9. Transportation (Uber, OLA, Metro)</b><br>Ticket bookings, check-ins, ride routes, and pickup/drop points.</p>",
+      "<p><b>10. Working or studying</b><br>Attendance, emails, assignments, and login/logout times.</p>",
+      "</details>"
+    ]
   },
   {
     "id": 2,
-    "question": "What is a Primary Key?",
-    "answer": "A unique identifier for each record in a database table. It cannot contain NULL values.",
-    "image": null
+    "question": "What is Data?",
+    "answer": "Data is a collection of <b>raw facts</b> that are recorded but not yet processed.",
+    "explanation": [
+      "<ul>",
+      "<li><b>Personal details:</b> Name, age, address.</li>",
+      "<li><b>Physical stats:</b> Weight details.</li>",
+      "<li><b>Recordings:</b> CCTV capturing movement.</li>",
+      "<li><b>Transactions:</b> Shopkeeper recording a sale.</li>",
+      "</ul>"
+    ]
   },
   {
     "id": 3,
-    "question": "What is a Foreign Key?",
-    "answer": "A field (or collection of fields) in one table that refers to the Primary Key in another table.",
-    "image": null
+    "question": "What is Information?",
+    "answer": "Information is <b>processed data</b> that has meaning and is useful.",
+    "explanation": [
+      "<ul>",
+      "<li><b>Status:</b> Personal details (Data) &rarr; Identifying major/minor status (Info).</li>",
+      "<li><b>Health:</b> Age/Weight (Data) &rarr; Calculating BMI (Info).</li>",
+      "<li><b>Security:</b> CCTV footage (Data) &rarr; Checking crossing time (Info).</li>",
+      "<li><b>Business:</b> Sales reports (Data) &rarr; Identifying best-selling products (Info).</li>",
+      "</ul>"
+    ]
   },
   {
     "id": 4,
-    "question": "What is the SELECT statement?",
-    "answer": "Used to select data from a database. The data returned is stored in a result table.",
-    "image": null
+    "question": "What is decision making?",
+    "answer": "Decision making is the process of <b>choosing the best action</b> based on information.",
+    "explanation": [
+      "<p><b>Examples of Data &rarr; Action:</b></p>",
+      "<ul>",
+      "<li><b>Age Data:</b> Identify status &rarr; <i>Action: Allow/restrict access.</i></li>",
+      "<li><b>BMI Data:</b> Calculate health &rarr; <i>Action: Consult a doctor.</i></li>",
+      "<li><b>CCTV Data:</b> Identify crossing &rarr; <i>Action: Take legal action.</i></li>",
+      "<li><b>Sales Data:</b> Identify top product &rarr; <i>Action: Increase stock quantity.</i></li>",
+      "</ul>",
+      "<p><i>Note: A database stores data, which is processed to generate information to support these decisions.</i></p>"
+    ]
   },
   {
     "id": 5,
-    "question": "What is the WHERE clause?",
-    "answer": "Used to filter records. It extracts only those records that fulfill a specified condition.",
-    "image": null
+    "question": "What are the different ways to store data?",
+    "answer": "There are three primary sources to store or maintain data ranging from traditional to modern methods.",
+    "explanation": [
+      "<ol>",
+      "<li><b>Paper Records (Old-fashioned):</b><br>Information stored in books (Registers, files).<br><i>Limitation:</i> Hard to search, easily lost/damaged.</li>",
+      "<li><b>File System (Digital Files):</b><br>Stored on computers (Excel, PDF, Text files).<br><i>Limitation:</i> Not good for big data or security.</li>",
+      "<li><b>Databases (Structured Storage):</b><br>Organized systems for large amounts of data (Oracle, MySQL).<br><i>Benefit:</i> Easy access, security, and fast retrieval.</li>",
+      "</ol>"
+    ]
   },
   {
     "id": 6,
-    "question": "What is DDL?",
-    "answer": "Data Definition Language. Includes commands like CREATE, ALTER, DROP to define database structure.",
-    "image": null
+    "question": "What is Structured Data & Unstructured Data?",
+    "answer": "Data is categorized based on how it is organized and formatted.",
+    "explanation": [
+      "<h4>1. Structured Data</h4>",
+      "<p>Data organized in a fixed format (rows and columns).</p>",
+      "<ul>",
+      "<li>Student records (Name, Roll No)</li>",
+      "<li>Bank transactions</li>",
+      "<li>Inventory lists</li>",
+      "</ul>",
+      "<h4>2. Unstructured Data</h4>",
+      "<p>Data without a predefined structure.</p>",
+      "<ul>",
+      "<li><b>Images:</b> Photos, scanned docs</li>",
+      "<li><b>Audio/Video:</b> Songs, movies</li>",
+      "<li><b>Text/Graphs:</b> Emails, social media posts</li>",
+      "</ul>"
+    ]
   },
   {
     "id": 7,
-    "question": "What is DML?",
-    "answer": "Data Manipulation Language. Includes commands like INSERT, UPDATE, DELETE to manage data.",
-    "image": null
-  },
-  {
-    "id": 8,
-    "question": "What is a Table?",
-    "answer": "A collection of related data held in a structured format within a database. It consists of columns and rows.",
-    "image": null
-  },
-  {
-    "id": 9,
-    "question": "What is 'ORDER BY'?",
-    "answer": "Used to sort the result-set in ascending or descending order.",
-    "image": null
-  },
-  {
-    "id": 10,
-    "question": "What is 'GROUP BY'?",
-    "answer": "Used to group rows that have the same values into summary rows.",
-    "image": null
+    "question": "What is the Difference between relational database vs. No-sql Databases?",
+    "answer": "The main difference lies in how they store data: <b>Tables</b> vs. <b>Documents/Key-Pairs</b>.",
+    "explanation": [
+      "<table border='1' cellpadding='5' style='border-collapse: collapse; width: 100%;'>",
+      "<tr>",
+      "<th>Relational Database (RDBMS)</th>",
+      "<th>NoSQL Database</th>",
+      "</tr>",
+      "<tr>",
+      "<td>Stores data in <b>Tables</b> (Rows & Columns).</td>",
+      "<td>Stores data in <b>Key-value pairs</b>, Collections, or Documents.</td>",
+      "</tr>",
+      "<tr>",
+      "<td>Used for <b>Structured Data</b> (Banking, Inventory).</td>",
+      "<td>Used for <b>Unstructured Data</b> (Social media, Images).</td>",
+      "</tr>",
+      "<tr>",
+      "<td><i>Ex: Oracle, MySQL, PostgreSQL</i></td>",
+      "<td><i>Ex: MongoDB, Cassandra, HBase</i></td>",
+      "</tr>",
+      "</table>"
+    ]
   }
 ]

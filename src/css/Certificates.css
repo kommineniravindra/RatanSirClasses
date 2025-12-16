@@ -1,299 +1,451 @@
-/* Color variables for consistency across the application */
+/* --- GLOBAL IMPORTS & VARS --- */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Outfit:wght@300;400;500;600;800&family=Great+Vibes&family=Cinzel+Decorative:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
 :root {
- --primary-bg: #f4f6f9;
- --card-bg: #ffffff;
- --text-dark: #2c3e50;
- --text-light: #7f8c8d;
- --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --timeline-line-color: #e2e8f0;
+    --timeline-bg: #ffffff;
+    --timeline-text-main: #1e293b;
+    --timeline-text-light: #64748b;
 
- /* Course-specific colors (Ensure these match your StartLearning component) */
- --js-color: #f0db4f; /* Yellow */
- --html-color: #e44d26; /* Orange */
- --css-color: #2965f1; /* Blue */
- --python-color: #306998; /* Dark Blue */
- --java-color: #5382a1; /* Gray Blue */
- --sql-color: #00758f; /* Teal */
+    --status-locked: #cbd5e1;
+    --status-active: #3b82f6;
+    --status-completed: #10b981;
 }
 
-.certificates-container {
- padding: 30px;
- max-width: 1200px;
- margin: 0 auto;
- font-family: 'Poppins', sans-serif;
+/* --- MAIN CONTAINER --- */
+.certificate-page-list-container {
+    background-color: var(--timeline-bg);
+    min-height: 100vh;
+    padding: 4rem 2rem;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--timeline-text-main);
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-/* Header Styles */
-.certs-header {
- font-size: 36px;
- font-weight: 800;
- color: var(--text-dark);
- margin-bottom: 40px;
- text-align: center;
- border-bottom: 3px solid #ddd;
- padding-bottom: 15px;
- text-transform: uppercase;
+.title-white {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+    text-align: left;
+    padding-left: 2rem;
 }
 
-.certs-subheader {
- font-size: 28px;
- font-weight: 700;
- color: var(--text-dark);
- margin-top: 50px;
- margin-bottom: 30px;
- display: flex;
- align-items: center;
- gap: 10px;
+.section-title-white {
+    text-align: left;
+    color: var(--timeline-text-light);
+    max-width: 600px;
+    margin: 0 0 4rem 2rem;
+    font-size: 1.1rem;
 }
 
-.certs-divider {
- border: 0;
- height: 2px;
- background-image: linear-gradient(to right, transparent, #ccc, transparent);
- margin: 50px 0;
+/* --- TIMELINE GRID --- */
+.certificate-list-grid {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-left: 2rem;
 }
 
-/* --- 5. Dynamic Certificate Card Grid --- */
-.certs-grid {
- display: grid;
- grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
- gap: 30px;
+.certificate-list-grid::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 49px;
+    width: 2px;
+    background: var(--timeline-line-color);
+    z-index: 0;
 }
 
-.certificate-card {
- background: var(--card-bg);
- border-radius: 12px;
- box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
- overflow: hidden;
- transform-style: preserve-3d;
- perspective: 1000px;
- transition: all 0.3s ease;
- position: relative;
- cursor: pointer;
+/* --- TIMELINE ITEM --- */
+.certificate-item-container {
+    position: relative;
+    margin-bottom: 3rem;
+    z-index: 1;
 }
 
-/* 2. Ribbon/Seal of Excellence */
-.ribbon {
- position: absolute;
- top: 15px;
- right: -25px;
- padding: 5px 25px;
- transform: rotate(45deg);
- color: white;
- font-weight: 700;
- font-size: 12px;
- letter-spacing: 1px;
- box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
- z-index: 10;
- display: flex;
- align-items: center;
- gap: 5px;
+.certificate-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    background: transparent;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    /* border-left: 4px solid transparent; */
 }
 
-.cert-color-band {
- /* Removed - using ribbon instead, kept for border effect if needed */
- height: 10px;
- width: 100%;
- position: absolute;
- top: 0;
- left: 0;
+/* Skeleton Loading State */
+.certificate-list-item.skeleton {
+    height: 100px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    animation: pulse 1.5s infinite;
 }
 
-.cert-content {
- padding: 30px;
- text-align: center;
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.6;
+    }
 }
 
-.cert-icon {
- font-size: 50px;
- margin-bottom: 15px;
+.item-icon {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    transition: all 0.3s;
 }
 
-.cert-title {
- font-size: 22px;
- font-weight: 800;
- color: var(--text-dark);
- margin-bottom: 10px;
+.item-details {
+    flex-grow: 1;
+    padding-top: 0.5rem;
 }
 
-.cert-grade {
- font-weight: 700;
- padding: 3px 8px;
- border-radius: 4px;
- /* Color is dynamically set by JS inline style */
+.item-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--timeline-text-main);
 }
 
-.cert-view-btn {
- margin-top: 25px;
- padding: 12px 25px;
- border: none;
- border-radius: 8px;
- color: white;
- font-weight: 600;
- cursor: pointer;
- transition: background-color 0.3s, transform 0.1s;
- box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
- text-transform: uppercase;
+.item-progress-bar-container {
+    height: 6px;
+    background: #f1f5f9;
+    border-radius: 3px;
+    width: 100%;
+    max-width: 250px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
 }
 
-/* --- 3. Advanced Pending Course Card Styles --- */
-.pending-grid {
- display: flex;
- flex-wrap: wrap;
- gap: 25px;
+.item-progress-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease-out;
 }
 
-.pending-course-card {
- flex: 1 1 300px;
- background: var(--card-bg);
- padding: 25px;
- border-radius: 15px;
- box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
- display: flex;
- flex-direction: column;
- align-items: center;
- min-height: 180px;
- position: relative;
- transition: all 0.3s ease;
+.item-action {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
 }
 
-.pending-header-icon {
- font-size: 30px;
- margin-bottom: 10px;
+.item-status {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--timeline-text-light);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.pending-title {
- font-size: 20px;
- font-weight: 700;
- color: var(--text-dark);
- margin-bottom: 20px;
+.view-cert-btn {
+    padding: 0.4rem 1.2rem;
+    border-radius: 50px;
+    border: 1px solid var(--timeline-line-color);
+    background: white;
+    color: var(--timeline-text-main);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
-/* Progress Ring specific styles */
-.progress-ring-container {
- margin-bottom: 10px;
-}
-.progress-ring-svg {
- transition: all 0.5s ease;
+.view-cert-btn:hover {
+    background: var(--timeline-text-main);
+    color: white;
+    border-color: var(--timeline-text-main);
 }
 
-.progress-text {
- font-size: 14px;
- font-weight: 600;
- margin-bottom: 20px;
- text-align: center;
+.view-cert-btn.locked {
+    background: #f8fafc;
+    color: #cbd5e1;
+    border-color: transparent;
+    cursor: not-allowed;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.lock-icon-container {
- padding: 5px 0;
- color: var(--text-light);
+
+/* --- INLINE CERTIFICATE DISPLAY --- */
+.full-certificate-display-container {
+    margin-top: 2rem;
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.lock-icon {
- font-size: 24px;
+.certificate-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
-.claim-btn {
- padding: 10px 20px;
- border: none;
- border-radius: 8px;
- background-color: #28a745;
- color: white;
- font-weight: 600;
- cursor: pointer;
- transition: background-color 0.2s, transform 0.2s;
- text-transform: uppercase;
+/* CLASSIC ORNATE PAPER */
+.certificate-mock-page {
+    background: #fffbef;
+    /* Parchment */
+    /* Complex Ornate Border */
+    border: 5px solid #0f172a;
+    outline: 4px solid #d4af37;
+    outline-offset: -8px;
+    box-shadow:
+        inset 0 0 0 12px #fffbef,
+        inset 0 0 0 14px #0f172a,
+        0 10px 40px rgba(0, 0, 0, 0.15);
+
+    padding: 2rem;
+    position: relative;
+    width: 100%;
+    /* Removed strict aspect-ratio for flexibility */
+    min-height: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
-/* --- 4. Certificate Modal Styles --- */
-.modal-backdrop {
- position: fixed;
- top: 0;
- left: 0;
- width: 100%;
- height: 100%;
- background-color: rgba(0, 0, 0, 0.7);
- display: flex;
- align-items: center;
- justify-content: center;
- z-index: 1000;
+/* Corner Decorations */
+.certificate-mock-page::before,
+.certificate-mock-page::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 2px solid #d4af37;
+    z-index: 0;
 }
 
-.modal-content {
- background: white;
- padding: 30px;
- border-radius: 15px;
- width: 90%;
- max-width: 600px;
- box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
- position: relative;
+.certificate-mock-page::before {
+    top: 20px;
+    left: 20px;
+    border-right: none;
+    border-bottom: none;
 }
 
-.modal-close-btn {
- position: absolute;
- top: 15px;
- right: 15px;
- background: none;
- border: none;
- font-size: 24px;
- cursor: pointer;
- color: var(--text-dark);
+.certificate-mock-page::after {
+    bottom: 20px;
+    right: 20px;
+    border-left: none;
+    border-top: none;
 }
 
-.modal-header {
- text-align: center;
- padding-bottom: 15px;
- margin-bottom: 20px;
+.certificate-frame {
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    position: relative;
 }
 
-.modal-icon {
- font-size: 60px;
- margin-bottom: 10px;
+.certificate-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    /* Space between sections */
 }
 
-.modal-title {
- font-size: 28px;
- font-weight: 800;
- color: var(--text-dark);
+/* HEADER: Logo + Company */
+.cert-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
 }
 
-.modal-body p {
- font-size: 16px;
- margin: 10px 0;
- color: var(--text-dark);
+.cert-logo-icon {
+    width: 60px;
+    height: 60px;
+    color: #0f172a;
+    /* Navy logo */
 }
 
-.modal-body hr {
- margin: 20px 0;
- border: 0;
- border-top: 1px dashed #ccc;
+.cert-company {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.8rem;
+    color: #0f172a;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
 }
 
-.modal-grade {
- padding: 4px 10px;
- border-radius: 6px;
- font-weight: 800;
- /* Color is set inline by JS */
+/* TITLE: Course Completed */
+.cert-course-completed {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 2.5rem;
+    color: #d4af37;
+    /* Gold Title */
+    text-transform: uppercase;
+    margin: 0;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 0.5rem;
 }
 
-.modal-actions {
- margin-top: 30px;
- text-align: center;
+/* BODY TEXT */
+.cert-body-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: #334155;
+    line-height: 1.8;
+    max-width: 80%;
 }
 
-.modal-download-btn {
- padding: 12px 30px;
- border: none;
- border-radius: 8px;
- color: white;
- font-weight: 700;
- cursor: pointer;
- transition: transform 0.2s, opacity 0.2s;
- display: inline-flex;
- align-items: center;
- gap: 10px;
+.cert-user-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #0f172a;
+    font-weight: 700;
+    font-style: italic;
+    display: inline-block;
+    border-bottom: 1px solid #cbd5e1;
+    padding: 0 0.5rem;
+    margin: 0 0.2rem;
 }
 
-.modal-download-btn:hover {
- opacity: 0.9;
- transform: translateY(-2px);
+/* FOOTER DETAILS */
+.cert-footer-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    margin-top: 2rem;
+    /* Ensure footer has space */
+}
+
+/* Left: QR & ID */
+.cert-qr-and-id {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px;
+}
+
+.cert-qr-code {
+    background: white;
+    padding: 4px;
+    border: 1px solid #e2e8f0;
+}
+
+.cert-id-tag {
+    font-family: monospace;
+    font-size: 0.6rem;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+/* Center: Seal */
+.cert-center-seal {
+    margin-bottom: 10px;
+}
+
+.cert-seal-icon {
+    font-size: 5rem;
+    color: #d4af37;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+/* Right: Signature */
+.cert-signature-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 180px;
+}
+
+.cert-signature-line {
+    width: 100%;
+    height: 2px;
+    background: #0f172a;
+    margin-bottom: 0.5rem;
+}
+
+.cert-signature-name {
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.8rem;
+    color: #1e3a8a;
+    margin: 0;
+    line-height: 1;
+}
+
+.cert-signature-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+/* Download Button */
+.cert-download-btn {
+    margin-top: 2rem;
+    background: #0f172a;
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 6px;
+    border: 1px solid #d4af37;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .certificate-mock-page {
+        padding: 2rem;
+    }
+
+    .cert-company {
+        font-size: 1.4rem;
+    }
+
+    .cert-course-completed {
+        font-size: 1.8rem;
+    }
+
+    .cert-body-text {
+        font-size: 1rem;
+        max-width: 100%;
+    }
+
+    .cert-footer-details {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .cert-user-name {
+        font-size: 1.4rem;
+    }
 }

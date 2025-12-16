@@ -38,21 +38,33 @@ const navbarItems = [
       { name: "Python", icon: <FaPython />, type: "technology" },
     ],
   },
-  ,
+
   {
     name: "Tools",
     type: "dropdown",
-    subItems: [{ name: "GIT", icon: <FaGitAlt />, type: "technology" }],
+    subItems: [
+      { name: "GIT", icon: <FaGitAlt />, type: "technology" },
+      { name: "Downloads", icon: <FaGitAlt />, type: "technology" },
+    ],
+
   },
 
-  { name: "RESTAPI", icon: <SiSpringboot />, type: "technology" },
-  { name: "Microservices", icon: <FaProjectDiagram />, type: "technology" },
+  {
+    name: "Frameworks",
+    type: "dropdown",
+    subItems: [
+      { name: "RESTAPI", icon: <SiSpringboot />, type: "technology" },
+      { name: "Microservices", icon: <FaProjectDiagram />, type: "technology" },
+    ],
+
+  },
+
   { name: "SQL", icon: <FaDatabase />, type: "technology" },
 
   // { name: "Q&A", icon: <FaQuestionCircle />, type: "Q&A" },
   { name: "DSA", icon: <FaCode />, type: "DSA" },
-  { name: "AboutUs", icon: <FaUser />, type: "AboutUs" },
-  { name: "ContactUs", icon: <FaEnvelope />, type: "ContactUs" },
+  // { name: "AboutUs", icon: <FaUser />, type: "AboutUs" },
+  // { name: "ContactUs", icon: <FaEnvelope />, type: "ContactUs" },
 ];
 
 export default navbarItems;

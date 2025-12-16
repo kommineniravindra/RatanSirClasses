@@ -6,11 +6,13 @@ export default function BrowserPreview({ htmlCode }) {
 
   // Extract <title> from HTML string
   const titleMatch = htmlCode.match(/<title>(.*?)<\/title>/i);
-  const pageTitle = titleMatch ? titleMatch[1] : "Web Browser Output";
+  const pageTitle = titleMatch ? titleMatch[1] : "Codepulse-R";
+  const urlSlug = titleMatch
+    ? titleMatch[1].toLowerCase().replace(/[^a-z0-9]+/g, "-") + ".html"
+    : "index.html";
 
   useEffect(() => {
     if (!iframeRef.current) return;
-
     const iframe = iframeRef.current;
     const doc = iframe.contentDocument || iframe.contentWindow.document;
 
@@ -19,16 +21,18 @@ export default function BrowserPreview({ htmlCode }) {
     doc.close();
 
     const resizeIframe = () => {
-      if (doc.body) {
-        const height = doc.body.scrollHeight;
+      if (doc.body && doc.documentElement) {
+        const height = Math.max(
+          doc.body.scrollHeight,
+          doc.body.offsetHeight,
+          doc.documentElement.scrollHeight
+        );
         setIframeHeight(height + "px");
       }
     };
 
-    // Initial resize
     resizeIframe();
 
-    // Also resize after images or other media load
     const images = doc.images;
     if (images.length > 0) {
       let loadedCount = 0;
@@ -42,7 +46,6 @@ export default function BrowserPreview({ htmlCode }) {
       }
     }
 
-    // Optional: poll for dynamic content changes (like fonts or JS-generated content)
     const interval = setInterval(resizeIframe, 300);
     return () => clearInterval(interval);
   }, [htmlCode]);
@@ -53,12 +56,9 @@ export default function BrowserPreview({ htmlCode }) {
         border: "1px solid #ccc",
         borderRadius: "8px",
         overflow: "hidden",
-        marginTop: "40px",
-        marginBottom: "40px",
         boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
       }}
     >
-      {/* Fake Browser Title Bar */}
       <div
         style={{
           display: "flex",
@@ -72,9 +72,11 @@ export default function BrowserPreview({ htmlCode }) {
           color: "#222",
         }}
       >
-        <span>{pageTitle}</span>
-
-        <b><span><i>Ratan Sir Classes</i></span> </b>
+        <b>
+          <span>
+            <i>{pageTitle}</i>
+          </span>{" "}
+        </b>
 
         <div style={{ display: "flex", gap: "8px" }}>
           <span
@@ -104,7 +106,6 @@ export default function BrowserPreview({ htmlCode }) {
         </div>
       </div>
 
-      {/* Fake Address Bar */}
       <div
         style={{
           display: "flex",
@@ -116,9 +117,7 @@ export default function BrowserPreview({ htmlCode }) {
       >
         <input
           type="text"
-          value={`http://localhost:3000/${pageTitle
-            .replace(/\s+/g, "")
-            .toLowerCase()}.html`}
+          value={`http://localhost:3000/${urlSlug}`}
           readOnly
           style={{
             flex: 1,
@@ -132,16 +131,16 @@ export default function BrowserPreview({ htmlCode }) {
         />
       </div>
 
-      {/* Iframe Content */}
       <iframe
         ref={iframeRef}
         style={{
           width: "100%",
           height: iframeHeight,
-          border: "1px solid #ccc",
+          border: "none",
           overflow: "hidden",
         }}
         title="Browser Preview"
+        scrolling="no"
       />
     </div>
   );

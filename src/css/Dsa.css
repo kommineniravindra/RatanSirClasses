@@ -6,45 +6,66 @@
    ROOT VARIABLE FOR SCALE
 ================================ */
 :root {
-  --scale: 1; /* Default scale = 125% */
+  --scale: 1;
+  /* Default scale = 125% */
 }
 
 /* 100% - decrease size */
 @media (max-width: 100%) {
-  :root { --scale: 0.68; }
+  :root {
+    --scale: 0.68;
+  }
 }
 
 /* 125% - normal size */
 @media (min-width: 101%) and (max-width: 125%) {
-  :root { --scale: 0.76; }
+  :root {
+    --scale: 0.76;
+  }
 }
 
 /* 150% - slight increase */
 @media (min-width: 126%) and (max-width: 150%) {
-  :root { --scale: 0.88; }
+  :root {
+    --scale: 0.88;
+  }
 }
 
 /* 175% - more increase */
 @media (min-width: 151%) and (max-width: 175%) {
-  :root { --scale: 1; }
+  :root {
+    --scale: 1;
+  }
 }
 
 /* 200% - maximum increase */
 @media (min-width: 176%) and (max-width: 200%) {
-  :root { --scale: 1.12; }
+  :root {
+    --scale: 1.12;
+  }
 }
 
 /* ================================
    Container (main width decreased by 20%)
 ================================ */
 .dsa-container {
-  width: calc(95% * 0.8); /* only main container width reduced */
-  max-width: calc(900px * var(--scale) * 0.8);
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
-  padding: calc(10px * var(--scale)) calc(8px * var(--scale));
+  padding: 10px;
   background: #f5f7fa;
-  border-radius: calc(8px * var(--scale));
+  border-radius: 8px;
   box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* Syntax Highlighter Container Overflows */
+.accordion-body pre,
+.accordion-body code {
+  max-width: 100%;
+  overflow-x: auto !important;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 /* ================================
@@ -53,7 +74,7 @@
 .dsa-title {
   text-align: center;
   margin: 0 0 calc(14px * var(--scale));
-  font-size: calc(1.08rem * var(--scale));
+  font-size: calc(1.3rem * var(--scale));
   font-weight: 700;
   font-family: "Libertinus Serif", serif;
   color: #02325e;
@@ -71,7 +92,8 @@
   overflow: hidden;
   box-shadow: 0 calc(4px * var(--scale)) calc(10px * var(--scale)) rgba(0, 0, 0, 0.08);
   background: #ffffff;
-  width: 100%; /* unchanged */
+  width: 100%;
+  /* unchanged */
 }
 
 /* ================================
@@ -94,13 +116,14 @@
    Accordion Button
 ================================ */
 .accordion-button {
-  width: 100%; /* unchanged */
+  width: 100%;
+  /* unchanged */
   text-align: left;
   padding: calc(8px * var(--scale)) calc(10px * var(--scale));
   background: #f8f9fa;
   border: none;
   outline: none;
-  font-size: calc(0.68rem * var(--scale));
+  font-size: calc(0.9rem * var(--scale));
   font-family: 'FF Tisa Web Pro', serif;
   font-weight: 500;
   cursor: pointer;
@@ -148,14 +171,15 @@
 }
 
 .category-btn {
-  flex: 1 1 45%; /* unchanged */
+  flex: 1 1 45%;
+  /* unchanged */
   padding: calc(5px * var(--scale)) calc(10px * var(--scale));
   border: none;
   border-radius: calc(4px * var(--scale));
   background: #e0e0e0;
   cursor: pointer;
   font-weight: 600;
-  font-size: calc(0.64rem * var(--scale));
+  font-size: calc(0.95rem * var(--scale));
   transition: background 0.3s ease, transform 0.2s;
   text-align: center;
   min-width: auto;
@@ -177,13 +201,18 @@
 .question-number {
   font-weight: bold;
   margin-bottom: calc(4px * var(--scale));
-  font-size: calc(0.72rem * var(--scale));
+  font-size: calc(0.95rem * var(--scale));
   color: #02325e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .question-field {
   margin-bottom: calc(4px * var(--scale));
-  font-size: calc(0.68rem * var(--scale));
+  font-size: calc(0.9rem * var(--scale));
   line-height: 1.5;
 }
 
@@ -209,9 +238,33 @@
   border-top: 1px solid #e6e6e6;
   border-radius: 0 0 calc(6px * var(--scale)) calc(6px * var(--scale));
   font-family: 'IBM Plex Sans', sans-serif;
-  font-size: calc(0.68rem * var(--scale));
+  font-size: calc(0.9rem * var(--scale));
   word-break: break-word;
-  width: 100%; /* unchanged */
+  word-break: break-word;
+  width: 100%;
+  position: relative;
+  /* Added for absolute positioning of Try This button */
+}
+
+.try-this-btn {
+  position: absolute;
+  top: 10px;
+  right: 18px;
+  background-color: none;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  z-index: 10;
+  transition: background-color 0.2s ease;
+}
+
+.try-this-btn:hover {
+  background-color: #bec1bf;
+  color: whitesmoke;
 }
 
 /* ================================
@@ -222,6 +275,7 @@
     opacity: 0;
     transform: translateY(calc(-4px * var(--scale)));
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -232,23 +286,59 @@
    Responsive Design
 ================================ */
 @media (min-width: 601px) {
-  .dsa-container { padding: calc(14px * var(--scale)); }
-  .dsa-title { font-size: calc(1.28rem * var(--scale)); }
-  .accordion-button { font-size: calc(0.76rem * var(--scale)); padding: calc(10px * var(--scale)) calc(12px * var(--scale)); }
-  .accordion-button::after { right: calc(8px * var(--scale)); }
-  .category-btn { flex: 1 1 30%; font-size: calc(0.68rem * var(--scale)); }
-  .question-number { font-size: calc(0.76rem * var(--scale)); }
-  .question-field { font-size: calc(0.72rem * var(--scale)); }
-  .accordion-body { padding: calc(12px * var(--scale)); font-size: calc(0.72rem * var(--scale)); }
+  .dsa-container {
+    padding: calc(14px * var(--scale));
+  }
+
+  .dsa-title {
+    font-size: calc(2.0rem * var(--scale));
+  }
+
+  .accordion-button {
+    font-size: calc(1rem * var(--scale));
+    padding: calc(10px * var(--scale)) calc(12px * var(--scale));
+  }
+
+  .accordion-button::after {
+    right: calc(8px * var(--scale));
+  }
+
+  .category-btn {
+    flex: 1 1 30%;
+    font-size: calc(1.0rem * var(--scale));
+  }
+
+  .question-number {
+    font-size: calc(1rem * var(--scale));
+  }
+
+  .question-field {
+    font-size: calc(0.95rem * var(--scale));
+  }
+
+  .accordion-body {
+    padding: calc(12px * var(--scale));
+    font-size: calc(0.95rem * var(--scale));
+  }
 }
 
 @media (min-width: 901px) {
-  .dsa-title { font-size: calc(1.48rem * var(--scale)); }
-  .accordion-button { font-size: calc(0.76rem * var(--scale)); }
-  .category-btn { flex-grow: 0; flex-basis: auto; }
+  .dsa-title {
+    font-size: calc(2.2rem * var(--scale));
+  }
+
+  .accordion-button {
+    font-size: calc(1rem * var(--scale));
+  }
+
+  .category-btn {
+    flex-grow: 0;
+    flex-basis: auto;
+  }
 }
+
 .youtube-btn {
-  margin-left: 680px;
+  /* margin-left: auto; Removed fixed 680px margin */
   padding: 5px 10px;
   background-color: #ff000057;
   color: rgb(255, 255, 255);
@@ -256,6 +346,9 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   transition: background 0.2s ease-in-out;
 }
 

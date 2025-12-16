@@ -30,11 +30,24 @@
   transition: width 0.3s ease;
 }
 
+/* Mobile Toggle - Hidden on Desktop */
+.mobile-menu-toggle {
+  display: none;
+  padding: 10px 15px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  color: #333;
+}
+
 /* Sidebar list */
 .left-menu {
   list-style: none;
   padding: 0;
-  margin: 1rem  0;
+  margin: 1rem 0;
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
@@ -187,6 +200,40 @@
     height: auto;
     position: relative;
     border-right: none;
+    max-height: 100%;
+    /* Allow full expansion */
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
+    /* Show on mobile */
+  }
+
+  /* Hide menu list by default on mobile */
+  .left-menu {
+    display: none;
+    max-height: 50vh;
+    /* Limit height when open */
+    overflow-y: auto;
+    border-bottom: 1px solid #ccc;
+  }
+
+  /* Show menu list when toggled */
+  .left-menu.show-on-mobile {
+    display: block;
+    animation: slideDown 0.3s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .menu-list-item {

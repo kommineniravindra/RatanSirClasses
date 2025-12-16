@@ -12,11 +12,18 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coy } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const DSA = () => {
+  // const navigate = useNavigate(); // Not needed for new tab
   const [openIndex, setOpenIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("arrays");
 
   const toggleAccordion = (index) => {
     setOpenIndex(openIndex === index ? null : index);
+  };
+
+  const handleTryThis = (code) => {
+    localStorage.setItem("tryThisCode", code);
+    localStorage.setItem("tryThisLang", "Java"); // Assuming all DSA code is Java based on SyntaxHighlighter prop
+    window.open("/compiler", "_blank");
   };
 
   // Decide which dataset to render
@@ -161,6 +168,13 @@ const DSA = () => {
                   }`}
                 >
                   <div className="accordion-body">
+                    <button
+                      className="try-this-btn"
+                      onClick={() => handleTryThis(item.answer)}
+                    >
+                      Try This!
+                    </button>
+                    
                     <SyntaxHighlighter
                       language="java"
                       style={coy}

@@ -3,31 +3,38 @@
     "id": 1,
     "question": "What is Git?",
     "answer": "Git is a distributed version control system that tracks changes in source code during software development.",
-    "image": null
+    "explanation":"Hello this is working ",
+    "image":{
+      "url":"./img7.png",
+      "caption": "Git remote clone example"
+    }
   },
   {
     "id": 2,
     "question": "What is a repository?",
     "answer": "A repository (repo) is a directory where Git stores all the files and the history of changes for a project.",
-    "image": null
+    "image":null
   },
   {
     "id": 3,
     "question": "What is 'git init'?",
     "answer": "It initializes a new Git repository in the current directory, creating a hidden .git folder.",
-    "image": null
+       "image":null
+
   },
   {
     "id": 4,
     "question": "What is 'git clone'?",
     "answer": "It creates a copy of an existing Git repository from a remote server to your local machine.",
-    "image": null
+       "image":null
+
   },
   {
     "id": 5,
     "question": "What is 'git status'?",
     "answer": "It displays the state of the working directory and the staging area, showing which changes are staged or untracked.",
-    "image": null
+       "image":null
+
   },
   {
     "id": 6,
