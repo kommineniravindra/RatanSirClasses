@@ -300,79 +300,245 @@
   color: #000000;
 }
 
+
+.hidden-input {
+  display: none;
+}
+
 /* =========================================
-   MOBILE RESPONSIVENESS (Max Width 768px)
+   RESPONSIVE BREAKPOINTS
    ========================================= */
-@media screen and (max-width: 768px) {
 
-  /* 1. Force the Sidebar to stack items Vertically */
+/* 1. Mobile (Portrait) 320px to 479px */
+@media (min-width: 320px) and (max-width: 479px) {
+  .dashboard-container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "sidebar"
+      "main";
+    height: auto;
+    overflow-y: auto;
+  }
+
   .dashboard-sidebar {
-    display: flex;
-    flex-direction: column !important;
-    /* Force Top-to-Bottom layout */
-    width: 100% !important;
-    /* Full width of the screen */
-    height: auto !important;
-    /* Let content decide height */
-    padding: 20px 15px;
+    width: 100%;
+    height: auto;
     position: relative;
+    padding: 15px;
     border-right: none;
-    border-bottom: 2px solid #ddd;
-    /* Separator at the bottom */
-    overflow: visible;
+    border-bottom: 1px solid var(--border-color);
   }
 
-  /* 2. Force Containers to Break Lines */
-  .profile-header,
-  .profile-details,
-  .logout-btn {
-    width: 100% !important;
-    /* Force full width so they can't be side-by-side */
-    max-width: 100%;
-    display: flex;
-    /* Use flex to control internal alignment */
-    flex-direction: column;
-    /* Stack internal items (like name under avatar) */
-    align-items: center;
-    /* Center align everything */
-    margin-bottom: 20px;
-    /* Add spacing between sections */
-  }
-
-  /* 3. Specific fix for the Avatar/Name section */
-  .profile-header {
-    margin-top: 10px;
-    text-align: center;
-  }
-
-  .profile-avatar-container {
-    margin: 0 auto 15px auto;
-    /* Center the avatar image */
-  }
-
-  /* 4. Specific fix for the Email/Details list */
   .profile-details {
-    align-items: stretch;
-    /* Let the list items stretch full width */
+    display: none;
+    /* Hide extra details to save space */
   }
 
-  .profile-items {
-    flex-direction: row;
-    /* Keep icon and text side-by-side inside the item */
-    justify-content: flex-start;
-    background-color: rgba(255, 255, 255, 0.6);
+  .logout-btn {
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    justify-content: center;
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .profile-header {
+    display: flex;
+    flex-direction: column;
+    /* Stack VERTICALLY on mobile */
+    justify-content: center;
+    align-items: center;
     width: 100%;
     margin-bottom: 10px;
   }
 
-  /* 5. Specific fix for Logout Button */
+  .profile-avatar-container {
+    width: 80px;
+    /* Slightly larger for better visibility */
+    height: 80px;
+    margin-bottom: 10px;
+    border-width: 3px;
+  }
+
+  .profile-header h2 {
+    font-size: 1.3rem;
+    margin: 5px 0;
+  }
+
+  .profile-header p {
+    display: block;
+    /* Show email */
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+  }
+
+  .profile-avatar-container::after {
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 columns for tech/quiz */
+  }
+
+  .dashboard-main {
+    padding: 10px;
+  }
+
+  .tech-grid-section h2,
+  .exam-history-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .history-grouped-container {
+    grid-template-columns: 1fr;
+    /* 1 card per row */
+  }
+
+  .progress-reports-section {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-container {
+    height: 300px;
+  }
+}
+
+/* 2. Mobile (Landscape) 481px to 767px */
+@media (min-width: 480px) and (max-width: 767px) {
+  .dashboard-container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "sidebar"
+      "main";
+    height: auto;
+    overflow-y: auto;
+  }
+
+  .dashboard-sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px;
+  }
+
+  .profile-header {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .profile-avatar-container {
+    width: 60px;
+    height: 60px;
+    margin: 0;
+  }
+
+  .profile-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .profile-items {
+    width: auto;
+    flex: 1;
+    min-width: 140px;
+  }
+
   .logout-btn {
-    width: 90% !important;
-    /* Make button nice and wide */
-    margin: 10px auto 0 auto !important;
-    /* Center horizontally */
-    flex-direction: row;
-    /* Keep icon and text side-by-side */
+    width: auto;
+    margin: 0;
+    padding: 0.5rem 1rem;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .history-grouped-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .progress-reports-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 3. Tablet (Portrait & Landscape) 768px to 1024px */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .dashboard-container {
+    grid-template-columns: 200px 1fr;
+    /* Smaller sidebar */
+  }
+
+  .dashboard-sidebar {
+    padding: 10px;
+  }
+
+  .profile-avatar-container {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .logout-btn {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .history-grouped-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .progress-reports-section {
+    grid-template-columns: 1fr;
+    /* Stack charts on tablet for better readability */
+  }
+}
+
+/* 4. Laptop/Desktop 1025px to 1280px */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .dashboard-container {
+    grid-template-columns: 240px 1fr;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .history-grouped-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 5. Desktop 1281px + */
+@media (min-width: 1281px) {
+  .dashboard-container {
+    grid-template-columns: 280px 1fr;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .history-grouped-container {
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
@@ -397,7 +563,6 @@
   scrollbar-width: none;
 }
 
-.tech-grid-section,
 .progress-reports-section {
   background: var(--panel-color);
   /* border-radius: var(--border-radius-lg); */
@@ -405,6 +570,13 @@
   box-shadow: var(--shadow-sm);
   text-align: center;
   /* border: 1px solid var(--border-color); */
+}
+
+.tech-grid-section {
+  background: var(--panel-color);
+  padding: 5px;
+  box-shadow: var(--shadow-sm);
+  text-align: left;
 }
 
 .exam-history-section {
@@ -418,14 +590,24 @@
 .tech-grid-section h2,
 .exam-history-section h2 {
   font-family: "Libertinus Serif", serif;
-  font-style: italic;
   font-weight: 700;
-  font-size: 2.5rem;
-  margin-top: 0;
-  margin-bottom: 1rem;
-  color: #5a43a8;
-  /* Rich Purple */
+  font-size: 2.1rem;
+  color: #3f3a66;
+
+  /* Layout */
+  display: inline-block;
+  text-align: left !important;
+  margin: 0 0 1.5rem 0;
+  padding: 5px 15px;
+  background: #f5f6ff;
+  border-left: 5px solid #6a5acd;
+  border-radius: 4px 10px 10px 4px;
+  box-shadow: 0 2px 6px rgba(63, 58, 102, 0.08);
 }
+
+
+
+
 
 /* --- 6. TECHNOLOGY CARDS --- */
 .tech-grid {
@@ -458,8 +640,6 @@
   color: var(--text-secondary);
   transition: color var(--transition-speed) ease;
 }
-
-
 
 .tech-card.java .tech-icon {
   color: #f89820;
@@ -543,7 +723,6 @@
 .tech-card.microservices:hover {
   background: #38b2ac;
 }
-
 
 
 /* Import Fonts */

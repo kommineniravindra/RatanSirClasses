@@ -13,6 +13,7 @@ import {
   FaChartLine,
   FaStar,
   FaTrophy,
+  FaUser,
 } from "react-icons/fa";
 import { Line } from "react-chartjs-2";
 import {
@@ -27,7 +28,11 @@ import {
   Filler,
 } from "chart.js";
 import "../css/Profile.css";
-import { chapterInfoByLang, ExamConfig, quizContexts } from "./StartLearning1";
+import {
+  chapterInfoByLang,
+  ExamConfig,
+  learningContexts,
+} from "./StartLearning1";
 
 // Register ChartJS components
 ChartJS.register(
@@ -79,10 +84,10 @@ const Profile = ({ userProfile }) => {
   // Calculate Max Marks (Memoized like StartLearning.js)
   const allCourseMaxMarks = useMemo(() => {
     const maxMarksMap = {};
-    if (chapterInfoByLang && quizContexts) {
+    if (chapterInfoByLang && learningContexts) {
       Object.entries(chapterInfoByLang).forEach(([lang, info]) => {
         let totalExamples = 0;
-        const context = quizContexts[lang];
+        const context = learningContexts[lang];
         // Ensure chapterKeys exists
         if (info && info.chapterKeys) {
           info.chapterKeys.forEach((chapterNum) => {
@@ -407,7 +412,6 @@ const Profile = ({ userProfile }) => {
   return (
     <div className="profile-premium-wrapper">
       <div className="profile-header-premium">
-        {/* Geometric Shapes via CSS Pseudo-elements in Profile.css */}
         <div className="header-overlay"></div>
 
         <input
@@ -460,7 +464,7 @@ const Profile = ({ userProfile }) => {
           {/* CENTRE: Big Decorative Name & Title & Contact */}
           <div className="business-card-content">
             <h1 className="bc-name">
-              Welcome &nbsp;&nbsp;
+              <span className="welcome-text"><span style={{fontStyle:"italic"}}>Welcome</span>,&nbsp;</span>
               {profile.studentName
                 ? profile.studentName.toUpperCase()
                 : "Student"}
@@ -502,7 +506,9 @@ const Profile = ({ userProfile }) => {
           </div>
 
           <div className="glass-panel info-panel">
-            <h3>Personal Details</h3>
+            <h3>
+              <FaUser className="info-icon" /> Personal Details
+            </h3>
             <div className="info-row">
               <FaEnvelope className="info-icon" />
               <div>
@@ -545,7 +551,7 @@ const Profile = ({ userProfile }) => {
         <main className="profile-main-area">
           <div className="glass-panel chart-panel-large">
             <div className="chart-header">
-              <div style={{ flex: 1 }}>
+              <div className="chart-header-content">
                 <h3>
                   <FaChartLine /> Tech Performance Growth
                 </h3>

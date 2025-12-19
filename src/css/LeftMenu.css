@@ -146,115 +146,152 @@
 
 /* Hover effect */
 .menu-sublist-item:hover {
-  background: #bceef6;
-  color: #444b54;
+  background: #eef2ff;
+  /* Soft Indigo Hover */
+  color: #3730a3;
+  /* Dark Indigo Text */
 }
 
 /* Active submenu */
 .menu-sublist-item.active {
-  background: #bceef6;
-  color: black;
+  background: #e0e7ff;
+  /* Light Indigo Background */
+  color: #312e81;
+  /* Darker Indigo Text */
   font-weight: 700;
-  transform: translateX(1px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  max-width: fit-content;
+  transform: translateX(0);
+  box-shadow: 2px 2px 5px rgba(79, 70, 229, 0.15);
+  /* Colored shadow */
+  border-radius: 0 10px 10px 0;
+  /* Match shape */
+  border-left: 5px solid #4f46e5;
+  /* Thick Indigo Border */
+  width: 95%;
+  /* Maintain width fix */
 }
 
 /* Active submenu item icon */
 .menu-sublist-item.active .submenu-item-icon {
-  color: black;
+  color: #4f46e5;
+  /* Indigo Icon */
   transform: rotate(0deg);
 }
 
 /* =========================
    RESPONSIVE SCALING
 ========================= */
-@media (max-width: 1500px) {
-  .left-menu-container {
-    width: clamp(180px, 18vw, 250px);
-  }
-}
 
-@media (max-width: 1200px) {
-  .menu-list-item {
-    font-size: clamp(0.85rem, 1.1vw, 1.4rem);
-    padding: clamp(2px, 0.9vw, 20px) clamp(8px, 1.5vw, 20px);
-  }
-
-  .menu-sublist-item {
-    font-size: clamp(0.75rem, 0.9vw, 1.1rem);
-    padding: clamp(1px, 0.7vw, 8px) clamp(3px, 0.8vw, 8px);
-  }
-}
-
-@media (max-width: 992px) {
-  .left-menu-container {
-    width: clamp(160px, 22vw, 220px);
-  }
-}
-
-@media (max-width: 768px) {
+/* 1. Mobile Portrait (320px - 479px) */
+@media (max-width: 479px) {
   .left-menu-container {
     width: 100%;
     height: auto;
     position: relative;
     border-right: none;
-    max-height: 100%;
-    /* Allow full expansion */
   }
 
   .mobile-menu-toggle {
     display: flex;
-    /* Show on mobile */
   }
 
-  /* Hide menu list by default on mobile */
   .left-menu {
     display: none;
-    max-height: 50vh;
-    /* Limit height when open */
-    overflow-y: auto;
+    max-height: 60vh;
     border-bottom: 1px solid #ccc;
   }
 
-  /* Show menu list when toggled */
   .left-menu.show-on-mobile {
     display: block;
     animation: slideDown 0.3s ease-out;
   }
 
-  @keyframes slideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
   .menu-list-item {
-    font-size: clamp(0.75rem, 1vw, 1.2rem);
-    padding: clamp(2px, 0.8vw, 12px) clamp(6px, 1vw, 12px);
+    font-size: 0.9rem;
+    padding: 8px 12px;
   }
 
   .menu-sublist-item {
-    font-size: clamp(0.7rem, 0.9vw, 1.1rem);
-    padding: clamp(1px, 0.6vw, 6px) clamp(2px, 0.8vw, 6px);
+    font-size: 0.85rem;
+    padding: 6px 10px;
   }
 }
 
-@media (max-width: 480px) {
+/* 2. Mobile Landscape (480px - 767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+  .left-menu-container {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-right: none;
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
+  }
+
+  .left-menu {
+    display: none;
+    max-height: 50vh;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .left-menu.show-on-mobile {
+    display: block;
+    animation: slideDown 0.3s ease-out;
+  }
+
   .menu-list-item {
-    font-size: clamp(0.65rem, 0.9vw, 1rem);
-    padding: clamp(2px, 0.5vw, 10px) clamp(2px, 0.7vw, 10px);
+    font-size: 1rem;
+    padding: 8px 15px;
+  }
+}
+
+/* 3. Tablet Portrait & Landscape (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .left-menu-container {
+    width: clamp(200px, 25vw, 240px);
+  }
+
+  .menu-list-item {
+    font-size: 1rem;
+    padding: 8px 15px;
   }
 
   .menu-sublist-item {
-    font-size: clamp(0.6rem, 0.8vw, 0.95rem);
-    padding: clamp(1px, 0.5vw, 4px) clamp(1px, 0.6vw, 4px);
+    font-size: 0.9rem;
+  }
+}
+
+/* 4. Laptop (1025px - 1280px) */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .left-menu-container {
+    width: clamp(220px, 20vw, 260px);
+  }
+
+  .menu-list-item {
+    font-size: 1.1rem;
+  }
+}
+
+/* 5. Desktop (1281px+) */
+@media (min-width: 1281px) {
+  .left-menu-container {
+    width: clamp(250px, 18vw, 300px);
+  }
+
+  .menu-list-item {
+    font-size: 1.2rem;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

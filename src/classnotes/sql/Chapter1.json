@@ -2,124 +2,117 @@
   {
     "id": 1,
     "question": "What is the purpose of Database?",
-    "answer": [
-      "<p>A database is used to <b>store, manage, and organize data</b>.</p>",
-      "<p>In today’s world, data is everywhere. It has become one of the most valuable resources, just like money, oil, or electricity. Businesses and governments depend on data to make decisions.</p>"
-    ],
+    "answer": "<p>A database is used to <b><mark>store, manage, and organize data</mark></b>.In today’s world, data is everywhere, and people generate data every second.Data has become one of the most valuable resources, just like money, oil, or electricity.Businesses and governments depend on data to make decisions.</p>",
     "explanation": [
       "<h3>Scenarios: How People Generate Data Every Second</h3>",
-      "<p><b>1. Walking on the street</b><br>CCTV cameras record footage; sensors capture location.</p>",
-      "<p><b>2. Using your mobile</b><br>Calls, messages, GPS, and health apps create data.</p>",
-      "<p><b>3. Buying tea or snacks</b><br>Shopkeepers maintain records of time, date, and amount spent.</p>",
-      "<p><b>4. Making a payment</b><br>UPI/Card transactions generate Transaction IDs and merchant details.</p>",
-      "<p><b>5. Shopping (Amazon, Flipkart)</b><br>Search history, purchases, and bill amounts are stored.</p>",
+      "<b>1. Walking on the street</b><p>CCTV cameras record your movement video footage.<br>Sensors and traffic systems capture your location and timing.</p>",
+      "<b>2. Using your mobile</b><p>Calls, messages, GPS, apps—everything creates data.<br>Smartphones also collect step count, heart rate, and other health-related data.</p>",
+      "<b>3. Buying tea or snacks</b><p>Shopkeeper maintains a sales record.<br>Date & time of purchase.<br>Amount spent.</p>",
+      "<b>4. Making a payment</b><p>When you pay using UPI, card, or QR.<br>Transaction ID<br>Date & time<br>Amount<br>Merchant details</p>",
+      "<b>5. Shopping at stores or online (Amazon, Flipkart, etc.)</b><p>Items you search or view.<br>Items you purchase<br>Total bill amount.</p>",
       "<details>",
       "<summary style='color: blue; cursor: pointer; font-weight: bold;'>Read more scenarios...</summary>",
-      "<p><b>6. Social media (Instagram, Twitter)</b><br>Likes, comments, shares, uploads, and search activity.</p>",
-      "<p><b>7. Health Information</b><br>Medical history, diagnoses, prescriptions, and test results.</p>",
-      "<p><b>8. Online food delivery (Swiggy, Zomato)</b><br>Search history, orders, and delivery locations.</p>",
-      "<p><b>9. Transportation (Uber, OLA, Metro)</b><br>Ticket bookings, check-ins, ride routes, and pickup/drop points.</p>",
-      "<p><b>10. Working or studying</b><br>Attendance, emails, assignments, and login/logout times.</p>",
+      "<div style='margin-bottom: 15px;'><b>6. Social media (Facebook, Twitter, Instagram, etc.)</b><p>Likes, comments, and shares.<br>Photos and videos uploaded.<br>Browsing and search activity.<br>All of these are stored as data.</p></div>",
+      "<div style='margin-bottom: 15px;'><b>7. Health Information</b><p>Hospital and medical records.<br>Medical history, diagnoses, test results<br>Treatments, and prescriptions.<br>All stored digitally.</p></div>",
+      "<div style='margin-bottom: 15px;'><b>8. Using online food delivery apps (Swiggy, Zomato)</b><p>What you search.<br>What you order.<br>Delivery location & order history.</p></div>",
+      "<div style='margin-bottom: 15px;'><b>9. Transportation and travel (Redbus, Abhibus, MakeMyTrip, OLA, Uber)</b><p>Bus/train ticket bookings.<br>Flight check-ins and boarding information.<br>Metro card swipes and travel history.<br>Ride apps (Uber/Ola) store pickup, drop, and route data.</p></div>",
+      "<div style='margin-bottom: 15px;'><b>10. Working or studying</b><p>Attendance records.<br>Emails sent and received.<br>Assignments submitted.<br>Documents created and shared.<br>Login/logout times.</p></div>",
       "</details>"
     ]
   },
   {
     "id": 2,
     "question": "What is Data?",
-    "answer": "Data is a collection of <b>raw facts</b> that are recorded but not yet processed.",
+    "answer": "Data is a collection of <b><mark>raw facts</mark></b>. (That are recorded but not yet processed.)",
     "explanation": [
       "<ul>",
-      "<li><b>Personal details:</b> Name, age, address.</li>",
-      "<li><b>Physical stats:</b> Weight details.</li>",
-      "<li><b>Recordings:</b> CCTV capturing movement.</li>",
-      "<li><b>Transactions:</b> Shopkeeper recording a sale.</li>",
+      "<li>Your personal details (name, age, address)</li>",
+      "<li>Your weight details.</li>",
+      "<li>CCTV capturing your movement.</li>",
+      "<li>Shopkeeper recording a sale...etc</li>",
       "</ul>"
     ]
   },
   {
     "id": 3,
     "question": "What is Information?",
-    "answer": "Information is <b>processed data</b> that has meaning and is useful.",
+    "answer": "Information is <b><mark>processed data</mark></b> that has meaning and is useful.",
     "explanation": [
-      "<ul>",
-      "<li><b>Status:</b> Personal details (Data) &rarr; Identifying major/minor status (Info).</li>",
-      "<li><b>Health:</b> Age/Weight (Data) &rarr; Calculating BMI (Info).</li>",
-      "<li><b>Security:</b> CCTV footage (Data) &rarr; Checking crossing time (Info).</li>",
-      "<li><b>Business:</b> Sales reports (Data) &rarr; Identifying best-selling products (Info).</li>",
-      "</ul>"
+      "<ol>",
+      "<li>Based on your personal details (data) &rarr; Identifying your major or minor status.</li>",
+      "<li>Based on your age and weight (data) &rarr; Calculating your BMI.</li>",
+      "<li>Based on CCTV footage (data) &rarr; Checking when you crossed the road.</li>",
+      "<li>Based on total sales reports from shopkeepers (data) &rarr; Identifying which product sold the highest.</li>",
+      "</ol>"
     ]
   },
   {
     "id": 4,
     "question": "What is decision making?",
-    "answer": "Decision making is the process of <b>choosing the best action</b> based on information.",
+    "answer": "Decision making is the process of <b><mark>choosing the best action</mark></b> based on information.",
     "explanation": [
-      "<p><b>Examples of Data &rarr; Action:</b></p>",
       "<ul>",
-      "<li><b>Age Data:</b> Identify status &rarr; <i>Action: Allow/restrict access.</i></li>",
-      "<li><b>BMI Data:</b> Calculate health &rarr; <i>Action: Consult a doctor.</i></li>",
-      "<li><b>CCTV Data:</b> Identify crossing &rarr; <i>Action: Take legal action.</i></li>",
-      "<li><b>Sales Data:</b> Identify top product &rarr; <i>Action: Increase stock quantity.</i></li>",
+      "<li>Based on your personal details (data) &rarr; Identifying your major or minor status.<br><i>Action: Allow or restrict access to age-restricted services.</i></li>",
+      "<li>Based on your age and weight (data) &rarr; Calculating your BMI.<br><i>Action: If overweight, consult a doctor or follow a health plan.</i></li>",
+      "<li>Based on CCTV footage (data) &rarr; Checking when you crossed the road.<br><i>Action: Identify the offender and take legal action (for example, seize evidence).</i></li>",
+      "<li>Based on total sales reports from shopkeepers (data) &rarr; Identifying which product sold the highest.<br><i>Action: Increase the quantity or stock of that product.</i></li>",
       "</ul>",
-      "<p><i>Note: A database stores data, which is processed to generate information to support these decisions.</i></p>"
+      "<p><i>Note: A database stores data, which can be processed to generate information and support decision-making.</i></p>"
     ]
   },
   {
     "id": 5,
     "question": "What are the different ways to store data?",
-    "answer": "There are three primary sources to store or maintain data ranging from traditional to modern methods.",
+    "answer": "There are different sources to store or maintain data.",
     "explanation": [
       "<ol>",
-      "<li><b>Paper Records (Old-fashioned):</b><br>Information stored in books (Registers, files).<br><i>Limitation:</i> Hard to search, easily lost/damaged.</li>",
-      "<li><b>File System (Digital Files):</b><br>Stored on computers (Excel, PDF, Text files).<br><i>Limitation:</i> Not good for big data or security.</li>",
-      "<li><b>Databases (Structured Storage):</b><br>Organized systems for large amounts of data (Oracle, MySQL).<br><i>Benefit:</i> Easy access, security, and fast retrieval.</li>",
+      "<li><b><mark>Paper Records</mark></b><br>The information stored in Books.<br>Old-fashioned method.<br><i>ex: Attendance registers, shopkeeper’s sales book, patient files in hospitals..etc</i><br><i>Limitations: Hard to search, can be lost or damaged.</i></li>",
+      "<li><b><mark>File System</mark></b><br>Digital files stored on computers.<br><i>ex: Text files (.txt), Excel sheets, CSV files, PDFs, images, videos</i><br><i>Limitations: Not good for big data, multiple users, or security.</i></li>",
+      "<li><b><mark>Databases</mark></b><br>Structured digital storage for large amounts of data.<br>Provides easy access, security, and fast retrieval.<br><i>ex: Oracle Database, MySQL, MongoDB...etc</i></li>",
       "</ol>"
     ]
   },
   {
     "id": 6,
-    "question": "What is Structured Data & Unstructured Data?",
-    "answer": "Data is categorized based on how it is organized and formatted.",
+    "question": "What is Structure Data & Unstructured Data?",
+    "answer": "Data is categorized into Structured and Unstructured types.",
     "explanation": [
       "<h4>1. Structured Data</h4>",
-      "<p>Data organized in a fixed format (rows and columns).</p>",
+      "<p>Data that is organized in a <b><mark>fixed format</mark></b>, usually in rows and columns.</p>",
       "<ul>",
-      "<li>Student records (Name, Roll No)</li>",
-      "<li>Bank transactions</li>",
-      "<li>Inventory lists</li>",
+      "<li>Student records (Name, Roll Number, Marks)</li>",
+      "<li>Bank transactions (Date, Amount, Account Number)</li>",
+      "<li>Inventory lists (Product ID, Quantity, Price)</li>",
       "</ul>",
       "<h4>2. Unstructured Data</h4>",
-      "<p>Data without a predefined structure.</p>",
+      "<p>Data that does not have a predefined structure or format.</p>",
       "<ul>",
-      "<li><b>Images:</b> Photos, scanned docs</li>",
-      "<li><b>Audio/Video:</b> Songs, movies</li>",
-      "<li><b>Text/Graphs:</b> Emails, social media posts</li>",
+      "<li><b>Images:</b> Photos, diagrams, scanned documents</li>",
+      "<li><b>Audio:</b> Songs, podcasts, voice recordings</li>",
+      "<li><b>Video:</b> Movies, surveillance footage, video clips</li>",
+      "<li><b>Graphs:</b> Social networks, relationships between entities</li>",
+      "<li><b>Text documents:</b> Emails, social media posts, PDFs</li>",
       "</ul>"
     ]
   },
   {
     "id": 7,
     "question": "What is the Difference between relational database vs. No-sql Databases?",
-    "answer": "The main difference lies in how they store data: <b>Tables</b> vs. <b>Documents/Key-Pairs</b>.",
-    "explanation": [
-      "<table border='1' cellpadding='5' style='border-collapse: collapse; width: 100%;'>",
-      "<tr>",
-      "<th>Relational Database (RDBMS)</th>",
-      "<th>NoSQL Database</th>",
-      "</tr>",
-      "<tr>",
-      "<td>Stores data in <b>Tables</b> (Rows & Columns).</td>",
-      "<td>Stores data in <b>Key-value pairs</b>, Collections, or Documents.</td>",
-      "</tr>",
-      "<tr>",
-      "<td>Used for <b>Structured Data</b> (Banking, Inventory).</td>",
-      "<td>Used for <b>Unstructured Data</b> (Social media, Images).</td>",
-      "</tr>",
-      "<tr>",
-      "<td><i>Ex: Oracle, MySQL, PostgreSQL</i></td>",
-      "<td><i>Ex: MongoDB, Cassandra, HBase</i></td>",
-      "</tr>",
-      "</table>"
+    "answer": [
+      "<p><b>Relational Database (RDBMS):</b></p>",
+      "<ul>",
+      "<li>A relational database stores data in <b><mark>tables</mark></b> (rows and columns).</li>",
+      "<li>Used to store the <b><mark>structured data</mark></b>.</li>",
+      "<li><i>ex: Student records, inventory management, Banking systems...etc</i></li>",
+      "<li>Popular RDBMS: Oracle, MySQL, PostgreSQL.</li>",
+      "</ul>",
+      "<p><b>NoSQL Database:</b></p>",
+      "<ul>",
+      "<li>NoSQL databases store data in <b><mark>key-value pairs</mark></b> format using Collections & documents.</li>",
+      "<li>Used to store the <b><mark>unstructured data</mark></b>.</li>",
+      "<li><i>ex: social media images, videos, graphs ...etc</i></li>",
+      "<li>Popular NoSQL databases: MongoDB, Cassandra, HBase.</li>",
+      "</ul>"
     ]
   }
 ]

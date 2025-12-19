@@ -21,7 +21,7 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
   //   const themes = [
   //     {
   //       bg: "rgba(225, 245, 254, 0.35)", // Sky Blue Glass (Default)
-  //       text: "#1e293b",
+  //       text: "#ca8b0cff",
   //     },
   //     {
   //       bg: "rgba(240, 253, 244, 0.45)", // Mint Green Glass
@@ -141,7 +141,7 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
                 {item.subItems.map((subItem, subIndex) => (
                   <li
                     key={subIndex}
-                    className={`dropdown-item ${
+                    className={`dropdown-item1 ${
                       selectedTechnology === subItem.name ? "active" : ""
                     }`}
                     onClick={() => handleSelection(subItem.name)}
@@ -155,12 +155,12 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
           </li>
         ))}
 
-        {/* <li onClick={handleClass} className="navbar-item">
+        <li onClick={handleClass} className="navbar-item">
           <div className="navbar-content">
             <FaClipboardCheck />
             <span>Class</span>
           </div>
-        </li> */}
+        </li>
 
         <li onClick={handleExam} className="navbar-item">
           <div className="navbar-content">
@@ -169,12 +169,12 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
           </div>
         </li>
 
-        <li onClick={handleStartLearning} className="navbar-item">
+        {/* <li onClick={handleStartLearning} className="navbar-item">
           <div className="navbar-content">
             <FaClipboardCheck />
             <span>Learning</span>
           </div>
-        </li>
+        </li> */}
 
         <li onClick={handleCompiler} className="navbar-item">
           <div className="navbar-content">

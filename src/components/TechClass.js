@@ -28,6 +28,7 @@ import {
   FaStar,
   FaCube,
   FaCheck,
+  FaArrowLeft,
 } from "react-icons/fa";
 import { BsTriangle, BsSlashLg, BsHexagon, BsPentagon } from "react-icons/bs";
 import DrawingCanvas from "./DrawingCanvas";
@@ -503,9 +504,6 @@ const PaperDropdown = ({
           {Icon && <Icon className="paper-icon" />}
           <span>{displayValue}</span>
         </div>
-        <span className="paper-arrow">
-          <FaArrowDown />
-        </span>
       </div>
       <div className={`paper-options ${isOpen ? "is-open" : ""}`}>
         <div className="paper-options-scroll">
@@ -818,7 +816,15 @@ function TechClass() {
         }
         title={viewMode === "class" ? "Use Whiteboard" : "Back to Class"}
       >
-        {viewMode === "class" ? "+ New Tab" : "Prev Tab"}
+        {viewMode === "class" ? (
+          <>
+            <FaPlus /> <span className="tab-text">New Tab</span>
+          </>
+        ) : (
+          <>
+            <FaArrowLeft /> <span className="tab-text">Prev Tab</span>
+          </>
+        )}
       </button>
 
       {/* Persistent Whiteboard Tab */}
@@ -886,7 +892,7 @@ function TechClass() {
       {!isFullScreen && (
         <div className="controls-group">
           <h2>OUR CLASSES</h2>
-          <div style={{ marginLeft: "5px" }}>
+          <div className="dropdown-wrapper">
             <PaperDropdown
               options={technologies}
               value={technology}
@@ -897,7 +903,7 @@ function TechClass() {
             />
           </div>
 
-          <div style={{ marginLeft: "5px" }}>
+          <div className="dropdown-wrapper">
             <PaperDropdown
               options={chapters}
               value={selectedChapter}
@@ -912,7 +918,6 @@ function TechClass() {
             className="techclass-start-btn"
             onClick={handleStartClass}
             disabled={!technology || !selectedChapter || hasStarted}
-            style={{ marginLeft: "20px" }}
           >
             {hasStarted ? (
               "Started"
@@ -964,22 +969,27 @@ function TechClass() {
                       Q{q.id}. {q.question}
                     </h2>
 
-                    {q.answer && (
-                      <div className="answer-text">
-                        <strong>Ans:</strong>
+                    <div className="answer-text">
+                      <b>Ans:&emsp;</b>{q.answer &&(
                         <div
-                          style={{ display: "inline-block", marginLeft: "5px" }}
-                          dangerouslySetInnerHTML={{ __html: q.answer }}
+                          dangerouslySetInnerHTML={{
+                            __html: Array.isArray(q.answer)
+                              ? q.answer.join("")
+                              : q.answer,
+                          }}
                         />
-                      </div>
-                    )}
+                      )}
+                    </div>
 
                     {q.explanation && (
                       <div className="explanation-text">
                         <strong>Explanation:</strong>
                         <div
-                          style={{ marginTop: "10px" }}
-                          dangerouslySetInnerHTML={{ __html: q.explanation }}
+                          dangerouslySetInnerHTML={{
+                            __html: Array.isArray(q.explanation)
+                              ? q.explanation.join("")
+                              : q.explanation,
+                          }}
                         />
                       </div>
                     )}
@@ -991,7 +1001,7 @@ function TechClass() {
                           alt={q.image.caption || `Image for Q${q.id}`}
                         />
                         {q.image.caption && (
-                          <p style={{ fontSize: "0.75em" }}>
+                          <p className="tech-question-caption">
                             {q.image.caption}
                           </p>
                         )}

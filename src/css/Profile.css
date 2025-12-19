@@ -19,7 +19,7 @@
     height: 170px;
     border-radius: 0 0 0 0;
     background-color: #000;
-   background-image:
+    background-image:
         /* Left side */
         linear-gradient(135deg, #b0b0b0 0%, #808080 30%, transparent 30%),
         linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 15%, transparent 15%),
@@ -235,7 +235,7 @@
 .bc-sep {
     color: #808080;
     font-weight: 300;
-    
+
 }
 
 
@@ -383,11 +383,21 @@
     display: block;
 }
 
+.info-row div {
+    flex: 1;
+    min-width: 0;
+    /* Critical for text-overflow to work in flex */
+}
+
 .info-row p {
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    /* Reduced font size */
     font-weight: 600;
     color: #2b3674;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Main Area - Big Chart */
@@ -460,17 +470,182 @@
 }
 
 /* Responsive */
-@media (max-width: 1100px) {
+/* =========================================
+   INLINE STYLE REFACTORS
+   ========================================= */
+.welcome-text {
+    font-family: 'Georgia', serif;
+}
+
+.chart-header-content {
+    flex: 1;
+}
+
+/* =========================================
+   RESPONSIVE LAYOUT (User Specified Ranges)
+   ========================================= */
+
+/* 1. Laptop / Desktop (1025px - 1280px) */
+@media screen and (min-width: 1025px) and (max-width: 1280px) {
     .profile-content-premium {
         grid-template-columns: 300px 1fr;
         padding: 0 20px;
     }
+
+    .profile-identity-premium {
+        max-width: 95%;
+        padding: 20px;
+    }
 }
 
-@media (max-width: 900px) {
+/* 2. Tablet (Portrait & Landscape) (768px - 1024px) */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
     .profile-content-premium {
         grid-template-columns: 1fr;
-        margin-top: 100px;
+        /* Stacked layout for better tablet fit */
+        margin-top: 20px;
+        gap: 20px;
+        padding: 0 30px;
+    }
+
+    .profile-sidebar-premium {
+        order: 2;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .profile-sidebar-premium>div {
+        flex: 1;
+        min-width: 280px;
+    }
+
+    .profile-main-area {
+        order: 1;
+    }
+
+    .profile-header-premium {
+        height: auto;
+        padding-bottom: 20px;
+        flex-direction: column;
+        margin-bottom: 30px;
+    }
+
+    .profile-identity-premium {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        transform: none;
+    }
+
+    .header-left-section {
+        position: relative;
+        left: auto;
+        top: auto;
+        margin-bottom: 15px;
+        justify-content: center;
+    }
+
+    .business-card-content {
+        margin-left: 0;
+        align-items: center;
+    }
+
+    .avatar-wrapper {
+        width: 130px;
+        height: 130px;
+        transform: none;
+        margin: 0 auto;
+        border: 4px solid #ffffff;
+    }
+
+    .left-name-block {
+        margin-left: 0;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    /* Adjust Chart */
+    .main-chart-container {
+        height: 300px;
+    }
+}
+
+/* 3. Mobile (Landscape) (481px - 767px) */
+@media screen and (min-width: 481px) and (max-width: 767px) {
+    .profile-content-premium {
+        grid-template-columns: 1fr;
+        margin-top: 20px;
+        padding: 0 20px;
+    }
+
+    .profile-sidebar-premium {
+        order: 2;
+        gap: 10px;
+    }
+
+    .profile-main-area {
+        order: 1;
+    }
+
+    .profile-header-premium {
+        height: auto;
+        padding-bottom: 20px;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    .profile-identity-premium {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 15px;
+        transform: none;
+    }
+
+    .header-left-section {
+        position: relative;
+        left: auto;
+        top: auto;
+        margin-bottom: 15px;
+        justify-content: center;
+    }
+
+    .avatar-wrapper {
+        width: 110px;
+        height: 110px;
+        transform: none;
+        margin: 0 auto;
+        border: 3px solid #ffffff;
+    }
+
+    .business-card-content {
+        align-items: center;
+        margin-left: 0;
+    }
+
+    .bc-name {
+        font-size: 1.8rem;
+    }
+
+    .left-name-block {
+        margin-left: 0;
+        align-items: center;
+        margin-top: 5px;
+    }
+
+    .main-chart-container {
+        height: 250px;
+    }
+}
+
+/* 4. Mobile (Portrait) (320px - 479px) */
+@media screen and (max-width: 479px) {
+    .profile-content-premium {
+        grid-template-columns: 1fr;
+        margin-top: 15px;
+        padding: 0 15px;
     }
 
     .profile-sidebar-premium {
@@ -479,55 +654,100 @@
 
     .profile-main-area {
         order: 1;
+        width: 100%;
+    }
+
+    .profile-header-premium {
+        height: auto;
+        padding-bottom: 15px;
+        flex-direction: column;
+        margin-bottom: 20px;
     }
 
     .profile-identity-premium {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        transform: translateY(60px);
+        padding: 15px;
+        transform: none;
+        width: 100%;
     }
 
-    .user-info-premium {
-        color: #2b3674;
-        padding-bottom: 0;
-        margin-top: 15px;
-    }
-
-    .user-info-premium h1 {
-        text-shadow: none;
-        font-size: 2rem;
-    }
-
-    .badges-row {
+    .header-left-section {
+        position: relative;
+        left: auto;
+        top: auto;
+        margin-bottom: 15px;
         justify-content: center;
     }
 
-    .badge-premium {
-        background: white;
-        color: #4318FF;
-        border: 1px solid #E0E5F2;
+    .avatar-wrapper {
+        width: 100px;
+        height: 100px;
+        transform: none;
+        margin: 0 auto;
+        border: 3px solid #ffffff;
     }
 
-    .profile-header-premium {
-        height: 240px;
-    }
-}
-
-@media (max-width: 480px) {
-    .profile-content-premium {
-        padding: 0 15px;
+    .business-card-content {
+        align-items: center;
+        margin-left: 0;
+        width: 100%;
+        overflow: hidden;
     }
 
+    .bc-name {
+        font-size: 1.4rem;
+        word-break: break-all;
+        line-height: 1.2;
+    }
+
+    .bc-title {
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        flex-wrap: wrap;
+    }
+
+    .bc-contact {
+        flex-direction: column;
+        gap: 2px;
+        font-size: 0.8rem;
+    }
+
+    .bc-sep {
+        display: none;
+    }
+
+    .left-name-block {
+        margin-left: 0;
+        align-items: center;
+        margin-top: 5px;
+    }
+
+    /* Chart adjustments for tiny screens */
     .chart-panel-large {
-        padding: 20px;
+        padding: 10px;
+        min-height: auto;
+    }
+
+    .chart-header h3 {
+        font-size: 1rem;
     }
 
     .main-chart-container {
-        height: 250px;
+        height: 200px;
+        margin-top: 10px;
     }
 
     .stat-card-vertical {
-        padding: 20px;
+        padding: 10px;
+    }
+
+    .stat-data h3 {
+        font-size: 1.4rem;
+    }
+
+    .encouragement-panel {
+        padding: 15px;
     }
 }

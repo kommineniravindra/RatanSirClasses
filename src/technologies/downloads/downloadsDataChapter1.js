@@ -1,63 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaDownload, FaGlobe } from "react-icons/fa";
 
 const DownloadCard = ({ title, websiteUrl, downloadUrl, iconUrl }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
-    <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      style={{
-        border: "1px solid #e2e8f0",
-        borderRadius: "12px",
-        padding: "5px",
-        // marginBottom: "1px",
-        background: isHovered ? "#f1f5f9" : "#fff",
-        boxShadow: isHovered
-          ? "0 4px 10px rgba(0,0,0,0.1)"
-          : "0 2px 4px rgba(0,0,0,0.05)",
-        borderColor: isHovered ? "#cbd5e0" : "#e2e8f0",
-        transition: "all 0.3s ease",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-      // gap: "5px",
-        flexWrap: "wrap",
-        cursor: "pointer",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        {iconUrl && (
-          <img
-            src={iconUrl}
-            alt={title}
-            style={{ width: "48px", height: "48px", objectFit: "contain" }}
-          />
-        )}
-        <h4 style={{ margin: 0, fontSize: "1rem", color:isHovered ? "#4f46e5" : "#242525ff" }}>
-          {title}
-        </h4>
+    <div className="download-card">
+      <div className="download-card-left">
+        {iconUrl && <img src={iconUrl} alt={title} className="download-icon" />}
+        <h4 className="download-title">{title}</h4>
       </div>
-      <div style={{ display: "flex", gap: "5px" }}>
+      <div className="download-actions">
         {websiteUrl && (
           <a
             href={websiteUrl}
             target="_blank"
             rel="noopener noreferrer"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              // gap: "8px",
-              padding: "5px 10px",
-              background: "#f1f5f9",
-              color: "#475569",
-              textDecoration: "none",
-              borderRadius: "6px",
-              fontWeight: "500",
-              fontSize: "0.9rem",
-              transition: "all 0.2s",
-            }}
+            className="resource-btn website-btn"
           >
             <FaGlobe /> Website
           </a>
@@ -67,20 +24,7 @@ const DownloadCard = ({ title, websiteUrl, downloadUrl, iconUrl }) => {
             href={downloadUrl}
             target="_blank"
             rel="noopener noreferrer"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              padding: "5px 10px",
-              background: "#2563eb",
-              color: "#fff",
-              textDecoration: "none",
-              borderRadius: "6px",
-              fontWeight: "500",
-              fontSize: "0.9rem",
-              boxShadow: "0 2px 4px rgba(37, 99, 235, 0.2)",
-              transition: "all 0.2s",
-            }}
+            className="resource-btn download-btn"
           >
             <FaDownload /> Download
           </a>

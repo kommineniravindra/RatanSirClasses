@@ -398,7 +398,11 @@ const Main = ({
                 key={subItem.name}
                 ref={(el) => (sectionRefs.current[subItem.name] = el)}
                 data-key={subItem.name}
-                className="content-section"
+                className={`content-section ${
+                  selectedTechnology === "Downloads"
+                    ? "downloads-section-wrapper"
+                    : ""
+                }`}
               >
                 {selectedTechnology !== "Downloads" && <h2>{subItem.name}</h2>}
                 <div>{mainData[subItem.name]}</div>
@@ -483,6 +487,3 @@ const Main = ({
 };
 
 export default Main;
-
-
-

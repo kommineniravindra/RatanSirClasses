@@ -21,6 +21,7 @@
     flex: 1;
     height: 100%;
     overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
     background-color: #ffffff;
     color: #333333;
@@ -42,7 +43,7 @@
 .main-content {
     position: relative;
     z-index: 1;
-    max-width: 800px;
+    max-width: auto;
     margin: 0px;
 }
 
@@ -61,32 +62,37 @@
     font-family: "Libertinus Serif", serif;
     font-weight: 700;
     font-style: italic;
-    font-size: larger;
+    /* font-size: larger; */
     position: sticky;
-    background-color: #ffffff;
-    height: 50px;
+    /* background-color: #ffffff; */
+    height: 2rem;
     display: flex;
     align-items: center;
-    font-size: 1.75rem;
-    margin: -1rem -2rem 1rem -2rem;
-    padding-left: 2rem;
+    font-size: 1.5rem !important;
+    margin: -1rem -1rem 0.5rem -1rem;
+    padding-left: 1rem;
     color: navy;
     border-bottom: 1px solid #e0e6ed;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
+    /* border-top-left-radius: 12px; */
+    /* border-top-right-radius: 12px; */
 }
 
 
 
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 .content-section h4 {
-    color: rgb(7, 22, 66);
-    margin-top: 20px;
-    margin-bottom: 1px;
+    color: rgb(2, 7, 23);
+    margin-top: 0.5rem;
     font-weight: 100px !important;
-    font-size: 1.1rem;
-    font-family: 'Merriweather', sans-serif;
+    /* font-size: 1rem; */
+    /* font-family: 'Merriweather', sans-serif; */
+    /* font-family: "Playfair Display", serif; */
+    font-family: 'Times New Roman', Times, serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
 }
 
 
@@ -255,10 +261,10 @@ tr:last-child td {
 .main-action-btn {
 
     font-family: 'Merriweather', sans-serif !important;
-    /* margin-top: 25px; */
-    /* display: flex; */
-    /* align-items: center; */
-    /* justify-content: center; */
+    margin-top: 25px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.45rem 1.3rem;
     font-family: "Poppins", sans-serif;
     font-size: 1rem !important;
@@ -471,6 +477,226 @@ tr:last-child td {
     color: #333;
 }
 
-.modal-skip-btn:hover {
-    background-color: #e0e0e0;
+
+
+/* ===============================
+   DOWNLOADS / RESOURCES STYLES
+   =============================== */
+.download-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 8px 12px;
+    background: #fff;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    cursor: pointer;
+    margin-bottom: 4px;
+    /* Further Reduced margin */
+}
+
+.downloads-section-wrapper {
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+}
+
+.download-card:hover {
+    background: #f8fafc;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-color: #cbd5e0;
+}
+
+.download-card-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Reduced gap */
+}
+
+.download-icon {
+    width: 32px;
+    /* Smaller icon */
+    height: 32px;
+    object-fit: contain;
+}
+
+.download-title {
+    margin: 0;
+    font-size: 0.9rem;
+    /* Smaller text */
+    color: #1e293b;
+    /* Dark Slate */
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.download-card:hover .download-title {
+    color: #4f46e5;
+}
+
+.download-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.resource-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+/* Website Button - Clean Slate Outline */
+.website-btn {
+    background: #f8fafc;
+    border: 1px solid #94a3b8;
+    color: #64748b;
+}
+
+.website-btn:hover {
+    background: #94a3b8;
+    color: #fff;
+    border: 1px solid #94a3b8;
+}
+
+/* Download Button - Lite Lavender, Thick Border (7c3aed = Violet) */
+.download-btn {
+    background: #f3e8ff;
+    border: 2px solid #7c3aed;
+    color: #7c3aed;
+}
+
+.download-btn:hover {
+    background: #7c3aed;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3);
+}
+
+/* =================================================
+   RESPONSIVE DESIGN BREAKPOINTS
+================================================= */
+
+/* 1. Mobile Portrait (320px - 479px) */
+@media (max-width: 479px) {
+    .main-body {
+        padding: 0.5rem;
+    }
+
+    .content-section {
+        margin-bottom: 1.5rem;
+    }
+
+    .content-section h2 {
+        font-size: 1.2rem;
+        height: auto;
+        padding: 0.5rem 0 0.5rem 1rem;
+        margin: -0.5rem -0.5rem 1rem -0.5rem;
+    }
+
+    .content-section h4 {
+        font-size: 1rem;
+    }
+
+    .content-section p,
+    .content-section li {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        text-indent: 0;
+        /* Remove indent on small screens to save space */
+    }
+
+    .content-section li {
+        margin-left: 10px;
+    }
+
+    /* Stack buttons */
+    .nav-buttons,
+    .modal-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav-btn1,
+    .main-action-btn,
+    .modal-proceed-btn,
+    .modal-skip-btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Modal */
+    .modal-content {
+        padding: 15px;
+        width: 95%;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+/* 2. Mobile Landscape (480px - 767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+    .main-body {
+        padding: 0.8rem;
+    }
+
+    .content-section h2 {
+        font-size: 1.3rem;
+    }
+
+    .content-section p,
+    .content-section li {
+        text-indent: 1rem;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .modal-content {
+        width: 90%;
+    }
+}
+
+/* 3. Tablet Portrait & Landscape (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .main-content {
+        max-width: 90%;
+        margin: 0 auto;
+    }
+
+    .content-section h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* 4. Laptop (1025px - 1280px) */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .main-content {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .content-section h2 {
+        font-size: 1.6rem;
+    }
+}
+
+/* 5. Desktop (1281px+) */
+@media (min-width: 1281px) {
+    .main-content {
+        max-width: 1000px;
+        /* Optional cap for very wide screens */
+        margin: 0 auto;
+    }
 }

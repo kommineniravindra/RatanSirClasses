@@ -12,7 +12,7 @@
 
 .landing-wrapper {
   width: 100%;
-  min-height: 100vh;
+  min-height: 80vh;
   /* Reduced height to fit on screen */
   background-color: var(--bg-color);
   position: relative;
@@ -24,7 +24,7 @@
 ======================================= */
 
 .hero-section-glassy {
-  min-height: 55vh;
+  min-height: 80vh;
   /* Further reduced to bring ticker closer to content */
   display: flex;
   align-items: center;
@@ -176,9 +176,9 @@
 }
 
 .sphere-icon {
-  font-size: 10rem;
+  font-size: 13rem;
   color: var(--accent-blue);
-  filter: drop-shadow(0 10px 20px rgba(52, 152, 219, 0.4));
+  filter: drop-shadow(0 10px 20px rgba(52, 152, 219, 0.612));
   z-index: 2;
   transition: all 0.5s ease;
 }
@@ -190,11 +190,10 @@
 /* --- TICKER --- */
 .ticker-wrap {
   position: relative;
-  margin-top: 15px;
-  /* bottom: auto; */
+
   width: 100%;
   overflow: hidden;
-  height: 5rem;
+  height: 4rem;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   display: flex;
@@ -290,17 +289,125 @@
   }
 }
 
-/* RESPONSIVE */
-@media (max-width: 1024px) {
+/* =================================================
+   RESPONSIVE DESIGN BREAKPOINTS
+================================================= */
+
+/* 1. Mobile Portrait (320px - 479px) */
+@media (max-width: 479px) {
+  .landing-wrapper {
+    min-height: auto;
+  }
+
   .hero-section-glassy {
     flex-direction: column;
+    padding: 2rem 1.5rem;
     justify-content: center;
     text-align: center;
-    padding-top: 2rem;
+    min-height: auto;
+    gap: 2rem;
   }
 
   .hero-content-glassy {
-    margin-bottom: 4rem;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 2rem;
+  }
+
+  .hero-title-glassy {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-subtitle-glassy {
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero-buttons-glassy {
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .primary-btn-domed,
+  .secondary-btn-soft {
+    width: 100%;
+    justify-content: center;
+    padding: 15px 20px;
+  }
+
+  .hero-graphic-sphere {
+    width: 220px;
+    height: 220px;
+    margin: 0 auto;
+  }
+
+  .sphere-icon {
+    font-size: 4rem;
+  }
+
+  .ticker-wrap {
+    height: 3.5rem;
+  }
+
+  .ticker-item {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* 2. Mobile Landscape (480px - 767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+  .hero-section-glassy {
+    flex-direction: column;
+    padding: 3rem 2rem;
+    text-align: center;
+    min-height: auto;
+  }
+
+  .hero-content-glassy {
+    margin-top: 0;
+    margin-bottom: 2rem;
+  }
+
+  .hero-title-glassy {
+    font-size: 2.4rem;
+  }
+
+  .hero-buttons-glassy {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-graphic-sphere {
+    width: 260px;
+    height: 260px;
+    margin: 0 auto;
+  }
+
+  .sphere-icon {
+    font-size: 5rem;
+  }
+}
+
+/* 3. Tablet Portrait & Landscape (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .hero-section-glassy {
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 3rem;
+    text-align: center;
+  }
+
+  .hero-content-glassy {
+    max-width: 700px;
+    margin: 0 auto 3rem auto;
+  }
+
+  .hero-title-glassy {
+    font-size: 3rem;
   }
 
   .hero-buttons-glassy {
@@ -308,11 +415,41 @@
   }
 
   .hero-graphic-sphere {
-    width: 300px;
-    height: 300px;
+    width: 320px;
+    height: 320px;
+    margin: 0 auto;
   }
 
   .sphere-icon {
-    font-size: 5rem;
+    font-size: 6rem;
   }
+}
+
+/* 4. Laptop/Desktop (1025px - 1280px) */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .hero-section-glassy {
+    padding: 2rem 5%;
+  }
+
+  .hero-title-glassy {
+    font-size: 3rem;
+  }
+
+  .hero-graphic-sphere {
+    width: 380px;
+    height: 380px;
+  }
+
+  .sphere-icon {
+    font-size: 7rem;
+  }
+}
+
+/* 5. Large Desktop (1281px +) */
+@media (min-width: 1281px) {
+  .hero-section-glassy {
+    padding: 2rem 10%;
+  }
+
+  /* Default styles apply, adding any large screen specifics here if needed */
 }

@@ -16,7 +16,7 @@
 //     const intervalId = setInterval(rotateNext, autoScrollInterval);
 
 //     return () => clearInterval(intervalId);
-//   }, [angle, autoScrollInterval]); 
+//   }, [angle, autoScrollInterval]);
 
 //   const cubeStyle = {
 //     transform: `rotateY(${currentRotation}deg)`,
@@ -45,53 +45,48 @@
 //       </div>
 //     </div>
 
-    
 //   );
 // };
 
 // export default RightMenu;
 
-
-
-
-
 import React, { useState, useEffect } from "react";
 import "../css/RightMenu.css";
 
 // First 2 videos, then images
-const media = [
-  { type: "video", src: "/rv1.mp4" },
-  { type: "video", src: "/rv2.mp4" },
-  { type: "image", src: "/img8.jpg" },
-  { type: "image", src: "/img9.jpg" }
-];
-
 const RightMenu = () => {
   const [currentRotation, setCurrentRotation] = useState(0);
   const angle = 90;
-  const autoScrollInterval = 7500; // Time in milliseconds
+  const autoScrollInterval = 100000; // Faster scroll for debugging
+
+  // Defined inside to ensure update
+  const media = [
+    { type: "image", src: "/right1.jpg" },
+    { type: "image", src: "/right2.jpg" },
+    { type: "image", src: "/right3.jpg" },
+    { type: "image", src: "/right4.jpg" },
+  ];
 
   useEffect(() => {
     const rotateNext = () => {
-      setCurrentRotation(prevRotation => prevRotation - angle);
+      setCurrentRotation((prevRotation) => prevRotation - angle);
     };
     const id = setInterval(rotateNext, autoScrollInterval);
     return () => clearInterval(id);
   }, []);
 
   const cubeStyle = {
-    transform: `rotateY(${currentRotation}deg)`
+    transform: `rotateY(${currentRotation}deg)`,
   };
 
   return (
     <div className="right-menu-container">
       <div className="scene">
         <div className="cube" style={cubeStyle}>
-
           {/* FACE 1 */}
           <div className="face front">
-            {media[0].type === "video" ? (
-              <video src={media[0].src} autoPlay muted loop />
+            {media[0].type === "image" ? (
+              <img src={media[0].src} alt="Face 1" />
             ) : (
               <img src={media[0].src} alt="Face 1" />
             )}
@@ -99,8 +94,8 @@ const RightMenu = () => {
 
           {/* FACE 2 */}
           <div className="face right">
-            {media[1].type === "video" ? (
-              <video src={media[1].src} autoPlay muted loop />
+            {media[1].type === "image" ? (
+              <img src={media[1].src} alt="Face 2" />
             ) : (
               <img src={media[1].src} alt="Face 2" />
             )}
@@ -108,8 +103,8 @@ const RightMenu = () => {
 
           {/* FACE 3 */}
           <div className="face back">
-            {media[2].type === "video" ? (
-              <video src={media[2].src} autoPlay muted loop />
+            {media[2].type === "image" ? (
+              <img src={media[2].src} alt="Face 3" />
             ) : (
               <img src={media[2].src} alt="Face 3" />
             )}
@@ -117,13 +112,12 @@ const RightMenu = () => {
 
           {/* FACE 4 */}
           <div className="face left">
-            {media[3].type === "video" ? (
-              <video src={media[3].src} autoPlay muted loop />
+            {media[3].type === "image" ? (
+              <img src={media[3].src} alt="Face 4" />
             ) : (
               <img src={media[3].src} alt="Face 4" />
             )}
           </div>
-
         </div>
       </div>
     </div>

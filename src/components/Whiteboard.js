@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import DrawingCanvas from "./DrawingCanvas";
+import "../css/Whiteboard.css"; // Import the separated CSS
 import jsPDF from "jspdf";
 import {
   FaFilePdf,
   FaChevronLeft,
   FaChevronRight,
   FaPlus,
-  FaTrash,
 } from "react-icons/fa";
 
 const Whiteboard = ({
@@ -92,17 +92,7 @@ const Whiteboard = ({
   };
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        backgroundColor: "#ffffff",
-        zIndex: 9000,
-      }}
-    >
+    <div className="whiteboard-container">
       <DrawingCanvas
         ref={canvasRef}
         isDrawingMode={isDrawingMode}
@@ -117,46 +107,19 @@ const Whiteboard = ({
       />
 
       {/* Persistence & PDF ToolBar */}
-      <div
-        style={{
-          position: "fixed",
-          bottom: "20px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          background: "white",
-          padding: "10px 20px",
-          borderRadius: "12px",
-          boxShadow: "0 4px 15px rgba(0,0,0,0.15)",
-          display: "flex",
-          gap: "15px",
-          alignItems: "center",
-          zIndex: 10002,
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+      <div className="pdf-toolbar">
+        <div className="pdf-toolbar-group">
           <button
+            className="pdf-nav-btn"
             onClick={() => goToPage(Math.max(0, currentPage - 1))}
             disabled={currentPage === 0}
-            style={{
-              border: "none",
-              background: "transparent",
-              cursor: currentPage === 0 ? "not-allowed" : "pointer",
-              fontSize: "1.2rem",
-              color: "#555",
-            }}
+            title="Previous Page"
           >
             <FaChevronLeft />
           </button>
-          <span
-            style={{
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: 600,
-              color: "#333",
-            }}
-          >
-            Page {currentPage + 1}
-          </span>
+          <span className="pdf-page-count">Page {currentPage + 1}</span>
           <button
+            className="pdf-nav-btn"
             onClick={() => {
               if (currentPage < pages.length - 1) {
                 goToPage(currentPage + 1);
@@ -164,37 +127,18 @@ const Whiteboard = ({
                 addNewPage();
               }
             }}
-            style={{
-              border: "none",
-              background: "transparent",
-              cursor: "pointer",
-              fontSize: "1.2rem",
-              color: "#555",
-            }}
+            title={
+              currentPage < pages.length - 1 ? "Next Page" : "Add New Page"
+            }
           >
             {currentPage < pages.length - 1 ? <FaChevronRight /> : <FaPlus />}
           </button>
         </div>
 
-        <div style={{ width: "1px", height: "20px", background: "#ccc" }}></div>
+        <div className="pdf-divider"></div>
 
-        <button
-          onClick={downloadPDF}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            background: "#e74c3c",
-            color: "white",
-            border: "none",
-            padding: "8px 15px",
-            borderRadius: "8px",
-            cursor: "pointer",
-            fontFamily: "Poppins, sans-serif",
-            fontWeight: 500,
-          }}
-        >
-          <FaFilePdf /> Download PDF
+        <button className="pdf-download-btn" onClick={downloadPDF}>
+          <FaFilePdf /> <span>Download PDF</span>
         </button>
       </div>
     </div>

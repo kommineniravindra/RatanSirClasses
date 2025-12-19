@@ -141,11 +141,12 @@
     top: 0;
     left: 0;
     width: 100%;
+    height: auto;
     background: #ffffff;
-    padding: 10px 20px;
+    padding: 10px;
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 10px;
     flex-wrap: wrap;
     box-shadow: none;
     z-index: 1000;
@@ -321,13 +322,15 @@
     overflow: visible;
     background: #ffffff;
 }
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 .tech-question-text2 {
+    font-family: "Playfair Display", serif;
     color: rgba(0, 0, 0, 0.795);
     margin-top: 0px;
-    font-weight: 100 !important;
+    font-weight: 400 !important;
     font-size: 0.7em;
-    font-family: 'Merriweather', sans-serif;
+    /* font-family: 'Merriweather', sans-serif; */
     border-radius: 0;
     background: #ffffff;
     letter-spacing: 1px;
@@ -512,10 +515,9 @@
     letter-spacing: 0.5px;
     cursor: pointer;
     transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
     justify-content: center;
     text-transform: capitalize;
+    margin-left: 20px;
 }
 
 .techclass-start-btn:hover:not(:disabled) {
@@ -560,16 +562,23 @@
 
 /* Navigation Controls Bar */
 .navigation-controls {
-    background: rgb(255, 255, 255);
-    backdrop-filter: blur(10px);
+    background: transparent;
     position: fixed;
-    bottom: 0px;
-    left: 0;
+    bottom: 20px;
+    left: 20px;
     z-index: 999;
     display: flex;
     justify-content: flex-start;
-    width: 100%;
-    padding: 10px 20px;
+    width: auto;
+    padding: 0;
+    pointer-events: none;
+    /* Let clicks pass through empty space */
+}
+
+.navigation-controls button {
+    pointer-events: auto;
+    /* Re-enable for button */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .navigation-controls button:disabled {
@@ -631,339 +640,228 @@
 }
 
 /* =======================================
-    8. WHITEBOARD STYLES
+    8. RESPONSIVE DESIGN
 ======================================= */
-/* Whiteboard Toggle Button */
-.techclass-whiteboard-toggle {
-    position: fixed;
-    top: 60px;
-    right: 60px;
-    z-index: 10001;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2em;
-    background: linear-gradient(145deg, #FF9800, #F57C00);
-    color: white;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+
+/* Mobile (Portrait) 320px to 479px */
+@media (min-width: 320px) and (max-width: 479px) {
+
+    /* Compact Controls Group */
+    .controls-group {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        gap: 8px;
+        /* Reduced gap */
+        height: auto;
+        min-height: unset;
+        /* Let it shrink */
+        background: rgba(255, 255, 255, 0.98);
+        /* Ensure solid-ish bg */
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .controls-group h2 {
+        font-size: 1.1rem;
+        /* Smaller header */
+        margin-bottom: 2px;
+    }
+
+    /* Position Tab Toggle Button - Floating Icon Style */
+    .techclass-tab-toggle {
+        position: fixed;
+        top: 130px;
+        /* Aligned near the controls */
+        right: 15px;
+        /* Float to right */
+        left: auto;
+        transform: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50% !important;
+        /* Circular */
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        background: #764ba2;
+        /* Primary color */
+        color: white;
+        border: none;
+        z-index: 1001;
+        /* Above other controls */
+    }
+
+    .techclass-tab-toggle .tab-text {
+        display: none;
+        /* Hide text on mobile */
+    }
+
+    .techclass-tab-toggle:hover {
+        transform: scale(1.05);
+        /* Simple zoom effect */
+    }
+
+    /* Adjust Content Start Position - Reduced padding as button is moved */
+    .questions-scroll-wrapper {
+        padding-top: 190px;
+    }
+
+    .website-info-container h1 {
+        font-size: 1.5rem;
+    }
+
+    /* Floating Buttons - Moved further down to avoid header area completely */
+    .techclass-fullscreen-btn,
+    .techclass-erase-btn {
+        width: 32px;
+        height: 32px;
+        right: 8px;
+    }
+
+    .techclass-fullscreen-btn {
+        top: 250px;
+    }
+
+    .techclass-erase-btn {
+        top: 290px;
+    }
+
+    .font-controls-group {
+        top: 330px;
+        right: 8px;
+    }
+
+    .techclass-font-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .techclass-scroll-down-btn,
+    .techclass-scroll-up-btn {
+        width: 35px;
+        height: 35px;
+        right: 8px;
+    }
+
+    .techclass-scroll-down-btn {
+        bottom: 60px;
+    }
+
+    .techclass-scroll-up-btn {
+        bottom: 100px;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .techclass-start-btn {
+        width: 100%;
+        margin-left: 0 !important;
+        margin-top: 5px;
+        padding: 8px;
+        font-size: 1rem;
+    }
+
+    .dropdown-wrapper {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    /* Next Button - Bottom Left Fixed */
+    .navigation-controls {
+        position: fixed;
+        bottom: 20px;
+        left: 15px;
+        z-index: 1002;
+        width: auto;
+    }
+
+    .techclass-next-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
 }
 
-.techclass-whiteboard-toggle:not(.wb-tools .techclass-whiteboard-toggle):not(.whiteboard-toolbar .techclass-whiteboard-toggle) {
-    position: fixed;
-    top: 60px;
-    right: 60px;
-    transform: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+/* Mobile (Landscape) 481px to 767px */
+@media (min-width: 481px) and (max-width: 767px) {
+    .controls-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .controls-group select {
+        flex: 1;
+        min-width: 150px;
+    }
+
+    .techclass-fullscreen-btn,
+    .techclass-erase-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Next Button - Bottom Left Fixed for Landscape Mobile too */
+    .navigation-controls {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 1002;
+        width: auto;
+    }
+
+    .techclass-next-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
 }
 
-.techclass-whiteboard-toggle:hover {
-    transform: scale(1.1);
-    background: linear-gradient(145deg, #FFB74D, #EF6C00);
+/* Tablet (Portrait) 768px to 1024px */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .website-info-container {
+        padding: 60px 40px;
+    }
+
+    .website-info-container h1 {
+        font-size: 2.2rem;
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-.techclass-whiteboard-toggle.active {
-    background: #e74c3c;
-    transform: rotate(180deg);
+/* Tablet (Landscape) - typically overlaps with Portrait widths but orientation differs. 
+   Focusing on general improvements for this range if needed. */
+
+/* Laptop/Desktop 1025px to 1280px */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .questions-display-container {
+        max-width: 800px;
+        /* Slightly narrower reading width */
+    }
 }
 
-.techclass-whiteboard-toggle.small {
-    width: 32px;
-    height: 32px;
-    font-size: 0.9rem;
-    position: static;
-    box-shadow: none;
-    transform: none !important;
+/* Desktop 1281px + */
+@media (min-width: 1281px) {
+    .website-info-container h1 {
+        font-size: 3rem;
+    }
+
+    .features-grid {
+        gap: 30px;
+    }
 }
 
-/* Whiteboard Toolbar */
-.whiteboard-toolbar {
-    position: fixed;
-    top: 60px;
-    right: 110px;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 10px 15px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    z-index: 10001;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    animation: slideRight 0.3s ease-out;
-    align-items: center;
-    min-width: 480px;
-    transition: width 0.3s ease, height 0.3s ease, min-width 0.3s ease;
-    width: auto;
-    max-width: 90vw;
-}
 
-.whiteboard-toolbar.two-rows {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 15px;
-}
-
-.whiteboard-toolbar.two-rows .wb-row-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.wb-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.wb-row.tools-grid {
-    background: #f8f9fa;
-    padding: 8px;
-    border-radius: 12px;
-}
-
-/* Unified Grid Layout */
-.whiteboard-toolbar.single-grid {
-    flex-direction: column;
-    padding: 10px;
-    width: auto;
-    min-width: 0;
-    align-items: center;
-}
-
-.wb-all-tools-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    justify-items: center;
-    width: 100%;
-}
-
-.wb-all-tools-grid .span-two {
-    grid-column: span 2;
-    width: 100%;
-    justify-content: center;
-    display: flex;
-}
-
-/* Ensure size slider fits */
-.wb-size-control.span-two {
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-}
-
-.wb-size-control.span-two .wb-slider {
-    width: 100%;
-}
-
-/* Ensure color picker fits */
-.wb-color-picker.span-two {
-    width: 45px;
-    /* Match button size approx */
-    height: 45px;
-    padding: 2px;
-    border: 1px solid #e2e8f0;
-    border-radius: 50%;
-    cursor: pointer;
-    background: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    appearance: none;
-    /* Remove default styling */
-    -webkit-appearance: none;
-    overflow: hidden;
-}
-
-.wb-color-picker.span-two::-webkit-color-swatch-wrapper {
-    padding: 0;
-}
-
-.wb-color-picker.span-two::-webkit-color-swatch {
-    border: none;
-    border-radius: 50%;
-}
-
-/* Minimized State */
-.whiteboard-toolbar.minimized {
-    min-width: unset;
-    padding: 8px 12px;
-    width: auto;
-    right: 50px;
-    border-radius: 30px;
-    flex-direction: row;
-    gap: 5px;
-}
 
 /* Controls inside Toolbar */
-.wb-window-controls {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    width: auto;
-}
 
-.drag-handle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: grab;
-    color: #cbd5e0;
-    font-size: 1.2rem;
-    padding: 0 5px;
-    border-right: 1px solid #eee;
-    margin-right: 5px;
-    width: auto;
-}
-
-.drag-handle:active {
-    cursor: grabbing;
-    color: #764ba2;
-}
-
-.wb-separator {
-    width: 1px;
-    height: 30px;
-    background: #e2e8f0;
-    margin: 0 2px;
-}
-
-.wb-button-group {
-    display: flex;
-    gap: 4px;
-    background: #edf2f7;
-    padding: 3px;
-    border-radius: 8px;
-    width: auto;
-    align-items: center;
-}
-
-/* Tool Buttons */
-.wb-tool-btn {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    background: #f1f5f9;
-    color: #2d3748;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    font-size: 1.15rem;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-/* Overrides for larger tools grid if needed, or keep uniform */
-/* .wb-row.tools-grid .wb-tool-btn { width: 42px; height: 42px; ... } - Removing duplicate larger definition for uniformity or use specific class if needed. */
-
-.wb-tool-btn:hover {
-    background: #edf2f7;
-    border-color: #cbd5e0;
-}
-
-.wb-tool-btn.active {
-    background: #764ba2;
-    color: white;
-    box-shadow: 0 2px 5px rgba(118, 75, 162, 0.3);
-}
-
-.wb-tool-btn.delete {
-    color: #e74c3c;
-}
-
-.wb-tool-btn.delete:hover {
-    background: #ffebee;
-    border-color: #feb2b2;
-}
-
-.wb-icon-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.15rem;
-    color: #4a5568;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 0.2s;
-    border-radius: 6px;
-}
-
-.wb-icon-btn:hover {
-    background: #e2e8f0;
-    color: #764ba2;
-}
-
-/* Size Slider */
-.wb-size-control {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    width: 60px;
-}
-
-.wb-slider {
-    -webkit-appearance: none;
-    width: 60px;
-    height: 4px;
-    border-radius: 2px;
-    background: #cbd5e0;
-    outline: none;
-    cursor: pointer;
-}
-
-.wb-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #764ba2;
-    cursor: pointer;
-    box-shadow: 0 0 0 2px white;
-}
-
-.wb-size-display {
-    font-size: 0.65rem;
-    color: #718096;
-    font-family: monospace;
-}
-
-/* Color Picker */
-.wb-color-picker {
-    width: 34px;
-    height: 34px;
-    padding: 0;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    cursor: pointer;
-    overflow: hidden;
-    background: none;
-    box-shadow: 0 0 0 1px #cbd5e0;
-}
-
-.wb-color-picker::-webkit-color-swatch-wrapper {
-    padding: 0;
-}
-
-.wb-color-picker::-webkit-color-swatch {
-    border: none;
-    border-radius: 50%;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-}
 
 /* =======================================
     9. PAPER DROPDOWN (PREMIUM)
@@ -1085,6 +983,7 @@
 
 
 @import url('https://fonts.googleapis.com/css2?family=Libertinus+Serif&display=swap');
+
 .paper-option-item {
     padding: 1px 10px;
     background: rgba(255, 255, 255, 0.98);
@@ -1126,7 +1025,7 @@
     font-weight: 700;
     color: #764ba2;
     border-left: 4px solid #764ba2;
-    
+
 }
 
 /* Staggered Animations */
@@ -1334,11 +1233,10 @@
         transform: translateX(0) translate(-50%, -50%);
     }
 }
-
 .answer-text {
     font-family: "Source Serif Pro", serif;
-    font-size: 1.2em;
-    padding-left: 40px;
+    font-size: 1.2em !important;
+    padding-left: 30px;
     text-indent: -25px;
     margin-left: 0;
 }
@@ -1364,82 +1262,16 @@
     transition: width 0.3s ease;
 }
 
-/* =======================================
-    11. RESPONSIVE DESIGN
-======================================= */
-/* Tablet and smaller desktops */
-@media (max-width: 1024px) {
-    .questions-display-container {
-        max-width: 90%;
-    }
 
-    .controls-group {
-        padding: 15px 20px;
-        gap: 15px;
-    }
-
-    .controls-group select {
-        min-width: 150px;
-    }
+.answer-text,
+.explanation-text {
+    font-size: 0.95em;
 }
 
-/* Mobile Devices */
-@media (max-width: 768px) {
-    .controls-group {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 15px;
-        gap: 15px;
-    }
-
-    .controls-group h2 {
-        font-size: 1.2rem;
-        margin-bottom: 5px;
-    }
-
-    .controls-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-size: 0.85rem;
-    }
-
-    .controls-group select {
-        width: 100%;
-        min-width: 100%;
-    }
-
-    .controls-group>div {
-        margin-left: 0 !important;
-        width: 100%;
-    }
-
-    .start-class-btn {
-        width: 100%;
-        margin-left: 0 !important;
-        margin-top: 10px;
-    }
-
-    .features-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .questions-scroll-wrapper {
-        padding: 140px 15px 100px 15px;
-    }
-
-    .question-item h2 {
-        font-size: 1.1em;
-    }
-
-    .answer-text,
-    .explanation-text {
-        font-size: 0.95em;
-    }
-
-    .navigation-controls {
-        justify-content: center;
-    }
+.navigation-controls {
+    justify-content: center;
 }
+
 
 /* Small Mobile Devices */
 @media (max-width: 480px) {
@@ -1455,4 +1287,62 @@
     .modal-content h2 {
         font-size: 1.5rem;
     }
+}
+
+/* =======================================
+    9. ANSWER AND EXPLANATION STYLES
+======================================= */
+.answer-text {
+    display: block;
+    margin-top: 2px;
+    overflow: hidden;
+    /* Clearfix behavior if needed, or just let it flow */
+}
+
+.answer-text strong {
+    float: left;
+    width: 60px;
+    /* Fixed width for alignment */
+    margin-right: 1px;
+    color: rgba(0, 0, 0, 0.795);
+    font-family: 'Merriweather', sans-serif;
+    font-weight: 900;
+    /* Match imported weight if needed */
+    letter-spacing: 0.5px;
+}
+
+.answer-text>div {
+    display: inline;
+}
+
+.answer-text>div>p {
+    margin: 0;
+    display: inline;
+    line-height: 1.5;
+}
+
+.explanation-text {
+    font-family: 'Georgia', serif;
+    line-height: 1.6;
+    font-size: 1.05em;
+    margin-top: 10px;
+    color: var(--text-dark);
+}
+
+.explanation-text strong {
+    font-family: inherit;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Dropdown Wrapper */
+.dropdown-wrapper {
+    margin-left: 5px;
+}
+
+/* Image Caption */
+.tech-question-caption {
+    font-size: 0.75em;
+    color: var(--text-light);
+    margin-top: 5px;
 }

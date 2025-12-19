@@ -202,36 +202,27 @@
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 .main-title {
-    font-family: 'VT323', monospace;
-    background: linear-gradient(135deg, #533953 0%, brown 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-family: "VT323", system-ui;
+    font-weight: 400;
+    font-style: normal;
     font-size: 3rem;
-    letter-spacing: 8px;
-    /* Increased size */
-    font-weight: 800;
-    image-rendering: pixelated;
+    letter-spacing: 0.5rem;
+    display: inline-block;
+    color: #3b3572;
 }
 
+
+
+
+
 .slogan {
-    font-size: 1.15rem;
+    font-size: 1.5rem;
     font-weight: 600;
     font-style: italic;
     font-family: 'Raleway', sans-serif;
-
-    /* Color & Depth */
-    color: #3b3572;
-    background: linear-gradient(90deg, #3b3572, #6a5acd);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-    /* Spacing & Flow */
+    color: gray;
     letter-spacing: 1.2px;
-    margin-top: 2px;
     margin-left: 50px;
-    margin-bottom: 8px;
-    /* Subtle polish */
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
 }
@@ -244,6 +235,7 @@
 
 /* Buttons */
 .btn-compiler {
+    color: #4f46e5;
     border: 1px solid transparent;
     border-radius: 8px;
     cursor: pointer;
@@ -700,9 +692,7 @@
     border: 1px solid var(--border-color);
     color: var(--text-secondary);
     width: 28px;
-    /* Smaller width */
     height: 28px;
-    /* Match btn-compiler height */
     padding: 0;
     font-weight: 700;
     font-size: 0.85rem;
@@ -731,31 +721,72 @@
 /* Hide button text on medium screens for responsiveness */
 /* Responsive Adjustments */
 
-/* Tablet (768px - 1024px) */
-@media (max-width: 1024px) {
-    .compiler-header {
-        padding: 0 16px;
-        gap: 16px;
-    }
-
-    .btn-text {
-        display: none;
-    }
-
-    .btn-compiler {
-        gap: 0;
-        padding: 6px 10px;
-    }
-
-    .section-title {
-        font-size: 0.85rem;
-    }
+/* Extracted Classes for reusability */
+.dropdown-menu-gen {
+    min-width: 200px;
 }
 
-/* Mobile (< 768px) */
-@media (max-width: 768px) {
+.btn-run-icon {
+    margin-right: 1px;
+}
+
+.sql-result-container {
+    padding: 20px;
+}
+
+.sql-result-container-padding {
+    padding: 20px;
+}
+
+.sql-msg-item {
+    margin-bottom: 16px;
+}
+
+.error-msg-box {
+    color: #ef4444;
+    padding: 10px;
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    border-radius: 8px;
+}
+
+.info-msg-text {
+    color: #64748b;
+    font-style: italic;
+}
+
+.theme-capitalize {
+    text-transform: capitalize;
+}
+
+.active-check-icon {
+    margin-left: auto;
+}
+
+.sql-success-msg-box {
+    color: #047857;
+    padding: 10px;
+    background: #ecfdf5;
+    border: 1px solid #6ee7b7;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.table-overflow {
+    overflow-x: auto;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN 
+   ========================================= */
+
+/* 1. Mobile (Portrait): 320px - 479px */
+@media (min-width: 320px) and (max-width: 479px) {
     .compiler-container {
-        height: 100vh; /* Ensure full viewport height */
+        height: 100vh;
         overflow: hidden;
     }
 
@@ -763,12 +794,11 @@
         height: auto;
         flex-direction: column;
         align-items: stretch;
-        padding: 12px;
-        gap: 12px;
+        padding: 10px;
+        gap: 10px;
     }
 
     .header-left {
-        text-align: center;
         width: 100%;
         display: flex;
         flex-direction: row;
@@ -777,62 +807,60 @@
     }
 
     .main-title {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         letter-spacing: 2px;
     }
-    
+
     .slogan {
-        display: none; /* Hide slogan to save space on mobile */
+        display: none;
     }
 
     .compiler-nav {
-        display: flex; /* Use flex instead of grid for scrolling */
+        display: flex;
         overflow-x: auto;
-        padding-bottom: 4px; /* Space for scrollbar */
+        padding-bottom: 4px;
         gap: 8px;
         margin: 0;
         width: 100%;
-        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+        -webkit-overflow-scrolling: touch;
     }
-    
-    .compiler-lang-btn {
-        flex-shrink: 0; /* Prevent shrinking */
-        padding: 6px 12px;
-        font-size: 0.8rem;
-    }
-    
-    /* Scrollbar styling for nav */
+
     .compiler-nav::-webkit-scrollbar {
-        height: 4px;
+        height: 2px;
     }
-    
-    .compiler-nav::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 4px;
+
+    .compiler-lang-btn {
+        flex-shrink: 0;
+        padding: 4px 8px;
+        font-size: 0.75rem;
+        height: 28px;
     }
 
     .compiler-main {
-        flex-direction: column; /* Stack editor and output vertically */
-        padding: 0;
+        flex-direction: column;
     }
 
-    .compiler-section{
-         flex: 1 1 auto; /* Allow flexing but base on auto */
-         min-height: 0; /* Crucial for nested flex scrolling */
-         width: 100%; /* Full width */
-         border-radius: 0;
-         border-left: none;
-         border-right: none;
+    .compiler-section {
+        flex: 1 1 auto;
+        width: 100% !important;
+        min-height: 0;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .section-header {
+        height: 44px;
+        padding: 0 8px;
+    }
+
+    .section-title {
+        font-size: 0.8rem;
     }
     
-    .resizer {
-        display: none; /* Hide horizontal resizer in vertical stack */
-    }
-
-    /* Adjust Section Headers for Mobile */
-    .section-header {
-        height: 48px;
-        padding: 0 12px;
+    .btn-text {
+        display: none; /* Hide text, icon only */
     }
 
     .compiler-controls {
@@ -840,63 +868,182 @@
     }
 
     .btn-compiler {
-        height: 30px;
-        padding: 4px 8px;
-    }
-
-    .btn-run {
-        min-width: 80px; /* Smaller width for mobile */
-        font-size: 0.8rem;
+        padding: 4px;
+        width: 28px;
+        height: 28px;
     }
     
-    .btn-loading {
-         font-size: 0.75rem;
+    .btn-run {
+        width: auto;
+        min-width: 60px;
+    }
+}
+
+/* 2. Mobile (Landscape): 481px - 767px */
+@media (min-width: 481px) and (max-width: 767px) {
+    .compiler-container {
+        height: 100vh;
+    }
+
+    .compiler-header {
+        height: auto;
+        padding: 8px 12px;
+        justify-content: space-between;
+        /* More space in landscape */
+    }
+
+    .compiler-nav {
+        display: flex;
+        overflow-x: auto;
+        max-width: 60%; 
+    }
+
+    .main-title {
+        font-size: 1.4rem;
+    }
+
+    .slogan {
+        display: none;
+    }
+
+    /* Stack vertically to avoid super narrow columns */
+    .compiler-main {
+        flex-direction: column; 
+    }
+
+    .compiler-section {
+        width: 100% !important;
+    }
+
+    .resizer {
+        display: none;
+    }
+    
+    .btn-text {
+        display: none;
+    }
+}
+
+/* 3. Tablet (Portrait & Landscape): 768px - 1024px */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .compiler-header {
+        padding: 0 16px;
+        gap: 16px;
+    }
+
+    .slogan {
+        display: none; /* Often too crowded on tablet portrait */
+        margin-left: 10px;
+        font-size: 0.9rem;
+    }
+
+    .compiler-nav {
+         /* Grid is okay here usually, or flex */
+         display: flex; 
+         overflow-x: auto;
+         gap: 8px; 
+    }
+
+    .btn-text {
+        display: none; /* Icon only to save header space */
+    }
+
+    .compiler-main {
+        flex-direction: row; /* Side by side on tablet */
+    }
+
+    .resizer {
+        display: flex;
+        width: 6px;
+        cursor: col-resize;
+    }
+    
+    .resizer::after {
+        content: "||";
+        transform: none;
+    }
+}
+
+/* 4. Laptop/Desktop: 1025px - 1280px */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .compiler-container {
+        /* Fluid or max-width */
+    }
+
+    .slogan {
+        margin-left: 20px;
+        font-size: 1rem;
+    }
+    
+    .compiler-nav {
+        display: grid; 
+    }
+
+    .compiler-main {
+         flex-direction: row;
+    }
+}
+
+/* 5. Desktop: 1281px + */
+@media (min-width: 1281px) {
+    .compiler-container {
+        max-width: 1600px; /* Optional cap for ultra-wide */
+        margin: 0 auto; 
+    }
+    
+    .compiler-main {
+        flex-direction: row;
     }
 }
 
 /* Settings Menu Styles */
 .dropdown-menu.settings-menu {
-    min-width: 220px;
+    min-width: 200px;
     padding: 12px;
 }
 
 .settings-row {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    margin-bottom: 12px;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .settings-row:last-child {
-    margin-bottom: 0px;
+    border-bottom: none;
 }
 
 .settings-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    font-weight: 500;
 }
 
 .settings-controls {
     display: flex;
-    gap: 8px;
+    gap: 4px;
     align-items: center;
 }
 
+.font-size-value {
+    min-width: 24px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
 .btn-icon-square {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .btn-icon-square.active {
-    background: #e2e8f0;
-}
-
-.font-size-value {
-    font-size: 13px;
-    min-width: 24px;
-    text-align: center;
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
 }

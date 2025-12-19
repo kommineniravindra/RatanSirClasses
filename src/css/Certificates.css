@@ -420,32 +420,258 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* --- UTILITY CLASSES REPLACED FROM INLINE --- */
+.qr-code-svg {
+    height: auto;
+    max-width: 100%;
+    width: 100%;
+}
+
+.download-icon {
+    margin-right: 8px;
+}
+
+.status-icon-completed {
+    color: #28a745;
+}
+
+/* --- RESPONSIVE BREAKPOINTS --- */
+
+/* 1. Mobile (Portrait): 320px - 479px */
+@media (max-width: 479px) {
+    .certificate-page-list-container {
+        padding: 1.5rem 1rem;
+    }
+
+    .title-white {
+        font-size: 1.8rem;
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .section-title-white {
+        font-size: 1rem;
+        margin: 0 0 2rem 0;
+        text-align: center;
+    }
+
+    .certificate-list-grid {
+        padding-left: 0;
+    }
+
+    .certificate-list-grid::before {
+        display: none;
+    }
+
+    .certificate-list-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+        padding: 1.5rem;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid #eee;
+    }
+
+    .item-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1rem;
+    }
+
+    .item-details {
+        width: 100%;
+        padding-top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .item-progress-bar-container {
+        margin: 0.5rem auto;
+        width: 100%;
+    }
+
+    .item-action {
+        width: 100%;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .view-cert-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Certificate Mock */
     .certificate-mock-page {
-        padding: 2rem;
+        padding: 1rem;
+        border-width: 2px;
     }
 
     .cert-company {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
+    }
+
+    .cert-header .cert-logo-icon {
+        width: 40px;
+        height: 40px;
     }
 
     .cert-course-completed {
-        font-size: 1.8rem;
+        font-size: 1.2rem;
+        letter-spacing: 0px;
     }
 
     .cert-body-text {
-        font-size: 1rem;
+        font-size: 0.85rem;
         max-width: 100%;
+        line-height: 1.4;
+    }
+
+    .cert-user-name {
+        font-size: 1.2rem;
     }
 
     .cert-footer-details {
         flex-direction: column;
-        align-items: center;
         gap: 1.5rem;
     }
 
-    .cert-user-name {
+    .cert-qr-and-id,
+    .cert-signature-area {
+        width: 100%;
+    }
+
+    .cert-seal-icon {
+        font-size: 3.5rem;
+    }
+
+    .cert-signature-name {
         font-size: 1.4rem;
+    }
+}
+
+/* 2. Mobile (Landscape): 481px - 767px */
+@media (min-width: 481px) and (max-width: 767px) {
+    .certificate-page-list-container {
+        padding: 2rem 1.5rem;
+    }
+
+    .title-white {
+        font-size: 2rem;
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .section-title-white {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .certificate-list-grid {
+        padding-left: 0;
+    }
+
+    .certificate-list-grid::before {
+        display: none;
+    }
+
+    .certificate-list-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+        padding: 1.5rem;
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid #eee;
+    }
+
+    .item-progress-bar-container {
+        margin: 0.5rem auto;
+    }
+
+    .item-action {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Certificate Mock */
+    .certificate-mock-page {
+        padding: 1.5rem;
+    }
+
+    .cert-course-completed {
+        font-size: 1.5rem;
+    }
+
+    .cert-footer-details {
+        /* Keep row for landscape if space allows, or stack */
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+    }
+}
+
+/* 3. Tablet (Portrait & Landscape): 768px - 1024px */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .certificate-page-list-container {
+        padding: 3rem 2rem;
+        max-width: 95%;
+    }
+
+    .certificate-list-grid::before {
+        /* Line can be visible or hidden depending on preference */
+        left: 29px;
+    }
+
+    .item-icon {
+        width: 55px;
+        height: 55px;
+    }
+
+    .item-title {
+        font-size: 1.4rem;
+    }
+
+    /* Adjust Certificate Display for Tablet */
+    .full-certificate-display-container {
+        width: 95%;
+    }
+
+    .cert-footer-details {
+        /* Ensure footer doesn't squash */
+        justify-content: space-around;
+    }
+}
+
+/* 4. Laptop/Desktop: 1025px - 1280px */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .certificate-page-list-container {
+        max-width: 1000px;
+        /* Standard constraint */
+    }
+
+    /* Slight adjustments if needed */
+    .title-white {
+        font-size: 2.2rem;
+    }
+}
+
+/* 5. Desktop: 1281px+ */
+@media (min-width: 1281px) {
+    .certificate-page-list-container {
+        max-width: 1200px;
+        /* Allow wider on big screens */
+    }
+
+    .title-white {
+        font-size: 2.5rem;
     }
 }

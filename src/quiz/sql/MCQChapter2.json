@@ -1,52 +1,209 @@
 [
   {
-    "question": "Which SQL statement is used to change the structure of a table?",
-    "options": ["ALTER TABLE", "UPDATE TABLE", "MODIFY TABLE", "CHANGE TABLE"],
-    "answer": "ALTER TABLE"
+    "question": "NVARCHAR2 data type is used for?",
+    "options": [
+      "Fixed-length text data",
+      "Variable-length multilingual data",
+      "Variable-length text data",
+      "Fixed-length multilingual data"
+    ],
+    "answer": "Variable-length multilingual data"
   },
   {
-    "question": "Which SQL keyword is used to retrieve unique values?",
-    "options": ["DISTINCT", "UNIQUE", "SINGLE", "ONLY"],
-    "answer": "DISTINCT"
+    "question": "CHAR data type is used for?",
+    "options": [
+      "Fixed-length text data",
+      "Variable-length multilingual data",
+      "Variable-length text data",
+      "Fixed-length multilingual data"
+    ],
+    "answer": "Fixed-length text data"
   },
   {
-    "question": "Which SQL statement is used to remove records based on a condition?",
-    "options": ["DELETE", "DROP", "TRUNCATE", "REMOVE"],
-    "answer": "DELETE"
+    "question": "Which data type stores date and time with fractional seconds?",
+    "options": [
+      "DATE",
+      "TIME",
+      "TIMESTAMP",
+      "VARCHAR2"
+    ],
+    "answer": "TIMESTAMP"
   },
   {
-    "question": "Which SQL keyword is used to combine rows from two or more tables?",
-    "options": ["JOIN", "UNION", "MERGE", "GROUP BY"],
-    "answer": "JOIN"
+    "question": "Which data type stores only date (year, month, day) in Oracle?",
+    "options": [
+      "TIMESTAMP",
+      "DATE",
+      "NVARCHAR2",
+      "NUMBER"
+    ],
+    "answer": "DATE"
   },
   {
-    "question": "Which SQL keyword is used to filter groups in GROUP BY?",
-    "options": ["HAVING", "WHERE", "FILTER", "CONDITION"],
-    "answer": "HAVING"
+    "question": "Which of the following is a valid data type to store numeric values in Oracle?",
+    "options": [
+      "NUMBER",
+      "NUMBER(p)",
+      "NUMBER(p,s)",
+      "All of the above"
+    ],
+    "answer": "All of the above"
   },
   {
-    "question": "Which SQL function returns the largest value of a column?",
-    "options": ["MAX()", "MIN()", "TOP()", "GREATEST()"],
-    "answer": "MAX()"
+    "question": "Which of the following is a valid data type to store text data in Oracle?",
+    "options": [
+      "CHAR",
+      "VARCHAR2",
+      "NCHAR",
+      "NVARCHAR2",
+      "All of the above"
+    ],
+    "answer": "All of the above"
   },
   {
-    "question": "Which SQL function returns the smallest value of a column?",
-    "options": ["MIN()", "MAX()", "LOWEST()", "SMALL()"],
-    "answer": "MIN()"
+    "question": "Which of the following are valid types of data?",
+    "options": [
+      "Text Data – characters, words, or sentences",
+      "Numeric Data – numbers like age or salary",
+      "Date/Time Data – dates and timestamps",
+      "Binary Data – images, audio, video",
+      "All of the above"
+    ],
+    "answer": "All of the above"
   },
   {
-    "question": "Which SQL command is used to add a new column to an existing table?",
-    "options": ["ALTER TABLE ADD COLUMN", "UPDATE TABLE ADD", "MODIFY TABLE", "INSERT COLUMN"],
-    "answer": "ALTER TABLE ADD COLUMN"
+    "question": "What is the purpose of a data type in Oracle?",
+    "options": [
+      "To define the type of data a table can store",
+      "To define the type of data a column can store",
+      "To define the type of data a row can store",
+      "To define the type of data a database can store"
+    ],
+    "answer": "To define the type of data a column can store"
   },
   {
-    "question": "Which operator is used to search for a specified pattern in a column?",
-    "options": ["LIKE", "MATCH", "PATTERN", "REGEX"],
-    "answer": "LIKE"
+    "question": "If you store a value shorter than the defined CHAR(size) length, what will happen?",
+    "options": [
+      "Oracle uses that data later use.",
+      "Oracle ignores the remaining location.",
+      "Oracle pads the value with spaces",
+      "Oracle pads the value with zeros"
+    ],
+    "answer": "Oracle pads the value with spaces"
   },
   {
-    "question": "Which SQL keyword is used to combine the results of two SELECT statements?",
-    "options": ["UNION", "JOIN", "MERGE", "GROUP BY"],
-    "answer": "UNION"
+    "question": "What is the maximum number of digits Oracle can store in a plain NUMBER column?",
+    "options": [
+      "10",
+      "20",
+      "38",
+      "Unlimited"
+    ],
+    "answer": "38"
+  },
+  {
+    "question": "Which of the following is a single-line comment in Oracle SQL?",
+    "options": [
+      "/* This is a comment */",
+      "-- This is a comment",
+      "// This is a comment",
+      "## This is a comment"
+    ],
+    "answer": "-- This is a comment"
+  },
+  {
+    "question": "Which of the following is a multi-line comment in Oracle SQL?",
+    "options": [
+      "-- Comment",
+      "/* Comment */",
+      "// Comment",
+      "# Comment"
+    ],
+    "answer": "/* Comment */"
+  },
+  {
+    "question": "Which statement about comments in Oracle is not true?",
+    "options": [
+      "Comments are executable.",
+      "Comments can temporarily disable code.",
+      "Comments write the explanation about query.",
+      "Comments can be single or multi line."
+    ],
+    "answer": "Comments are executable."
+  },
+  {
+    "question": "An SQL query is made up of which of the following?",
+    "options": [
+      "Keyword",
+      "Identifier",
+      "Operator",
+      "Symbol",
+      "Constant",
+      "Literal",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following is not a valid Oracle keyword?",
+    "options": [
+      "CREATE",
+      "SELECT",
+      "INSERT",
+      "VALUES",
+      "EMPLOYEE"
+    ],
+    "answer": "EMPLOYEE"
+  },
+  {
+    "question": "Which of the following is true about Oracle identifier rules?",
+    "options": [
+      "Must start with a letter A–Z or a–z.",
+      "Can contain letters, numbers (0–9), and special characters _ , $, #",
+      "Keywords are not allowed as identifiers",
+      "Spaces are not allowed",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following is a valid identifier in Oracle?",
+    "options": [
+      "1EMP",
+      "EMPLOYEE_NAME",
+      "SELECT",
+      "EMPLOYEE NAME"
+    ],
+    "answer": "EMPLOYEE_NAME"
+  },
+  {
+    "question": "What is the maximum length allowed for an identifier in Oracle?",
+    "options": [
+      "64 bytes",
+      "128 bytes",
+      "256 bytes",
+      "Unlimited"
+    ],
+    "answer": "128 bytes"
+  },
+  {
+    "question": "Which of the following is true about Oracle coding convention?",
+    "options": [
+      "Avoid spaces and special characters",
+      "Use meaningful and descriptive names",
+      "Use underscore to separate words",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What is an identifier in Oracle SQL?",
+    "options": [
+      "A predefined keyword in Oracle",
+      "Any name like tables, columns, or views",
+      "A special operator used in SQL queries",
+      "A fixed constant value"
+    ],
+    "answer": "Any name like tables, columns, or views"
   }
 ]

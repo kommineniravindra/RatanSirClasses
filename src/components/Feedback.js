@@ -39,7 +39,7 @@ const Feedback = () => {
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
-      
+
       // setTimeout(() => {
       //   setIsSubmitted(false);
       //   setRating(0);
@@ -49,11 +49,9 @@ const Feedback = () => {
   };
 
   if (isSubmitted) {
-    return (
-      <SuccessCard />
-    );
+    return <SuccessCard />;
   }
-  
+
   return (
     <div className="feedback-wrapper">
       {/* 5. Particle System Background Element */}
@@ -62,15 +60,15 @@ const Feedback = () => {
           <motion.span
             key={i}
             className="particle"
-            initial={{ 
-              x: Math.random() * window.innerWidth, 
-              y: Math.random() * window.innerHeight, 
+            initial={{
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
               opacity: 0.5,
               scale: Math.random() * 0.5 + 0.5,
             }}
-            animate={{ 
-              x: Math.random() * window.innerWidth, 
-              y: Math.random() * window.innerHeight, 
+            animate={{
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
               scale: Math.random() * 0.5 + 0.5,
             }}
             transition={{
@@ -82,7 +80,7 @@ const Feedback = () => {
           />
         ))}
       </div>
-      
+
       {/* Floating ambient lights (Existing) */}
       <div className="glow-top"></div>
       <div className="glow-bottom"></div>
@@ -93,13 +91,15 @@ const Feedback = () => {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
         // 4. Enhanced Micro-Animation on hover
-        whileHover={{ scale: 1.015, boxShadow: "0 0 50px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.15)" }}
+        whileHover={{
+          scale: 1.015,
+          boxShadow:
+            "0 0 50px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.15)",
+        }}
       >
         {/* 1. Glass Border Animation: Moving Aurora Border */}
         <div className="aurora-border"></div>
-        
 
-        
         <motion.h2
           className="feedback-title"
           initial={{ opacity: 0, y: -10 }}
@@ -134,20 +134,10 @@ const Feedback = () => {
             >
               <FaStar
                 size={36}
-                className="star"
+                className={`star ${val <= (hover || rating) ? "active" : ""}`}
                 onMouseEnter={() => setHover(val)}
                 onMouseLeave={() => setHover(0)}
                 onClick={() => setRating(val)}
-                style={{
-                  color:
-                    val <= (hover || rating)
-                      ? "var(--star-active)"
-                      : "var(--star-inactive)",
-                  filter:
-                    val <= (hover || rating)
-                      ? "drop-shadow(0 0 16px var(--star-active))"
-                      : "none",
-                }}
               />
             </motion.div>
           ))}
@@ -160,7 +150,9 @@ const Feedback = () => {
           transition={{ delay: 0.45 }}
         >
           <textarea
-            className={`feedback-textarea ${charCount === 0 ? 'shimmer-placeholder' : ''}`}
+            className={`feedback-textarea ${
+              charCount === 0 ? "shimmer-placeholder" : ""
+            }`}
             placeholder="Write your feedback..."
             value={feedbackText}
             onChange={(e) => {
@@ -171,25 +163,24 @@ const Feedback = () => {
             }}
           />
         </motion.div>
-        
+
         {/* 6. Character Count + Progress Bar */}
-        <motion.div 
+        <motion.div
           className="char-info"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
           <div className="progress-bar-container">
-            <motion.div 
-              className="progress-bar-fill"
+            <motion.div
+              className={`progress-bar-fill ${
+                progressPercent > 90 ? "warning" : ""
+              }`}
               animate={{ width: `${progressPercent}%` }}
               transition={{ duration: 0.3 }}
-              style={{
-                backgroundColor: progressPercent > 90 ? 'var(--star-active)' : 'var(--btn-glow)',
-              }}
             />
           </div>
-          <p className={`char-count ${progressPercent > 90 ? 'warning' : ''}`}>
+          <p className={`char-count ${progressPercent > 90 ? "warning" : ""}`}>
             {charCount}/{MAX_CHARS}
           </p>
         </motion.div>
@@ -201,7 +192,7 @@ const Feedback = () => {
           disabled={isSubmitting}
           whileHover={{
             scale: isSubmitting ? 1 : 1.07,
-            boxShadow: isSubmitting ? 'none' : "0 0 30px var(--btn-glow)",
+            boxShadow: isSubmitting ? "none" : "0 0 30px var(--btn-glow)",
           }}
           whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
           initial={{ opacity: 0 }}
@@ -213,7 +204,7 @@ const Feedback = () => {
               <FaSpinner className="spin" /> Submitting...
             </>
           ) : (
-            'Submit Feedback'
+            "Submit Feedback"
           )}
           <span className="btn-ripple"></span>
         </motion.button>
@@ -225,7 +216,7 @@ const Feedback = () => {
 // 8. Success Card Component with Confetti
 const SuccessCard = () => (
   <AnimatePresence>
-    <motion.div 
+    <motion.div
       className="success-wrapper"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -238,15 +229,15 @@ const SuccessCard = () => (
           <motion.div
             key={i}
             className="confetti"
-            initial={{ 
-              x: (Math.random() - 0.5) * 500, 
-              y: -50, 
-              opacity: 1, 
-              scale: Math.random() * 0.7 + 0.3 
+            initial={{
+              x: (Math.random() - 0.5) * 500,
+              y: -50,
+              opacity: 1,
+              scale: Math.random() * 0.7 + 0.3,
             }}
-            animate={{ 
-              y: window.innerHeight * 0.8, 
-              x: (Math.random() - 0.5) * 500, 
+            animate={{
+              y: window.innerHeight * 0.8,
+              x: (Math.random() - 0.5) * 500,
               opacity: 0,
               rotate: Math.random() * 720,
             }}
@@ -258,8 +249,8 @@ const SuccessCard = () => (
           />
         ))}
       </div>
-      
-      <motion.div 
+
+      <motion.div
         className="success-card"
         initial={{ scale: 0.8, rotate: -5, opacity: 0 }}
         animate={{ scale: 1, rotate: 0, opacity: 1 }}
@@ -267,7 +258,9 @@ const SuccessCard = () => (
       >
         <FaCheckCircle className="success-icon" />
         <h2 className="success-title">Thank You!</h2>
-        <p className="success-message">Your valuable feedback has been submitted. We appreciate your input!</p>
+        <p className="success-message">
+          Your valuable feedback has been submitted. We appreciate your input!
+        </p>
         <motion.button
           className="success-btn premium-btn"
           onClick={() => window.location.reload()} // Simple reload to restart

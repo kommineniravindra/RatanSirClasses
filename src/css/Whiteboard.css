@@ -1,0 +1,361 @@
+/* =======================================
+    WHITEBOARD STYLES
+======================================= */
+
+.whiteboard-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
+    z-index: 1000;
+}
+
+/* Whiteboard Toggle Button */
+.techclass-whiteboard-toggle {
+    position: fixed;
+    top: 60px;
+    right: 60px;
+    z-index: 10001;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    background: linear-gradient(145deg, #FF9800, #F57C00);
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.techclass-whiteboard-toggle:not(.wb-tools .techclass-whiteboard-toggle):not(.whiteboard-toolbar .techclass-whiteboard-toggle) {
+    position: fixed;
+    top: 60px;
+    right: 60px;
+    transform: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.techclass-whiteboard-toggle:hover {
+    transform: scale(1.1);
+    background: linear-gradient(145deg, #FFB74D, #EF6C00);
+}
+
+.techclass-whiteboard-toggle.active {
+    background: #e74c3c;
+    transform: rotate(180deg);
+}
+
+.techclass-whiteboard-toggle.small {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+    position: static;
+    box-shadow: none;
+    transform: none !important;
+}
+
+/* Whiteboard Toolbar */
+.whiteboard-toolbar {
+    position: fixed;
+    top: 60px;
+    right: 110px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 10px 15px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    z-index: 10001;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    animation: slideRight 0.3s ease-out;
+    align-items: center;
+    min-width: 480px;
+    transition: width 0.3s ease, height 0.3s ease, min-width 0.3s ease;
+    width: auto;
+    max-width: 90vw;
+}
+
+.whiteboard-toolbar.two-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+}
+
+.whiteboard-toolbar.two-rows .wb-row-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.wb-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.wb-row.tools-grid {
+    background: #f8f9fa;
+    padding: 8px;
+    border-radius: 12px;
+}
+
+/* Unified Grid Layout */
+.whiteboard-toolbar.single-grid {
+    flex-direction: column;
+    padding: 10px;
+    width: auto;
+    min-width: 0;
+    align-items: center;
+}
+
+.wb-all-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    justify-items: center;
+    width: 100%;
+}
+
+.wb-all-tools-grid .span-two {
+    grid-column: span 2;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+}
+
+/* Ensure size slider fits */
+.wb-size-control.span-two {
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.wb-size-control.span-two .wb-slider {
+    width: 100%;
+}
+
+/* Ensure color picker fits */
+.wb-color-picker.span-two {
+    width: 45px;
+    /* Match button size approx */
+    height: 45px;
+    padding: 2px;
+    border: 1px solid #e2e8f0;
+    border-radius: 50%;
+    cursor: pointer;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    appearance: none;
+    /* Remove default styling */
+    -webkit-appearance: none;
+    overflow: hidden;
+}
+
+.wb-color-picker.span-two::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.wb-color-picker.span-two::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+}
+
+/* Minimized State */
+.whiteboard-toolbar.minimized {
+    min-width: unset;
+    padding: 8px 12px;
+}
+
+.whiteboard-toolbar.draggable {
+    cursor: grab;
+    position: fixed;
+    /* Allow dragging */
+}
+
+.whiteboard-toolbar.draggable:active {
+    cursor: grabbing;
+}
+
+.drag-handle {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: #cbd5e0;
+    cursor: grab;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #edf2f7;
+    margin-bottom: 5px;
+}
+
+.drag-handle:hover {
+    color: #a0aec0;
+}
+
+.wb-tool-btn,
+.wb-icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #4a5568;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1rem;
+}
+
+.wb-tool-btn:hover,
+.wb-icon-btn:hover {
+    background: #edf2f7;
+    color: #2d3748;
+}
+
+.wb-tool-btn.active {
+    background: #ebf8ff;
+    color: #3182ce;
+    border-color: #bee3f8;
+}
+
+.wb-tool-btn.delete:hover {
+    background: #fff5f5;
+    color: #e53e3e;
+}
+
+/* PDF/Pagination Toolbar (Previously Inline) */
+.pdf-toolbar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 10px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    z-index: 10002;
+}
+
+.pdf-toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pdf-nav-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+.pdf-nav-btn:hover:not(:disabled) {
+    color: #2d3748;
+}
+
+.pdf-nav-btn:disabled {
+    cursor: not-allowed;
+    color: #cbd5e0;
+}
+
+.pdf-page-count {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #333;
+    font-size: 1rem;
+    min-width: 60px;
+    text-align: center;
+}
+
+.pdf-divider {
+    width: 1px;
+    height: 20px;
+    background: #ccc;
+}
+
+.pdf-download-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.pdf-download-btn:hover {
+    background: #c0392b;
+}
+
+/* =======================================
+    RESPONSIVE MEDIA QUERIES
+======================================= */
+
+/* Mobile (Portrait) 320px to 479px */
+@media (min-width: 320px) and (max-width: 479px) {
+    .whiteboard-toolbar {
+        top: auto;
+        bottom: 80px;
+        /* Above PDF toolbar */
+        right: 10px;
+        left: 10px;
+        transform: none !important;
+        /* Disable drag pos if needed or reset */
+        max-width: calc(100% - 20px);
+        min-width: 0;
+    }
+
+    .pdf-toolbar {
+        width: 90%;
+        padding: 8px 10px;
+        gap: 8px;
+        bottom: 10px;
+    }
+
+    .pdf-download-btn span {
+        display: none;
+        /* Hide text, show icon only */
+    }
+
+    .pdf-page-count {
+        font-size: 0.85rem;
+    }
+}
+
+/* Mobile (Landscape) 481px to 767px */
+@media (min-width: 481px) and (max-width: 767px) {
+    .whiteboard-toolbar {
+        scale: 0.9;
+        right: 10px;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+}

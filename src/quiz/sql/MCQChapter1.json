@@ -1,52 +1,210 @@
 [
   {
-    "question": "Which SQL statement is used to retrieve data from a database?",
-    "options": ["SELECT", "INSERT", "UPDATE", "DELETE"],
-    "answer": "SELECT"
+    "question": "What is a Database?",
+    "options": [
+      "A place to store, organize, and manage data.",
+      "A programming language",
+      "A type of computer memory",
+      "A Backend server"
+    ],
+    "answer": "A place to store, organize, and manage data."
   },
   {
-    "question": "Which SQL clause is used to filter records?",
-    "options": ["WHERE", "ORDER BY", "GROUP BY", "HAVING"],
-    "answer": "WHERE"
+    "question": "What are the sources to collect data?",
+    "options": [
+      "Shopping at stores or online",
+      "Social media",
+      "Using your mobile",
+      "Buying tea or snacks",
+      "Making a payment",
+      "All of the above"
+    ],
+    "answer": "All of the above"
   },
   {
-    "question": "Which SQL keyword is used to sort the result-set?",
-    "options": ["ORDER BY", "GROUP BY", "SORT", "FILTER"],
-    "answer": "ORDER BY"
+    "question": "What is Data?",
+    "options": [
+      "Processed information used for decisions",
+      "A collection of raw facts recorded but not yet processed.",
+      "A programming code",
+      "A type of database"
+    ],
+    "answer": "A collection of raw facts recorded but not yet processed."
   },
   {
-    "question": "Which SQL function returns the total number of rows?",
-    "options": ["COUNT()", "SUM()", "AVG()", "MAX()"],
-    "answer": "COUNT()"
+    "question": "What is Information?",
+    "options": [
+      "Raw facts collected from different sources",
+      "Processed data that has meaning.",
+      "Database structure",
+      "A type of database"
+    ],
+    "answer": "Processed data that has meaning."
   },
   {
-    "question": "Which SQL statement is used to insert new records?",
-    "options": ["INSERT INTO", "UPDATE", "DELETE", "CREATE"],
-    "answer": "INSERT INTO"
+    "question": "What is Structured Data?",
+    "options": [
+      "Data without any format",
+      "Data stored in images and videos",
+      "Data organized in rows and columns",
+      "Data stored only in files"
+    ],
+    "answer": "Data organized in rows and columns"
   },
   {
-    "question": "Which SQL keyword is used to remove all records from a table?",
-    "options": ["TRUNCATE", "DELETE", "DROP", "REMOVE"],
-    "answer": "TRUNCATE"
+    "question": "Identify the Relational Database?",
+    "options": [
+      "Oracle",
+      "MySQL",
+      "PostgreSQL",
+      "All of the above"
+    ],
+    "answer": "All of the above"
   },
   {
-    "question": "Which of the following is a SQL aggregate function?",
-    "options": ["AVG()", "JOIN", "SELECT", "WHERE"],
-    "answer": "AVG()"
+    "question": "What is a NoSQL Database?",
+    "options": [
+      "MongoDB",
+      "Cassandra",
+      "HBase",
+      "All of the above"
+    ],
+    "answer": "All of the above"
   },
   {
-    "question": "Which SQL clause is used to combine rows with the same values?",
-    "options": ["GROUP BY", "ORDER BY", "JOIN", "HAVING"],
-    "answer": "GROUP BY"
+    "question": "NoSQL databases are mainly used to store",
+    "options": [
+      "Only numeric data",
+      "Structured data only",
+      "Unstructured and semi-structured data",
+      "Tabular data only"
+    ],
+    "answer": "Unstructured and semi-structured data"
   },
   {
-    "question": "Which SQL statement is used to modify existing data in a table?",
-    "options": ["UPDATE", "INSERT", "ALTER", "DELETE"],
-    "answer": "UPDATE"
+    "question": "What does SQL stand for?",
+    "options": [
+      "Structured Question Language",
+      "Structured Query Language",
+      "Simple Query Language",
+      "Sequential Query List"
+    ],
+    "answer": "Structured Query Language"
   },
   {
-    "question": "Which SQL command is used to remove a table from a database?",
-    "options": ["DROP TABLE", "DELETE", "TRUNCATE", "REMOVE TABLE"],
-    "answer": "DROP TABLE"
+    "question": "What is true about RDBMS?",
+    "options": [
+      "It stores data in the form of tables.",
+      "It supports structured data.",
+      "It uses SQL for interaction.",
+      "It stands for Relational Database Management System",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What is SQL?",
+    "options": [
+      "Used to store the data.",
+      "A programming language for graphics",
+      "Provides queries to interact with a database.",
+      "A web development language"
+    ],
+    "answer": "Provides queries to interact with a database."
+  },
+  {
+    "question": "CRUD full form is?",
+    "options": [
+      "Create, Update, Read, Delete",
+      "Create, Read, Update, Delete",
+      "Copy, Read, Update, Delete",
+      "Create, Remove, Use, Delete"
+    ],
+    "answer": "Create, Read, Update, Delete"
+  },
+  {
+    "question": "What are the characteristics of SQL as a language?",
+    "options": [
+      "Portable Language",
+      "Declarative Language",
+      "High-level Language",
+      "Interactive Language",
+      "Secure Language",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following is true about a table in a database?",
+    "options": [
+      "A table stores data in a structured format.",
+      "A table is also called a relation or entity.",
+      "A table consists of rows and columns.",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following is true about a row in a database?",
+    "options": [
+      "A row represents a single entry.",
+      "A row is also called a tuple or record.",
+      "A table can have multiple rows.",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following statements about a column in a table is true?",
+    "options": [
+      "A column represents a specific type of data.",
+      "A column is also called a field or attribute.",
+      "A table can have multiple columns.",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What is the intersection of a row and a column called?",
+    "options": [
+      "Tuple",
+      "Cell",
+      "Attribute",
+      "Table"
+    ],
+    "answer": "Cell"
+  },
+  {
+    "question": "What are the types of SQL statements?",
+    "options": [
+      "DDL (Data Definition Language)",
+      "DML (Data Manipulation Language)",
+      "DCL (Data Control Language)",
+      "TCL (Transaction Control Language)",
+      "DRL (Data Retrieval Language)",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following are sources for storing data?",
+    "options": [
+      "Paper records",
+      "File system",
+      "Database",
+      "Cloud Platform",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What is the current version of Oracle Database?",
+    "options": [
+      "Oracle Database 8i",
+      "Oracle Database 11g",
+      "Oracle Database 18c",
+      "Oracle Database 26ai"
+    ],
+    "answer": "Oracle Database 26ai"
   }
 ]

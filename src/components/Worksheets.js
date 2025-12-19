@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { chapterInfoByLang, quizContexts } from "./StartLearning1";
+import { chapterInfoByLang, learningContexts } from "./StartLearning1";
 import {
   FaChevronDown,
   FaChevronRight,
@@ -71,7 +71,7 @@ const Worksheets = ({ userId }) => {
 
   const getExercises = (chapterNum) => {
     try {
-      const context = quizContexts[selectedTech];
+      const context = learningContexts[selectedTech];
       const key = `./CodingChapter${chapterNum}.json`;
       const data = context(key);
       return Array.isArray(data) ? data : [];
@@ -329,12 +329,6 @@ const Worksheets = ({ userId }) => {
                                       : "javascript"
                                   }
                                   style={coy}
-                                  customStyle={{
-                                    margin: 0,
-                                    padding: "12px",
-                                    borderRadius: "0 0 8px 8px",
-                                    fontSize: "0.85rem",
-                                  }}
                                 >
                                   {exercise.initialCode}
                                 </SyntaxHighlighter>
@@ -377,12 +371,6 @@ const Worksheets = ({ userId }) => {
                                       : "text"
                                   }
                                   style={coy}
-                                  customStyle={{
-                                    margin: 0,
-                                    padding: "12px",
-                                    borderRadius: "0 0 8px 8px",
-                                    fontSize: "0.85rem",
-                                  }}
                                 >
                                   {savedData.code}
                                 </SyntaxHighlighter>

@@ -20,7 +20,7 @@ import { FiArrowLeft } from "react-icons/fi";
 // Ace Imports (refactored to utils/editorThemes.js)
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
-import { CHAPTER_SETUP } from "../quiz/sql/SqlSetup";
+import { CHAPTER_SETUP } from "../learning/sql/SqlSetup";
 import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/mode-css";
 import "ace-builds/src-noconflict/mode-javascript";
@@ -37,13 +37,13 @@ import "ace-builds/src-noconflict/snippets/java";
 
 // Import CSS
 import "../css/StartLearning.css";
-// Try to import quiz files dynamically
-import htmlTopics from "../quiz/html/htmlTopics";
-import cssTopics from "../quiz/css/cssTopics";
-import javascriptTopics from "../quiz/javascript/javascriptTopics";
-import javaTopics from "../quiz/java/javaTopics";
-import pythonTopics from "../quiz/python/pythonTopics";
-import sqlTopics from "../quiz/sql/sqlTopics";
+// Try to import learning files dynamically
+import htmlTopics from "../learning/html/htmlTopics";
+import cssTopics from "../learning/css/cssTopics";
+import javascriptTopics from "../learning/javascript/javascriptTopics";
+import javaTopics from "../learning/java/javaTopics";
+import pythonTopics from "../learning/python/pythonTopics";
+import sqlTopics from "../learning/sql/sqlTopics";
 import javaSnippets from "../utils/javaSnippets";
 import sqlSnippets from "../utils/sqlSnippets";
 import { generateJavaCode } from "../utils/javaCodeGenerator";
@@ -246,18 +246,22 @@ export const createPreviewContent = (code, language) => {
   return "";
 };
 
-// ----------------- Quiz contexts (bundled JSON files) -----------------
-export const quizContexts = {
-  html: require.context("../quiz/html", false, /CodingChapter\d+\.json$/),
-  css: require.context("../quiz/css", false, /CodingChapter\d+\.json$/),
+// ----------------- learning contexts (bundled JSON files) -----------------
+export const learningContexts = {
+  html: require.context("../learning/html", false, /CodingChapter\d+\.json$/),
+  css: require.context("../learning/css", false, /CodingChapter\d+\.json$/),
   javascript: require.context(
-    "../quiz/javascript",
+    "../learning/javascript",
     false,
     /CodingChapter\d+\.json$/
   ),
-  java: require.context("../quiz/java", false, /CodingChapter\d+\.json$/),
-  python: require.context("../quiz/python", false, /CodingChapter\d+\.json$/),
-  sql: require.context("../quiz/sql", false, /CodingChapter\d+\.json$/),
+  java: require.context("../learning/java", false, /CodingChapter\d+\.json$/),
+  python: require.context(
+    "../learning/python",
+    false,
+    /CodingChapter\d+\.json$/
+  ),
+  sql: require.context("../learning/sql", false, /CodingChapter\d+\.json$/),
 };
 
 const TOPIC_LIST_MAP = {
@@ -297,7 +301,7 @@ export const getChapterInfo = (context, lang) => {
 };
 
 export const chapterInfoByLang = {};
-Object.entries(quizContexts).forEach(([lang, ctx]) => {
+Object.entries(learningContexts).forEach(([lang, ctx]) => {
   chapterInfoByLang[lang] = getChapterInfo(ctx, lang);
 });
 
@@ -619,7 +623,7 @@ const StartLearning1 = ({
     if (selectedCourse && expandedChapter) {
       try {
         const key = `./CodingChapter${expandedChapter}.json`;
-        const context = quizContexts[selectedCourse.toLowerCase()];
+        const context = learningContexts[selectedCourse.toLowerCase()];
         const data = context(key);
         setCurrentChapterData(Array.isArray(data) ? data : []);
       } catch (err) {
@@ -674,7 +678,7 @@ const StartLearning1 = ({
     info.chapterKeys.forEach((chapterNum) => {
       try {
         const key = `./CodingChapter${chapterNum}.json`;
-        const context = quizContexts[lang];
+        const context = learningContexts[lang];
         const data = context(key);
         counts[chapterNum] = Array.isArray(data) ? data.length : 0;
       } catch (err) {
@@ -687,8 +691,8 @@ const StartLearning1 = ({
   const loadQuestionData = (course, chapter, example) => {
     try {
       const key = `./CodingChapter${chapter}.json`;
-      const context = quizContexts[course.toLowerCase()];
-      if (!context) throw new Error(`No quiz data found for ${course}`);
+      const context = learningContexts[course.toLowerCase()];
+      if (!context) throw new Error(`No learning data found for ${course}`);
       const data = context(key);
       const question = data[example - 1] || null;
       setQuestionData(question);
@@ -784,7 +788,7 @@ const StartLearning1 = ({
         java: "java",
         python: "python",
         javascript: "javascript",
-        sql: "sqlite3",
+        sql: "sql",
         // HTML/CSS are handled by Codepad block above
       };
 
@@ -1317,28 +1321,23 @@ const StartLearning1 = ({
               setSelectedExample(null);
             }}
           >
-            <FaArrowAltCircleLeft size={18} style={{ marginRight: "1px" }} />
+            <FaArrowAltCircleLeft size={18} className="back-btn-icon" />
             Back to Chapters
           </button>
         )}
 
         {/* --- Question & Compiler Columns --- */}
         <div
-          className="question-compiler-columns"
+          className="question-compiler-columns question-compiler-split-container"
           ref={splitContainerRef}
-          style={{
-            display: "flex",
-            gap: "0", // Gap handled by resizer
-            height: "calc(100vh - 100px)",
-          }}
+          // height handling moved to CSS, but keep ref
         >
           {/* Left Column: Question */}
           <div
-            className="question-area-left-column"
+            className="question-area-left-column question-area-resizable"
             style={{
               flex: `0 0 ${leftWidth}%`,
               maxWidth: `${leftWidth}%`,
-              overflowY: "auto",
             }}
           >
             <div className="learning-question-card">
@@ -1354,12 +1353,7 @@ const StartLearning1 = ({
               {questionData.sampleInput &&
               questionData.sampleInput.trim().includes("<") ? (
                 <div
-                  style={{
-                    overflowX: "auto",
-                    border: "1px solid #ccc",
-                    padding: "10px",
-                    background: "#fff",
-                  }}
+                  className="sample-code-box"
                   dangerouslySetInnerHTML={{ __html: questionData.sampleInput }}
                 />
               ) : (
@@ -1367,23 +1361,10 @@ const StartLearning1 = ({
               )}
               <h4 className="sample-header">📤 Expected Output:</h4>
               {["html", "css"].includes(langType) ? (
-                <div
-                  className="preview-box"
-                  style={{
-                    border: "1px solid #ccc",
-                    padding: "10px",
-                    background: "#fff",
-                    minHeight: "100px",
-                  }}
-                >
+                <div className="preview-box">
                   <iframe
                     title="Exp"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      minHeight: "100px",
-                      border: "none",
-                    }}
+                    className="preview-iframe"
                     srcDoc={
                       langType === "css"
                         ? `<!DOCTYPE html><html><head><style>${questionData.sampleOutput}</style></head><body><h1>CSS Preview</h1><p>Expected CSS.</p></body></html>`
@@ -1394,12 +1375,7 @@ const StartLearning1 = ({
               ) : questionData.sampleOutput &&
                 questionData.sampleOutput.trim().startsWith("<") ? (
                 <div
-                  style={{
-                    overflowX: "auto",
-                    border: "1px solid #ccc",
-                    padding: "10px",
-                    background: "#fff",
-                  }}
+                  className="sample-code-box"
                   dangerouslySetInnerHTML={{
                     __html: questionData.sampleOutput,
                   }}
@@ -1418,19 +1394,11 @@ const StartLearning1 = ({
           ></div>
 
           {/* Right Column: Compiler */}
-          <div
-            className="compiler-area-right"
-            style={{
-              flex: 1,
-              minWidth: 0, // Prevent overflow
-            }}
-          >
+          <div className="compiler-area-right compiler-area-flexible">
             <div className="compiler-area">
               <div className="compiler-buttons dual-button-group">
                 <h4>💻 Code Editor ({selectedCourse})</h4>
-                <div
-                  style={{ marginLeft: "auto", display: "flex", gap: "10px" }}
-                >
+                <div className="compiler-controls">
                   <button
                     className="fullscreen-btn"
                     onClick={toggleFullScreen}
@@ -1441,39 +1409,14 @@ const StartLearning1 = ({
 
                   <div style={{ position: "relative" }} ref={themeDropdownRef}>
                     <button
-                      className="evaluate-code-btn"
-                      style={{
-                        background: "#4a5568",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        padding: "8px 12px",
-                        fontSize: "0.9rem",
-                      }}
+                      className="evaluate-code-btn theme-btn"
                       onClick={() => setShowThemeDropdown(!showThemeDropdown)}
                       title="Change Theme"
                     >
                       <FaPalette /> Theme <FaChevronDown size={10} />
                     </button>
                     {showThemeDropdown && (
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: "120%",
-                          right: 0,
-                          backgroundColor: "#1e1e1e",
-                          border: "1px solid #333",
-                          borderRadius: "8px",
-                          zIndex: 1000,
-                          display: "flex",
-                          flexDirection: "column",
-                          minWidth: "180px",
-                          maxHeight: "300px",
-                          overflowY: "auto",
-                          boxShadow: "0 8px 16px rgba(0,0,0,0.4)",
-                          padding: "5px",
-                        }}
-                      >
+                      <div className="dropdown-menu theme-dropdown">
                         {availableThemes.map((theme, index) => {
                           // Crude guess for icon based on position in our sorted list
                           // 0,1=L, 2,3=D, 4,5=L, 6,7=D, 8,9=L
@@ -1486,32 +1429,12 @@ const StartLearning1 = ({
                                 setEditorTheme(theme);
                                 setShowThemeDropdown(false);
                               }}
-                              style={{
-                                background:
-                                  editorTheme === theme
-                                    ? "#3b82f6"
-                                    : "transparent",
-                                color: "#fff",
-                                border: "none",
-                                padding: "10px",
-                                textAlign: "left",
-                                cursor: "pointer",
-                                borderRadius: "4px",
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "10px",
-                                fontSize: "0.9rem",
-                                marginBottom: "2px",
-                              }}
-                              onMouseOver={(e) => {
-                                if (editorTheme !== theme)
-                                  e.currentTarget.style.background = "#333";
-                              }}
-                              onMouseOut={(e) => {
-                                if (editorTheme !== theme)
-                                  e.currentTarget.style.background =
-                                    "transparent";
-                              }}
+                              /* Replaced inline styles with class */
+                              onMouseOver={(e) => {}} // Hover handled by CSS
+                              onMouseOut={(e) => {}}
+                              className={`dropdown-item ${
+                                editorTheme === theme ? "active" : ""
+                              }`}
                             >
                               {isDark ? (
                                 <FaMoon color="#fbbf24" />
@@ -1537,15 +1460,7 @@ const StartLearning1 = ({
                       ref={generateDropdownRef}
                     >
                       <button
-                        className="evaluate-code-btn"
-                        style={{
-                          background: "#8b5cf6", // Violet-ish
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "8px",
-                          padding: "8px 12px",
-                          fontSize: "0.9rem",
-                        }}
+                        className="evaluate-code-btn generate-btn-custom"
                         onClick={() =>
                           setShowGenerateDropdown(!showGenerateDropdown)
                         }
@@ -1554,22 +1469,7 @@ const StartLearning1 = ({
                         <FaMagic /> Generate <FaChevronDown size={10} />
                       </button>
                       {showGenerateDropdown && (
-                        <div
-                          style={{
-                            position: "absolute",
-                            top: "120%",
-                            right: 0,
-                            backgroundColor: "#1e1e1e",
-                            border: "1px solid #333",
-                            borderRadius: "8px",
-                            zIndex: 1000,
-                            display: "flex",
-                            flexDirection: "column",
-                            minWidth: "200px",
-                            boxShadow: "0 8px 16px rgba(0,0,0,0.4)",
-                            padding: "5px",
-                          }}
-                        >
+                        <div className="dropdown-menu generate-dropdown">
                           {[
                             {
                               id: "all",
@@ -1605,26 +1505,9 @@ const StartLearning1 = ({
                             <button
                               key={item.id}
                               onClick={() => generateCode(item.id)}
-                              style={{
-                                background: "transparent",
-                                color: "#e2e8f0",
-                                border: "none",
-                                padding: "10px",
-                                textAlign: "left",
-                                cursor: "pointer",
-                                borderRadius: "4px",
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "10px",
-                                fontSize: "0.9rem",
-                              }}
-                              onMouseOver={(e) =>
-                                (e.currentTarget.style.background = "#333")
-                              }
-                              onMouseOut={(e) =>
-                                (e.currentTarget.style.background =
-                                  "transparent")
-                              }
+                              onMouseOver={(e) => {}}
+                              onMouseOut={(e) => {}}
+                              className="dropdown-item"
                             >
                               {item.icon} {item.label}
                             </button>
@@ -1671,7 +1554,8 @@ const StartLearning1 = ({
                   minLines: isFullScreen ? 25 : 15,
                   maxLines: isFullScreen ? 25 : 15,
                 }}
-                style={{ borderRadius: "8px" }}
+                style={{ borderRadius: "8px" }} // Ace editor style prop specific
+                className="ace-editor-wrapper"
               />
 
               {showOutput && (
@@ -1681,23 +1565,10 @@ const StartLearning1 = ({
                     <iframe
                       title="Preview"
                       srcDoc={output}
-                      style={{
-                        width: "100%",
-                        height: "300px",
-                        border: "1px solid #000",
-                        background: "#fff",
-                      }}
+                      className="output-preview-iframe"
                     />
                   ) : Array.isArray(output) ? (
-                    <div
-                      className="sql-result-container"
-                      style={{
-                        padding: "10px",
-                        border: "1px solid #ccc",
-                        borderRadius: "8px",
-                        background: "#fff",
-                      }}
-                    >
+                    <div className="sql-result-container">
                       {output.map((msg, i) => (
                         <div key={i} style={{ marginBottom: "16px" }}>
                           {msg.type === "success" && (
@@ -1706,46 +1577,18 @@ const StartLearning1 = ({
                             </div>
                           )}
                           {msg.type === "error" && (
-                            <div
-                              style={{
-                                color: "#ef4444",
-                                padding: "10px",
-                                background: "#fef2f2",
-                                border: "1px solid #fca5a5",
-                                borderRadius: "8px",
-                              }}
-                            >
-                              {msg.text}
-                            </div>
+                            <div className="sql-error-box">{msg.text}</div>
                           )}
                           {msg.type === "info" && (
-                            <div
-                              style={{ color: "#64748b", fontStyle: "italic" }}
-                            >
-                              {msg.text}
-                            </div>
+                            <div className="sql-info-box">{msg.text}</div>
                           )}
                           {msg.type === "table" && (
-                            <div style={{ overflowX: "auto" }}>
-                              <table
-                                className="sql-table"
-                                style={{
-                                  width: "100%",
-                                  borderCollapse: "collapse",
-                                }}
-                              >
+                            <div className="sql-table-wrapper">
+                              <table className="sql-table">
                                 <thead>
                                   <tr>
                                     {msg.data.columns.map((col, idx) => (
-                                      <th
-                                        key={idx}
-                                        style={{
-                                          border: "1px solid #ddd",
-                                          padding: "8px",
-                                          background: "#f2f2f2",
-                                          color: "#333",
-                                        }}
-                                      >
+                                      <th key={idx} className="sql-th">
                                         {col}
                                       </th>
                                     ))}
@@ -1755,13 +1598,7 @@ const StartLearning1 = ({
                                   {msg.data.values.map((row, rIdx) => (
                                     <tr key={rIdx}>
                                       {row.map((val, cIdx) => (
-                                        <td
-                                          key={cIdx}
-                                          style={{
-                                            border: "1px solid #ddd",
-                                            padding: "8px",
-                                          }}
-                                        >
+                                        <td key={cIdx} className="sql-td">
                                           {val}
                                         </td>
                                       ))}

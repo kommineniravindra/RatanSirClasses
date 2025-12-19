@@ -582,7 +582,7 @@ const ExamDashboard = ({ onLogout }) => {
           <input
             type="file"
             id="avatar-upload"
-            style={{ display: "none" }}
+            className="hidden-input"
             onChange={handleImageUpload}
             ref={fileInputRef}
             accept="image/*"
@@ -623,7 +623,7 @@ const ExamDashboard = ({ onLogout }) => {
       <main className="dashboard-main">
         {/* --- Quiz Grid --- */}
         <div className="tech-grid-section">
-          <h2>📝 Pick a Technology to Begin Your Quizes</h2>
+          <h2>📝Take Quizes</h2>
           <div className="tech-grid">
             {technologies
               .filter(
@@ -707,7 +707,7 @@ const ExamDashboard = ({ onLogout }) => {
 
         {/* --- Exam Grid --- */}
         <div className="tech-grid-section">
-          <h2>📜 Pick a Technology to Begin Your Exam</h2>
+          <h2>📜Take Exam</h2>
           <div className="tech-grid">
             {technologies
               .filter((tech) =>

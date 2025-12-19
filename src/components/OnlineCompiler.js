@@ -21,6 +21,7 @@ import {
   FaJs,
   FaDatabase,
   FaCog, // Added
+  FaDownload, // Added for PDF Download
 } from "react-icons/fa";
 import {
   SiC,
@@ -41,6 +42,10 @@ import { generateJavaCode } from "../utils/javaCodeGenerator";
 import { availableThemes } from "../utils/editorThemes";
 import { languageBoilerplates } from "../utils/languageBoilerplates";
 import Swal from "sweetalert2";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 // Import new modes for C/C++
 import "ace-builds/src-noconflict/mode-html";
@@ -210,7 +215,7 @@ const OnlineCompiler = () => {
     {
       name: "SQL",
       mode: "sql",
-      apiLang: "sqlite3",
+      apiLang: "sql",
       icon: <FaDatabase />,
       color: "#003B57",
     },
@@ -263,7 +268,7 @@ const OnlineCompiler = () => {
         javascript: "JavaScript",
         java: "Java",
         python: "Python",
-        sqlite3: "SQL", // apiLang for sql is sqlite3 in some contexts, or sql in others. The languages array uses 'sql' for name but what about apiLang?
+        sql: "SQL",
         sql: "SQL", // let's support both
         c: "c",
         cpp: "cpp",
@@ -326,6 +331,68 @@ const OnlineCompiler = () => {
     loadSql();
   }, []);
 
+  const pdfCodeRef = useRef(null);
+  const pdfOutputRef = useRef(null);
+
+  const handleDownloadPdf = async () => {
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+
+    const addToPdf = async (ref, isFirstSection) => {
+      if (!ref.current) return;
+
+      const canvas = await html2canvas(ref.current, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const imgWidth = pdfWidth;
+      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      if (!isFirstSection) {
+        pdf.addPage();
+      }
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      // Add first page of this section
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
+
+      // Add additional pages if content overflows
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+      }
+    };
+
+    try {
+      // 1. Process Code Section
+      await addToPdf(pdfCodeRef, true);
+
+      // 2. Process Output Section (if applicable)
+      if (!isWebLanguage && pdfOutputRef.current) {
+        await addToPdf(pdfOutputRef, false);
+      }
+
+      // Determine filename based on language name
+      const langObj = languages.find((l) => l.apiLang === language);
+      const fileName = langObj ? langObj.name : "CodePulse_Output";
+      pdf.save(`${fileName}.pdf`);
+      Swal.fire("Success", "PDF Downloaded Successfully!", "success");
+    } catch (error) {
+      console.error("PDF Generation Error:", error);
+      Swal.fire("Error", "Failed to generate PDF.", "error");
+    }
+  };
+
   const handleRun = async () => {
     localStorage.setItem("onlineCompiler_code", code);
     setIsLoading(true);
@@ -340,7 +407,7 @@ const OnlineCompiler = () => {
     }
 
     // Special handling for SQL (Local Execution)
-    if (language === "sql" || language === "sqlite3") {
+    if (language === "sql") {
       if (!sqlDbRef.current) {
         setOutput("Initializing SQL Database... try again in a moment.");
         setIsLoading(false);
@@ -531,7 +598,6 @@ const OnlineCompiler = () => {
     document.addEventListener("fullscreenchange", handleFullScreenChange);
     return () =>
       document.removeEventListener("fullscreenchange", handleFullScreenChange);
-    document.removeEventListener("fullscreenchange", handleFullScreenChange);
   }, []);
 
   // Close dropdowns when clicking outside
@@ -666,33 +732,37 @@ const OnlineCompiler = () => {
 
   return (
     <div className="compiler-container" ref={containerRef}>
-      <header className="compiler-header">
-        {/* Left: Branding */}
-        <div className="header-left">
-          <span className="animated-title-3d main-title">CodePulse-R</span>
-          <span className="animated-title-3d slogan">Online Compiler's</span>
-        </div>
+      {!isFullScreen && (
+        <header className="compiler-header">
+          {/* Left: Branding */}
+          <div className="header-left">
+            <span className="animated-title-3d main-title ">
+              <span>CODEPULSE-R</span>
+            </span>
+            <span className="animated-title-3d slogan">Online Compiler's</span>
+          </div>
 
-        <div className="compiler-nav">
-          {languages.map((lang) => {
-            const isActive = language === lang.apiLang;
-            return (
-              <button
-                key={lang.name}
-                onClick={() => handleLanguageChange(lang)}
-                className={`compiler-lang-btn ${isActive ? "active" : ""}`}
-              >
-                <span className="lang-icon">
-                  {React.cloneElement(lang.icon, {
-                    style: { color: isActive ? "#fff" : lang.color },
-                  })}
-                </span>
-                {lang.name}
-              </button>
-            );
-          })}
-        </div>
-      </header>
+          <div className="compiler-nav">
+            {languages.map((lang) => {
+              const isActive = language === lang.apiLang;
+              return (
+                <button
+                  key={lang.name}
+                  onClick={() => handleLanguageChange(lang)}
+                  className={`compiler-lang-btn ${isActive ? "active" : ""}`}
+                >
+                  <span className="lang-icon">
+                    {React.cloneElement(lang.icon, {
+                      style: { color: isActive ? "#fff" : lang.color },
+                    })}
+                  </span>
+                  {lang.name}
+                </button>
+              );
+            })}
+          </div>
+        </header>
+      )}
 
       <div className="compiler-main">
         {/* Editor Section */}
@@ -827,11 +897,11 @@ const OnlineCompiler = () => {
                           ) : (
                             <FaSun color="#f59e0b" />
                           )}
-                          <span style={{ textTransform: "capitalize" }}>
+                          <span className="theme-capitalize">
                             {theme.replace("_", " ")}
                           </span>
                           {editorTheme === theme && (
-                            <FaCheck style={{ marginLeft: "auto" }} />
+                            <FaCheck className="active-check-icon" />
                           )}
                         </button>
                       );
@@ -855,10 +925,7 @@ const OnlineCompiler = () => {
                     <FaChevronDown size={10} />
                   </button>
                   {showGenerateDropdown && (
-                    <div
-                      className="dropdown-menu"
-                      style={{ minWidth: "200px" }}
-                    >
+                    <div className="dropdown-menu dropdown-menu-gen">
                       {[
                         {
                           id: "all",
@@ -923,7 +990,7 @@ const OnlineCompiler = () => {
                     aria-hidden="true"
                   ></span>
                 ) : (
-                  <FaPlay style={{ marginRight: "1px" }} />
+                  <FaPlay className="btn-run-icon" />
                 )}
                 <span className={isLoading ? "" : ""}>
                   {isLoading ? "Running" : "RUN"}
@@ -977,6 +1044,14 @@ const OnlineCompiler = () => {
             <h3 className="section-title">
               <FaTerminal /> Console
             </h3>
+            <button
+              className="btn-compiler"
+              onClick={handleDownloadPdf}
+              title="Download PDF"
+              style={{ marginLeft: "auto", marginRight: "10px" }}
+            >
+              <FaDownload /> PDF
+            </button>
           </div>
           <div
             className={`output-content ${isWebLanguage ? "preview-mode" : ""}`}
@@ -986,46 +1061,20 @@ const OnlineCompiler = () => {
                 <BrowserPreview htmlCode={output} />
               </div>
             ) : Array.isArray(output) ? (
-              <div className="sql-result-container" style={{ padding: "20px" }}>
+              <div className="sql-result-container sql-result-padding">
                 {output.map((msg, i) => (
-                  <div key={i} style={{ marginBottom: "16px" }}>
+                  <div key={i} className="sql-msg-item">
                     {msg.type === "success" && (
-                      <div
-                        style={{
-                          color: "#047857",
-                          padding: "10px",
-                          background: "#ecfdf5",
-                          border: "1px solid #6ee7b7",
-                          borderRadius: "8px",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "8px",
-                          fontWeight: "600",
-                        }}
-                      >
-                        👍 {msg.text}
-                      </div>
+                      <div className="sql-success-msg-box">👍 {msg.text}</div>
                     )}
                     {msg.type === "error" && (
-                      <div
-                        style={{
-                          color: "#ef4444",
-                          padding: "10px",
-                          background: "#fef2f2",
-                          border: "1px solid #fca5a5",
-                          borderRadius: "8px",
-                        }}
-                      >
-                        {msg.text}
-                      </div>
+                      <div className="error-msg-box">{msg.text}</div>
                     )}
                     {msg.type === "info" && (
-                      <div style={{ color: "#64748b", fontStyle: "italic" }}>
-                        {msg.text}
-                      </div>
+                      <div className="info-msg-text">{msg.text}</div>
                     )}
                     {msg.type === "table" && (
-                      <div style={{ overflowX: "auto" }}>
+                      <div className="table-overflow">
                         <table className="sql-table">
                           <thead>
                             <tr>
@@ -1063,6 +1112,210 @@ const OnlineCompiler = () => {
           </div>
         </div>
         {/* Footer Branding */}
+      </div>
+      {/* Hidden Print Layout for PDF Generation */}
+      <div
+        style={{
+          position: "absolute",
+          top: "-10000px",
+          left: "-10000px",
+          zIndex: -1,
+        }}
+      >
+        {/* Page 1: Source Code */}
+        <div
+          ref={pdfCodeRef}
+          style={{
+            width: "210mm",
+            minHeight: "297mm",
+            background: "white",
+            color: "black",
+            padding: "40px",
+            fontFamily: "Arial, sans-serif",
+          }}
+        >
+          <div
+            style={{
+              textAlign: "center",
+              marginBottom: "20px",
+              borderBottom: "2px solid #ccc",
+              paddingBottom: "10px",
+            }}
+          >
+            <h1 style={{ color: "#1d13e2", margin: 0 }}>
+              CodePulse-R Online Compiler
+            </h1>
+            <p style={{ margin: "5px 0", color: "#666" }}>
+              Generated on {new Date().toLocaleString()}
+            </p>
+          </div>
+
+          <h3
+            style={{
+              borderBottom: "1px solid #ddd",
+              paddingBottom: "5px",
+              color: "#333",
+            }}
+          >
+            Source Code ({language})
+          </h3>
+          <div
+            style={{
+              margin: "10px 0",
+              border: "1px solid #eee",
+              borderRadius: "5px",
+              overflow: "hidden",
+            }}
+          >
+            <SyntaxHighlighter
+              language={language === "sqlite3" ? "sql" : language}
+              style={docco}
+              showLineNumbers={true}
+              wrapLongLines={true}
+              customStyle={{ margin: 0, fontSize: "12px" }}
+            >
+              {code || ""}
+            </SyntaxHighlighter>
+          </div>
+        </div>
+
+        {/* Page 2: Console Output (Separate Page) */}
+        {!isWebLanguage && (
+          <div
+            ref={pdfOutputRef}
+            style={{
+              width: "210mm",
+              minHeight: "297mm",
+              background: "white",
+              color: "black",
+              padding: "40px",
+              fontFamily: "Arial, sans-serif",
+            }}
+          >
+            <div
+              style={{
+                textAlign: "center",
+                marginBottom: "20px",
+                borderBottom: "2px solid #ccc",
+                paddingBottom: "10px",
+              }}
+            >
+              <h1 style={{ color: "#1d13e2", margin: 0 }}>
+                CodePulse-R Console Output
+              </h1>
+              <p style={{ margin: "5px 0", color: "#666" }}>
+                Generated on {new Date().toLocaleString()}
+              </p>
+            </div>
+
+            <h3
+              style={{
+                borderBottom: "1px solid #ddd",
+                paddingBottom: "5px",
+                color: "#333",
+              }}
+            >
+              Console Output
+            </h3>
+            <div
+              style={{
+                marginTop: "10px",
+                padding: "15px",
+                backgroundColor: "#f8fafc",
+                border: "1px solid #e2e8f0",
+                borderRadius: "5px",
+                minHeight: "100px",
+                fontFamily: "monospace",
+                fontSize: "12px",
+              }}
+            >
+              {Array.isArray(output) ? (
+                <div className="sql-result-container">
+                  {output.map((msg, i) => (
+                    <div
+                      key={i}
+                      className="sql-msg-item"
+                      style={{
+                        marginBottom: "15px",
+                        borderBottom: "1px dashed #ccc",
+                        paddingBottom: "10px",
+                      }}
+                    >
+                      {msg.type === "success" && (
+                        <div
+                          className="sql-success-msg"
+                          style={{ color: "green", fontWeight: "bold" }}
+                        >
+                          ✔ {msg.text}
+                        </div>
+                      )}
+                      {msg.type === "error" && (
+                        <div className="error-msg-box" style={{ color: "red" }}>
+                          {msg.text}
+                        </div>
+                      )}
+                      {msg.type === "info" && (
+                        <div className="info-msg-text">{msg.text}</div>
+                      )}
+                      {msg.type === "table" && msg.data && (
+                        <div style={{ overflowX: "auto", marginTop: "5px" }}>
+                          <table
+                            style={{
+                              width: "100%",
+                              borderCollapse: "collapse",
+                              border: "1px solid #000",
+                            }}
+                          >
+                            <thead>
+                              <tr style={{ background: "#f0f0f0" }}>
+                                {msg.data.columns.map((col, idx) => (
+                                  <th
+                                    key={idx}
+                                    style={{
+                                      border: "1px solid #000",
+                                      padding: "5px",
+                                      background: "#4caf50",
+                                      color: "white",
+                                    }}
+                                  >
+                                    {col}
+                                  </th>
+                                ))}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {msg.data.values.map((row, rIdx) => (
+                                <tr key={rIdx}>
+                                  {row.map((val, cIdx) => (
+                                    <td
+                                      key={cIdx}
+                                      style={{
+                                        border: "1px solid #000",
+                                        padding: "5px",
+                                      }}
+                                    >
+                                      {val}
+                                    </td>
+                                  ))}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div style={{ whiteSpace: "pre-wrap" }}>
+                  {typeof output === "string"
+                    ? output
+                    : JSON.stringify(output, null, 2)}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

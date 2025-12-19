@@ -16,7 +16,10 @@ import {
   FaCss3Alt,
   FaDatabase,
   FaSpinner,
+  FaUserCircle,
 } from "react-icons/fa";
+import Assistant from "./Assistant";
+import MultiStepRegister from "./MultiStepRegister";
 
 const AccountDetails = ({ onLogin }) => {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -25,26 +28,12 @@ const AccountDetails = ({ onLogin }) => {
   const [forgotPasswordData, setForgotPasswordData] = useState({
     email: "",
     otp: "",
-    newPassword: "",
-    confirmNewPassword: "",
-  });
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const [registerData, setRegisterData] = useState({
-    studentName: "",
-    email: "",
-    confirmEmail: "",
     password: "",
     confirmPassword: "",
-    mobileNumber: "",
-    // collegeName: "",
-    qualification: "",
-    yearOfPassing: "",
-    cgpa: "",
-    // dob: "",
-    gender: "",
   });
+  const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [loginData, setLoginData] = useState({
     username: "",
@@ -66,30 +55,25 @@ const AccountDetails = ({ onLogin }) => {
     return () => clearInterval(interval);
   }, [forgotPasswordStep, timer]);
 
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  // Welcome Messages
+  useEffect(() => {
+    if (isForgotPassword) {
+      // Optional: Silent or specific message
+    } else if (isRegistering) {
+      Assistant.speak(
+        "Welcome to CodePulse-R. Please fill the details to get successful credentials."
+      );
+    } else {
+      // Login View
+      Assistant.speak(
+        "Hey Buddy, welcome back to CodePuls-R.  will guide you to Reach your goals."
+      );
+    }
+  }, [isRegistering, isForgotPassword]);
 
   const handleChange = (e, setter) => {
     const { name, value } = e.target;
-
-    setter((prev) => {
-      const newData = { ...prev, [name]: value };
-
-      if (setter === setRegisterData) {
-        if (name === "email" || name === "confirmEmail") {
-          const emailMatch = newData.email === newData.confirmEmail;
-          setEmailError(!emailMatch && newData.confirmEmail.length > 0);
-        }
-        if (name === "password" || name === "confirmPassword") {
-          const passwordMatch = newData.password === newData.confirmPassword;
-          setPasswordError(
-            !passwordMatch && newData.confirmPassword.length > 0
-          );
-        }
-      }
-
-      return newData;
-    });
+    setter((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleForgotPasswordChange = (e) => {
@@ -119,8 +103,6 @@ const AccountDetails = ({ onLogin }) => {
         error.response?.data?.message || "Failed to send OTP",
         "error"
       );
-      // Optional: Navigate back if it failed? Or just let them retry.
-      // For now, staying on step 2 so they can click "Resend" if needed.
     } finally {
       setIsLoading(false);
     }
@@ -175,44 +157,27 @@ const AccountDetails = ({ onLogin }) => {
     }
   };
 
-  const handleRegisterSubmit = async (e) => {
-    e.preventDefault();
-
-    if (registerData.email !== registerData.confirmEmail)
-      return Swal.fire("Registration Error", "Emails do not match!", "error");
-
-    if (registerData.password !== registerData.confirmPassword)
-      return Swal.fire(
-        "Registration Error",
-        "Passwords do not match!",
-        "error"
-      );
-
-    if (emailError || passwordError)
-      return Swal.fire(
-        "Registration Error",
-        "Please fix the highlighted errors.",
-        "error"
-      );
-
+  const handleRegisterSubmit = async (formData) => {
     const payload = {
-      email: registerData.email,
-      password: registerData.password,
-      studentName: registerData.studentName,
-      mobile: registerData.mobileNumber,
-      // college: registerData.collegeName,
-      qualification: registerData.qualification,
-      passingYear: Number(registerData.yearOfPassing),
-      cgpa: Number(registerData.cgpa),
-      // dob: registerData.dob,
-      gender: registerData.gender,
+      email: formData.email,
+      password: formData.password,
+      studentName: formData.studentName,
+      mobile: formData.mobileNumber,
+      qualification: formData.qualification,
+      passingYear: Number(formData.yearOfPassing),
+      cgpa: Number(formData.cgpa),
+      gender: formData.gender,
     };
 
     try {
       await axios.post("/api/auth/register", payload);
       Swal.fire("Success!", "Registration successful!", "success");
-      setEmailError(false);
-      setPasswordError(false);
+
+      // Assistant Success Message
+      Assistant.speak(
+        `Thank you ${formData.studentName}. Your registration is successful. We wish you all the best for your learning journey in Codepulse-r.`
+      );
+
       setIsRegistering(false);
     } catch (error) {
       Swal.fire(
@@ -238,6 +203,8 @@ const AccountDetails = ({ onLogin }) => {
       localStorage.setItem("userEmail", loginData.username);
       localStorage.setItem("userName", studentName);
 
+      Assistant.speak(`Welcome back ${studentName}. Login successful.`);
+
       onLogin();
       const fromPath = location.state?.from?.pathname || "/dashboard";
       navigate(fromPath, { replace: true });
@@ -251,50 +218,87 @@ const AccountDetails = ({ onLogin }) => {
   };
 
   const renderLoginForm = () => (
-    <form onSubmit={handleLoginSubmit} className="login-form">
-      <h1>
-        {/* <i className="bx bxs-lock-open-alt header-icon-large"></i> */}
-        {"\u{1F60A}"} Happy to See You!
-      </h1>
+    <>
+      <form id="loginForm" onSubmit={handleLoginSubmit} className="login-form">
+        <h1> <FaUserCircle />Welcome bacK!</h1>
 
-      <div className="input-box">
-        <input
-          type="email"
-          placeholder="Email"
-          name="username"
-          value={loginData.username}
-          onChange={(e) => handleChange(e, setLoginData)}
-          required
-        />
-        <i className="bx bxs-user"></i>
+        <div className="input-box">
+          <input
+            type="email"
+            placeholder=" "
+            name="username"
+            value={loginData.username}
+            onChange={(e) => handleChange(e, setLoginData)}
+            onFocus={() => Assistant.speak("Please enter Email")}
+            required
+          />
+          <label className="floating-label">Email</label>
+          <i className="bx bxs-user"></i>
+        </div>
+
+        <div className="input-box">
+          <input
+            type="password"
+            placeholder=" "
+            name="password"
+            value={loginData.password}
+            onChange={(e) => handleChange(e, setLoginData)}
+            onFocus={() => Assistant.speak("Please enter Password")}
+            required
+          />
+          <label className="floating-label">Password</label>
+          <i className="bx bxs-lock-alt"></i>
+        </div>
+
+        <div className="login-options">
+          <div className="remember-me">
+            <input
+              type="checkbox"
+              id="remember-me"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
+            <label htmlFor="remember-me">Remember me</label>
+          </div>
+          <a
+            href="#"
+            onClick={() => setIsForgotPassword(true)}
+            className="forgot-link"
+          >
+            Forgot Password?
+          </a>
+        </div>
+      </form>
+
+      <div className="login-actions">
+        <button
+          type="submit"
+          form="loginForm"
+          className="glass-btn primary-btn"
+        >
+          Login
+        </button>
       </div>
 
-      <div className="input-box">
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          value={loginData.password}
-          onChange={(e) => handleChange(e, setLoginData)}
-          required
-        />
-        <i className="bx bxs-lock-alt"></i>
+      <div className="signup-link-container">
+        <p>
+          Don't have an account?{" "}
+          <span
+            className="signup-text"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsRegistering(true);
+            }}
+          >
+            Sign Up
+          </span>
+        </p>
       </div>
 
-      <button type="submit" className="glass-btn">
-        Login
-      </button>
-      <h6 className="form-toggle-text">
-        <a href="#" onClick={() => setIsForgotPassword(true)}>
-          Forgot Password ? |
-        </a>
-        <span className="text-blue">
-        <a href="#" onClick={() => setIsRegistering(true)}>
-          {" "}Register
-        </a>
-        </span>
-      </h6>
-      <hr />
+      <div className="divider-or">
+        <span>OR</span>
+      </div>
 
       <div className="social-login-container">
         <button type="button" className="google-btn">
@@ -329,200 +333,7 @@ const AccountDetails = ({ onLogin }) => {
           <i className="bx bxl-github"></i>Continue With GitHub
         </button>
       </div>
-    </form>
-  );
-
-  const renderRegisterForm = () => (
-    <form onSubmit={handleRegisterSubmit} className="register-form">
-      <h1>
-        {/* <i className="bx bxs-user-plus header-icon-xl"></i>  */}
-        Start Your Journey 🎓
-      </h1>
-
-      <div className="form-columns">
-        {/* Left Column */}
-        <div className="form-column">
-          <div className="input-box">
-            <input
-              type="text"
-              placeholder="Student Name"
-              name="studentName"
-              value={registerData.studentName}
-              onChange={(e) => handleChange(e, setRegisterData)}
-              required
-            />
-            <i className="bx bxs-user"></i>
-          </div>
-
-          <div className="input-box">
-            <input
-              type="email"
-              placeholder="Email"
-              name="email"
-              className={emailError ? "input-error" : ""}
-              value={registerData.email}
-              onChange={(e) => handleChange(e, setRegisterData)}
-              required
-            />
-            <i className="bx bxs-envelope"></i>
-          </div>
-
-          <div className="input-box">
-            <input
-              type="email"
-              placeholder="Confirm Email"
-              name="confirmEmail"
-              className={emailError ? "input-error" : ""}
-              value={registerData.confirmEmail}
-              onChange={(e) => handleChange(e, setRegisterData)}
-              required
-            />
-            <i className="bx bxs-envelope"></i>
-          </div>
-          {/* {emailError && (
-            <p className="error-message">
-              <i className="bx bxs-x-circle"></i> Emails do not match!
-            </p>
-          )} */}
-
-          <div className="input-box">
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              className={passwordError ? "input-error" : ""}
-              value={registerData.password}
-              onChange={(e) => handleChange(e, setRegisterData)}
-              required
-            />
-            <i className="bx bxs-lock-alt"></i>
-          </div>
-
-          <div className="input-box">
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              name="confirmPassword"
-              className={passwordError ? "input-error" : ""}
-              value={registerData.confirmPassword}
-              onChange={(e) => handleChange(e, setRegisterData)}
-              required
-            />
-            <i className="bx bxs-lock"></i>
-          </div>
-          {/* {passwordError && (
-            <p className="error-message">
-              <i className="bx bxs-x-circle"></i> Passwords do not match!
-            </p>
-          )} */}
-
-          {/* <div className="input-box">
-            <input
-              type="date"
-              name="dob"
-              value={registerData.dob}
-              onChange={(e) => handleChange(e, setRegisterData)}
-              required
-            />
-            <i className="bx bxs-calendar"></i>
-          </div> */}
-        </div>
-
-        {/* Right Column */}
-        <div className="form-column">
-          <div className="input-box">
-            <select
-              name="gender"
-              value={registerData.gender}
-              onChange={(e) => handleChange(e, setRegisterData)}
-              required
-            >
-              <option value="" disabled>
-                Select Gender
-              </option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-            <i className="bx bxs-group"></i>
-          </div>
-
-          <div className="input-box">
-            <input
-              type="tel"
-              placeholder="Mobile Number"
-              name="mobileNumber"
-              value={registerData.mobileNumber}
-              onChange={(e) => handleChange(e, setRegisterData)}
-              required
-            />
-            <i className="bx bxs-phone"></i>
-          </div>
-
-          {/* <div className="input-box">
-            <input
-              type="text"
-              placeholder="College / University"
-              name="collegeName"
-              value={registerData.collegeName}
-              onChange={(e) => handleChange(e, setRegisterData)}
-              required
-            />
-            <i className="bx bxs-institution"></i>
-          </div> */}
-
-          <div className="input-box">
-            <input
-              type="text"
-              placeholder="Qualification"
-              name="qualification"
-              value={registerData.qualification}
-              onChange={(e) => handleChange(e, setRegisterData)}
-              required
-            />
-            <i className="bx bxs-graduation"></i>
-          </div>
-
-          <div className="input-box">
-            <input
-              type="number"
-              placeholder="Year of Passing"
-              name="yearOfPassing"
-              value={registerData.yearOfPassing}
-              onChange={(e) => handleChange(e, setRegisterData)}
-              required
-            />
-            <i className="bx bxs-calendar-check"></i>
-          </div>
-
-          <div className="input-box">
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              max="10"
-              placeholder="CGPA"
-              name="cgpa"
-              value={registerData.cgpa}
-              onChange={(e) => handleChange(e, setRegisterData)}
-              required
-            />
-            <i className="bx bxs-badge-check"></i>
-          </div>
-        </div>
-      </div>
-
-      <button type="submit" className="glass-btn">
-        Register
-      </button>
-
-      <h6 className="form-toggle-text">
-        Already have an account?{" "}
-        <a href="#" onClick={() => setIsRegistering(false)}>
-          Login
-        </a>
-      </h6>
-    </form>
+    </>
   );
 
   const renderForgotPasswordForm = () => (
@@ -634,7 +445,6 @@ const AccountDetails = ({ onLogin }) => {
       )}
 
       <h6 className="form-toggle-text">
-       
         <a
           href="#"
           onClick={() => {
@@ -652,7 +462,6 @@ const AccountDetails = ({ onLogin }) => {
     <div className="component-wrapper">
       {/* LEFT SIDE FLOATING ICONS */}
       <div className="float-left-side">
-        <FaReact className="ac-float-icon ac-f1" />
         <FaHtml5 className="ac-float-icon ac-f3" />
         <FaJs className="ac-float-icon ac-f7" />
         <FaBook className="ac-float-icon ac-f8" />
@@ -673,11 +482,16 @@ const AccountDetails = ({ onLogin }) => {
           isRegistering ? "register-glass-container" : ""
         }`}
       >
-        {isForgotPassword
-          ? renderForgotPasswordForm()
-          : isRegistering
-          ? renderRegisterForm()
-          : renderLoginForm()}
+        {isForgotPassword ? (
+          renderForgotPasswordForm()
+        ) : isRegistering ? (
+          <MultiStepRegister
+            onRegister={handleRegisterSubmit}
+            onSwitchToLogin={() => setIsRegistering(false)}
+          />
+        ) : (
+          renderLoginForm()
+        )}
       </div>
     </div>
   );

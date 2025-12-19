@@ -79,6 +79,9 @@
     max-width: 1280px;
     margin: 0 auto;
     position: relative;
+    flex-wrap: wrap;
+    /* allow wrapping on small screens */
+    gap: 10px;
 }
 
 /* Quiz Title (Premium Gradient Glow) */
@@ -86,9 +89,15 @@
     font-family: 'Rajdhani', sans-serif;
     font-size: 2rem;
     font-weight: 700;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    /* Remove absolute positioning for better responsiveness */
+    /* position: absolute; */
+    /* left: 50%; */
+    /* transform: translateX(-50%); */
+    text-align: center;
+    flex-grow: 1;
+    /* Take up available space */
+    margin: 0 10px;
+
     background: linear-gradient(90deg, #7f00ff, #e100ff, #ff0080);
     background-size: 300% 300%;
     -webkit-background-clip: text;
@@ -219,7 +228,8 @@
 /* ---------- Fonts ---------- */
 .quiz-container {
     flex-grow: 1;
-    margin-top: 18px;
+    margin-top: 60px;
+    /* Increased margin to avoid overlap with fixed header */
     width: 100%;
     max-width: 850px;
     margin-left: auto;
@@ -251,7 +261,7 @@
 .question-text {
     margin-top: 20px;
     font-family: "Libertinus Serif", serif;
-    font-size: 1.1rem ;
+    font-size: 1.1rem;
     font-weight: 450;
     color: #040404;
 }
@@ -340,15 +350,12 @@
     justify-content: center;
     align-items: center;
     gap: 0.75rem;
-    /* 12px */
-    /* space between buttons */
     margin-top: 1.2rem;
 }
 
 /* Base Button Style */
 .action-btn {
     padding: 0.5rem 1rem;
-    /* 8px 16px */
     font-size: 0.85rem;
     font-weight: 600;
     border-radius: 10px;
@@ -396,6 +403,7 @@
     padding: 25px;
     max-width: 500px;
     margin-left: 270px;
+    /* May need adjustment for response */
 }
 
 .results-actions-card {
@@ -425,8 +433,8 @@
 }
 
 .circular-progress-bar {
-    width: 140px;
-    height: 140px;
+    width: 160px;
+    height: 160px;
     transform: rotate(-90deg);
 }
 
@@ -465,7 +473,6 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
-    /* 15px */
     text-align: center;
 }
 
@@ -519,7 +526,6 @@
     display: flex;
     flex-direction: row;
     gap: 1rem;
-    /* 15px */
     align-items: center;
 }
 
@@ -702,116 +708,190 @@
     }
 }
 
-/* ------------------------------------------- */
-/* ---------- Responsive Design Updates (Based on Scales) ---------- */
-/* ------------------------------------------- */
 
+/* =========================================
+   RESPONSIVE BREAKPOINTS
+   ========================================= */
 
-@media (max-width: 1200px) {
-    /* Removed codepad styles */
-}
+/* 1. Mobile (Portrait) 320px to 479px */
+@media (min-width: 320px) and (max-width: 479px) {
+    .quiz-header-fixed {
+        padding: 10px 15px;
+        position: fixed;
+        /* Stick it for mobile too? or absolute? kept fixed */
+    }
 
-@media (max-width: 900px) {
+    .top-header-row {
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+    }
 
-    /* Center score summary better */
+    .btn-home-header {
+        display: none;
+    }
+
+    .quiz-title-center {
+        position: static;
+        transform: none;
+        font-size: 1.5rem;
+        text-align: center;
+        margin: 5px 0;
+        width: 100%;
+    }
+
+    .controls-right {
+        width: 100%;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .timer-container {
+        padding: 8px 12px;
+        flex-grow: 1;
+        justify-content: center;
+    }
+
+    .timer-value {
+        font-size: 1rem;
+    }
+
+    .btn-submit-header {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .quiz-container {
+        margin-top: 140px;
+        /* Adjust for taller header */
+        padding: 10px;
+    }
+
+    .results-page {
+        margin-top: 120px;
+        padding-top: 20px;
+    }
+
     .score-summary-card {
-        margin-left: auto;
-        margin-right: auto;
+        margin-left: 0;
+        margin: 0 auto;
+        padding: 15px;
     }
 
     .summary-card-title {
         padding-left: 0;
         text-align: center;
-        font-size: 2rem;
+        font-size: 1.8rem;
+    }
+
+    .results-stats {
+        grid-template-columns: 1fr;
     }
 }
 
-/* Tablet (768px and below) - Affects 125% to 150% scale on desktop */
-@media (max-width: 768px) {
+/* 2. Mobile (Landscape) 480px to 767px */
+@media (min-width: 480px) and (max-width: 767px) {
+    .quiz-header-fixed {
+        padding: 8px 15px;
+    }
+
+    .top-header-row {
+        flex-wrap: wrap;
+        /* Let title break to new line if needed, or row */
+        justify-content: space-between;
+    }
+
     .quiz-title-center {
-        font-size: 1.2rem;
         position: static;
         transform: none;
+        order: 3;
+        /* Move title below controls if needed, or keep in middle */
+        width: 100%;
+        /* Force new line? No, let's try compact row */
+        font-size: 1.3rem;
+        margin: 5px 0;
+    }
+
+    /* Alternate: Keep row but smaller elements */
+    .top-header-row {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .quiz-title-center {
+        width: auto;
+        flex-grow: 1;
+        font-size: 1.2rem;
+    }
+
+    .quiz-container {
+        margin-top: 80px;
+        padding: 15px;
+    }
+
+    .score-summary-card {
+        margin-left: 0;
+        margin: 0 auto;
+    }
+}
+
+/* 3. Tablet (Portrait & Landscape) 768px to 1024px */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .quiz-title-center {
+        position: static;
+        transform: none;
+        font-size: 1.8rem;
     }
 
     .top-header-row {
         justify-content: space-between;
     }
 
-    .app-wrapper {
-        padding: 80px 15px 15px 15px;
+    .score-summary-card {
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .quiz-container {
-        padding: 20px 15px;
-    }
-
-    .results-page {
-        padding-top: 10px;
-    }
-
-    .quiz-header-fixed {
-        padding: 10px 15px;
-    }
-
-    .controls-right {
-        gap: 10px;
-    }
-
-    .btn-home-header,
-    .btn-submit-header {
-        padding: 8px 18px;
-        font-size: 0.8rem;
-        gap: 6px;
-    }
-
-    .timer-container {
-        padding: 8px 15px;
-    }
-
-    .timer-value {
-        font-size: 0.9rem;
-    }
-
-    .review-title {
-        font-size: 2rem;
-    }
-
-    .answer-review-section {
-        padding: 20px;
-    }
-
-    .section-title {
-        font-size: 1.4rem;
+        margin-top: 80px;
     }
 }
 
-/* Small Tablet/Phablet (576px and below) - Affects 175% to 200% scale on desktop */
-@media (max-width: 576px) {
-    .results-stats {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
+/* 4. Laptop/Desktop 1025px to 1280px */
+@media (min-width: 1025px) and (max-width: 1280px) {
 
-    .action-buttons {
-        flex-direction: column;
-        /* Stack buttons vertically for better tap targets */
-    }
-
-    .action-buttons .btn {
-        width: 90%;
-        max-width: 250px;
-    }
-
-    .score-percentage-text {
-        font-size: 1.75rem;
-    }
-
-    .circular-progress-bar {
-        width: 120px;
-        height: 120px;
+    /* Standard layout ok */
+    .score-summary-card {
+        margin-left: auto;
+        /* Center it */
+        margin-right: auto;
     }
 }
+
+/* 5. Desktop 1281px + */
+@media (min-width: 1281px) {
+
+    /* Large screen optimization */
+    .app-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+}
+
+.action-buttons .btn {
+    width: 90%;
+    max-width: 250px;
+}
+
+.score-percentage-text {
+    font-size: 1.75rem;
+}
+
+.circular-progress-bar {
+    width: 120px;
+    height: 120px;
+}
+
 
 /* Mobile (400px and below) - Very high zoom or smallest devices */
 @media (max-width: 400px) {

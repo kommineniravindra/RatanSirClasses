@@ -5,7 +5,8 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  overflow: hidden;  /* prevent scrolling */
+  overflow: hidden;
+  /* prevent scrolling */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,26 +59,124 @@
 
 .face img,
 .face video {
-  width: 60%;
+  width: 100%;
   height: 100%;
-  object-fit: var(--cube-width)k;
+  object-fit: fill;
 }
 
 
 /* 3D cube positioning */
-.front  { transform: rotateY(0deg) translateZ(var(--z-offset)); }
-.right  { transform: rotateY(90deg) translateZ(var(--z-offset)); }
-.back   { transform: rotateY(180deg) translateZ(var(--z-offset)); }
-.left   { transform: rotateY(-90deg) translateZ(var(--z-offset)); }
+.front {
+  transform: rotateY(0deg) translateZ(var(--z-offset));
+}
+
+.right {
+  transform: rotateY(90deg) translateZ(var(--z-offset));
+}
+
+.back {
+  transform: rotateY(180deg) translateZ(var(--z-offset));
+}
+
+.left {
+  transform: rotateY(-90deg) translateZ(var(--z-offset));
+}
 
 /* Scale variables (optional for responsiveness) */
+/* Scale variables (Adjusted for maximum height) */
 :root {
-    --cube-width: 20rem;
-    --cube-height: 60rem;
-    --z-offset: 10rem;
+  --cube-width: 11rem;
+  --cube-height: 48rem;
+  /* Increased to 48rem */
+  --z-offset: 5.5rem;
 }
-.scale-100 { --cube-width: 20rem; --cube-height: 60rem; --z-offset: 10rem; }
-.scale-125 { --cube-width: calc(20rem * 1.25); --cube-height: calc(60rem * 1.25); --z-offset: calc(10rem * 1.25); }
-.scale-150 { --cube-width: calc(20rem * 1.5); --cube-height: calc(60rem * 1.5); --z-offset: calc(10rem * 1.5); }
-.scale-175 { --cube-width: calc(20rem * 1.75); --cube-height: calc(60rem * 1.75); --z-offset: calc(10rem * 1.75); }
-.scale-200 { --cube-width: calc(20rem * 2); --cube-height: calc(60rem * 2); --z-offset: calc(10rem * 2); }
+
+.scale-100 {
+  --cube-width: 11rem;
+  --cube-height: 48rem;
+  --z-offset: 5.5rem;
+}
+
+/* Adjusted proportional scales */
+.scale-125 {
+  --cube-width: calc(11rem * 1.25);
+  --cube-height: calc(48rem * 1.25);
+  --z-offset: calc(5.5rem * 1.25);
+}
+
+.scale-150 {
+  --cube-width: calc(11rem * 1.5);
+  --cube-height: calc(48rem * 1.5);
+  --z-offset: calc(5.5rem * 1.5);
+}
+
+.scale-175 {
+  --cube-width: calc(11rem * 1.75);
+  --cube-height: calc(48rem * 1.75);
+  --z-offset: calc(5.5rem * 1.75);
+}
+
+.scale-200 {
+  --cube-width: calc(11rem * 2);
+  --cube-height: calc(48rem * 2);
+  --z-offset: calc(5.5rem * 2);
+}
+
+
+/* =========================
+   RESPONSIVE SCALING
+========================= */
+
+/* 1. Mobile Portrait (320px - 479px) */
+@media (max-width: 479px) {
+  :root {
+    --cube-width: 8rem;
+    --cube-height: 32rem;
+    /* Increased */
+    --z-offset: 4rem;
+  }
+
+  .scene {
+    margin-top: 2rem;
+  }
+}
+
+/* 2. Mobile Landscape (480px - 767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+  :root {
+    --cube-width: 10rem;
+    --cube-height: 40rem;
+    /* Increased */
+    --z-offset: 5rem;
+  }
+}
+
+/* 3. Tablet Portrait & Landscape (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  :root {
+    --cube-width: 11rem;
+    --cube-height: 48rem;
+    /* Increased */
+    --z-offset: 5.5rem;
+  }
+}
+
+/* 4. Laptop (1025px - 1280px) */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  :root {
+    --cube-width: 11.5rem;
+    --cube-height: 50rem;
+    /* Increased */
+    --z-offset: 5.75rem;
+  }
+}
+
+/* 5. Desktop (1281px+) */
+@media (min-width: 1281px) {
+  :root {
+    --cube-width: 12rem;
+    --cube-height: 55rem;
+    /* Increased significantly */
+    --z-offset: 6rem;
+  }
+}

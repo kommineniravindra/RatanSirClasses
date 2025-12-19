@@ -1,9 +1,0 @@
-[
-  {
-    "question": "Write an SQL query to find the names of students who scored more than 75 in the 'Marks' table.",
-    "answer": "SELECT name FROM Marks WHERE score > 75;",
-    "sampleInput": "Table: Marks\nColumns: id, name, score\nData:\n1, 'Ravi', 80\n2, 'Sita', 70\n3, 'John', 90",
-    "sampleOutput": "'Ravi'\n'John'",
-    "maxMarks": 10
-  }
-]

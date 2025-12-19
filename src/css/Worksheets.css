@@ -2,7 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 .worksheets-container {
-    padding: 20px;
     height: 100%;
     overflow-y: auto;
     background: #fdfdfd;
@@ -113,7 +112,7 @@
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-    transition: all 0.9s ease;
+    transition: all 0.3s ease;
 }
 
 .chapter-card:hover {
@@ -130,7 +129,7 @@
     align-items: center;
     cursor: pointer;
     background: white;
-    transition: background 0.9s;
+    transition: background 0.2s;
 }
 
 .chapter-header:hover {
@@ -150,8 +149,7 @@
 }
 
 .chapter-header h3 {
-          font-family: "Source Serif Pro", serif;
-
+    font-family: "Source Serif Pro", serif;
     margin: 0;
     font-size: 0.95rem;
     /* Slightly smaller */
@@ -227,28 +225,27 @@
     color: #1e293b;
     line-height: 1.5;
 }
+
 .ex-title Span {
-  font-family: "Source Serif Pro", serif;
-  font-size: 1rem;
-  line-height: 1.6;
+    font-family: "Source Serif Pro", serif;
+    font-size: 1rem;
+    line-height: 1.6;
 
 }
+
 .ex-title strong {
-     font-family: "Source Serif Pro", serif;
     color: #4f46e5;
     font-weight: 700;
     margin-right: 6px;
 }
 
 .ex-title br {
-         font-family: "Source Serif Pro", serif;
     display: block;
     margin-bottom: 3px;
     content: "";
 }
 
 .exercise-desc-compact {
-      font-family: "Source Serif Pro", serif;
     color: #475569;
     font-size: 0.9rem;
     margin-bottom: 10px;
@@ -262,8 +259,17 @@
     margin-top: 8px;
     /* Reduced from 16px */
     overflow: hidden;
+    /* Keep hidden for border radius */
     border: 1px solid #e2e8f0;
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+}
+
+.syntax-highlighter-wrapper {
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+    width: 100%;
 }
 
 .code-header-compact {
@@ -313,6 +319,8 @@
     font-size: 0.85rem !important;
     line-height: 1.45 !important;
     background: #ffffff !important;
+    padding: 12px !important;
+    /* Moved from JS */
 }
 
 .syntax-highlighter-wrapper code {
@@ -321,19 +329,100 @@
 
 
 /* --- Responsive Adjustments --- */
-@media (max-width: 768px) {
+
+/* Mobile (Landscape) - 481px to 767px */
+@media (min-width: 481px) and (max-width: 767px) {
     .worksheets-container {
         padding: 15px;
-        /* Even tighter on mobile */
+    }
+
+    .tech-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .chapter-header {
+        padding: 10px 15px;
+    }
+}
+
+/* Tablet (Portrait & Landscape) - 768px to 1024px */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .worksheets-container {
+        padding: 20px;
+    }
+
+    .tech-selector {
+        gap: 12px;
+    }
+}
+
+/* Laptop/Desktop - 1025px to 1280px */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .worksheets-container {
+        max-width: 1000px;
+        margin: 0;
+    }
+}
+
+/* Desktop - 1281px + */
+@media (min-width: 1281px) {
+    .worksheets-container {
+        max-width: 1200px;
+        margin: 0;
+    }
+}
+
+/* Mobile (Portrait) - 320px to 479px and general small screen fallbacks */
+@media (max-width: 479px) {
+    .worksheets-container {
+        padding: 10px;
+        overflow-x: hidden;
     }
 
     .worksheet-title {
         font-size: 1.25rem;
         margin-bottom: 12px;
+        word-wrap: break-word;
+    }
+
+    .tech-selector {
+        gap: 8px;
+    }
+
+    .tech-btn {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        flex: 1 1 auto;
+        text-align: center;
     }
 
     .chapter-header {
-        padding: 10px 14px;
+        padding: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .chapter-info {
+        width: 100%;
+        gap: 8px;
+    }
+
+    .chapter-info h3 {
+        font-size: 0.9rem;
+        white-space: normal;
+        flex: 1;
+    }
+
+    .download-btn {
+        width: 100%;
+        justify-content: center;
+        margin-top: 4px;
+    }
+
+    .exercises-list.open {
+        padding: 4px 10px 14px 10px;
     }
 
     .exercise-item {
@@ -342,36 +431,25 @@
 
     .exercise-header-compact {
         flex-direction: column;
-        gap: 6px;
-    }
-}
-
-@media (max-width: 480px) {
-    .worksheets-container {
-        padding: 10px;
+        gap: 4px;
+        align-items: flex-start;
     }
 
-    .tech-btn {
-        padding: 6px 12px;
-        font-size: 0.75rem;
-        flex: 1 1 auto;
-        text-align: center;
-    }
-
-    .chapter-header {
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-
-    .chapter-info h3 {
+    .ex-title {
         font-size: 0.9rem;
     }
 
-    .download-btn {
-        margin-left: auto;
+    /* Ensure code previews scroll instead of cut */
+    .code-preview.compact-preview {
+        max-width: 100%;
+        overflow-x: hidden;
+        /* Wrapper stays hidden x */
     }
 
-    .exercises-list.open {
-        padding: 4px 10px 14px 10px;
+    .syntax-highlighter-wrapper {
+        max-width: 100%;
+        overflow-x: auto;
+        /* Scroll content */
+        display: block;
     }
 }

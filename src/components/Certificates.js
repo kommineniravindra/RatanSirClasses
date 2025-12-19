@@ -57,14 +57,13 @@ const CertificateDisplay = ({ course, userName }) => {
   // const qrDataContent = `https://codepulse-r.com/verify/${certId}`;
   const issuedDate = new Date().toLocaleDateString("en-IN");
 
-const qrDataContent = `
+  const qrDataContent = `
 Website : www.codepulse-r.com
 Student : ${currentUserName}
 Course  : ${courseTitle}
 Date    : ${issuedDate}
 Support : help.codepulse@gmail.com
 `;
-
 
   // --- DOWNLOAD FUNCTION: Generates PDF from HTML ---
   const handleDownload = async () => {
@@ -150,7 +149,7 @@ Support : help.codepulse@gmail.com
                   <QRCode
                     value={qrDataContent}
                     size={100}
-                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                    className="qr-code-svg"
                   />
                 </div>
                 <div className="cert-id-tag">{certId}</div>
@@ -179,7 +178,7 @@ Support : help.codepulse@gmail.com
         whileTap={{ scale: 0.95 }}
         onClick={handleDownload}
       >
-        <FaDownload style={{ marginRight: "8px" }} /> Download Certificate (PDF)
+        <FaDownload className="download-icon" /> Download Certificate (PDF)
       </motion.button>
     </motion.div>
   );
@@ -236,7 +235,7 @@ const CertificateListItem = ({
     ? "Earned & Available"
     : `Progress: ${progress}%`;
   const statusIcon = isCompleted ? (
-    <FaCheckCircle style={{ color: "#28a745" }} />
+    <FaCheckCircle className="status-icon-completed" />
   ) : (
     <FaChartLine style={{ color: course.color }} />
   );

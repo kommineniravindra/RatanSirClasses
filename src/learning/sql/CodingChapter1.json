@@ -1,0 +1,44 @@
+[
+  {
+    "question": "Write an SQL query to select all records from a table named 'students'.",
+    "sampleInput": "Table: <b>students</b><br>Columns: id, name, age",
+    "sampleOutput": "<table border='1' style='border-collapse: collapse; width: 100%;'><tr><th>id</th><th>name</th><th>age</th></tr><tr><td>1</td><td>Ravi</td><td>20</td></tr><tr><td>2</td><td>Priya</td><td>22</td></tr><tr><td>3</td><td>Amit</td><td>18</td></tr><tr><td>4</td><td>Sita</td><td>25</td></tr><tr><td>5</td><td>Alice</td><td>20</td></tr><tr><td>6</td><td>Bob</td><td>22</td></tr></table>",
+    "maxMarks": 10,
+    "description": "Retrieve all rows from the 'students' table."
+  },
+  {
+    "question": "Write an SQL query to insert a new student with name 'Karan' and age 24 into the students table.",
+    "sampleInput": "Insert: name = Karan, age = 24",
+    "sampleOutput": "Values inserted into 'students' successfully.",
+    "maxMarks": 10,
+    "description": "Insert a new row into the 'students' table with name 'Karan' and age 24."
+  },
+  {
+    "question": "Write an SQL query to update the age of the student named 'Amit' to 19.",
+    "sampleInput": "Update: name = Amit, new age = 19",
+    "sampleOutput": "Table 'students' updated successfully.",
+    "maxMarks": 10,
+    "description": "Update the age of the student named 'Amit' to 19."
+  },
+  {
+    "question": "Write an SQL query to delete the student named 'Sita'.",
+    "sampleInput": "Delete: name = Sita",
+    "sampleOutput": "Rows deleted from 'students' successfully.",
+    "maxMarks": 10,
+    "description": "Delete the record of the student named 'Sita'."
+  },
+  {
+    "question": "Write an SQL query to select all students whose age is greater than 20.",
+    "sampleInput": "Condition: age > 20",
+    "sampleOutput": "<table border='1' style='border-collapse: collapse; width: 100%;'><tr><th>id</th><th>name</th><th>age</th></tr><tr><td>2</td><td>Priya</td><td>22</td></tr><tr><td>4</td><td>Sita</td><td>25</td></tr><tr><td>6</td><td>Bob</td><td>22</td></tr></table>",
+    "maxMarks": 10,
+    "description": "Select all students strictly older than 20 years."
+  },
+  {
+    "question": "<h3>Student Age Analysis</h3><p>The school principal wants a list of students who are eligible for the senior sports team. Eligibility criteria: Age must be <b>22 or older</b>.</p><br/><h4>Schema:</h4><ul><li><code>id</code> (Integer): Unique ID</li><li><code>name</code> (Text): Student Name</li><li><code>age</code> (Integer): Student Age</li></ul>",
+    "sampleInput": "Table: <b>students</b><br>Columns: id, name, age",
+    "sampleOutput": "<table border='1' style='border-collapse: collapse; width: 100%;'><tr><th>id</th><th>name</th><th>age</th></tr><tr><td>2</td><td>Priya</td><td>22</td></tr><tr><td>4</td><td>Sita</td><td>25</td></tr><tr><td>6</td><td>Bob</td><td>22</td></tr></table>",
+    "maxMarks": 10,
+    "description": "Retrieve all students composed of those aged 22 or older for the sports team."
+  }
+]

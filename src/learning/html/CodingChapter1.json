@@ -1,6 +1,6 @@
 [
   {
-    "question": "Create an HTML button with the text 'Click Me'.Create an HTML button with the text 'Click Me'.Create an HTML button with the text 'Click Me'.Create an HTML button with the text 'Click Me'.Create an HTML button with the text 'Click Me'.",
+    "question": "Create an HTML button with the text 'Click Me'.",
     "sampleInput": "Button Text => Click Me",
     "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Button Task</title>\n</head>\n<body>\n    <button>Click Me</button>\n</body>\n</html>",
     "sampleOutput": "<button>Click Me</button>",
@@ -33,9 +33,9 @@
   },
   {
     "question": "Create an HTML page with title 'My Image' and display an image from source 'mypic.jpg' with width 200px.",
-    "sampleInput": "Title-> My Image\nImage-> img17.jpg\nWidth-> 200px",
+    "sampleInput": "Title-> My Image\nImage-> mypic.jpg\nWidth-> 200px",
     "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>My Image</title>\n</head>\n<body>\n    <h1>My Image</h1>\n    <img src='mypic.jpg' width='200px' />\n</body>\n</html>",
-    "sampleOutput": "<img src='./img17.jpg' width='200px' alt='My Image' />",
+    "sampleOutput": "<img src='mypic.jpg' width='200px' alt='My Image' />",
     "maxMarks": 10,
     "description": "create image tag with given source and width."
   }

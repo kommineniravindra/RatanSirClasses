@@ -1,74 +1,45 @@
-/* =================================
-IMPORTS & GENERAL STYLES
-================================= */
+/* =================================================
+   ACCOUNT DETAILS - PREMIUM GLASSMORPHISM UI v2.1
+   ================================================= */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+/* Keep Outfit for wizard if needed, but primary is Poppins now? Snippet uses Poppins */
 
-
-/* =================================
-   SPINNER ANIMATION
-================================= */
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
+:root {
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+  --primary-glow: rgba(79, 70, 229, 0.5);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --text-main: #111827;
+  --text-sub: #6b7280;
+  --danger: #ef4444;
 }
 
-.spinner-icon {
-  animation: spin 1s linear infinite;
-  margin-right: 8px;
-}
-
-.otp-timer {
-  font-size: 13px;
-  color: #ff6b6b;
-  margin-top: 5px;
-  margin-bottom: 20px;
-  text-align: right;
-  font-weight: 500;
-}
-
-.resend-otp-btn {
-  background: none;
-  border: none;
-  box-shadow: none;
-  color: #4a90e2;
-  /* Softer blue */
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: underline;
-  /* Keep it clearly a link/action */
-  padding: 0;
-  display: inline-block;
-  transition: color 0.2s;
-}
-
-.resend-otp-btn:hover {
-  color: #2c3e50;
+/* Global Scrollbar Hide */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
 }
 
 /* =================================
-COMPONENT WRAPPER – PREMIUM SOFT UI
-================================= */
+   WRAPPER & BACKGROUND
+   ================================= */
 .component-wrapper {
   position: relative;
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  width: 100%;
   overflow: hidden;
-
+  font-family: 'Outfit', sans-serif;
   /* PREMIUM SOFT GRADIENT */
   background: linear-gradient(135deg,
       #ffffff 0%,
       #e8f0ff 35%,
       #ffe9d6 100%);
-
+  z-index: 1;
 }
 
 /* Morphing animation for blob shapes */
@@ -100,7 +71,8 @@ COMPONENT WRAPPER – PREMIUM SOFT UI
       rgba(255, 196, 140, 0.45),
       rgba(255, 175, 130, 0.28));
   filter: blur(160px);
-  z-index: 0;
+  z-index: -1;
+  /* Keep behind */
   animation: morph 18s linear infinite alternate;
 }
 
@@ -116,115 +88,89 @@ COMPONENT WRAPPER – PREMIUM SOFT UI
       rgba(165, 220, 255, 0.45),
       rgba(135, 195, 255, 0.30));
   filter: blur(130px);
-  z-index: 0;
+  z-index: -1;
   animation: morph 16s linear infinite reverse;
 }
 
-
-.form-columns {
-  display: flex;
-  flex-direction: row;
-  gap: 30px;
-  justify-content: space-between;
-}
-
-.form-column {
-  flex: 0 0 48%;
-}
-
-.register-glass-container {
-  width: 800px;
-  padding: 50px 40px;
-}
-
-@media (max-width: 900px) {
-  .register-glass-container {
-    width: 90%;
-    padding: 35px 25px;
-  }
-}
-
-/* Two-column layout for register form */
-.form-columns {
-  display: flex;
-  flex-direction: row;
-  gap: 30px;
-  justify-content: space-between;
-}
-
-.form-column {
-  flex: 0 0 48%;
-}
-
-
 /* =================================
-GLASS CONTAINER – SOFT GLASS EFFECT
-================================= */
+   GLASS CONTAINER
+   ================================= */
 .glass-container {
-  width: auto;
-  padding: 40px 30px;
-
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-
-  /* Elegant soft border */
+  position: relative;
+  /* Soft Glass Effect from snippet */
+  /* Soft Glass Effect - Clear (No Blur) */
+  background: rgba(255, 255, 255, 0.65);
+  /* Increased opacity slightly for legibility without blur */
+  /* backdrop-filter removed for clear glass effect */
   border: 1px solid rgba(255, 255, 255, 0.55);
-  border-radius: 24px;
-
-  /* Soft shadow (Neumorphic style) */
   box-shadow:
-    0 8px 25px rgba(0, 0, 0, 0.08),
-    0 0 40px rgba(200, 220, 255, 0.35);
-
-  color: #4a4a4a;
+    0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  border-radius: 28px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 360px;
   text-align: center;
-  transition: all 0.3s ease-in-out;
+  transform: translateY(30px);
+  opacity: 0;
+  animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 10;
   max-height: 90vh;
   overflow-y: auto;
   scrollbar-width: none;
-  z-index: 1;
 }
 
 .glass-container::-webkit-scrollbar {
   display: none;
 }
 
+.register-glass-container {
+  max-width: 450px;
+}
+
+@keyframes slideUpFade {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* =================================
+   TYPOGRAPHY
+   ================================= */
 .glass-container h1 {
-  font-family:khmer os;
-  font-size: 34px;
+  font-size: 2rem;
+  font-family: 'khmer os', serif;
+  /* From snippet */
   font-weight: 700;
-  margin-bottom: 10px;
   color: #333;
   text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+  margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
 }
 
-/* Icon inside heading */
 .glass-container h1 i {
-  font-size: 28px;
-  margin-right: 10px;
   color: #d4af37;
+  /* Gold icon */
+  font-size: 1.8rem;
 }
 
-
-.glass-container p {
-  font-size: 14px;
-  color: #555;
-  line-height: 1.6;
+.form-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-sub);
+  margin-bottom: 2rem;
+  line-height: 1.5;
 }
-
-
-
 
 /* =================================
-INPUT FIELDS – Soft pastel theme
-================================= */
+   INPUTS
+   ================================= */
 .input-box {
   position: relative;
-  margin: 5px 0;
+  margin: 10px 0;
+  /* Increased from 2px 0 for gap */
   width: 100%;
 }
 
@@ -232,295 +178,468 @@ INPUT FIELDS – Soft pastel theme
 .input-box select {
   width: 100%;
   padding: 13px 50px 13px 40px;
-
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 14px;
-
-  border: 2px solid rgba(210, 220, 230, 0.8);
-  outline: none;
-
+  /* From snippet */
   font-size: 15px;
-  color: #444;
+  /* From snippet */
+  font-family: inherit;
+  color: #333;
+  /* Updated for better contrast */
+  background: rgba(255, 255, 255, 0.4);
+  /* Lite white color - Increased visibility */
+  border: none;
+  border-bottom: 1px solid #555;
+  /* Bottom border only */
+  border-radius: 0;
+  /* No radius */
+  outline: none;
   font-weight: 500;
-
   transition: all 0.25s ease;
   -webkit-appearance: none;
   appearance: none;
+  box-shadow: none;
+}
+
+.input-box input:hover,
+.input-box select:hover {
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .input-box input:focus,
 .input-box select:focus {
-  border: 2px solid #a8d8ff;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 10px rgba(165, 220, 255, 0.6);
-}
-
-/* Error style */
-.input-box .input-error {
-  border: 2px solid #ff7b7b !important;
-  background: rgba(255, 140, 140, 0.2) !important;
-  box-shadow: 0 0 6px rgba(255, 100, 100, 0.4) !important;
-}
-
-.input-box input::placeholder {
-  color: #777;
-}
-
-.input-box select {
-  color: #777;
-}
-
-.input-box select:valid {
-  color: #333;
-}
-
-.input-box select option {
-  background: #f0f7ff;
-  color: #333;
-}
-
-/* Success tick color */
-.input-box input.blurred:valid,
-.input-box select.blurred:valid {
-  border-color: #7aff96;
+  border-bottom: 2px solid var(--primary);
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: none;
+  transform: none;
 }
 
 .input-box i {
   position: absolute;
-  left: 15px;
+  left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 20px;
   color: #888;
+  font-size: 1.1rem;
   transition: 0.3s;
+  pointer-events: none;
 }
 
-.input-box input,
-.input-box select {
-  padding-left: 40px;
-  padding-right: 15px;
+.input-box input:focus+i {
+  color: var(--primary);
 }
 
-
-.input-box input:focus+i,
-.input-box select:focus+i {
-  color: #6bbcff;
+.input-box input.error,
+.input-box select.error {
+  border-color: var(--danger);
+  background: #fff5f5;
 }
 
-
-/* =================================
-ERROR MESSAGE
-================================= */
-.error-message {
-  color: #ff6b6b;
-  font-size: 13px;
-  margin-top: -10px;
-  margin-bottom: 10px;
-  text-align: left;
-  padding-left: 5px;
-  font-weight: 500;
+/* Floating Label Styles */
+.input-box {
+  position: relative;
+  /* margin-top: 1rem;  Space for label moving up */
 }
 
+.floating-label {
+  position: absolute;
+  left: 40px;
+  /* Aligned with text padding (icon width) */
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 15px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  padding: 0 5px;
+  background: transparent;
+  border-radius: 4px;
+}
 
-
-/* =================================
-BUTTON – Soft Premium Button
-================================= */
-.glass-btn {
-  width: 70%;
-  height: 50px;
-  background: linear-gradient(135deg, #ffffff, #f8fbff);
-  border-radius: 14px;
-    font-family: "Libertinus Serif", serif;
-  border: 1px solid rgba(200, 215, 230, 0.8);
-
-  font-size: 1.5rem;
+/* Float up when active */
+.input-box input:focus~.floating-label,
+.input-box input:not(:placeholder-shown)~.floating-label,
+.input-box select:focus~.floating-label,
+.input-box select:valid~.floating-label,
+.input-box input:-webkit-autofill~.floating-label {
+  top: 0px;
+  left: 35px;
+  font-size: 0.75rem;
+  color: var(--primary);
+  background: transparent;
+  /* No background as requested */
   font-weight: 600;
-  color: #12013c;
+  padding: 0 6px;
+  letter-spacing: 0.5px;
+}
+
+/* Autofill Fix */
+.input-box input:-webkit-autofill,
+.input-box input:-webkit-autofill:hover,
+.input-box input:-webkit-autofill:focus,
+.input-box input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px rgba(255, 255, 255, 0.8) inset !important;
+  /* Light background for autofill to look clean */
+  -webkit-text-fill-color: #333 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.glass-btn {
+  width: 10%;
+  min-width: 100px;
+  padding: 12px 2px;
+  margin: 0.6rem auto;
+  background: #eef2f9;
+  border-radius: 50px;
+  border: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #4a5568;
 
   cursor: pointer;
-  margin-top: 5px;
-  margin-bottom: 3%;
+  position: relative;
+  overflow: visible;
 
   box-shadow:
-    0 4px 12px rgba(150, 170, 190, 0.25),
-    0 0 20px rgba(220, 240, 255, 0.6);
+    8px 8px 16px #d1d9e6,
+    -8px -8px 16px #ffffff;
 
-  transition: all 0.25s ease;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .glass-btn:hover {
-  background: linear-gradient(135deg, #ffffff, #fff2e5);
   transform: translateY(-2px);
+  color: #3182ce;
+  /* Highlight text color on hover */
   box-shadow:
-    0 6px 15px rgba(150, 170, 190, 0.35);
+    10px 10px 18px #d1d9e6,
+    -10px -10px 18px #ffffff;
+}
+
+.glass-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: 0.5s;
+}
+
+.glass-btn:hover::before {
+  left: 100%;
 }
 
 .glass-btn:active {
-  transform: translateY(1px);
+  transform: scale(0.98);
+  box-shadow:
+    inset 4px 4px 8px #d1d9e6,
+    inset -4px -4px 8px #ffffff;
+  /* Proper inset for 3D press feel */
 }
 
-/* Disabled */
 .glass-btn:disabled {
-  background: rgba(240, 240, 240, 0.8);
-  border-color: rgba(200, 200, 200, 0.5);
-  color: rgba(100, 100, 100, 0.4);
+  background: #d1d5db;
   cursor: not-allowed;
-  box-shadow: none;
+  transform: none;
 }
 
+.glass-btn.primary-btn {
+  background: #eef2ff;
+  color: var(--primary);
+  border: 2.5px solid var(--primary);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.glass-btn.primary-btn:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
+}
+
+.glass-btn.secondary-btn {
+  background: #fff;
+  color: #4a5568;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.glass-btn.secondary-btn:hover {
+  background: #f7fafc;
+  border-color: #cbd5e0;
+  transform: translateY(-2px);
+  color: #2d3748;
+}
 
 /* =================================
-Form toggle link
-================================= */
+   LOGIN LAYOUT
+   ================================= */
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0 20px;
+  font-size: 0.9rem;
+  color: var(--text-sub);
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.remember-me input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.forgot-link {
+  color: var(--text-sub);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+  font-size: 0.85rem;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+  color: var(--primary);
+}
+
+.login-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.login-actions .glass-btn {
+  margin: 0;
+  width: 100%;
+  flex: 1;
+  padding: 10px 16px;
+  /* Smaller padding */
+  font-size: 0.95rem;
+  /* Slightly smaller text */
+  min-width: auto;
+  /* Allow them to shrink if needed */
+  border-radius: 12px;
+  /* More modern rounded rect */
+}
+
+.signup-link-container {
+  display: block;
+  text-align: center;
+  margin-bottom: 5px;
+  font-size: 0.95rem;
+  color: var(--text-sub);
+}
+
+.signup-text {
+  display: inline;
+  color: var(--primary);
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.signup-text:hover {
+  text-decoration: underline;
+  color: var(--primary-dark);
+}
+
+.divider-or {
+  position: relative;
+  text-align: center;
+  margin: 1px 0;
+  color: #888;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.divider-or::before,
+.divider-or::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 42%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.divider-or::before {
+  left: 0;
+}
+
+.divider-or::after {
+  right: 0;
+}
+
+/* Removed global hide rules to prevent side effects */
+
+/* =================================
+   LINKS & SOCIAL
+   ================================= */
 .form-toggle-text {
-  margin-top: -5px;
-  font-size: 18px;
-  color: #444;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-style: italic;
+  margin-top: 0.2rem;
+  /* Significantly reduced */
+  margin-bottom: 0.2rem;
+  font-size: 0.9rem;
+  font-size: 0.9rem;
+  color: var(--text-sub);
+  margin-left: 2px;
+  /* Slight alignment fix */
 }
 
 .form-toggle-text a {
-  color: rgb(5, 5, 5);
-  font-weight: 600;
+  color: var(--primary);
   text-decoration: none;
+  font-weight: 600;
+  margin: 0 4px;
+  transition: color 0.2s;
 }
 
 .form-toggle-text a:hover {
   text-decoration: underline;
+  color: var(--primary-dark);
 }
 
-/* ===========================================
-    SOCIAL LOGIN CONTAINER
-=========================================== */
+hr {
+  border: 0;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 0.2rem 0;
+  /* Reduced from 1rem */
+}
+
 .social-login-container {
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  /* Force column to ensure full width */
+  gap: 10px;
   width: 100%;
 }
 
-
-/* ===========================================
-    BASE SOCIAL BUTTON STYLE – PREMIUM GLASS
-=========================================== */
 .social-login-container button {
   width: 100%;
-  padding: 12px 18px;
+  padding: 12px;
+  white-space: nowrap;
+  /* Prevent text wrapping */
 
-  border-radius: 14px;
-  border: 1px solid rgba(210, 220, 230, 0.8);
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
 
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: #fff;
+  color: #333;
+  font-size: 0.95rem;
+  /* Larger font */
+  font-weight: 600;
+  cursor: pointer;
 
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1px;
-  margin-left: 1%;
-  color: #444;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
+  gap: 10px;
 
-  box-shadow:
-    0 4px 12px rgba(150, 170, 190, 0.22),
-    0 0 18px rgba(210, 230, 255, 0.45);
-
-  transition: all 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
 }
 
 .social-login-container button:hover {
+  background: #f9fafb;
   transform: translateY(-2px);
-  box-shadow:
-    0 6px 16px rgba(150, 170, 190, 0.32),
-    0 0 22px rgba(210, 230, 255, 0.55);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+  border-color: #d1d5db;
 }
 
-.social-login-container button:active {
-  transform: scale(0.97);
+.google-icon-svg {
+  width: 20px;
+  height: 20px;
 }
 
-
-/* ===========================================
-    GOOGLE BUTTON
-=========================================== */
-.google-btn {
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.804),
-      rgba(255, 240, 220, 0.804));
-  border-color: rgba(255, 180, 120, 0.7);
-}
-
-.google-btn:hover {
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.804),
-      rgba(255, 240, 220, 0.804));
-}
-
-
-/* ===========================================
-    GITHUB BUTTON
-=========================================== */
-.github-btn {
-  background: linear-gradient(135deg,
-      rgba(245, 245, 245, 0.804),
-      rgba(225, 230, 240, 1));
-  border-color: rgba(160, 170, 180, 0.7);
-  margin-bottom: 15px;
-}
-
-.github-btn:hover {
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.804),
-      rgba(220, 225, 235, 0.804));
-}
-
-
-/* ===========================================
-    ICONS (Boxicons)
-=========================================== */
-.social-login-container i {
-  font-size: 25px;
-  margin-right: 2px;
-  color: #555;
-  transition: 0.2s ease;
-}
-
-.google-btn:hover i {
-  color: #db4437;
-}
-
-.github-btn:hover i {
-  color: #000;
-}
-
-/* LEFT & RIGHT CONTAINERS */
+/* =================================
+   FLOATING ICONS
+   ================================= */
 .float-left-side,
 .float-right-side {
   position: absolute;
   top: 0;
   left: 0;
-  width: 50%;
+  width: 100%;
   height: 100%;
   pointer-events: none;
-}
-
-.float-right-side {
-  left: 50%;
+  z-index: 0;
 }
 
 /* All floating icons */
 .ac-float-icon {
   position: absolute;
   opacity: 0.85;
+  /* From user snippet */
   filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.25));
   animation: ac-floaty 10s ease-in-out infinite;
   z-index: 0;
+}
+
+/* Floating animation */
+@keyframes ac-floaty {
+
+  0%,
+  100% {
+    transform: translateY(-12px);
+  }
+
+  50% {
+    transform: translateY(12px);
+  }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotate-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Welcome Icon */
+.welcome-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-icon {
+  font-size: 2.5rem;
+  color: #fbbf24;
+  /* Golden yellow */
+  animation: rotate-slow 10s linear infinite;
+  /* Slow rotation */
+  filter: drop-shadow(0 4px 6px rgba(251, 191, 36, 0.5));
 }
 
 /* =========================
@@ -546,8 +665,8 @@ Form toggle link
 }
 
 .ac-f7 {
-  left: 55%;
-  top: -5%;
+  left: 70%;
+  top: 0%;
   font-size: 80px;
   color: #3b83f650;
   animation-duration: 13s;
@@ -564,15 +683,13 @@ Form toggle link
 }
 
 .ac-f9 {
-  left: 30%;
+  left: 25%;
   top: 40%;
   font-size: 90px;
   color: #ec489954;
   animation-duration: 11s;
   animation-delay: 0.9s;
 }
-
-
 
 /* Right side positions */
 .ac-f2 {
@@ -611,7 +728,6 @@ Form toggle link
   animation-delay: 1.3s;
 }
 
-
 /* Center Float */
 .ac-f5 {
   left: 50%;
@@ -623,91 +739,207 @@ Form toggle link
   animation-delay: 1.4s;
 }
 
-/* Floating animation */
-@keyframes ac-floaty {
+/* =================================
+   REGISTER / WIZARD STYLES
+   ================================= */
+.register-header {
+  text-align: center;
+  margin-bottom: 0.2rem;
+}
+
+.register-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.1rem;
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+}
+
+@keyframes bgGradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.header-rocket-icon {
+  font-size: 1.8rem;
+  color: #ff6b6b;
+  /* Fallback if gradient doesn't apply to icon directly or desire specific color */
+  -webkit-text-fill-color: initial;
+  /* Reset generic fill */
+  filter: drop-shadow(0 4px 6px rgba(255, 107, 107, 0.4));
+  animation: rocketFloat 2s ease-in-out infinite;
+}
+
+@keyframes rocketFloat {
 
   0%,
   100% {
-    transform: translateY(-12px);
+    transform: translateY(0) rotate(0deg);
   }
 
   50% {
-    transform: translateY(12px);
+    transform: translateY(-6px) rotate(5deg);
   }
 }
 
+.register-header p {
+  color: #6b7280;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
 
-/* =================================
-RESPONSIVE
-================================= */
+.register-header p::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: #6366f1;
+  margin: 4px auto 0;
+  border-radius: 2px;
+}
 
-@media (max-width: 900px) {
-  .register-glass-container {
-    width: 90%;
-    padding: 35px 25px;
-  }
+.step-indicator-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  position: relative;
+  max-width: 500px;
+  /* Adjusted for better spacing */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  flex: 1;
+}
+
+.step-circle {
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 2px solid #e5e7eb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--text-sub);
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.step-item.active .step-circle {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+.step-label {
+  margin-top: 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-sub);
+  letter-spacing: 0.5px;
+}
+
+.step-item.active .step-label {
+  color: var(--primary);
+}
+
+.step-line {
+  position: absolute;
+  top: 22px;
+  /* Center of 44px circle */
+  left: 50%;
+  width: 100%;
+  height: 3px;
+  background: #e5e7eb;
+  z-index: -1;
+  transform: translateY(-50%);
+}
+
+.step-line.active {
+  background: var(--primary);
+}
+
+.form-columns {
+  display: flex;
+  gap: 2rem;
+  text-align: left;
+}
+
+.input-group-row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.input-group-row .input-box {
+  flex: 1;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 0.2rem;
+  /* Reduced from 0.4rem */
+}
+
+.register-footer {
+  font-family: 'Merriweather', sans-serif !important;
+  margin-top: 0rem;
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--text-sub);
+  /* background: rgba(255, 255, 255, 0.4); */
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.login-link-btn {
+  font-family: 'Merriweather', sans-serif !important;
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  text-decoration: underline;
+  font-size: 0.95rem;
 }
 
 @media (max-width: 768px) {
-  .form-columns {
+
+  .form-columns,
+  .input-group-row {
     flex-direction: column;
-    gap: 10px;
+    gap: 0;
   }
 
-  .form-column {
-    flex-basis: 100%;
-    width: 100%;
-  }
-
-  .glass-container h1 {
-    font-size: 30px;
-  }
-
-  .glass-btn {
-    width: 85%;
-  }
-
-  /* Center social buttons better */
-  .social-login-container button {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .ac-float-icon {
-    display: none;
-  }
-}
-
-@media (max-width: 500px) {
   .glass-container {
-    width: 90%;
-    padding: 28px 20px;
-    max-height: 95vh;
+    padding: 2rem 1.5rem;
+    margin: 1rem 0;
   }
 
-  .glass-container h1 {
-    font-size: 26px;
-  }
-
-  .glass-btn {
-    width: 100%;
-  }
-
-  /* Make social buttons full-width as well */
-  .social-login-container button {
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-
-  .component-wrapper::before,
-  .component-wrapper::after {
+  .step-label {
     display: none;
+    /* Hide labels on mobile to save space */
   }
 
-  .component-wrapper {
-    min-height: 100svh;
+  .register-glass-container {
+    width: 95%;
   }
 }

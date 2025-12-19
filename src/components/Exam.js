@@ -820,7 +820,7 @@ const Exam = () => {
       java: "java",
       python: "python",
       javascript: "javascript",
-      sql: "sqlite3",
+      sql: "sql",
     };
 
     // Special handling for SQL (Local Execution)

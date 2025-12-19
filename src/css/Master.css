@@ -167,33 +167,25 @@
 
 
 /* =========================================
-   MOBILE RESPONSIVENESS (Add this at bottom)
+   RESPONSIVE MASTER LAYOUT
    ========================================= */
-/* =========================================
-   MOBILE RESPONSIVENESS (Add this at bottom)
-   ========================================= */
-@media screen and (max-width: 768px) {
 
-  /* 1. CHANGE GRID TO VERTICAL FLEX */
+/* 1. Mobile (Portrait & Landscape: 320px - 767px) */
+@media screen and (max-width: 767px) {
   .master-grid {
     display: flex;
-    /* Disable Grid, use Flex */
     flex-direction: column;
-    /* Stack items vertically */
     height: auto;
-    /* Allow page to grow with content */
     overflow-y: auto;
-    /* Allow scrolling the whole page */
     overflow-x: hidden;
   }
 
-  /* 2. HIDE RIGHT MENU */
+  /* Hide Right Menu to save space */
   .grid-right-menu {
     display: none !important;
-    /* Force hide */
   }
 
-  /* 3. ADJUST LEFT MENU AND MAIN CONTENT */
+  /* Sticky Left Menu */
   .grid-left-menu {
     width: 100%;
     height: auto;
@@ -201,7 +193,6 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    /* Keep menu above content */
     background: white;
     border-bottom: 1px solid #eee;
   }
@@ -211,13 +202,45 @@
     height: auto;
     flex: 1;
     overflow: visible;
-    /* Let content flow */
   }
 
-  /* Ensure internal containers fill width */
+  /* Reset internal containers */
   .master-grid .left-menu,
   .master-grid .main-container {
     width: 100%;
     height: auto;
+  }
+}
+
+/* 2. Tablet (768px - 1024px) */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .master-grid {
+    grid-template-columns: 25% 75% 0%;
+    /* Effectively hide right menu or resize */
+  }
+
+  .grid-right-menu {
+    display: none;
+    /* Optional: hide right menu on tablet if it's too cramped */
+  }
+
+  /* If hiding right menu, ensure columns add up to covers */
+  .master-grid {
+    grid-template-columns: 22% 78%;
+  }
+}
+
+
+/* 3. Laptop (1025px - 1280px) */
+@media screen and (min-width: 1025px) and (max-width: 1280px) {
+  .master-grid {
+    grid-template-columns: 20% 65% 15%;
+  }
+}
+
+/* 4. Desktop (1281px+) */
+@media screen and (min-width: 1281px) {
+  .master-grid {
+    grid-template-columns: 18% 67% 15%;
   }
 }
