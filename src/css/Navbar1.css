@@ -9,7 +9,7 @@
     --nav-hover-text: #0284c7;
 }
 
-.navbar {
+.nb-navbar {
     width: 100%;
     display: flex;
     align-items: center;
@@ -31,7 +31,7 @@
     transition: all 0.5s ease;
 }
 
-.navbar-links {
+.nb-navbar-links {
     display: flex;
     align-items: center;
     list-style: none;
@@ -46,7 +46,7 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-.navbar-item {
+.nb-navbar-item {
     margin: 0;
     padding: 7px 15px;
     /* Static padding */
@@ -54,7 +54,7 @@
     /* font-family: 'Raleway', sans-serif; */
     font-family: 'Courier New', monospace;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 1.15rem;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -68,7 +68,7 @@
    4-Corner Bracket Hover Effect
 ================================ */
 
-.navbar-item::before {
+.nb-navbar-item::before {
     content: "";
     position: absolute;
     top: 0;
@@ -95,11 +95,11 @@
     /* Length of the bracket arms */
 }
 
-.navbar-item:hover::before {
+.nb-navbar-item:hover::before {
     opacity: 1;
 }
 
-.navbar-item:hover {
+.nb-navbar-item:hover {
     /* background: #ffffff; */
     color: #0284c7;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -108,11 +108,11 @@
 }
 
 
-.navbar-item:active {
+.nb-navbar-item:active {
     transform: translateY(0);
 }
 
-.navbar-item.active {
+.nb-navbar-item.active {
     color: #0284c7;
     /* color: orangered; */
 
@@ -121,18 +121,18 @@
 
 }
 
-.navbar-item::after {
+.nb-navbar-item::after {
     display: none;
 }
 
-.navbar-item.active::before {
+.nb-navbar-item.active::before {
     display: none;
 }
 
 #nav-header-content {
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 1.3rem;
     background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -141,24 +141,24 @@
     filter: drop-shadow(0 2px 4px rgba(2, 132, 199, 0.1));
 }
 
-.navbar-content {
+.nb-navbar-content {
     display: flex;
     align-items: center;
     gap: 2px;
 }
 
-.navbar-content svg,
-.navbar-content img {
+.nb-navbar-content svg,
+.nb-navbar-content img {
     width: 12px;
     height: 12px;
 }
 
-.navbar-item-dropdown {
+.nb-navbar-item-dropdown {
     position: relative;
 }
 
 /* Redesigned Dropdown */
-.dropdown-menu {
+.nb-dropdown-menu {
     font-family: 'Raleway', sans-serif;
     position: absolute;
     top: calc(100% + 5px);
@@ -170,7 +170,7 @@
     margin: 0;
     color: black;
 
-    background: #ffffff;
+    background: #ffffff !important;
     border: 1px solid #f1f5f9;
     box-shadow: 0 10px 40px -5px rgba(0, 0, 0, 0.1);
 
@@ -190,11 +190,11 @@
     }
 }
 
-.dropdown-item1 {
+.nb-dropdown-item1 {
     font-family: 'Courier New', monospace;
     color: #000000;
     padding: 8px 10px;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -204,13 +204,13 @@
     border-radius: 8px;
 }
 
-/* .dropdown-item:hover {
+/* .nb-dropdown-item:hover {
     background: #f0f9ff;
     color: #0284c7;
     padding-left: 14px;
 } */
 
-.dropdown-item1:before {
+.nb-dropdown-item1:before {
     content: "";
     position: absolute;
     top: 0;
@@ -237,11 +237,11 @@
     /* Length of the bracket arms */
 }
 
-.dropdown-item1::before {
+.nb-dropdown-item1::before {
     opacity: 1;
 }
 
-.dropdown-item1:hover {
+.nb-dropdown-item1:hover {
     /* background: #ffffff; */
     color: #0284c7;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -249,21 +249,21 @@
     font-weight: 700;
 }
 
-.dropdown-arrow {
+.nb-dropdown-arrow {
     margin-left: 2px;
     transition: transform 0.2s ease;
 }
 
-.dropdown-arrow.open {
+.nb-dropdown-arrow.open {
     transform: rotate(180deg);
 }
 
-.menu-toggle {
+.nb-menu-toggle {
     display: none;
     color: #0284c7;
     cursor: pointer;
     z-index: 1000;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 }
 
 /* =================================================
@@ -272,18 +272,18 @@
 
 /* 1. Mobile Portrait (320px - 479px) */
 @media (max-width: 479px) {
-    .navbar {
+    .nb-navbar {
         height: 55px;
         padding: 0 1rem;
         justify-content: space-between;
     }
 
-    .menu-toggle {
+    .nb-menu-toggle {
         display: block;
-        font-size: 1.2rem;
+        font-size: 1.5rem;
     }
 
-    .navbar-links {
+    .nb-navbar-links {
         position: fixed;
         top: 55px;
         left: 0;
@@ -303,21 +303,21 @@
         border-right: 1px solid #e2e8f0;
     }
 
-    .navbar-links.open {
+    .nb-navbar-links.open {
         transform: translateX(0);
         opacity: 1;
         pointer-events: auto;
     }
 
-    .navbar-item {
+    .nb-navbar-item {
         width: 100%;
         padding: 12px;
-        font-size: 0.95rem;
+        font-size: 1.15rem;
         border-bottom: 1px solid #f1f5f9;
         justify-content: flex-start;
     }
 
-    .dropdown-menu {
+    .nb-dropdown-menu {
         position: static;
         width: 100%;
         box-shadow: none;
@@ -331,17 +331,17 @@
 
 /* 2. Mobile Landscape (480px - 767px) */
 @media (min-width: 480px) and (max-width: 767px) {
-    .navbar {
+    .nb-navbar {
         height: 60px;
         padding: 0 1.5rem;
         justify-content: space-between;
     }
 
-    .menu-toggle {
+    .nb-menu-toggle {
         display: block;
     }
 
-    .navbar-links {
+    .nb-navbar-links {
         position: fixed;
         top: 60px;
         left: 0;
@@ -360,19 +360,19 @@
         overflow-y: auto;
     }
 
-    .navbar-links.open {
+    .nb-navbar-links.open {
         transform: translateX(0);
         opacity: 1;
         pointer-events: auto;
     }
 
-    .navbar-item {
+    .nb-navbar-item {
         width: 100%;
-        font-size: 1rem;
+        font-size: 1.2rem;
         justify-content: flex-start;
     }
 
-    .dropdown-menu {
+    .nb-dropdown-menu {
         position: static;
         width: 100%;
         box-shadow: none;
@@ -385,18 +385,18 @@
 
 /* 3. Tablet Portrait & Landscape (768px - 1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
-    .navbar {
+    .nb-navbar {
         justify-content: space-between;
         padding: 0 2rem;
         height: 65px;
     }
 
-    .menu-toggle {
+    .nb-menu-toggle {
         display: block;
-        font-size: 1.6rem;
+        font-size: 1.9rem;
     }
 
-    .navbar-links {
+    .nb-navbar-links {
         position: fixed;
         top: 65px;
         left: 0;
@@ -415,19 +415,19 @@
         border-right: 1px solid #e2e8f0;
     }
 
-    .navbar-links.open {
+    .nb-navbar-links.open {
         transform: translateX(0);
         opacity: 1;
         pointer-events: auto;
     }
 
-    .navbar-item {
+    .nb-navbar-item {
         width: 100%;
-        font-size: 1.05rem;
+        font-size: 1.25rem;
         justify-content: flex-start;
     }
 
-    .dropdown-menu {
+    .nb-dropdown-menu {
         position: static;
         width: 100%;
         box-shadow: none;
@@ -440,49 +440,49 @@
 
 /* 4. Laptop/Desktop (1025px - 1280px) */
 @media (min-width: 1025px) and (max-width: 1280px) {
-    .menu-toggle {
+    .nb-menu-toggle {
         display: none;
     }
 
-    .navbar {
+    .nb-navbar {
         height: 60px;
         padding: 0 2%;
         justify-content: space-between;
     }
 
-    .navbar-links {
+    .nb-navbar-links {
         width: 100%;
         justify-content: space-between;
         gap: 0;
     }
 
-    .navbar-item {
+    .nb-navbar-item {
         padding: 6px 10px;
-        font-size: 0.9rem;
+        font-size: 1.1rem;
     }
 }
 
 /* 5. Desktop (1281px +) */
 @media (min-width: 1281px) {
-    .menu-toggle {
+    .nb-menu-toggle {
         display: none;
     }
 
-    .navbar {
+    .nb-navbar {
         height: 65px;
         padding: 0 5%;
         justify-content: space-between;
         /* Adjusted to spread out */
     }
 
-    .navbar-links {
+    .nb-navbar-links {
         width: 100%;
         justify-content: space-between;
         gap: 0;
     }
 
-    .navbar-item {
+    .nb-navbar-item {
         padding: 8px 15px;
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
 }

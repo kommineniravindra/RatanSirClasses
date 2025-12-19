@@ -47,18 +47,18 @@
     margin: 0px;
 }
 
-.content-group-container {
+.main-content-group-container {
     /* margin-bottom: 3rem; */
 }
 
-.content-section {
+.main-content-section {
     margin-bottom: 2rem;
     scroll-margin-top: 1rem;
     padding: 0px;
     border-radius: 12px;
 }
 
-.content-section h2 {
+.main-content-section h2 {
     font-family: "Libertinus Serif", serif;
     font-weight: 700;
     font-style: italic;
@@ -68,7 +68,8 @@
     height: 2rem;
     display: flex;
     align-items: center;
-    font-size: 1.5rem !important;
+    align-items: center;
+    font-size: 1.8rem !important;
     margin: -1rem -1rem 0.5rem -1rem;
     padding-left: 1rem;
     color: navy;
@@ -82,43 +83,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
-.content-section h4 {
+.main-content-section h4 {
     color: rgb(2, 7, 23);
     margin-top: 0.5rem;
-    font-weight: 100px !important;
-    /* font-size: 1rem; */
+    font-weight: 600;
+    font-size: 1.2rem;
     /* font-family: 'Merriweather', sans-serif; */
     /* font-family: "Playfair Display", serif; */
     font-family: 'Times New Roman', Times, serif;
     font-optical-sizing: auto;
-    font-weight: 600;
     font-style: normal;
 }
 
 
-.content-section p {
+.main-content-section p {
     line-height: 1.7;
     margin-top: 0px;
     margin-bottom: 0px;
     color: rgb(0, 0, 0);
     padding: 0px;
+    font-size: 1.2rem;
     font-family: "Source Serif Pro", serif;
     text-indent: 2.6rem;
 }
 
-.content-section ul {
+.main-content-section ul {
     list-style: none;
     margin-bottom: 0px;
     padding-left: 0;
     margin-left: 0;
 }
 
-.content-section li {
+.main-content-section li {
     margin-top: 0px;
     position: relative;
     content: "🖊";
     font-weight: 400;
-    font-size: 16px;
+    font-size: 1.2rem;
     line-height: 1.7;
     color: black;
     font-family: "Source Serif Pro", serif;
@@ -127,13 +128,13 @@
 
 }
 
-.content-section ul li::before {
+.main-content-section ul li::before {
     content: "✍ ";
     color: black;
     font-weight: bold;
 }
 
-.content-section code {
+.main-content-section code {
     font-family: "Fira Code", monospace;
     padding: 0.2em 0.5em;
     border-radius: 4px;
@@ -213,7 +214,7 @@ td {
 }
 
 th {
-    font-size: 0.95em;
+    font-size: 1.1em;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -257,7 +258,7 @@ tr:last-child td {
    =============================== */
 
 /* Base Button */
-.nav-btn1,
+.main-nav-btn1,
 .main-action-btn {
 
     font-family: 'Merriweather', sans-serif !important;
@@ -267,7 +268,7 @@ tr:last-child td {
     justify-content: center;
     padding: 0.45rem 1.3rem;
     font-family: "Poppins", sans-serif;
-    font-size: 1rem !important;
+    font-size: 1.2rem !important;
     font-weight: 500;
     line-height: 1;
     border-radius: 0px 20px;
@@ -287,7 +288,7 @@ tr:last-child td {
 }
 
 /* Hover */
-.nav-btn1:hover,
+.main-nav-btn1:hover,
 .main-action-btn:hover {
     background-color: #dce9ff;
     border-color: #6ea4ff;
@@ -297,7 +298,7 @@ tr:last-child td {
 }
 
 /* Active / Click */
-.nav-btn1:active,
+.main-nav-btn1:active,
 .main-action-btn:active {
     background-color: #cfdfff;
     transform: translateY(0);
@@ -305,7 +306,7 @@ tr:last-child td {
 }
 
 /* Focus (keyboard accessibility) */
-.nav-btn1:focus-visible,
+.main-nav-btn1:focus-visible,
 .main-action-btn:focus-visible {
     outline: none;
     border-color: #4f8cff;
@@ -313,7 +314,7 @@ tr:last-child td {
 }
 
 /* Disabled */
-.nav-btn1:disabled,
+.main-nav-btn1:disabled,
 .main-action-btn:disabled {
     background-color: #f2f5fa;
     color: #9aa4b2;
@@ -325,26 +326,26 @@ tr:last-child td {
 
 
 /* === Code Block Wrapper === */
-.code-block-wrapper {
+.main-code-block-wrapper {
     position: relative;
     margin: 1rem 0;
 }
 
-.code-block-wrapper pre {
+.main-code-block-wrapper pre {
     border-radius: 18px;
     padding-top: 40px !important;
     line-height: 1.5;
 }
 
 /* === Copy Button === */
-.copy-btn {
+.main-copy-btn {
     position: absolute;
     top: 10px;
     right: 12px;
     background-color: transparent;
     border: none;
     color: #4b4b4b;
-    font-size: 13px;
+    font-size: 15px;
     padding: 2px;
     border-radius: 6px;
     cursor: pointer;
@@ -357,7 +358,7 @@ tr:last-child td {
 
 }
 
-.try-btn {
+.main-try-btn {
     position: absolute;
     font-family: 'Merriweather', sans-serif;
     top: 10px;
@@ -365,7 +366,7 @@ tr:last-child td {
     background-color: transparent;
     border: none;
     color: #4b4b4b;
-    font-size: 12px;
+    font-size: 14px;
     padding: 2px;
     border-radius: 6px;
     cursor: pointer;
@@ -377,17 +378,17 @@ tr:last-child td {
     gap: 4px;
 }
 
-.try-btn:hover {
+.main-try-btn:hover {
     background-color: rgba(255, 255, 255, 0.1);
     color: #007bff;
 }
 
-.copy-btn:hover {
+.main-copy-btn:hover {
     background-color: rgba(255, 255, 255, 0.1);
     color: #007bff;
 }
 
-.nav-buttons {
+.main-nav-buttons {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -397,7 +398,7 @@ tr:last-child td {
 }
 
 /* === Modal Styles === */
-.modal-overlay {
+.main-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -414,7 +415,7 @@ tr:last-child td {
     /* Ensure modal is scrollable if content overflows */
 }
 
-.modal-content {
+.main-modal-content {
     background-color: #fff;
     padding: 25px 30px;
     border-radius: 12px;
@@ -425,25 +426,25 @@ tr:last-child td {
     box-sizing: border-box;
 }
 
-.modal-content h3 {
+.main-modal-content h3 {
     margin-top: 0;
     margin-bottom: 15px;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: #333;
     font-family: "Libertinus Serif", serif;
 }
 
-.modal-content p {
+.main-modal-content p {
     color: #333;
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 1.2rem;
     /* corrected from 90px */
     font-style: italic;
     font-family: "Source Serif Pro", serif;
     margin: 0;
 }
 
-.modal-buttons {
+.main-modal-buttons {
     margin-top: 20px;
     display: flex;
     justify-content: center;
@@ -452,8 +453,8 @@ tr:last-child td {
     /* Ensures buttons wrap on small screens */
 }
 
-.modal-proceed-btn,
-.modal-skip-btn {
+.main-modal-proceed-btn,
+.main-modal-skip-btn {
     padding: 10px 18px;
     border: none;
     border-radius: 6px;
@@ -463,16 +464,16 @@ tr:last-child td {
     min-width: 100px;
 }
 
-.modal-proceed-btn {
+.main-modal-proceed-btn {
     background-color: #007bff;
     color: white;
 }
 
-.modal-proceed-btn:hover {
+.main-modal-proceed-btn:hover {
     background-color: #0056b3;
 }
 
-.modal-skip-btn {
+.main-modal-skip-btn {
     background-color: #f0f0f0;
     color: #333;
 }
@@ -482,7 +483,7 @@ tr:last-child td {
 /* ===============================
    DOWNLOADS / RESOURCES STYLES
    =============================== */
-.download-card {
+.main-download-card {
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     padding: 8px 12px;
@@ -497,34 +498,34 @@ tr:last-child td {
     /* Further Reduced margin */
 }
 
-.downloads-section-wrapper {
+.main-downloads-section-wrapper {
     margin-bottom: 0 !important;
     padding: 0 !important;
 }
 
-.download-card:hover {
+.main-download-card:hover {
     background: #f8fafc;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-color: #cbd5e0;
 }
 
-.download-card-left {
+.main-download-card-left {
     display: flex;
     align-items: center;
     gap: 10px;
     /* Reduced gap */
 }
 
-.download-icon {
+.main-download-icon {
     width: 32px;
     /* Smaller icon */
     height: 32px;
     object-fit: contain;
 }
 
-.download-title {
+.main-download-title {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     /* Smaller text */
     color: #1e293b;
     /* Dark Slate */
@@ -532,48 +533,48 @@ tr:last-child td {
     transition: color 0.3s ease;
 }
 
-.download-card:hover .download-title {
+.main-download-card:hover .main-download-title {
     color: #4f46e5;
 }
 
-.download-actions {
+.main-download-actions {
     display: flex;
     gap: 8px;
 }
 
-.resource-btn {
+.main-resource-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     padding: 6px 12px;
     border-radius: 8px;
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 1rem;
     text-decoration: none;
     transition: all 0.2s;
 }
 
 /* Website Button - Clean Slate Outline */
-.website-btn {
+.main-website-btn {
     background: #f8fafc;
     border: 1px solid #94a3b8;
     color: #64748b;
 }
 
-.website-btn:hover {
+.main-website-btn:hover {
     background: #94a3b8;
     color: #fff;
     border: 1px solid #94a3b8;
 }
 
 /* Download Button - Lite Lavender, Thick Border (7c3aed = Violet) */
-.download-btn {
+.main-download-btn {
     background: #f3e8ff;
     border: 2px solid #7c3aed;
     color: #7c3aed;
 }
 
-.download-btn:hover {
+.main-download-btn:hover {
     background: #7c3aed;
     color: #fff;
     box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3);
@@ -589,50 +590,50 @@ tr:last-child td {
         padding: 0.5rem;
     }
 
-    .content-section {
+    .main-content-section {
         margin-bottom: 1.5rem;
     }
 
-    .content-section h2 {
-        font-size: 1.2rem;
+    .main-content-section h2 {
+        font-size: 1.5rem;
         height: auto;
         padding: 0.5rem 0 0.5rem 1rem;
         margin: -0.5rem -0.5rem 1rem -0.5rem;
     }
 
-    .content-section h4 {
-        font-size: 1rem;
+    .main-content-section h4 {
+        font-size: 1.2rem;
     }
 
-    .content-section p,
-    .content-section li {
-        font-size: 0.9rem;
+    .main-content-section p,
+    .main-content-section li {
+        font-size: 1.1rem;
         line-height: 1.6;
         text-indent: 0;
         /* Remove indent on small screens to save space */
     }
 
-    .content-section li {
+    .main-content-section li {
         margin-left: 10px;
     }
 
     /* Stack buttons */
-    .nav-buttons,
-    .modal-buttons {
+    .main-nav-buttons,
+    .main-modal-buttons {
         flex-direction: column;
         gap: 10px;
     }
 
-    .nav-btn1,
+    .main-nav-btn1,
     .main-action-btn,
-    .modal-proceed-btn,
-    .modal-skip-btn {
+    .main-modal-proceed-btn,
+    .main-modal-skip-btn {
         width: 100%;
         margin-top: 10px;
     }
 
     /* Modal */
-    .modal-content {
+    .main-modal-content {
         padding: 15px;
         width: 95%;
     }
@@ -649,12 +650,12 @@ tr:last-child td {
         padding: 0.8rem;
     }
 
-    .content-section h2 {
-        font-size: 1.3rem;
+    .main-content-section h2 {
+        font-size: 1.6rem;
     }
 
-    .content-section p,
-    .content-section li {
+    .main-content-section p,
+    .main-content-section li {
         text-indent: 1rem;
     }
 
@@ -663,7 +664,7 @@ tr:last-child td {
         overflow-x: auto;
     }
 
-    .modal-content {
+    .main-modal-content {
         width: 90%;
     }
 }
@@ -675,8 +676,8 @@ tr:last-child td {
         margin: 0 auto;
     }
 
-    .content-section h2 {
-        font-size: 1.5rem;
+    .main-content-section h2 {
+        font-size: 1.9rem;
     }
 }
 
@@ -687,8 +688,8 @@ tr:last-child td {
         margin: 0 auto;
     }
 
-    .content-section h2 {
-        font-size: 1.6rem;
+    .main-content-section h2 {
+        font-size: 2rem;
     }
 }
 

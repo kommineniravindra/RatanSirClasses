@@ -89,6 +89,17 @@ func main() {
     // Write your Scala code here
     println("Welcome to codepulse-r!")
 }`,
+  Swift: `print("Welcome to codepulse-r!")`,
+  Ruby: `def solve()
+    # Write your Ruby code here
+    puts "Welcome to codepulse-r!"
+end
+
+solve()`,
+  PHP: `<?php
+    echo "Welcome to codepulse-r!";
+?>`,
+  Bash: `echo "Welcome to codepulse-r!"`,
   // For special cases where CSS needs an HTML wrapper (e.g. OnlineCompiler preview)
   CSS_Wrapper: `<!DOCTYPE html>
 <html lang="en">

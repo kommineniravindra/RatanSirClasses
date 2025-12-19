@@ -286,7 +286,7 @@ export const getChapterInfo = (context, lang) => {
       const data = context(`./CodingChapter${keyNum}.json`);
       let chapterTitle = `Chapter ${keyNum}`;
       if (currentTopicList.length > 0 && index < currentTopicList.length) {
-        chapterTitle = `Chapter ${keyNum}${"\u00A0".repeat(30)} ${
+        chapterTitle = `Chapter ${keyNum}: ${"\u00A0"} ${
           currentTopicList[index]
         }`;
       } else {
@@ -305,9 +305,6 @@ Object.entries(learningContexts).forEach(([lang, ctx]) => {
   chapterInfoByLang[lang] = getChapterInfo(ctx, lang);
 });
 
-// Judge0 config
-const JUDGE0_API = "https://ce.judge0.com";
-const JUDGE0_LANG_IDS = { javascript: 63, java: 62, python: 71, sql: 82 };
 const CODEPAD_LANGS = ["html", "css"];
 
 const getAceMode = (course) => {
@@ -340,10 +337,43 @@ const StartLearning1 = ({
   const [expandedChapter, setExpandedChapter] = useState(null);
   const [activeChapter, setActiveChapter] = useState(null); // Tracks the loaded chapter for DB setup
   const [selectedExample, setSelectedExample] = useState(null);
-  /* New state for Generate Dropdown */
+  /* New state for Generate Dropdown & Fixed Positioning */
   const [showGenerateDropdown, setShowGenerateDropdown] = useState(false);
   const generateDropdownRef = useRef(null);
   const editorRef = useRef(null);
+
+  // --- Dynamic Fixed Positioning State ---
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
+  const [activeDropdown, setActiveDropdown] = useState(null); // 'theme', 'generate', or null
+
+  // Helper to toggle dropdowns with fixed positioning
+  const toggleDropdown = (e, dropdownName) => {
+    e.stopPropagation();
+    if (activeDropdown === dropdownName) {
+      setActiveDropdown(null);
+      return;
+    }
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    // Align right edge: left = rect.right - width (~200px)
+    // Safe default: left = rect.left - 100
+    setDropdownPos({
+      top: rect.bottom + 5,
+      left: rect.left - 100, // Approximate right alignment shift
+    });
+    setActiveDropdown(dropdownName);
+  };
+
+  // Close dropdowns on scroll/click
+  useEffect(() => {
+    const closeAll = () => setActiveDropdown(null);
+    window.addEventListener("click", closeAll);
+    window.addEventListener("scroll", closeAll, true);
+    return () => {
+      window.removeEventListener("click", closeAll);
+      window.removeEventListener("scroll", closeAll, true);
+    };
+  }, []);
 
   const sqlDbRef = useRef(null);
   const sqlFactoryRef = useRef(null);
@@ -445,12 +475,12 @@ const StartLearning1 = ({
         themeDropdownRef.current &&
         !themeDropdownRef.current.contains(event.target)
       ) {
-        setShowThemeDropdown(false);
+        // setShowThemeDropdown(false); // Handled by global click listener now
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
+    // document.addEventListener("mousedown", handleClickOutside); // Removed old listener
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      // document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [generateDropdownRef, themeDropdownRef]);
 
@@ -1232,47 +1262,47 @@ const StartLearning1 = ({
 
   // Optional: Toast
 
-  const renderCourseProgress = () => {
-    const totalExamplesInCourse = Object.values(chapterExampleCounts).reduce(
-      (a, b) => a + b,
-      0
-    );
-    const totalCompletedInCourse = Object.values(courseContests).filter(
-      (c) => c.marks >= ExamConfig.codingMarks
-    ).length;
-    let percentage = 0;
-    if (totalExamplesInCourse > 0) {
-      percentage = (totalCompletedInCourse / totalExamplesInCourse) * 100;
-    }
-    return (
-      <div className="course-progress-sidebar">
-        <h3>
-          <i className="fa-solid fa-chart-simple"></i> Course Progress
-        </h3>
-        <div className="progress-stats">
-          <span className="progress-percentage">{Math.round(percentage)}%</span>
-          <span className="progress-fraction">
-            {totalCompletedInCourse} / {totalExamplesInCourse}
-          </span>
-        </div>
-        <div className="progress-bar-container">
-          <div
-            className="progress-bar-fill"
-            style={{ width: `${percentage}%` }}
-          ></div>
-        </div>
-        <div className="progress-status-message">
-          {percentage === 100
-            ? "🎉 Excellent!"
-            : percentage >= 70
-            ? "🔥 Great job!"
-            : percentage >= 40
-            ? "💡 Good progress!"
-            : "🚀 Start learning!"}
-        </div>
-      </div>
-    );
-  };
+  // const renderCourseProgress = () => {
+  //   const totalExamplesInCourse = Object.values(chapterExampleCounts).reduce(
+  //     (a, b) => a + b,
+  //     0
+  //   );
+  //   const totalCompletedInCourse = Object.values(courseContests).filter(
+  //     (c) => c.marks >= ExamConfig.codingMarks
+  //   ).length;
+  //   let percentage = 0;
+  //   if (totalExamplesInCourse > 0) {
+  //     percentage = (totalCompletedInCourse / totalExamplesInCourse) * 100;
+  //   }
+  //   return (
+  //     <div className="course-progress-sidebar">
+  //       <h3>
+  //         <i className="fa-solid fa-chart-simple"></i> Course Progress
+  //       </h3>
+  //       <div className="progress-stats">
+  //         <span className="progress-percentage">{Math.round(percentage)}%</span>
+  //         <span className="progress-fraction">
+  //           {totalCompletedInCourse} / {totalExamplesInCourse}
+  //         </span>
+  //       </div>
+  //       <div className="progress-bar-container">
+  //         <div
+  //           className="progress-bar-fill"
+  //           style={{ width: `${percentage}%` }}
+  //         ></div>
+  //       </div>
+  //       <div className="progress-status-message">
+  //         {percentage === 100
+  //           ? "🎉 Excellent!"
+  //           : percentage >= 70
+  //           ? "🔥 Great job!"
+  //           : percentage >= 40
+  //           ? "💡 Good progress!"
+  //           : "🚀 Start learning!"}
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
@@ -1410,13 +1440,20 @@ const StartLearning1 = ({
                   <div style={{ position: "relative" }} ref={themeDropdownRef}>
                     <button
                       className="evaluate-code-btn theme-btn"
-                      onClick={() => setShowThemeDropdown(!showThemeDropdown)}
+                      onClick={(e) => toggleDropdown(e, "theme")}
                       title="Change Theme"
                     >
                       <FaPalette /> Theme <FaChevronDown size={10} />
                     </button>
-                    {showThemeDropdown && (
-                      <div className="dropdown-menu theme-dropdown">
+                    {activeDropdown === "theme" && (
+                      <div
+                        className="dropdown-menu-fixed theme-dropdown"
+                        style={{
+                          top: dropdownPos.top,
+                          left: dropdownPos.left,
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         {availableThemes.map((theme, index) => {
                           // Crude guess for icon based on position in our sorted list
                           // 0,1=L, 2,3=D, 4,5=L, 6,7=D, 8,9=L
@@ -1427,7 +1464,7 @@ const StartLearning1 = ({
                               key={theme}
                               onClick={() => {
                                 setEditorTheme(theme);
-                                setShowThemeDropdown(false);
+                                setActiveDropdown(null);
                               }}
                               /* Replaced inline styles with class */
                               onMouseOver={(e) => {}} // Hover handled by CSS
@@ -1461,15 +1498,20 @@ const StartLearning1 = ({
                     >
                       <button
                         className="evaluate-code-btn generate-btn-custom"
-                        onClick={() =>
-                          setShowGenerateDropdown(!showGenerateDropdown)
-                        }
+                        onClick={(e) => toggleDropdown(e, "generate")}
                         title="Generate Boilerplate Code"
                       >
                         <FaMagic /> Generate <FaChevronDown size={10} />
                       </button>
-                      {showGenerateDropdown && (
-                        <div className="dropdown-menu generate-dropdown">
+                      {activeDropdown === "generate" && (
+                        <div
+                          className="dropdown-menu-fixed generate-dropdown"
+                          style={{
+                            top: dropdownPos.top,
+                            left: dropdownPos.left,
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
                           {[
                             {
                               id: "all",
@@ -1551,8 +1593,8 @@ const StartLearning1 = ({
                   showPrintMargin: false,
                   tabSize: 4,
                   fontSize: 16,
-                  minLines: isFullScreen ? 25 : 15,
-                  maxLines: isFullScreen ? 25 : 15,
+                  minLines: isFullScreen ? 30 : 25,
+                  maxLines: isFullScreen ? 30 : 25,
                 }}
                 style={{ borderRadius: "8px" }} // Ace editor style prop specific
                 className="ace-editor-wrapper"
@@ -1705,7 +1747,7 @@ const StartLearning1 = ({
                         )
                   }
                 >
-                  <h3>{chapter.title}</h3>
+                  <h4>{chapter.title}</h4>
                   <span className="chapter-toggle-icon">
                     {isActive ? "−" : "+"}
                   </span>
@@ -1776,7 +1818,7 @@ const StartLearning1 = ({
             );
           })}
         </div>
-        {renderCourseProgress()}
+        {/* {renderCourseProgress()} */}
       </div>
       {modalState.isOpen && (
         <div className="custom-modal-overlay">

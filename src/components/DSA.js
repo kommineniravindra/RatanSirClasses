@@ -54,7 +54,7 @@ const DSA = () => {
           {/* Category Buttons */}
           <div className="dsa-category-buttons">
             <button
-              className={`category-btn ${
+              className={`dsa-category-btn ${
                 selectedCategory === "arrays" ? "active" : ""
               }`}
               onClick={() => {
@@ -65,7 +65,7 @@ const DSA = () => {
               Arrays
             </button>
             <button
-              className={`category-btn ${
+              className={`dsa-category-btn ${
                 selectedCategory === "strings" ? "active" : ""
               }`}
               onClick={() => {
@@ -76,7 +76,7 @@ const DSA = () => {
               Strings
             </button>
             <button
-              className={`category-btn ${
+              className={`dsa-category-btn ${
                 selectedCategory === "numberSystem" ? "active" : ""
               }`}
               onClick={() => {
@@ -87,7 +87,7 @@ const DSA = () => {
               Number System
             </button>
             <button
-              className={`category-btn ${
+              className={`dsa-category-btn ${
                 selectedCategory === "stack" ? "active" : ""
               }`}
               onClick={() => {
@@ -98,7 +98,7 @@ const DSA = () => {
               Stack
             </button>
             <button
-              className={`category-btn ${
+              className={`dsa-category-btn ${
                 selectedCategory === "queue" ? "active" : ""
               }`}
               onClick={() => {
@@ -109,7 +109,7 @@ const DSA = () => {
               Queue
             </button>
             <button
-              className={`category-btn ${
+              className={`dsa-category-btn ${
                 selectedCategory === "linkedlist" ? "active" : ""
               }`}
               onClick={() => {
@@ -123,20 +123,20 @@ const DSA = () => {
 
           <div className="dsa-accordion">
             {data.map((item, idx) => (
-              <div className="accordion-item" key={idx}>
+              <div className="dsa-accordion-item" key={idx}>
                 {/* Accordion Header */}
                 <button
-                  className={`accordion-button ${
+                  className={`dsa-accordion-button ${
                     openIndex === idx ? "active" : ""
                   }`}
                   onClick={() => toggleAccordion(idx)}
                   aria-expanded={openIndex === idx ? "true" : "false"}
                 >
-                  <div className="question-number">
+                  <div className="dsa-question-number">
                     <strong>{idx + 1}.</strong>
                     {item.youtubeLink && (
                       <button
-                        className="youtube-btn"
+                        className="dsa-youtube-btn"
                         onClick={(e) => {
                           e.stopPropagation(); // prevent accordion toggle
                           window.open(item.youtubeLink, "_blank"); // open YouTube in new tab
@@ -147,34 +147,34 @@ const DSA = () => {
                     )}
                   </div>
 
-                  <div className="question-field">
+                  <div className="dsa-question-field">
                     <strong>Question:</strong> {item.question}
                   </div>
-                  <div className="question-field">
+                  <div className="dsa-question-field">
                     <strong>Input:</strong> {item.input}
                   </div>
-                  <div className="question-field">
+                  <div className="dsa-question-field">
                     <strong>Output:</strong> {item.output}
                   </div>
-                  <div className="question-field">
+                  <div className="dsa-question-field">
                     <strong>Explanation:</strong> {item.explanation}
                   </div>
                 </button>
 
                 {/* Accordion Body */}
                 <div
-                  className={`accordion-collapse ${
+                  className={`dsa-accordion-collapse ${
                     openIndex === idx ? "show" : ""
                   }`}
                 >
-                  <div className="accordion-body">
+                  <div className="dsa-accordion-body">
                     <button
-                      className="try-this-btn"
+                      className="dsa-try-this-btn"
                       onClick={() => handleTryThis(item.answer)}
                     >
                       Try This!
                     </button>
-                    
+
                     <SyntaxHighlighter
                       language="java"
                       style={coy}

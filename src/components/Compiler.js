@@ -18,6 +18,8 @@ import {
   FaBold,
   FaItalic,
   FaDownload,
+  FaFileCode,
+  FaEquals,
 } from "react-icons/fa";
 import "../css/Compiler.css";
 import BrowserPreview from "./BrowserPreview";
@@ -110,6 +112,41 @@ const Compiler = () => {
   const [showSettingsDropdown, setShowSettingsDropdown] = useState(false); // Added
   const [isBold, setIsBold] = useState(false); // Added
   const [isItalic, setIsItalic] = useState(false); // Added
+  const [isError, setIsError] = useState(false); // Added
+
+  // --- Dynamic Fixed Positioning State ---
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
+  const [activeDropdown, setActiveDropdown] = useState(null); // 'theme', 'generate', 'settings', or null
+
+  // Helper to toggle dropdowns with fixed positioning
+  const toggleDropdown = (e, dropdownName) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (activeDropdown === dropdownName) {
+      setActiveDropdown(null);
+      return;
+    }
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    // Use a similar strategy: align widely to the left to avoid overflow
+    setDropdownPos({
+      top: rect.bottom + 5,
+      left: rect.left - 100, // Shift left
+    });
+    setActiveDropdown(dropdownName);
+  };
+
+  // Close dropdowns on scroll/click global
+  useEffect(() => {
+    const closeAll = () => setActiveDropdown(null);
+    window.addEventListener("click", closeAll);
+    window.addEventListener("scroll", closeAll, true);
+    return () => {
+      window.removeEventListener("click", closeAll);
+      window.removeEventListener("scroll", closeAll, true);
+    };
+  }, []);
 
   const containerRef = useRef(null);
   const sqlDbRef = useRef(null);
@@ -435,35 +472,6 @@ const Compiler = () => {
     document.addEventListener("fullscreenchange", handleFullScreenChange);
     return () =>
       document.removeEventListener("fullscreenchange", handleFullScreenChange);
-    document.removeEventListener("fullscreenchange", handleFullScreenChange);
-  }, []);
-
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        generateDropdownRef.current &&
-        !generateDropdownRef.current.contains(event.target)
-      ) {
-        setShowGenerateDropdown(false);
-      }
-      if (
-        themeDropdownRef.current &&
-        !themeDropdownRef.current.contains(event.target)
-      ) {
-        setShowThemeDropdown(false);
-      }
-      if (
-        settingsDropdownRef.current &&
-        !settingsDropdownRef.current.contains(event.target)
-      ) {
-        setShowSettingsDropdown(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
   }, []);
 
   const handleEditorLoad = (editor) => {
@@ -569,12 +577,13 @@ const Compiler = () => {
 
   return (
     <div className="compiler-container" ref={containerRef}>
-      <header className="compiler-header">
+      {/* Header commented out as per user's previous state, preserving this choice. */}
+      {/* <header className="compiler-header">
         <div className="header-left">
           <div className="main-title">CodePulse-R</div>
-          <div className="slogan">Standard Compailer</div>
+          <div className="slogan">Standard Compiler</div>
         </div>
-      </header>
+      </header> */}
 
       <div className="compiler-main">
         {/* Editor Section */}
@@ -584,22 +593,29 @@ const Compiler = () => {
         >
           <div className="section-header">
             <h3 className="section-title">
-              <FaCode />({language})
+              <FaCode className="text-primary" />({language})
             </h3>
             <div className="compiler-controls">
               {/* Settings Dropdown */}
-              <div className="dropdown-container" ref={settingsDropdownRef}>
+              <div className="oc-dropdown-container" ref={settingsDropdownRef}>
                 <button
                   className="btn-compiler btn-font-toggle"
-                  onClick={() => setShowSettingsDropdown(!showSettingsDropdown)}
+                  onClick={(e) => toggleDropdown(e, "settings")}
                   title="Editor Settings"
                 >
                   <FaCog />
-                  <span className="btn-text">Fonts</span>
+                  <span className="d-none d-md-inline">Fonts</span>
                   <FaChevronDown size={10} />
                 </button>
-                {showSettingsDropdown && (
-                  <div className="dropdown-menu settings-menu">
+                {activeDropdown === "settings" && (
+                  <div
+                    className="oc-dropdown-menu-fixed settings-menu"
+                    style={{
+                      top: dropdownPos.top,
+                      left: dropdownPos.left,
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     {/* Font Size Row */}
                     <div className="settings-row">
                       <span className="settings-label">Font Size</span>
@@ -634,7 +650,7 @@ const Compiler = () => {
                           onClick={() => setIsBold(!isBold)}
                           title="Toggle Bold"
                         >
-                          <FaBold size={12} />
+                          B
                         </button>
                         <button
                           className={`btn-compiler btn-icon-square ${
@@ -643,7 +659,7 @@ const Compiler = () => {
                           onClick={() => setIsItalic(!isItalic)}
                           title="Toggle Italic"
                         >
-                          <FaItalic size={12} />
+                          I
                         </button>
                       </div>
                     </div>
@@ -651,17 +667,25 @@ const Compiler = () => {
                 )}
               </div>
               {/* Theme Dropdown */}
-              <div className="dropdown-container" ref={themeDropdownRef}>
+              <div className="oc-dropdown-container" ref={themeDropdownRef}>
                 <button
                   className="btn-compiler btn-theme-toggle"
-                  onClick={() => setShowThemeDropdown(!showThemeDropdown)}
+                  onClick={(e) => toggleDropdown(e, "theme")}
                   title="Change Theme"
                 >
-                  <FaPalette /> Themes
+                  <FaPalette />
+                  <span className="d-none d-md-inline">Themes</span>
                   <FaChevronDown size={10} />
                 </button>
-                {showThemeDropdown && (
-                  <div className="dropdown-menu">
+                {activeDropdown === "theme" && (
+                  <div
+                    className="oc-dropdown-menu-fixed"
+                    style={{
+                      top: dropdownPos.top,
+                      left: dropdownPos.left,
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     {availableThemes.map((theme, index) => {
                       const isDark = Math.floor(index / 2) % 2 === 1;
                       return (
@@ -669,9 +693,9 @@ const Compiler = () => {
                           key={theme}
                           onClick={() => {
                             setEditorTheme(theme);
-                            setShowThemeDropdown(false);
+                            setActiveDropdown(null);
                           }}
-                          className={`dropdown-item ${
+                          className={`oc-dropdown-item ${
                             editorTheme === theme ? "active-theme" : ""
                           }`}
                         >
@@ -680,11 +704,11 @@ const Compiler = () => {
                           ) : (
                             <FaSun color="#f59e0b" />
                           )}
-                          <span style={{ textTransform: "capitalize" }}>
+                          <span className="theme-capitalize">
                             {theme.replace("_", " ")}
                           </span>
                           {editorTheme === theme && (
-                            <FaCheck style={{ marginLeft: "auto" }} />
+                            <FaCheck className="active-check-icon" />
                           )}
                         </button>
                       );
@@ -695,19 +719,28 @@ const Compiler = () => {
 
               {/* Generate Dropdown (Java Only) */}
               {language === "java" && (
-                <div className="dropdown-container" ref={generateDropdownRef}>
+                <div
+                  className="oc-dropdown-container"
+                  ref={generateDropdownRef}
+                >
                   <button
                     className="btn-compiler btn-code-gen"
-                    onClick={() =>
-                      setShowGenerateDropdown(!showGenerateDropdown)
-                    }
+                    onClick={(e) => toggleDropdown(e, "generate")}
                     title="Generate Boilerplate Code"
                   >
                     <FaMagic />
-                    Code Gen <FaChevronDown size={10} />
+                    <span className="d-none d-md-inline">Code Gen</span>{" "}
+                    <FaChevronDown size={10} />
                   </button>
-                  {showGenerateDropdown && (
-                    <div className="dropdown-menu dropdown-menu-gen">
+                  {activeDropdown === "generate" && (
+                    <div
+                      className="oc-dropdown-menu-fixed dropdown-menu-gen"
+                      style={{
+                        top: dropdownPos.top,
+                        left: dropdownPos.left,
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       {[
                         {
                           id: "all",
@@ -732,18 +765,18 @@ const Compiler = () => {
                         {
                           id: "tostring",
                           label: "toString()",
-                          icon: <FaCode />,
+                          icon: <FaFileCode />,
                         },
                         {
-                          id: "hashcode-equals",
-                          label: "hashCode() & equals()",
-                          icon: <FaCode />,
+                          id: "equals",
+                          label: "equals() & hashCode()",
+                          icon: <FaEquals />,
                         },
                       ].map((item) => (
                         <button
                           key={item.id}
                           onClick={() => generateCode(item.id)}
-                          className="dropdown-item"
+                          className="oc-dropdown-item"
                         >
                           {item.icon} {item.label}
                         </button>
@@ -774,9 +807,7 @@ const Compiler = () => {
                 ) : (
                   <FaPlay className="btn-run-icon" />
                 )}
-                <span className={isLoading ? "" : ""}>
-                  {isLoading ? "Running" : "RUN"}
-                </span>
+                <span>{isLoading ? "Running" : "RUN"}</span>
               </button>
             </div>
           </div>
@@ -794,8 +825,6 @@ const Compiler = () => {
                 enableBasicAutocompletion: true,
                 enableLiveAutocompletion: true,
                 enableSnippets: true,
-                showLineNumbers: true,
-                tabSize: 4,
                 showLineNumbers: true,
                 tabSize: 4,
                 fontSize: fontSize,
@@ -835,23 +864,17 @@ const Compiler = () => {
               <FaDownload /> PDF
             </button>
           </div>
-          <div
-            className={`output-content ${
-              language === "html" || language === "css" ? "preview-mode" : ""
-            }`}
-          >
-            {language === "html" || language === "css" ? (
+          <div className={`output-content ${isWebLanguage ? "preview-mode" : ""}`}>
+            {isWebLanguage ? (
               <div className="preview-container">
                 <BrowserPreview htmlCode={output} />
               </div>
             ) : Array.isArray(output) ? (
-              <div className="sql-result-container">
+              <div className="sql-result-container sql-result-container-padding">
                 {output.map((msg, i) => (
                   <div key={i} className="sql-msg-item">
                     {msg.type === "success" && (
-                      <div className="sql-success-msg">
-                        <FaCheck /> {msg.text}
-                      </div>
+                      <div className="sql-success-msg-box">👍 {msg.text}</div>
                     )}
                     {msg.type === "error" && (
                       <div className="error-msg-box">{msg.text}</div>
@@ -860,7 +883,7 @@ const Compiler = () => {
                       <div className="info-msg-text">{msg.text}</div>
                     )}
                     {msg.type === "table" && (
-                      <div style={{ overflowX: "auto" }}>
+                      <div className="table-overflow">
                         <table className="sql-table">
                           <thead>
                             <tr>
@@ -885,20 +908,20 @@ const Compiler = () => {
                 ))}
               </div>
             ) : (
-              <pre className="output-pre">
+              <pre className={`output-pre ${isError ? "error-text" : ""}`}>
                 {isLoading ? (
                   <span className="loading-dots">
-                    Codepulse-R generating Output
+                    CodePulse-R generating Output
                   </span>
                 ) : (
-                  output || "Codepulse-R generating output will appear here..."
+                  output || "CodePulse-R generating output will appear here..."
                 )}
               </pre>
             )}
           </div>
         </div>
       </div>
-      {/* Hidden Print Layout for PDF Generation */}
+      {/* Hidden PDF Print Layout */}
       <div
         style={{
           position: "absolute",
@@ -907,7 +930,6 @@ const Compiler = () => {
           zIndex: -1,
         }}
       >
-        {/* Page 1: Source Code */}
         <div
           ref={pdfCodeRef}
           style={{
@@ -919,191 +941,35 @@ const Compiler = () => {
             fontFamily: "Arial, sans-serif",
           }}
         >
-          <div
-            style={{
-              textAlign: "center",
-              marginBottom: "20px",
-              borderBottom: "2px solid #ccc",
-              paddingBottom: "10px",
-            }}
+          {/* Reuse logic or simplify for print */}
+          <h3>Source Code ({language})</h3>
+          <SyntaxHighlighter
+            language={language}
+            style={docco}
+            showLineNumbers={true}
+            wrapLongLines={true}
           >
-            <h1 style={{ color: "#1d13e2", margin: 0 }}>
-              CodePulse-R Compiler
-            </h1>
-            <p style={{ margin: "5px 0", color: "#666" }}>
-              Generated on {new Date().toLocaleString()}
-            </p>
-          </div>
-
-          <h3
-            style={{
-              borderBottom: "1px solid #ddd",
-              paddingBottom: "5px",
-              color: "#333",
-            }}
-          >
-            Source Code ({language})
-          </h3>
-          <div
-            style={{
-              margin: "10px 0",
-              border: "1px solid #eee",
-              borderRadius: "5px",
-              overflow: "hidden",
-            }}
-          >
-            <SyntaxHighlighter
-              language={language === "sqlite3" ? "sql" : language}
-              style={docco}
-              showLineNumbers={true}
-              wrapLongLines={true}
-              customStyle={{ margin: 0, fontSize: "12px" }}
-            >
-              {code || ""}
-            </SyntaxHighlighter>
-          </div>
+            {code || ""}
+          </SyntaxHighlighter>
         </div>
-
-        {/* Page 2: Console Output (Separate Page) */}
-        {!(language === "html" || language === "css") && (
+        {!isWebLanguage && (
           <div
             ref={pdfOutputRef}
             style={{
               width: "210mm",
               minHeight: "297mm",
               background: "white",
-              color: "black",
               padding: "40px",
-              fontFamily: "Arial, sans-serif",
             }}
           >
-            <div
-              style={{
-                textAlign: "center",
-                marginBottom: "20px",
-                borderBottom: "2px solid #ccc",
-                paddingBottom: "10px",
-              }}
-            >
-              <h1 style={{ color: "#1d13e2", margin: 0 }}>
-                CodePulse-R Console Output
-              </h1>
-              <p style={{ margin: "5px 0", color: "#666" }}>
-                Generated on {new Date().toLocaleString()}
-              </p>
-            </div>
-
-            <h3
-              style={{
-                borderBottom: "1px solid #ddd",
-                paddingBottom: "5px",
-                color: "#333",
-              }}
-            >
-              Console Output
-            </h3>
-            <div
-              style={{
-                marginTop: "10px",
-                padding: "15px",
-                backgroundColor: "#f8fafc",
-                border: "1px solid #e2e8f0",
-                borderRadius: "5px",
-                minHeight: "100px",
-                fontFamily: "monospace",
-                fontSize: "12px",
-              }}
-            >
-              {Array.isArray(output) ? (
-                <div className="sql-result-container">
-                  {output.map((msg, i) => (
-                    <div
-                      key={i}
-                      className="sql-msg-item"
-                      style={{
-                        marginBottom: "15px",
-                        borderBottom: "1px dashed #ccc",
-                        paddingBottom: "10px",
-                      }}
-                    >
-                      {msg.type === "success" && (
-                        <div
-                          className="sql-success-msg"
-                          style={{ color: "green", fontWeight: "bold" }}
-                        >
-                          ✔ {msg.text}
-                        </div>
-                      )}
-                      {msg.type === "error" && (
-                        <div className="error-msg-box" style={{ color: "red" }}>
-                          {msg.text}
-                        </div>
-                      )}
-                      {msg.type === "info" && (
-                        <div className="info-msg-text">{msg.text}</div>
-                      )}
-                      {msg.type === "table" && msg.data && (
-                        <div style={{ overflowX: "auto", marginTop: "5px" }}>
-                          <table
-                            style={{
-                              width: "100%",
-                              borderCollapse: "collapse",
-                              border: "1px solid #000",
-                            }}
-                          >
-                            <thead>
-                              <tr style={{ background: "#f0f0f0" }}>
-                                {msg.data.columns.map((col, idx) => (
-                                  <th
-                                    key={idx}
-                                    style={{
-                                      border: "1px solid #000",
-                                      padding: "5px",
-                                      background: "#4caf50",
-                                      color: "white",
-                                    }}
-                                  >
-                                    {col}
-                                  </th>
-                                ))}
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {msg.data.values.map((row, rIdx) => (
-                                <tr key={rIdx}>
-                                  {row.map((val, cIdx) => (
-                                    <td
-                                      key={cIdx}
-                                      style={{
-                                        border: "1px solid #000",
-                                        padding: "5px",
-                                      }}
-                                    >
-                                      {val}
-                                    </td>
-                                  ))}
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div style={{ whiteSpace: "pre-wrap" }}>
-                  {typeof output === "string"
-                    ? output
-                    : JSON.stringify(output, null, 2)}
-                </div>
-              )}
-            </div>
+            <h3>Output</h3>
+            <pre>{typeof output === "string" ? output : JSON.stringify(output)}</pre>
           </div>
         )}
       </div>
     </div>
   );
+
 };
 
 export default Compiler;

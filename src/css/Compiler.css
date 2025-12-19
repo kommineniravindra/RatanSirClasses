@@ -17,15 +17,20 @@
     --border-color: #e2e8f0;
 }
 
+
+
 .compiler-container {
     height: 100vh;
     display: flex;
     flex-direction: column;
     font-family: 'Outfit', sans-serif;
-    background: var(--bg-gradient);
+    background: transparent;
+    /* Body handles bg */
     color: var(--text-primary);
     overflow: hidden;
+    /* Desktop: Internal scroll only */
     position: relative;
+    width: 100%;
 }
 
 /* Background Animation Elements - Subtle */
@@ -86,7 +91,7 @@
 
 .compiler-nav {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(9, 1fr);
     gap: 2px;
     align-items: center;
     /* padding: 8px 12px; */
@@ -100,7 +105,7 @@
     flex: 1;
     padding: 0;
     gap: 0;
-    overflow: hidden;
+    overflow: visible;
     position: relative;
     z-index: 10;
 }
@@ -114,7 +119,7 @@
     border: 1px solid var(--border-color);
     border-radius: 0;
     box-shadow: none;
-    overflow: hidden;
+    overflow: visible;
     transition: all 0.3s ease;
 }
 
@@ -138,6 +143,8 @@
     border-bottom: 1px solid #e2e8f0;
     background: #ffffff;
     box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2000;
 }
 
 .section-title {
@@ -483,27 +490,35 @@
 }
 
 /* Dropdowns - Clean White */
-.dropdown-container {
-    position: relative;
+/* Dropdowns - Clean White - FINAL ISOLATION (OC Prefix) */
+.oc-dropdown-container {
+    position: relative !important;
+    display: inline-block !important;
+    /* Ensure it doesn't take full width if not needed */
 }
 
-.dropdown-menu {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    background: #ffffff;
-    border: 1px solid var(--border-color);
-    /* border-radius: 12px; */
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    min-width: 200px;
-    max-height: 320px;
-    overflow-y: auto;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-    padding: 6px;
-    animation: slideIn 0.2s ease-out;
+
+.oc-dropdown-menu-fixed {
+    position: fixed !important;
+    /* JS will set Top/Left */
+    /* Remove Top/Right/Left defaults so JS controls it */
+    margin: 0 !important;
+    background: #ffffff !important;
+    border: 1px solid var(--border-color) !important;
+    z-index: 2147483647 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 200px !important;
+    max-height: 320px !important;
+    overflow-y: auto !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
+    padding: 6px !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    border-radius: 8px;
 }
+
 
 @keyframes slideIn {
     from {
@@ -517,8 +532,9 @@
     }
 }
 
-.dropdown-item {
-    background: transparent;
+
+.oc-dropdown-item {
+    background: transparent !important;
     color: var(--text-secondary);
     border: none;
     padding: 10px 14px;
@@ -535,13 +551,13 @@
     transition: all 0.1s ease;
 }
 
-.dropdown-item:hover {
-    background: #f1f5f9;
+.oc-dropdown-item:hover {
+    background: #f1f5f9 !important;
     color: var(--text-primary);
 }
 
-.dropdown-item.active-theme {
-    background: #eef2ff;
+.oc-dropdown-item.active-theme {
+    background: #eef2ff !important;
     color: var(--accent-color);
 }
 
@@ -554,40 +570,71 @@
     white-space: nowrap;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-    .compiler-container {
-        height: 100vh;
-        overflow: hidden;
-    }
-
-    .compiler-header {
-        flex-direction: column;
-        padding: 12px;
-        height: auto;
-        gap: 12px;
-    }
-
-    .compiler-main {
-        flex-direction: column;
-        padding: 12px;
-        gap: 12px;
-    }
-
-    .compiler-section {
-        border-radius: 12px;
-    }
-
-    .compiler-title {
-        font-size: 1.1rem;
-    }
-
-    .compiler-nav {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+/* Settings Dropdown Internal Styles */
+.settings-menu {
+    min-width: 240px !important;
+    padding: 12px !important;
+    gap: 12px !important;
 }
+
+.settings-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+}
+
+.settings-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.settings-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-font-size,
+.btn-icon-square {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    background: #f8fafc;
+    border-radius: 6px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+}
+
+.btn-font-size:hover,
+.btn-icon-square:hover {
+    background: #e2e8f0;
+    color: var(--accent-color);
+}
+
+.btn-icon-square.active {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+.font-size-value {
+    min-width: 24px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+
+
+
 
 
 /* SQL Table Output */
@@ -704,19 +751,7 @@
     border-color: var(--accent-color);
 }
 
-/* Mobile Responsiveness for Resizer */
-@media (max-width: 768px) {
-    .resizer {
-        width: 100%;
-        height: 6px;
-        cursor: row-resize;
-    }
 
-    .resizer::after {
-        content: "=";
-        transform: rotate(90deg);
-    }
-}
 
 /* Hide button text on medium screens for responsiveness */
 /* Responsive Adjustments */
@@ -780,270 +815,291 @@
 }
 
 /* =========================================
-   RESPONSIVE DESIGN 
+   RESPONSIVE DESIGN SYSTEM
    ========================================= */
 
-/* 1. Mobile (Portrait): 320px - 479px */
-@media (min-width: 320px) and (max-width: 479px) {
-    .compiler-container {
-        height: 100vh;
-        overflow: hidden;
+/* 1. Large Screens & High Res Monitors (Min-width: 1441px) */
+@media (min-width: 1441px) {
+    .main-title {
+        font-size: 4rem;
     }
 
     .compiler-header {
+        height: 90px;
+        padding: 0 40px;
+    }
+
+    .compiler-lang-btn {
+        padding: 8px 24px;
+        font-size: 1rem;
+        height: 40px;
+    }
+
+    .btn-compiler {
+        height: 36px;
+        font-size: 0.95rem;
+        padding: 8px 16px;
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+    }
+
+    .ace-editor-container {
+        font-size: 16px !important;
+    }
+}
+
+/* 2. Laptops & Small Desktops (Max-width: 1200px) */
+@media (max-width: 1200px) {
+    .compiler-header {
+        padding: 0 16px;
+        gap: 12px;
+    }
+
+    .main-title {
+        font-size: 2.5rem;
+        letter-spacing: 0.3rem;
+    }
+
+    .slogan {
+        font-size: 1.2rem;
+        margin-left: 20px;
+    }
+
+    .compiler-nav {
+        gap: 4px;
+    }
+
+    .compiler-lang-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .compiler-lang-btn span.d-md-inline {
+        display: none !important;
+        /* Hide text on smaller laptops if crowded */
+    }
+
+    .compiler-lang-btn.active span.d-md-inline {
+        display: inline !important;
+    }
+}
+
+/* 3. Tablets (Max-width: 992px) */
+@media (max-width: 992px) {
+    .compiler-container {
         height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+    }
+
+    .compiler-main {
         flex-direction: column;
-        align-items: stretch;
-        padding: 10px;
-        gap: 10px;
+        display: block;
+        /* Stack vertically */
+    }
+
+    .compiler-section {
+        width: 100% !important;
+        /* Force full width */
+        flex: none !important;
+        min-height: 500px;
+        /* Give editor some height */
+        border-right: none !important;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .resizer {
+        display: none !important;
+        /* Hide vertical resizer in stack mode */
+    }
+
+    .compiler-header {
+        flex-direction: column;
+        height: auto;
+        padding: 16px;
+        gap: 16px;
     }
 
     .header-left {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
         align-items: center;
+        text-align: center;
+    }
+
+    .main-title {
+        text-align: center;
+    }
+
+    .slogan {
+        margin-left: 0;
+        margin-top: 5px;
+    }
+
+    .compiler-nav {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .compiler-lang-btn {
+        flex: 1 1 auto;
+        /* Grow to fill space */
+        justify-content: center;
+        min-width: 40px;
+    }
+
+    .compiler-lang-btn span.d-md-inline {
+        display: none !important;
+        /* Icon only on tablet generally */
+    }
+
+    .compiler-lang-btn.active span.d-md-inline {
+        display: inline !important;
+    }
+}
+
+/* 4. Mobile Devices (Max-width: 768px) */
+@media (max-width: 768px) {
+    .compiler-section {
+        min-height: 400px;
+    }
+
+    .section-header {
+        padding: 0 12px;
+        flex-wrap: wrap;
+        height: auto;
+        min-height: 50px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .compiler-controls {
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 8px;
+    }
+
+    /* Make buttons bigger for touch */
+    .btn-compiler,
+    .btn-run,
+    .compiler-lang-btn {
+        min-height: 40px;
+    }
+
+    /* Adjust dropdowns for mobile */
+    .oc-dropdown-menu-fixed {
+        position: fixed !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 90% !important;
+        max-width: 320px !important;
+        max-height: 60vh !important;
+        box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5) !important;
+        /* Dim background */
+    }
+
+    /* Ensure editor doesn't trap scroll entirely if it takes full screen */
+    .ace-editor-container {
+        min-height: 350px;
+    }
+
+    .settings-row {
+        flex-direction: row;
+        /* Keep row unless very small */
+    }
+}
+
+/* 5. Small Mobile (Max-width: 480px) */
+@media (max-width: 480px) {
+    .main-title {
+        font-size: 2rem;
+        letter-spacing: 0.1rem;
+    }
+
+    .compiler-header {
+        padding: 10px;
+    }
+
+    .compiler-nav {
+        gap: 8px;
+    }
+
+    /* Grid layout for language buttons on very small screens? */
+    .compiler-nav {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        /* 4 cols */
+        width: 100%;
+    }
+
+    .compiler-lang-btn {
+        padding: 4px;
+        min-width: auto;
+    }
+
+    .compiler-lang-btn span.d-md-inline,
+    .compiler-lang-btn.active span.d-md-inline {
+        display: none !important;
+        /* Always icon only on tiny screens */
+    }
+
+    .settings-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .settings-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .btn-run {
+        width: 100%;
+        /* Full width run button */
+        margin-top: 8px;
+    }
+
+    .compiler-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .oc-dropdown-container {
+        width: 100%;
+    }
+
+    .oc-dropdown-container button {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* 6. Height-based Responsive (Landscape Mobile / Tablet keyboard open) */
+@media (max-height: 600px) {
+    .compiler-header {
+        height: auto;
+        padding: 5px 10px;
+        flex-direction: row;
+        /* Keep side-by-side if enough width */
+        gap: 10px;
     }
 
     .main-title {
         font-size: 1.5rem;
-        letter-spacing: 2px;
     }
 
     .slogan {
         display: none;
+        /* Hide slogan to save space */
     }
 
     .compiler-nav {
-        display: flex;
-        overflow-x: auto;
-        padding-bottom: 4px;
-        gap: 8px;
-        margin: 0;
-        width: 100%;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .compiler-nav::-webkit-scrollbar {
-        height: 2px;
-    }
-
-    .compiler-lang-btn {
-        flex-shrink: 0;
-        padding: 4px 8px;
-        font-size: 0.75rem;
-        height: 28px;
-    }
-
-    .compiler-main {
-        flex-direction: column;
-    }
-
-    .compiler-section {
-        flex: 1 1 auto;
-        width: 100% !important;
-        min-height: 0;
-    }
-
-    .resizer {
         display: none;
+        /* Hide nav, maybe rely on a dropdown or just reduced view? Or just scale it down */
+        /* Better: Scale down */
+        transform: scale(0.9);
     }
-
-    .section-header {
-        height: 44px;
-        padding: 0 8px;
-    }
-
-    .section-title {
-        font-size: 0.8rem;
-    }
-    
-    .btn-text {
-        display: none; /* Hide text, icon only */
-    }
-
-    .compiler-controls {
-        gap: 4px;
-    }
-
-    .btn-compiler {
-        padding: 4px;
-        width: 28px;
-        height: 28px;
-    }
-    
-    .btn-run {
-        width: auto;
-        min-width: 60px;
-    }
-}
-
-/* 2. Mobile (Landscape): 481px - 767px */
-@media (min-width: 481px) and (max-width: 767px) {
-    .compiler-container {
-        height: 100vh;
-    }
-
-    .compiler-header {
-        height: auto;
-        padding: 8px 12px;
-        justify-content: space-between;
-        /* More space in landscape */
-    }
-
-    .compiler-nav {
-        display: flex;
-        overflow-x: auto;
-        max-width: 60%; 
-    }
-
-    .main-title {
-        font-size: 1.4rem;
-    }
-
-    .slogan {
-        display: none;
-    }
-
-    /* Stack vertically to avoid super narrow columns */
-    .compiler-main {
-        flex-direction: column; 
-    }
-
-    .compiler-section {
-        width: 100% !important;
-    }
-
-    .resizer {
-        display: none;
-    }
-    
-    .btn-text {
-        display: none;
-    }
-}
-
-/* 3. Tablet (Portrait & Landscape): 768px - 1024px */
-@media (min-width: 768px) and (max-width: 1024px) {
-    .compiler-header {
-        padding: 0 16px;
-        gap: 16px;
-    }
-
-    .slogan {
-        display: none; /* Often too crowded on tablet portrait */
-        margin-left: 10px;
-        font-size: 0.9rem;
-    }
-
-    .compiler-nav {
-         /* Grid is okay here usually, or flex */
-         display: flex; 
-         overflow-x: auto;
-         gap: 8px; 
-    }
-
-    .btn-text {
-        display: none; /* Icon only to save header space */
-    }
-
-    .compiler-main {
-        flex-direction: row; /* Side by side on tablet */
-    }
-
-    .resizer {
-        display: flex;
-        width: 6px;
-        cursor: col-resize;
-    }
-    
-    .resizer::after {
-        content: "||";
-        transform: none;
-    }
-}
-
-/* 4. Laptop/Desktop: 1025px - 1280px */
-@media (min-width: 1025px) and (max-width: 1280px) {
-    .compiler-container {
-        /* Fluid or max-width */
-    }
-
-    .slogan {
-        margin-left: 20px;
-        font-size: 1rem;
-    }
-    
-    .compiler-nav {
-        display: grid; 
-    }
-
-    .compiler-main {
-         flex-direction: row;
-    }
-}
-
-/* 5. Desktop: 1281px + */
-@media (min-width: 1281px) {
-    .compiler-container {
-        max-width: 1600px; /* Optional cap for ultra-wide */
-        margin: 0 auto; 
-    }
-    
-    .compiler-main {
-        flex-direction: row;
-    }
-}
-
-/* Settings Menu Styles */
-.dropdown-menu.settings-menu {
-    min-width: 200px;
-    padding: 12px;
-}
-
-.settings-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.settings-row:last-child {
-    border-bottom: none;
-}
-
-.settings-label {
-    font-size: 0.85rem;
-    color: var(--text-primary);
-    font-weight: 500;
-}
-
-.settings-controls {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-}
-
-.font-size-value {
-    min-width: 24px;
-    text-align: center;
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-
-.btn-icon-square {
-    width: 28px;
-    height: 28px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn-icon-square.active {
-    background: var(--accent-color);
-    color: white;
-    border-color: var(--accent-color);
 }

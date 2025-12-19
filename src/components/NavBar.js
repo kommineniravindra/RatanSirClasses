@@ -89,19 +89,21 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
   const handleCompiler = () => window.open("/online-compiler", "_blank");
 
   return (
-    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
-      <div className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+    <nav className={`nb-navbar ${scrolled ? "scrolled" : ""}`}>
+      <div className="nb-menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
       </div>
 
-      <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
+      <ul className={`nb-navbar-links ${menuOpen ? "open" : ""}`}>
         {navbarItems.map((item, index) => (
           <li
             key={index}
-            className={item.type === "dropdown" ? "navbar-item-dropdown" : ""}
+            className={
+              item.type === "dropdown" ? "nb-navbar-item-dropdown" : ""
+            }
           >
             <div
-              className={`navbar-item ${
+              className={`nb-navbar-item ${
                 item.type === "dropdown"
                   ? item.subItems.some((sub) => sub.name === selectedTechnology)
                     ? "active"
@@ -117,7 +119,7 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
                   : handleSelection(item.name)
               }
             >
-              <div className="navbar-content">
+              <div className="nb-navbar-content">
                 {item.icon}
                 <span>
                   {item.type === "dropdown"
@@ -128,7 +130,7 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
                 </span>
                 {item.type === "dropdown" && (
                   <FaAngleDown
-                    className={`dropdown-arrow ${
+                    className={`nb-dropdown-arrow ${
                       openDropdown === item.name ? "open" : ""
                     }`}
                   />
@@ -137,11 +139,11 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
             </div>
 
             {item.type === "dropdown" && openDropdown === item.name && (
-              <ul className="dropdown-menu">
+              <ul className="nb-dropdown-menu">
                 {item.subItems.map((subItem, subIndex) => (
                   <li
                     key={subIndex}
-                    className={`dropdown-item1 ${
+                    className={`nb-dropdown-item1 ${
                       selectedTechnology === subItem.name ? "active" : ""
                     }`}
                     onClick={() => handleSelection(subItem.name)}
@@ -155,29 +157,29 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
           </li>
         ))}
 
-        <li onClick={handleClass} className="navbar-item">
-          <div className="navbar-content">
+        <li onClick={handleClass} className="nb-navbar-item">
+          <div className="nb-navbar-content">
             <FaClipboardCheck />
             <span>Class</span>
           </div>
         </li>
 
-        <li onClick={handleExam} className="navbar-item">
-          <div className="navbar-content">
+        <li onClick={handleExam} className="nb-navbar-item">
+          <div className="nb-navbar-content">
             <FaClipboardCheck />
             <span>Quiz</span>
           </div>
         </li>
 
-        {/* <li onClick={handleStartLearning} className="navbar-item">
-          <div className="navbar-content">
+        {/* <li onClick={handleStartLearning} className="nb-navbar-item">
+          <div className="nb-navbar-content">
             <FaClipboardCheck />
             <span>Learning</span>
           </div>
         </li> */}
 
-        <li onClick={handleCompiler} className="navbar-item">
-          <div className="navbar-content">
+        <li onClick={handleCompiler} className="nb-navbar-item">
+          <div className="nb-navbar-content">
             <FaFileCode />
             <span>Compiler's</span>
           </div>

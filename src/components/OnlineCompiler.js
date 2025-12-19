@@ -22,6 +22,8 @@ import {
   FaDatabase,
   FaCog, // Added
   FaDownload, // Added for PDF Download
+  FaFileCode,
+  FaEquals,
 } from "react-icons/fa";
 import {
   SiC,
@@ -32,6 +34,10 @@ import {
   SiGo,
   SiRust,
   SiScala,
+  SiSwift,
+  SiRuby,
+  SiPhp,
+  SiGnubash,
 } from "react-icons/si";
 import { FaBold, FaItalic } from "react-icons/fa";
 import "../css/Compiler.css";
@@ -61,6 +67,10 @@ import "ace-builds/src-noconflict/mode-kotlin";
 import "ace-builds/src-noconflict/mode-golang";
 import "ace-builds/src-noconflict/mode-rust";
 import "ace-builds/src-noconflict/mode-scala";
+import "ace-builds/src-noconflict/mode-swift";
+import "ace-builds/src-noconflict/mode-ruby";
+import "ace-builds/src-noconflict/mode-php";
+import "ace-builds/src-noconflict/mode-sh";
 import "ace-builds/src-noconflict/theme-monokai"; // Default theme
 import "ace-builds/src-noconflict/ext-language_tools";
 
@@ -143,6 +153,38 @@ const OnlineCompiler = () => {
   const editorRef = useRef(null);
 
   const containerRef = useRef(null);
+
+  // --- Dynamic Fixed Positioning State ---
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
+  const [activeDropdown, setActiveDropdown] = useState(null); // 'settings', 'theme', 'generate', or null
+
+  // Helper to toggle dropdowns with fixed positioning
+  const toggleDropdown = (e, dropdownName) => {
+    e.stopPropagation();
+    if (activeDropdown === dropdownName) {
+      setActiveDropdown(null);
+      return;
+    }
+
+    const rect = e.currentTarget.getBoundingClientRect();
+
+    setDropdownPos({
+      top: rect.bottom + 8,
+      left: rect.left - 150, // Shift left to keep it on screen
+    });
+    setActiveDropdown(dropdownName);
+  };
+
+  // Close ALL dropdowns on window click or scroll
+  useEffect(() => {
+    const closeAll = () => setActiveDropdown(null);
+    window.addEventListener("click", closeAll);
+    window.addEventListener("scroll", closeAll, true); // Capture phase to catch any scroll
+    return () => {
+      window.removeEventListener("click", closeAll);
+      window.removeEventListener("scroll", closeAll, true);
+    };
+  }, []);
 
   const languages = [
     {
@@ -250,6 +292,34 @@ const OnlineCompiler = () => {
       icon: <SiScala />,
       color: "#DC322F",
     },
+    {
+      name: "Swift",
+      mode: "swift",
+      apiLang: "swift",
+      icon: <SiSwift />,
+      color: "#F05138",
+    },
+    {
+      name: "Ruby",
+      mode: "ruby",
+      apiLang: "ruby",
+      icon: <SiRuby />,
+      color: "#CC342D",
+    },
+    {
+      name: "PHP",
+      mode: "php",
+      apiLang: "php",
+      icon: <SiPhp />,
+      color: "#777BB4",
+    },
+    {
+      name: "Bash",
+      mode: "sh",
+      apiLang: "bash",
+      icon: <SiGnubash />,
+      color: "#4EAA25",
+    },
   ];
 
   const handleLanguageChange = (langObj) => {
@@ -280,6 +350,10 @@ const OnlineCompiler = () => {
         go: "Go",
         rust: "Rust",
         scala: "Scala",
+        swift: "Swift",
+        ruby: "Ruby",
+        php: "PHP",
+        bash: "Bash",
       };
 
       // Check if sqlite3 matches keyMap
@@ -735,12 +809,12 @@ const OnlineCompiler = () => {
       {!isFullScreen && (
         <header className="compiler-header">
           {/* Left: Branding */}
-          <div className="header-left">
+          {/* <div className="header-left">
             <span className="animated-title-3d main-title ">
               <span>CODEPULSE-R</span>
             </span>
             <span className="animated-title-3d slogan">Online Compiler's</span>
-          </div>
+          </div> */}
 
           <div className="compiler-nav">
             {languages.map((lang) => {
@@ -803,18 +877,26 @@ const OnlineCompiler = () => {
 
             <div className="compiler-controls">
               {/* Settings Dropdown */}
-              <div className="dropdown-container" ref={settingsDropdownRef}>
+              <div className="oc-dropdown-container" ref={settingsDropdownRef}>
                 <button
                   className="btn-compiler btn-font-toggle"
-                  onClick={() => setShowSettingsDropdown(!showSettingsDropdown)}
+                  onClick={(e) => toggleDropdown(e, "settings")}
                   title="Editor Settings"
                 >
                   <FaCog />
                   <span className="btn-text">Fonts</span>
                   <FaChevronDown size={10} />
                 </button>
-                {showSettingsDropdown && (
-                  <div className="dropdown-menu settings-menu">
+                {activeDropdown === "settings" && (
+                  <div
+                    className="oc-dropdown-menu-fixed settings-menu"
+                    style={{
+                      top: dropdownPos.top,
+                      left: dropdownPos.left,
+                      zIndex: 2147483647,
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     {/* Font Size Row */}
                     <div className="settings-row">
                       <span className="settings-label">Font Size</span>
@@ -849,7 +931,7 @@ const OnlineCompiler = () => {
                           onClick={() => setIsBold(!isBold)}
                           title="Toggle Bold"
                         >
-                          <FaBold size={12} />
+                          B
                         </button>
                         <button
                           className={`btn-compiler btn-icon-square ${
@@ -858,7 +940,7 @@ const OnlineCompiler = () => {
                           onClick={() => setIsItalic(!isItalic)}
                           title="Toggle Italic"
                         >
-                          <FaItalic size={12} />
+                          I
                         </button>
                       </div>
                     </div>
@@ -867,18 +949,26 @@ const OnlineCompiler = () => {
               </div>
 
               {/* Theme Dropdown */}
-              <div className="dropdown-container" ref={themeDropdownRef}>
+              <div className="oc-dropdown-container" ref={themeDropdownRef}>
                 <button
                   className="btn-compiler btn-theme-toggle"
-                  onClick={() => setShowThemeDropdown(!showThemeDropdown)}
+                  onClick={(e) => toggleDropdown(e, "theme")}
                   title="Change Theme"
                 >
                   <FaPalette />
                   <span className="btn-text">Themes</span>
                   <FaChevronDown size={10} />
                 </button>
-                {showThemeDropdown && (
-                  <div className="dropdown-menu">
+                {activeDropdown === "theme" && (
+                  <div
+                    className="oc-dropdown-menu-fixed"
+                    style={{
+                      top: dropdownPos.top,
+                      left: dropdownPos.left,
+                      zIndex: 2147483647,
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     {availableThemes.map((theme, index) => {
                       const isDark = Math.floor(index / 2) % 2 === 1;
                       return (
@@ -886,9 +976,9 @@ const OnlineCompiler = () => {
                           key={theme}
                           onClick={() => {
                             setEditorTheme(theme);
-                            setShowThemeDropdown(false);
+                            setActiveDropdown(null);
                           }}
-                          className={`dropdown-item ${
+                          className={`oc-dropdown-item ${
                             editorTheme === theme ? "active-theme" : ""
                           }`}
                         >
@@ -912,20 +1002,29 @@ const OnlineCompiler = () => {
 
               {/* Generate Dropdown (Java Only) */}
               {language === "java" && (
-                <div className="dropdown-container" ref={generateDropdownRef}>
+                <div
+                  className="oc-dropdown-container"
+                  ref={generateDropdownRef}
+                >
                   <button
                     className="btn-compiler btn-code-gen"
-                    onClick={() =>
-                      setShowGenerateDropdown(!showGenerateDropdown)
-                    }
+                    onClick={(e) => toggleDropdown(e, "generate")}
                     title="Generate Boilerplate Code"
                   >
                     <FaMagic />
                     <span className="btn-text">Code Gen</span>
                     <FaChevronDown size={10} />
                   </button>
-                  {showGenerateDropdown && (
-                    <div className="dropdown-menu dropdown-menu-gen">
+                  {activeDropdown === "generate" && (
+                    <div
+                      className="oc-dropdown-menu-fixed dropdown-menu-gen"
+                      style={{
+                        top: dropdownPos.top,
+                        left: dropdownPos.left,
+                        zIndex: 2147483647,
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       {[
                         {
                           id: "all",
@@ -948,20 +1047,20 @@ const OnlineCompiler = () => {
                           icon: <FaCode />,
                         },
                         {
-                          id: "tostring",
+                          id: "toString",
                           label: "toString()",
-                          icon: <FaCode />,
+                          icon: <FaFileCode />,
                         },
                         {
-                          id: "hashcode-equals",
-                          label: "hashCode() & equals()",
-                          icon: <FaCode />,
+                          id: "equals",
+                          label: "equals() & hashCode()",
+                          icon: <FaEquals />,
                         },
                       ].map((item) => (
                         <button
                           key={item.id}
                           onClick={() => generateCode(item.id)}
-                          className="dropdown-item"
+                          className="oc-dropdown-item"
                         >
                           {item.icon} {item.label}
                         </button>

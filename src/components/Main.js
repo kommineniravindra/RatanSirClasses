@@ -219,20 +219,20 @@ const Main = ({
     const pres = mainBodyRef.current?.querySelectorAll("pre");
     pres?.forEach((block, idx) => {
       const uniqueKey = `${selectedItem}-${idx}`;
-      if (!block.parentNode.classList.contains("code-block-wrapper")) {
+      if (!block.parentNode.classList.contains("main-code-block-wrapper")) {
         const wrapper = document.createElement("div");
-        wrapper.className = "code-block-wrapper";
+        wrapper.className = "main-code-block-wrapper";
 
         // Create Toolbar Container
         const toolbar = document.createElement("div");
-        toolbar.className = "code-buttons-toolbar";
+        toolbar.className = "main-code-buttons-toolbar";
 
         const btn = document.createElement("button");
-        btn.className = "copy-btn";
+        btn.className = "main-copy-btn";
         btn.innerHTML = copyIcon + " Copy";
 
         const tryBtn = document.createElement("button");
-        tryBtn.className = "try-btn";
+        tryBtn.className = "main-try-btn";
         tryBtn.innerHTML = playIcon + " Try This";
         tryBtn.onclick = () => {
           // Get text and strip leading line numbers.
@@ -392,25 +392,25 @@ const Main = ({
     <div className="main-body" ref={mainBodyRef}>
       <div className="main-content">
         {activeGroup ? (
-          <div className="content-group-container">
+          <div className="main-content-group-container">
             {activeGroup.subItems.map((subItem, subItemIndex) => (
               <div
                 key={subItem.name}
                 ref={(el) => (sectionRefs.current[subItem.name] = el)}
                 data-key={subItem.name}
-                className={`content-section ${
+                className={`main-content-section ${
                   selectedTechnology === "Downloads"
-                    ? "downloads-section-wrapper"
+                    ? "main-downloads-section-wrapper"
                     : ""
                 }`}
               >
                 {selectedTechnology !== "Downloads" && <h2>{subItem.name}</h2>}
                 <div>{mainData[subItem.name]}</div>
                 {subItemIndex === activeGroup.subItems.length - 1 && (
-                  <div className="nav-buttons">
+                  <div className="main-nav-buttons">
                     <button
                       onClick={handlePrevious}
-                      className="nav-btn1"
+                      className="main-nav-btn1"
                       disabled={currentItemIndex === 0}
                     >
                       ⮜ Previous
@@ -427,7 +427,7 @@ const Main = ({
                       )}
                     <button
                       onClick={handleNext}
-                      className="nav-btn1"
+                      className="main-nav-btn1"
                       disabled={currentItemIndex === flatSubItems.length - 1}
                     >
                       Next ➤
@@ -438,8 +438,11 @@ const Main = ({
             ))}
           </div>
         ) : (
-          <div className="content-group-container">
-            <h1 className="content-group-title" style={{ textAlign: "center" }}>
+          <div className="main-content-group-container">
+            <h1
+              className="main-content-group-title"
+              style={{ textAlign: "center" }}
+            >
               🚧 Course Coming Soon! 🚧
             </h1>
             <p style={{ textAlign: "center" }}>
@@ -458,8 +461,8 @@ const Main = ({
       {showModal &&
         selectedTechnology !== "GIT" &&
         selectedTechnology !== "Downloads" && (
-          <div className="modal-overlay">
-            <div className="modal-content">
+          <div className="main-modal-overlay">
+            <div className="main-modal-content">
               <h3>
                 Ready to{" "}
                 {modalType === "quiz" ? "Take the Quiz?" : "Start the Exam?"}
@@ -468,14 +471,17 @@ const Main = ({
                 You've completed this chapter. It's a great time to test your
                 knowledge.
               </p>
-              <div className="modal-buttons">
+              <div className="main-modal-buttons">
                 <button
                   onClick={handleModalProceed}
-                  className="modal-proceed-btn"
+                  className="main-modal-proceed-btn"
                 >
                   {modalType === "quiz" ? "Take Quiz" : "Take Exam"}
                 </button>
-                <button onClick={handleModalSkip} className="modal-skip-btn">
+                <button
+                  onClick={handleModalSkip}
+                  className="main-modal-skip-btn"
+                >
                   Skip for now
                 </button>
               </div>
