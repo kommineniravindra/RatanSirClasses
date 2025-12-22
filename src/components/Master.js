@@ -131,7 +131,7 @@ const Master = () => {
           onEnded={handleVideoComplete}
         >
           {/* UPDATED: Directly referencing the file in public folder */}
-          <source src="/v4.mp4" type="video/mp4" />
+          <source src="/v5.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 
