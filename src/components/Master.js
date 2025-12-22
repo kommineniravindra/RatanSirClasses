@@ -20,11 +20,23 @@ import { cssMenuData } from "../technologies/css/menuOptions";
 import { restApiMenuData } from "../technologies/restapi/menuOptions";
 import { reactMenuData } from "../technologies/react/menuOptions";
 import { gitMenuData } from "../technologies/git/menuOptions";
-import {downloadsMenuData} from "../technologies/downloads/menuOptions";
+import { downloadsMenuData } from "../technologies/downloads/menuOptions";
+
+import { useLocation } from "react-router-dom"; // Add import
 
 const Master = () => {
-  // 1. RETRIEVE STATE FROM STORAGE (To remember where the user was)
+  const location = useLocation(); // Hook to access URL params
+
+  // 1. RETRIEVE STATE FROM STORAGE OR URL (To remember where the user was or handle deep links)
   const [selectedPage, setSelectedPage] = useState(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const pageParam = queryParams.get("page");
+    if (
+      pageParam &&
+      ["Home", "Q&A", "DSA", "ContactUs", "AboutUs"].includes(pageParam)
+    ) {
+      return pageParam;
+    }
     return sessionStorage.getItem("selectedPage") || "Home";
   });
 
@@ -38,7 +50,12 @@ const Master = () => {
 
   // 2. VIDEO LOGIC
   // Only set showIntro to true if the saved page is "Home" (or if it's the very first visit)
+  // AND if we are not deep linking to another page
   const [showIntro, setShowIntro] = useState(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const pageParam = queryParams.get("page");
+    if (pageParam && pageParam !== "Home") return false; // Skip intro for deep links
+
     const savedPage = sessionStorage.getItem("selectedPage");
     return !savedPage || savedPage === "Home";
   });
@@ -68,8 +85,8 @@ const Master = () => {
       Microservices: microservicesMenuData,
       RESTAPI: restApiMenuData,
       React: reactMenuData,
-      GIT:gitMenuData,
-      Downloads:downloadsMenuData,
+      GIT: gitMenuData,
+      Downloads: downloadsMenuData,
     }),
     []
   );
@@ -114,7 +131,7 @@ const Master = () => {
           onEnded={handleVideoComplete}
         >
           {/* UPDATED: Directly referencing the file in public folder */}
-          <source src="/v5.mp4" type="video/mp4" />
+          <source src="/v4.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 
@@ -133,7 +150,9 @@ const Master = () => {
         selectedPage={selectedPage}
       />
 
-      {selectedPage === "Home" && <Home onTechnologySelect={handleTechnologySelect} />}
+      {selectedPage === "Home" && (
+        <Home onTechnologySelect={handleTechnologySelect} />
+      )}
       {selectedPage === "Q&A" && <QnAComponent />}
       {selectedPage === "DSA" && <DSA />}
       {selectedPage === "ContactUs" && <ContactUs />}

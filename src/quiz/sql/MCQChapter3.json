@@ -1,0 +1,202 @@
+[
+  {
+    "question": "DDL commands are used to:",
+    "options": [
+      "Retrieve table data",
+      "Manipulate data insert/update/delete",
+      "Define or modify database structure",
+      "Grant user privileges"
+    ],
+    "answer": "Define or modify database structure"
+  },
+  {
+    "question": "Which statement is TRUE?",
+    "options": [
+      "DELETE removes table structure",
+      "TRUNCATE is a DML command",
+      "DROP removes both data and structure",
+      "REMOVE is to delete the data"
+    ],
+    "answer": "DROP removes both data and structure"
+  },
+  {
+    "question": "Which DDL command is used to modify the structure of a table?",
+    "options": [
+      "UPDATE",
+      "ALTER",
+      "MODIFY",
+      "INSERT"
+    ],
+    "answer": "ALTER"
+  },
+  {
+    "question": "Which of the following is a DML command?",
+    "options": [
+      "INSERT",
+      "CREATE",
+      "DROP",
+      "SELECT"
+    ],
+    "answer": "INSERT"
+  },
+  {
+    "question": "DML commands are used to?",
+    "options": [
+      "Retrieve table data",
+      "Create or Modify database structure",
+      "Insert, update, delete the data",
+      "Grant or revoke permissions"
+    ],
+    "answer": "Insert, update, delete the data"
+  },
+  {
+    "question": "Which clause is mandatory in UPDATE statement?",
+    "options": [
+      "WHERE",
+      "SET",
+      "FROM",
+      "ORDER BY"
+    ],
+    "answer": "SET"
+  },
+  {
+    "question": "DELETE command without WHERE clause will:",
+    "options": [
+      "Delete table",
+      "Delete all rows",
+      "Delete one row",
+      "Give error"
+    ],
+    "answer": "Delete all rows"
+  },
+  {
+    "question": "Which command is used to retrieve data?",
+    "options": [
+      "GET",
+      "FETCH",
+      "SELECT",
+      "READ"
+    ],
+    "answer": "SELECT"
+  },
+  {
+    "question": "What does the BETWEEN operator do?",
+    "options": [
+      "Checks equality",
+      "Checks range of values",
+      "Checks NULL",
+      "Checks pattern"
+    ],
+    "answer": "Checks range of values"
+  },
+  {
+    "question": "Which operator is used to combine multiple conditions?",
+    "options": [
+      "IN",
+      "AND",
+      "BETWEEN",
+      "LIKE"
+    ],
+    "answer": "AND"
+  },
+  {
+    "question": "Which operator returns TRUE if any one condition is TRUE?",
+    "options": [
+      "OR",
+      "AND",
+      "NOT",
+      "IN"
+    ],
+    "answer": "OR"
+  },
+  {
+    "question": "Which query selects employees from dept 10 and 20?",
+    "options": [
+      "WHERE dept_id = (10,20)",
+      "WHERE dept_id IN 10,20",
+      "WHERE dept_id IN (10,20)",
+      "WHERE dept_id = 10 AND 20"
+    ],
+    "answer": "WHERE dept_id IN (10,20)"
+  },
+  {
+    "question": "What is the purpose of IN operator?",
+    "options": [
+      "Check NULL values",
+      "Compare range",
+      "Compare multiple values",
+      "Pattern matching"
+    ],
+    "answer": "Compare multiple values"
+  },
+  {
+    "question": "What is the purpose of LIKE operator?",
+    "options": [
+      "Compare numbers",
+      "Check range of values",
+      "Search for patterns in text",
+      "Check NULL values"
+    ],
+    "answer": "Search for patterns in text"
+  },
+  {
+    "question": "Which SQL query selects employees whose names start with ‘A’ and contain ‘n’ anywhere after the first letter?",
+    "options": [
+      "WHERE emp_name LIKE '%An%'",
+      "WHERE emp_name LIKE 'A%n%'",
+      "WHERE emp_name LIKE 'A_n%'",
+      "WHERE emp_name LIKE 'An%'"
+    ],
+    "answer": "WHERE emp_name LIKE 'A%n%'"
+  },
+  {
+    "question": "What is the output of this query? SELECT emp_name FROM emp WHERE emp_name LIKE '%n%';",
+    "options": [
+      "Names starting with n",
+      "Names ending with n",
+      "Names containing n",
+      "Names exactly n"
+    ],
+    "answer": "Names containing n"
+  },
+  {
+    "question": "What is the output of this query? UPDATE emp SET salary = salary + 5000 WHERE emp_id = 101;",
+    "options": [
+      "Updates all employees salary 5000",
+      "Updates emp_id column with salary 5000",
+      "Increases salary of emp_id 101 with salary 5000",
+      "Gives error"
+    ],
+    "answer": "Increases salary of emp_id 101 with salary 5000"
+  },
+  {
+    "question": "What is the output of this query? SELECT emp_name FROM emp WHERE dept_id = 20 AND salary > 30000;",
+    "options": [
+      "Dept 20 employees only",
+      "Employees with salary > 30000",
+      "Dept 20 employees with salary > 30000",
+      "All employees"
+    ],
+    "answer": "Dept 20 employees with salary > 30000"
+  },
+  {
+    "question": "A table EMP has 5 columns. One column SALARY has a DEFAULT value. Which INSERT statement is VALID?",
+    "options": [
+      "INSERT INTO emp VALUES (101,'Anu',10,30000);",
+      "INSERT INTO emp (emp_id, emp_name, dept_id, salary) VALUES (101,'Anu',10,30000);",
+      "INSERT INTO emp (emp_id, emp_name, dept_id, location) VALUES (101,'Anu',10,'Hyd');",
+      "INSERT INTO emp VALUES (101,'Anu',10,'Hyd',DEFAULT);"
+    ],
+    "answer": "INSERT INTO emp VALUES (101,'Anu',10,'Hyd',DEFAULT);"
+  },
+  {
+    "question": "Which query correctly prints the salary+bonus column name in result?",
+    "options": [
+      "SELECT salary+bonus FROM emp;",
+      "SELECT salary+bonus AS finalSalary FROM emp;",
+      "SELECT salary AS bonus FROM emp;",
+      "SELECT bonus AS salary FROM emp;"
+    ],
+    "answer": "SELECT salary+bonus AS finalSalary FROM emp;"
+  }
+]

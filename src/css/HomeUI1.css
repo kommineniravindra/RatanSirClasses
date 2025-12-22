@@ -453,3 +453,254 @@
 
   /* Default styles apply, adding any large screen specifics here if needed */
 }
+
+/* =======================================
+   SYLLABUS MODAL
+======================================= */
+.syllabus-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.syllabus-modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 3rem;
+  border-radius: 25px;
+  width: 90%;
+  max-width: 900px;
+  position: relative;
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  animation: scaleIn 0.3s ease;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  color: #000000 !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.modal-close-btn:hover {
+  color: #e74c3c;
+  transform: rotate(90deg) scale(1.1);
+  background: #fff;
+  box-shadow: 0 6px 15px rgba(231, 76, 60, 0.3);
+  border-color: #e74c3c;
+}
+
+.modal-title {
+  text-align: center;
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, var(--text-main) 0%, var(--accent-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.flow-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+}
+
+.flow-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.step-icon-wrapper {
+  width: 120px;
+  height: 120px;
+  border-radius: 30px;
+  background: #f0f3f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    8px 8px 16px rgba(163, 177, 198, 0.4),
+    -8px -8px 16px rgba(255, 255, 255, 0.8);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.step-icon-wrapper:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow:
+    12px 12px 24px rgba(163, 177, 198, 0.5),
+    -12px -12px 24px rgba(255, 255, 255, 0.9);
+}
+
+.step-icon {
+  font-size: 3.5rem;
+  transition: transform 0.3s ease;
+}
+
+.step-icon-wrapper:hover .step-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.frontend-bg .step-icon {
+  color: #E34F26;
+  filter: drop-shadow(0 4px 6px rgba(227, 79, 38, 0.3));
+}
+
+.backend-bg .step-icon {
+  color: #6DB33F;
+  filter: drop-shadow(0 4px 6px rgba(109, 179, 63, 0.3));
+}
+
+.db-bg .step-icon {
+  color: #4479A1;
+  filter: drop-shadow(0 4px 6px rgba(68, 121, 161, 0.3));
+}
+
+.step-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.step-desc {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  max-width: 180px;
+  line-height: 1.5;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.flow-arrow {
+  font-size: 2rem;
+  color: var(--accent-blue);
+  opacity: 0.6;
+  animation: pulseArrow 2s infinite ease-in-out;
+  filter: drop-shadow(0 2px 4px rgba(52, 152, 219, 0.3));
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9) translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseArrow {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 0.4;
+  }
+
+  50% {
+    transform: translateX(5px) scale(1.2);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 0.4;
+  }
+}
+
+@media (max-width: 768px) {
+  .syllabus-modal-content {
+    padding: 2rem 1rem;
+    width: 95%;
+  }
+
+  .modal-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+
+  .flow-diagram {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .flow-arrow {
+    transform: rotate(90deg);
+  }
+
+  @keyframes pulseArrowVertical {
+    0% {
+      transform: translateY(0) rotate(90deg) scale(1);
+      opacity: 0.4;
+    }
+
+    50% {
+      transform: translateY(5px) rotate(90deg) scale(1.2);
+      opacity: 0.8;
+    }
+
+    100% {
+      transform: translateY(0) rotate(90deg) scale(1);
+      opacity: 0.4;
+    }
+  }
+
+  .flow-arrow {
+    animation: pulseArrowVertical 2s infinite ease-in-out;
+  }
+
+  .step-icon-wrapper {
+    width: 90px;
+    height: 90px;
+  }
+
+  .step-icon {
+    font-size: 2.5rem;
+  }
+}

@@ -110,6 +110,20 @@ const courses = [
     content:
       "Learn AWS basics, Docker containerization, Kubernetes orchestration, CI/CD pipelines, and cloud deployment strategies.",
   },
+  {
+    icon: <FaLightbulb size={40} />,
+    title: "Project-Based Learning",
+    description: "Build real-world projects to apply your knowledge and build confidence.",
+    content:
+      "Our courses are project-based, ensuring you build a solid portfolio.",
+  },
+  {
+    icon: <FaUserCheck size={40} />,
+    title: "Career Support",
+    description: "Get help with your resume, portfolio, and interview preparation.",
+    content:
+      "Get help with your resume, portfolio, and interview preparation.",
+  }
 ];
 
 const features = [
@@ -275,7 +289,7 @@ const Home = ({ onTechnologySelect }) => {
   return (
     <>
       <div className="home-container">
-        <HomeUI1 />
+        <HomeUI1 onTechnologySelect={onTechnologySelect} />
 
         {/* --- Hero Section --- */}
         {/* <motion.section className="hero-section" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}>
@@ -334,6 +348,7 @@ const Home = ({ onTechnologySelect }) => {
                 className="contact-advisor-btn"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => window.open("/?page=ContactUs", "_blank")}
               >
                 Contact Course Advisor
               </motion.button>
