@@ -216,6 +216,14 @@
     letter-spacing: 1px;
     text-transform: uppercase;
 }
+@import url('https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap');
+.bc-name span{
+    font-family: 'Eagle Lake', cursive;
+    font-size: 3.5rem;
+    font-weight: 400;
+    font-style: italic;
+
+}
 
 .bc-title {
     font-family: 'Poppins', sans-serif;

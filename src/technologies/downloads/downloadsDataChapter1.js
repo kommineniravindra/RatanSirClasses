@@ -3,18 +3,20 @@ import { FaDownload, FaGlobe } from "react-icons/fa";
 
 const DownloadCard = ({ title, websiteUrl, downloadUrl, iconUrl }) => {
   return (
-    <div className="download-card">
-      <div className="download-card-left">
-        {iconUrl && <img src={iconUrl} alt={title} className="download-icon" />}
-        <h4 className="download-title">{title}</h4>
+    <div className="main-download-card">
+      <div className="main-download-card-left">
+        {iconUrl && (
+          <img src={iconUrl} alt={title} className="main-download-icon" />
+        )}
+        <h4 className="main-download-title">{title}</h4>
       </div>
-      <div className="download-actions">
+      <div className="main-download-actions">
         {websiteUrl && (
           <a
             href={websiteUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="resource-btn website-btn"
+            className="main-resource-btn main-website-btn"
           >
             <FaGlobe /> Website
           </a>
@@ -24,7 +26,7 @@ const DownloadCard = ({ title, websiteUrl, downloadUrl, iconUrl }) => {
             href={downloadUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="resource-btn download-btn"
+            className="main-resource-btn main-download-btn"
           >
             <FaDownload /> Download
           </a>

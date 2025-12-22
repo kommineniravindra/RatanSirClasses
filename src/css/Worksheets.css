@@ -36,18 +36,6 @@
     /* Reduced from 8px */
 }
 
-.worksheet-title::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 50px;
-    /* Reduced width */
-    height: 3px;
-    background: linear-gradient(90deg, #4f46e5, #818cf8);
-    border-radius: 2px;
-}
-
 /* --- Tech Selector --- */
 .tech-selector {
     display: flex;

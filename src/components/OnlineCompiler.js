@@ -20,10 +20,11 @@ import {
   FaPython,
   FaJs,
   FaDatabase,
-  FaCog, // Added
-  FaDownload, // Added for PDF Download
+  FaCog,
+  FaDownload,
   FaFileCode,
   FaEquals,
+  FaKeyboard,
 } from "react-icons/fa";
 import {
   SiC,
@@ -38,8 +39,9 @@ import {
   SiRuby,
   SiPhp,
   SiGnubash,
+  SiDart,
+  SiR,
 } from "react-icons/si";
-import { FaBold, FaItalic } from "react-icons/fa";
 import "../css/Compiler.css";
 import BrowserPreview from "./BrowserPreview";
 import javaSnippets from "../utils/javaSnippets";
@@ -47,21 +49,22 @@ import sqlSnippets from "../utils/sqlSnippets";
 import { generateJavaCode } from "../utils/javaCodeGenerator";
 import { availableThemes } from "../utils/editorThemes";
 import { languageBoilerplates } from "../utils/languageBoilerplates";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
-// Import new modes for C/C++
 import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/mode-css";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-sql";
-import "ace-builds/src-noconflict/mode-c_cpp"; // C/C++ mode
-import "ace-builds/src-noconflict/mode-csharp"; // C# mode
+import "ace-builds/src-noconflict/mode-c_cpp";
+import "ace-builds/src-noconflict/mode-csharp";
 import "ace-builds/src-noconflict/mode-typescript";
 import "ace-builds/src-noconflict/mode-kotlin";
 import "ace-builds/src-noconflict/mode-golang";
@@ -71,7 +74,9 @@ import "ace-builds/src-noconflict/mode-swift";
 import "ace-builds/src-noconflict/mode-ruby";
 import "ace-builds/src-noconflict/mode-php";
 import "ace-builds/src-noconflict/mode-sh";
-import "ace-builds/src-noconflict/theme-monokai"; // Default theme
+import "ace-builds/src-noconflict/mode-dart";
+import "ace-builds/src-noconflict/mode-r";
+import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
 
 // Configure Ace
@@ -103,11 +108,17 @@ const OnlineCompiler = () => {
     return localStorage.getItem("onlineCompiler_mode") || "java";
   });
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [editorWidth, setEditorWidth] = useState(50); // Percentage
+  const [editorWidth, setEditorWidth] = useState(50);
   const [fontSize, setFontSize] = useState(16);
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [userInput, setUserInput] = useState("");
+  const [showInput, setShowInput] = useState(false);
+  const [isWaitingForInput, setIsWaitingForInput] = useState(false);
+  const [detectedPrompts, setDetectedPrompts] = useState([]);
+  const [promptValues, setPromptValues] = useState({});
+  const [currentPromptIndex, setCurrentPromptIndex] = useState(0);
 
   // Settings dropdown state
   const [showSettingsDropdown, setShowSettingsDropdown] = useState(false);
@@ -144,6 +155,13 @@ const OnlineCompiler = () => {
     localStorage.setItem("onlineCompiler_mode", mode);
   }, [language, mode]);
 
+  // Force Font Size Update
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.setFontSize(fontSize);
+    }
+  }, [fontSize]);
+
   // Theme & Generation State
   const [editorTheme, setEditorTheme] = useState("monokai");
   const [showThemeDropdown, setShowThemeDropdown] = useState(false);
@@ -156,7 +174,7 @@ const OnlineCompiler = () => {
 
   // --- Dynamic Fixed Positioning State ---
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
-  const [activeDropdown, setActiveDropdown] = useState(null); // 'settings', 'theme', 'generate', or null
+  const [activeDropdown, setActiveDropdown] = useState(null);
 
   // Helper to toggle dropdowns with fixed positioning
   const toggleDropdown = (e, dropdownName) => {
@@ -240,6 +258,27 @@ const OnlineCompiler = () => {
       color: "#00ADD8",
     },
     {
+      name: "PHP",
+      mode: "php",
+      apiLang: "php",
+      icon: <SiPhp />,
+      color: "#777BB4",
+    },
+    {
+      name: "Bash",
+      mode: "sh",
+      apiLang: "bash",
+      icon: <SiGnubash />,
+      color: "#4EAA25",
+    },
+    {
+      name: "R",
+      mode: "r",
+      apiLang: "r",
+      icon: <SiR />,
+      color: "#276DC3",
+    },
+    {
       name: "JavaScript",
       mode: "javascript",
       apiLang: "javascript",
@@ -307,18 +346,11 @@ const OnlineCompiler = () => {
       color: "#CC342D",
     },
     {
-      name: "PHP",
-      mode: "php",
-      apiLang: "php",
-      icon: <SiPhp />,
-      color: "#777BB4",
-    },
-    {
-      name: "Bash",
-      mode: "sh",
-      apiLang: "bash",
-      icon: <SiGnubash />,
-      color: "#4EAA25",
+      name: "Dart",
+      mode: "dart",
+      apiLang: "dart",
+      icon: <SiDart />,
+      color: "#0175C2",
     },
   ];
 
@@ -409,74 +441,97 @@ const OnlineCompiler = () => {
   const pdfOutputRef = useRef(null);
 
   const handleDownloadPdf = async () => {
+    toast.info("Generating PDF... Please wait.");
+    await new Promise((r) => setTimeout(r, 100));
+
     const pdf = new jsPDF("p", "mm", "a4");
     const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
+    // const pdfHeight = pdf.internal.pageSize.getHeight();
 
-    const addToPdf = async (ref, isFirstSection) => {
-      if (!ref.current) return;
-
-      const canvas = await html2canvas(ref.current, {
-        scale: 2,
+    // Helper to capture and add a page
+    const captureAndAdd = async (element, isFirst) => {
+      const canvas = await html2canvas(element, {
+        scale: 1.5,
         useCORS: true,
         logging: false,
         backgroundColor: "#ffffff",
       });
-
       const imgData = canvas.toDataURL("image/png");
       const imgWidth = pdfWidth;
       const imgHeight = (canvas.height * pdfWidth) / canvas.width;
 
-      if (!isFirstSection) {
+      if (!isFirst) {
         pdf.addPage();
       }
-
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      // Add first page of this section
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pdfHeight;
-
-      // Add additional pages if content overflows
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
-      }
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
     };
 
     try {
-      // 1. Process Code Section
-      await addToPdf(pdfCodeRef, true);
+      // 1. Process Code Pages
+      const codePages = document.querySelectorAll(".pdf-page-code");
+      for (let i = 0; i < codePages.length; i++) {
+        await captureAndAdd(codePages[i], i === 0);
+      }
 
-      // 2. Process Output Section (if applicable)
-      if (!isWebLanguage && pdfOutputRef.current) {
-        await addToPdf(pdfOutputRef, false);
+      // 2. Process Output Pages
+      if (!isWebLanguage) {
+        const outputPages = document.querySelectorAll(".pdf-page-output");
+
+        for (let i = 0; i < outputPages.length; i++) {
+          // If we already added code pages, we need to add a new page for output
+          const needsPageBreak = codePages.length > 0 || i > 0;
+
+          if (outputPages[i]) {
+            if (needsPageBreak) pdf.addPage();
+
+            const canvas = await html2canvas(outputPages[i], {
+              scale: 1.5,
+              backgroundColor: "#ffffff",
+            });
+            const imgData = canvas.toDataURL("image/png");
+            const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, imgHeight);
+          }
+        }
       }
 
       // Determine filename based on language name
       const langObj = languages.find((l) => l.apiLang === language);
       const fileName = langObj ? langObj.name : "CodePulse_Output";
       pdf.save(`${fileName}.pdf`);
-      Swal.fire("Success", "PDF Downloaded Successfully!", "success");
+      toast.success("PDF Downloaded Successfully!");
     } catch (error) {
       console.error("PDF Generation Error:", error);
-      Swal.fire("Error", "Failed to generate PDF.", "error");
+      toast.error("Failed to generate PDF.");
     }
   };
 
-  const handleRun = async () => {
+  const checkForInput = (code, lang) => {
+    if (!code) return false;
+    const c = code;
+    // Simple heuristic regexes for common input patterns
+    if (lang === "java")
+      return c.includes("Scanner") || c.includes("System.in");
+    if (lang === "python") return c.includes("input(");
+    if (lang === "cpp" || lang === "c")
+      return c.includes("cin") || c.includes("scanf");
+    if (lang === "csharp") return c.includes("Console.ReadLine");
+    if (lang === "javascript") return c.includes("prompt("); // Not really supported in Node but good to catch
+    return false;
+  };
+
+  const executeCode = async (stdinValue = "") => {
     localStorage.setItem("onlineCompiler_code", code);
     setIsLoading(true);
     setOutput("");
     setIsError(false);
+    // REMOVED: setIsWaitingForInput(false); -- Keep waiting/input state visible during load
 
     // Special handling for HTML/CSS
     if (language === "html" || language === "css") {
       setOutput(code);
       setIsLoading(false);
+      setIsWaitingForInput(false); // Reset here
       return;
     }
 
@@ -485,6 +540,7 @@ const OnlineCompiler = () => {
       if (!sqlDbRef.current) {
         setOutput("Initializing SQL Database... try again in a moment.");
         setIsLoading(false);
+        setIsWaitingForInput(false); // Reset here
         return;
       }
 
@@ -607,6 +663,7 @@ const OnlineCompiler = () => {
         setIsError(true);
       } finally {
         setIsLoading(false);
+        setIsWaitingForInput(false); // Reset here
       }
       return;
     }
@@ -620,16 +677,46 @@ const OnlineCompiler = () => {
     else if (apiLanguage === "cpp") apiLanguage = "cpp";
 
     try {
+      let codeToSend = code;
+      if (apiLanguage === "java") {
+        const {
+          prepareJavaCodeForExecution,
+        } = require("../utils/javaCodeGenerator"); // Import dynamically or ensure top-level
+        codeToSend = prepareJavaCodeForExecution(code);
+      }
+
+      const fileData = { content: codeToSend };
+      if (apiLanguage === "java") {
+        fileData.name = "Main.java";
+      }
+
       const response = await axios.post(
         "https://emkc.org/api/v2/piston/execute",
         {
           language: apiLanguage,
           version: version,
-          files: [{ content: code }],
+          files: [fileData],
+          stdin: stdinValue,
         }
       );
       const { run } = response.data;
-      setOutput(run.output);
+
+      let finalOutput = run.output;
+
+      // Smart Output Formatting: Inject user inputs back for "Terminal Echo" look
+      if (detectedPrompts.length > 0) {
+        detectedPrompts.forEach((prompt, index) => {
+          const userVal = promptValues[index] || "";
+          if (finalOutput.includes(prompt)) {
+            finalOutput = finalOutput.replace(
+              prompt,
+              prompt + " " + userVal + "\n"
+            );
+          }
+        });
+      }
+
+      setOutput(finalOutput);
       if (run.code !== 0) {
         setIsError(true);
       }
@@ -642,6 +729,72 @@ const OnlineCompiler = () => {
       );
     } finally {
       setIsLoading(false);
+      setIsWaitingForInput(false); // Reset here
+    }
+  };
+
+  const analyzeInputPrompts = (code) => {
+    if (!code) return [];
+    if (language !== "java") return []; // Only support Java for now as requested
+
+    const lines = code.split("\n");
+    const foundPrompts = [];
+    let i = 0;
+    while (i < lines.length) {
+      const line = lines[i].trim();
+      // Look for System.out.print/println
+      // Regex captures content inside quotes
+      const printMatch = line.match(
+        /System\.out\.print(?:ln)?\s*\(\s*"([^"]+)"/
+      );
+
+      if (printMatch) {
+        // Found a print. Look ahead for Scanner input
+        // Simple Heuristic: Check next few lines for nextInt, nextDouble, etc.
+        let j = i + 1;
+        let foundScanner = false;
+        while (j < lines.length && j < i + 5) {
+          // Check next 5 lines max
+          if (
+            lines[j].includes("sc.next") ||
+            lines[j].includes("scanner.next")
+          ) {
+            foundScanner = true;
+            break;
+          }
+          j++;
+        }
+        if (foundScanner) {
+          foundPrompts.push(printMatch[1]);
+          // Skip ahead to avoid duplicate checks if multiple scans close by
+          i = j;
+        }
+      }
+      i++;
+    }
+    return foundPrompts;
+  };
+
+  const handleRun = () => {
+    // 1. Check for specific prompts (Smart Simulation)
+    const prompts = analyzeInputPrompts(code);
+    if (prompts.length > 0) {
+      setDetectedPrompts(prompts);
+      setPromptValues({});
+      setCurrentPromptIndex(0); // Start at first prompt
+      setIsWaitingForInput(true);
+      setOutput("");
+      return;
+    }
+
+    // 2. Fallback: Generic Input Check
+    if (checkForInput(code, language)) {
+      setDetectedPrompts([]); // No specific prompts found
+      setIsWaitingForInput(true);
+      setUserInput("");
+      setOutput("Program requires input. Please enter values below...");
+    } else {
+      executeCode("");
     }
   };
 
@@ -793,8 +946,15 @@ const OnlineCompiler = () => {
   };
 
   const generateCode = (type) => {
-    setShowGenerateDropdown(false);
-    const result = generateJavaCode(code, type);
+    setActiveDropdown(null);
+
+    let cursorIndex = -1;
+    if (editorRef.current) {
+      const pos = editorRef.current.getCursorPosition();
+      cursorIndex = editorRef.current.session.doc.positionToIndex(pos);
+    }
+
+    const result = generateJavaCode(code, type, cursorIndex);
     if (result.success) {
       setCode(result.newCode);
     } else {
@@ -853,15 +1013,7 @@ const OnlineCompiler = () => {
                 return (
                   <>
                     {currentLang ? (
-                      <span
-                        className="lang-icon"
-                        style={{
-                          marginRight: "3px",
-                          display: "inline-flex",
-                          alignItems: "center",
-                          fontSize: "1.5rem",
-                        }}
-                      >
+                      <span className="lang-icon lang-icon-header">
                         {React.cloneElement(currentLang.icon, {
                           style: { color: currentLang.color },
                         })}
@@ -889,11 +1041,10 @@ const OnlineCompiler = () => {
                 </button>
                 {activeDropdown === "settings" && (
                   <div
-                    className="oc-dropdown-menu-fixed settings-menu"
+                    className="oc-dropdown-menu-fixed settings-menu dropdown-fixed-position"
                     style={{
                       top: dropdownPos.top,
                       left: dropdownPos.left,
-                      zIndex: 2147483647,
                     }}
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -933,6 +1084,7 @@ const OnlineCompiler = () => {
                         >
                           B
                         </button>
+
                         <button
                           className={`btn-compiler btn-icon-square ${
                             isItalic ? "active" : ""
@@ -961,11 +1113,10 @@ const OnlineCompiler = () => {
                 </button>
                 {activeDropdown === "theme" && (
                   <div
-                    className="oc-dropdown-menu-fixed"
+                    className="oc-dropdown-menu-fixed dropdown-fixed-position"
                     style={{
                       top: dropdownPos.top,
                       left: dropdownPos.left,
-                      zIndex: 2147483647,
                     }}
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -1017,11 +1168,10 @@ const OnlineCompiler = () => {
                   </button>
                   {activeDropdown === "generate" && (
                     <div
-                      className="oc-dropdown-menu-fixed dropdown-menu-gen"
+                      className="oc-dropdown-menu-fixed dropdown-menu-gen dropdown-fixed-position"
                       style={{
                         top: dropdownPos.top,
                         left: dropdownPos.left,
-                        zIndex: 2147483647,
                       }}
                       onClick={(e) => e.stopPropagation()}
                     >
@@ -1047,12 +1197,12 @@ const OnlineCompiler = () => {
                           icon: <FaCode />,
                         },
                         {
-                          id: "toString",
+                          id: "tostring",
                           label: "toString()",
                           icon: <FaFileCode />,
                         },
                         {
-                          id: "equals",
+                          id: "hashcode-equals",
                           label: "equals() & hashCode()",
                           icon: <FaEquals />,
                         },
@@ -1107,12 +1257,11 @@ const OnlineCompiler = () => {
               value={code}
               onChange={setCode}
               editorProps={{ $blockScrolling: true }}
+              fontSize={fontSize}
               setOptions={{
                 enableBasicAutocompletion: true,
                 enableLiveAutocompletion: true,
                 enableSnippets: true,
-                showLineNumbers: true,
-                tabSize: 4,
                 showLineNumbers: true,
                 tabSize: 4,
                 fontSize: fontSize,
@@ -1120,12 +1269,11 @@ const OnlineCompiler = () => {
                 fontFamily: "'Fira Code', monospace",
               }}
               style={{
-                width: "100%",
-                height: "100%",
+                fontSize: fontSize,
                 fontWeight: isBold ? "bold" : "normal",
                 fontStyle: isItalic ? "italic" : "normal",
               }}
-              className="ace-editor-container"
+              className="ace-editor-container ace-editor-custom-style"
             />
           </div>
         </div>
@@ -1143,14 +1291,15 @@ const OnlineCompiler = () => {
             <h3 className="section-title">
               <FaTerminal /> Console
             </h3>
-            <button
-              className="btn-compiler"
-              onClick={handleDownloadPdf}
-              title="Download PDF"
-              style={{ marginLeft: "auto", marginRight: "10px" }}
-            >
-              <FaDownload /> PDF
-            </button>
+            <div className="console-header-actions">
+              <button
+                className="btn-compiler"
+                onClick={handleDownloadPdf}
+                title="Download PDF"
+              >
+                <FaDownload /> PDF
+              </button>
+            </div>
           </div>
           <div
             className={`output-content ${isWebLanguage ? "preview-mode" : ""}`}
@@ -1198,220 +1347,257 @@ const OnlineCompiler = () => {
                 ))}
               </div>
             ) : (
-              <pre className={`output-pre ${isError ? "error-text" : ""}`}>
-                {isLoading ? (
-                  <span className="loading-dots">
-                    Codepulse-R generating Output
-                  </span>
+              <div className="output-section-wrapper">
+                {/* Run Intercept: Input Overlay */}
+                {isWaitingForInput ? (
+                  <div className="console-input-overlay">
+                    {detectedPrompts.length > 0 ? (
+                      <>
+                        {/* History: Show previous prompts and values */}
+                        {detectedPrompts.map((prompt, index) => {
+                          if (index < currentPromptIndex) {
+                            return (
+                              <div key={index}>
+                                <span>{prompt} </span>
+                                <span>{promptValues[index]}</span>
+                              </div>
+                            );
+                          }
+                          return null;
+                        })}
+
+                        {/* Active Input Line */}
+                        {currentPromptIndex < detectedPrompts.length && (
+                          <div className="prompt-line">
+                            <span>{detectedPrompts[currentPromptIndex]} </span>
+                            <input
+                              autoFocus
+                              type="text"
+                              disabled={isLoading}
+                              className="console-input"
+                              value={promptValues[currentPromptIndex] || ""}
+                              onChange={(e) =>
+                                setPromptValues({
+                                  ...promptValues,
+                                  [currentPromptIndex]: e.target.value,
+                                })
+                              }
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" && !isLoading) {
+                                  const nextIndex = currentPromptIndex + 1;
+                                  if (nextIndex < detectedPrompts.length) {
+                                    setCurrentPromptIndex(nextIndex);
+                                  } else {
+                                    // All inputs collected, execute
+                                    const inputs = detectedPrompts.map(
+                                      (_, i) => promptValues[i] || ""
+                                    );
+                                    // Use event value for safety on last input
+                                    inputs[currentPromptIndex] = e.target.value;
+
+                                    executeCode(inputs.join("\n"));
+                                  }
+                                }
+                              }}
+                            />
+                          </div>
+                        )}
+                        {/* Loading Indicator inside Terminal */}
+                        {isLoading && (
+                          <div className="loading-indicator">
+                            Codepulse-R generating Output.......
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      /* Generic Fallback */
+                      <>
+                        <p className="input-fallback-text">
+                          Program requires input. Enter values below:
+                        </p>
+                        <textarea className="console-input-area console-input-textarea" />
+                        <button
+                          className="btn-compiler btn-execute"
+                          onClick={() => executeCode(userInput)}
+                        >
+                          <FaPlay className="btn-execute-icon" /> Execute Code
+                        </button>
+                      </>
+                    )}
+                  </div>
                 ) : (
-                  output || "Codepulse-R generating output will appear here..."
+                  /* Standard Output */
+                  <pre
+                    className={`output-pre ${
+                      isError ? "error-text" : ""
+                    } output-pre-styled`}
+                  >
+                    {isLoading ? (
+                      <span className="loading-dots">
+                        Codepulse-R generating Output
+                      </span>
+                    ) : (
+                      output ||
+                      "Codepulse-R generating output will appear here..."
+                    )}
+                  </pre>
                 )}
-              </pre>
+              </div>
             )}
           </div>
         </div>
         {/* Footer Branding */}
       </div>
+
+      <ToastContainer position="top-right" theme="light" />
+
       {/* Hidden Print Layout for PDF Generation */}
-      <div
-        style={{
-          position: "absolute",
-          top: "-10000px",
-          left: "-10000px",
-          zIndex: -1,
-        }}
-      >
-        {/* Page 1: Source Code */}
-        <div
-          ref={pdfCodeRef}
-          style={{
-            width: "210mm",
-            minHeight: "297mm",
-            background: "white",
-            color: "black",
-            padding: "40px",
-            fontFamily: "Arial, sans-serif",
-          }}
-        >
-          <div
-            style={{
-              textAlign: "center",
-              marginBottom: "20px",
-              borderBottom: "2px solid #ccc",
-              paddingBottom: "10px",
-            }}
-          >
-            <h1 style={{ color: "#1d13e2", margin: 0 }}>
-              CodePulse-R Online Compiler
-            </h1>
-            <p style={{ margin: "5px 0", color: "#666" }}>
-              Generated on {new Date().toLocaleString()}
-            </p>
-          </div>
+      <div className="pdf-hidden-layout">
+        {/* Render Code Pages */}
+        {(() => {
+          const lines = (code || "").split("\n");
+          const LINES_PER_PAGE = 40;
+          const totalPages = Math.ceil(lines.length / LINES_PER_PAGE) || 1;
+          const pages = [];
 
-          <h3
-            style={{
-              borderBottom: "1px solid #ddd",
-              paddingBottom: "5px",
-              color: "#333",
-            }}
-          >
-            Source Code ({language})
-          </h3>
-          <div
-            style={{
-              margin: "10px 0",
-              border: "1px solid #eee",
-              borderRadius: "5px",
-              overflow: "hidden",
-            }}
-          >
-            <SyntaxHighlighter
-              language={language === "sqlite3" ? "sql" : language}
-              style={docco}
-              showLineNumbers={true}
-              wrapLongLines={true}
-              customStyle={{ margin: 0, fontSize: "12px" }}
-            >
-              {code || ""}
-            </SyntaxHighlighter>
-          </div>
-        </div>
+          for (let i = 0; i < totalPages; i++) {
+            const chunk = lines
+              .slice(i * LINES_PER_PAGE, (i + 1) * LINES_PER_PAGE)
+              .join("\n");
+            pages.push(
+              <div
+                key={`code-page-${i}`}
+                className="pdf-page-code pdf-page-code-container"
+              >
+                {/* HEADER */}
+                <div className="pdf-header-wrapper">
+                  <div>
+                    <h1 className="pdf-title">CodePulse-R</h1>
+                    <p className="pdf-subtitle">
+                      Source Code - Page {i + 1} of {totalPages}
+                    </p>
+                  </div>
+                  <div className="pdf-student-info">
+                    <p className="pdf-student-name">
+                      Student: {localStorage.getItem("userName") || "Guest"}
+                    </p>
+                    <p className="pdf-date">
+                      Date: {new Date().toLocaleDateString()}
+                      <br />
+                      Time: {new Date().toLocaleTimeString()}
+                    </p>
+                  </div>
+                </div>
 
-        {/* Page 2: Console Output (Separate Page) */}
+                {/* CONTENT */}
+                <h3 className="pdf-section-title">
+                  {language} ({i + 1}/{totalPages})
+                </h3>
+                <div className="pdf-code-block">
+                  <SyntaxHighlighter
+                    language={language === "sqlite3" ? "sql" : language}
+                    style={docco}
+                    showLineNumbers={true}
+                    startingLineNumber={i * LINES_PER_PAGE + 1}
+                    wrapLongLines={true}
+                  >
+                    {chunk || ""}
+                  </SyntaxHighlighter>
+                </div>
+
+                {/* FOOTER */}
+                <div className="pdf-footer-wrapper">
+                  <span>Generated by CodePulse-R</span>
+                  <span>www.codepulse-r.com</span>
+                </div>
+              </div>
+            );
+          }
+          return pages;
+        })()}
+
+        {/* Render Output Pages (Only if not Web Language) */}
         {!isWebLanguage && (
-          <div
-            ref={pdfOutputRef}
-            style={{
-              width: "210mm",
-              minHeight: "297mm",
-              background: "white",
-              color: "black",
-              padding: "40px",
-              fontFamily: "Arial, sans-serif",
-            }}
-          >
-            <div
-              style={{
-                textAlign: "center",
-                marginBottom: "20px",
-                borderBottom: "2px solid #ccc",
-                paddingBottom: "10px",
-              }}
-            >
-              <h1 style={{ color: "#1d13e2", margin: 0 }}>
-                CodePulse-R Console Output
-              </h1>
-              <p style={{ margin: "5px 0", color: "#666" }}>
-                Generated on {new Date().toLocaleString()}
-              </p>
-            </div>
+          <div className="pdf-page-output">
+            <div ref={pdfOutputRef} className="pdf-page-output-container">
+              {/* PDF HEADER (Page 2) */}
+              <div className="pdf-header-wrapper">
+                <div>
+                  <h1 className="pdf-title">CodePulse-R</h1>
+                  <p className="pdf-subtitle">Console Output</p>
+                </div>
+                <div className="pdf-student-info">
+                  <p className="pdf-student-name">
+                    Name: {localStorage.getItem("userName") || "Guest"}
+                  </p>
+                  <p className="pdf-date">
+                    Date: {new Date().toLocaleDateString()}
+                    <br />
+                    Time: {new Date().toLocaleTimeString()}
+                  </p>
+                </div>
+              </div>
 
-            <h3
-              style={{
-                borderBottom: "1px solid #ddd",
-                paddingBottom: "5px",
-                color: "#333",
-              }}
-            >
-              Console Output
-            </h3>
-            <div
-              style={{
-                marginTop: "10px",
-                padding: "15px",
-                backgroundColor: "#f8fafc",
-                border: "1px solid #e2e8f0",
-                borderRadius: "5px",
-                minHeight: "100px",
-                fontFamily: "monospace",
-                fontSize: "12px",
-              }}
-            >
-              {Array.isArray(output) ? (
-                <div className="sql-result-container">
-                  {output.map((msg, i) => (
-                    <div
-                      key={i}
-                      className="sql-msg-item"
-                      style={{
-                        marginBottom: "15px",
-                        borderBottom: "1px dashed #ccc",
-                        paddingBottom: "10px",
-                      }}
-                    >
-                      {msg.type === "success" && (
-                        <div
-                          className="sql-success-msg"
-                          style={{ color: "green", fontWeight: "bold" }}
-                        >
-                          ✔ {msg.text}
-                        </div>
-                      )}
-                      {msg.type === "error" && (
-                        <div className="error-msg-box" style={{ color: "red" }}>
-                          {msg.text}
-                        </div>
-                      )}
-                      {msg.type === "info" && (
-                        <div className="info-msg-text">{msg.text}</div>
-                      )}
-                      {msg.type === "table" && msg.data && (
-                        <div style={{ overflowX: "auto", marginTop: "5px" }}>
-                          <table
-                            style={{
-                              width: "100%",
-                              borderCollapse: "collapse",
-                              border: "1px solid #000",
-                            }}
-                          >
-                            <thead>
-                              <tr style={{ background: "#f0f0f0" }}>
-                                {msg.data.columns.map((col, idx) => (
-                                  <th
-                                    key={idx}
-                                    style={{
-                                      border: "1px solid #000",
-                                      padding: "5px",
-                                      background: "#4caf50",
-                                      color: "white",
-                                    }}
-                                  >
-                                    {col}
-                                  </th>
-                                ))}
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {msg.data.values.map((row, rIdx) => (
-                                <tr key={rIdx}>
-                                  {row.map((val, cIdx) => (
-                                    <td
-                                      key={cIdx}
-                                      style={{
-                                        border: "1px solid #000",
-                                        padding: "5px",
-                                      }}
-                                    >
-                                      {val}
-                                    </td>
+              <h3 className="pdf-section-title">Execution Result</h3>
+              <div className="pdf-result-box">
+                {Array.isArray(output) ? (
+                  <div className="sql-result-container">
+                    {output.map((msg, i) => (
+                      <div key={i} className="sql-msg-item pdf-sql-item">
+                        {msg.type === "success" && (
+                          <div className="sql-success-msg pdf-sql-success">
+                            ✔ {msg.text}
+                          </div>
+                        )}
+                        {msg.type === "error" && (
+                          <div className="error-msg-box pdf-sql-error">
+                            {msg.text}
+                          </div>
+                        )}
+                        {msg.type === "info" && (
+                          <div className="info-msg-text">{msg.text}</div>
+                        )}
+                        {msg.type === "table" && msg.data && (
+                          <div className="pdf-table-wrapper">
+                            <table className="pdf-table">
+                              <thead>
+                                <tr className="pdf-table-row-header">
+                                  {msg.data.columns.map((col, idx) => (
+                                    <th key={idx} className="pdf-table-th">
+                                      {col}
+                                    </th>
                                   ))}
                                 </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div style={{ whiteSpace: "pre-wrap" }}>
-                  {typeof output === "string"
-                    ? output
-                    : JSON.stringify(output, null, 2)}
-                </div>
-              )}
+                              </thead>
+                              <tbody>
+                                {msg.data.values.map((row, rIdx) => (
+                                  <tr key={rIdx}>
+                                    {row.map((val, cIdx) => (
+                                      <td key={cIdx} className="pdf-table-td">
+                                        {val}
+                                      </td>
+                                    ))}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <pre className="pdf-pre-output">
+                    {output || "No output generated."}
+                  </pre>
+                )}
+              </div>
+
+              {/* PDF FOOTER (Page 2) */}
+              <div className="pdf-footer-wrapper">
+                <span>Generated by CodePulse-R</span>
+                <span>www.codepulse-r.com</span>
+              </div>
             </div>
           </div>
         )}

@@ -1,27 +1,253 @@
 [
   {
-    "question": "What is the size of int variable in Java?",
-    "options": ["4 bytes", "8 bytes", "Depends on the platform", "None of the above"],
-    "answer": "4 bytes"
+    "question": "In a real-time Java application, multiple records are read from the database. Which of the following is the correct reason for using a Collection?",
+    "options": [
+      "To store records permanently in the database",
+      "To store all records temporarily in memory for processing",
+      "To convert records into primitive data types",
+      "To send records directly to the UI without processing"
+    ],
+    "answer": "To store all records temporarily in memory for processing"
   },
   {
-    "question": "Which keyword is used to prevent method overriding in Java?",
-    "options": ["final", "abstract", "static", "private"],
-    "answer": "final"
+    "question": "Which of the following statements is TRUE about Java Collections?",
+    "options": [
+      "Collections can store only primitive data types",
+      "Collections can store only objects",
+      "Collections can store both objects and primitives directly",
+      "Collections automatically convert objects to primitives"
+    ],
+    "answer": "Collections can store only objects"
   },
   {
-    "question": "What is the output of 10 >> 2 in Java?",
-    "options": ["2", "2.5", "2.25", "2.75"],
-    "answer": "2"
+    "question": "Which of the following statements is not TRUE about Java Collections?",
+    "options": [
+      "To store only Object Data",
+      "To store and manipulate a group of objects",
+      "Collections store data from login to logout in memory",
+      "Collections cannot grow dynamically"
+    ],
+    "answer": "Collections cannot grow dynamically"
   },
   {
-    "question": "Which of the following is not a primitive data type in Java?",
-    "options": ["int", "float", "String", "double"],
-    "answer": "String"
+    "question": "Why do we use collections instead of arrays?",
+    "options": [
+      "Arrays are slow",
+      "Collections are type-unsafe",
+      "Collections are dynamic size and provide built-in methods",
+      "Arrays cannot store objects"
+    ],
+    "answer": "Collections are dynamic size and provide built-in methods"
   },
   {
-    "question": "Which access modifier makes the member accessible only within its own class?",
-    "options": ["public", "protected", "private", "default"],
-    "answer": "private"
+    "question": "What are the List implementation classes?",
+    "options": [
+      "ArrayList",
+      "LinkedList",
+      "Vector",
+      "Stack",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What are the Set implementation classes?",
+    "options": [
+      "HashSet",
+      "LinkedHashSet",
+      "TreeSet",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What are the Map implementation classes?",
+    "options": [
+      "HashMap",
+      "LinkedHashMap",
+      "TreeMap",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "You are storing student names as they are entered in the application. Duplicates are allowed and order must be preserved.",
+    "options": [
+      "Set",
+      "Map",
+      "List",
+      "Queue"
+    ],
+    "answer": "List"
+  },
+  {
+    "question": "You are storing email IDs of users. Each email must be unique and order is not important, use?",
+    "options": [
+      "LinkedHashSet",
+      "HashSet",
+      "TreeSet",
+      "All of the above"
+    ],
+    "answer": "HashSet"
+  },
+  {
+    "question": "You are storing country details. Each country must be unique and order is important, use?",
+    "options": [
+      "LinkedHashSet",
+      "HashSet",
+      "TreeSet",
+      "All of the above"
+    ],
+    "answer": "LinkedHashSet"
+  },
+  {
+    "question": "To store Hall ticket number with student details should be stored in ordered format using?",
+    "options": [
+      "HashMap",
+      "LinkedHashMap",
+      "TreeMap",
+      "All of the above"
+    ],
+    "answer": "TreeMap"
+  },
+  {
+    "question": "To store order Ids with items details should be stored in un-ordered format using?",
+    "options": [
+      "HashMap",
+      "LinkedHashMap",
+      "TreeMap",
+      "All of the above"
+    ],
+    "answer": "HashMap"
+  },
+  {
+    "question": "What is the method used to compare the elements while sorting?",
+    "options": [
+      "equals()",
+      "sort()",
+      "compareTo()",
+      "swap()"
+    ],
+    "answer": "compareTo()"
+  },
+  {
+    "question": "Which of the following is NOT true about sorting rules in Java?",
+    "options": [
+      "The data must be homogeneous",
+      "The data should not contain null values",
+      "The data must implement Comparable or use Comparator",
+      "The data must be heterogeneous"
+    ],
+    "answer": "The data must be heterogeneous"
+  },
+  {
+    "question": "Which of the following are types of cursors in Java Collections?",
+    "options": [
+      "Iterator",
+      "ListIterator",
+      "Enumeration",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following can be used to read a List in backward direction?",
+    "options": [
+      "Iterator<String> it = names.iterator();",
+      "ListIterator<String> it = names.listIterator(names.size());",
+      "ListIterator<String> it = names.listIterator();",
+      "Iterator<String> it = names.iterator(names.size());"
+    ],
+    "answer": "ListIterator<String> it = names.listIterator(names.size());"
+  },
+  {
+    "question": "What is the purpose of generics in Java collections?",
+    "options": [
+      "To store only primitive data types",
+      "To specify the type of data the collection can store",
+      "The compiler automatically detects the type of objects",
+      "To automatically sort the collection"
+    ],
+    "answer": "To specify the type of data the collection can store"
+  },
+  {
+    "question": "What is the correct syntax to declare a generic collection in Java?",
+    "options": [
+      "ArrayList names = new ArrayList<String>();",
+      "ArrayList<String> names = new ArrayList<>();",
+      "ArrayList<> names = new ArrayList<String>();",
+      "ArrayList<String> names = new ArrayList(String);"
+    ],
+    "answer": "ArrayList<String> names = new ArrayList<>();"
+  },
+  {
+    "question": "What is type inference in Java generics?",
+    "options": [
+      "The compiler automatically detects the type of objects",
+      "The programmer must always specify the type explicitly",
+      "It allows storing only primitive types",
+      "To specify the type of data the collection can store"
+    ],
+    "answer": "The compiler automatically detects the type of objects"
+  },
+  {
+    "question": "What is the purpose of the diamond operator <> in Java?",
+    "options": [
+      "To make a collection immutable",
+      "To allow the compiler to infer the generic type",
+      "To sort the collection automatically",
+      "To specify the type of data the collection can store"
+    ],
+    "answer": "To allow the compiler to infer the generic type"
+  },
+  {
+    "question": "Which of the following creates an immutable List?",
+    "options": [
+      "List<String> immutableList = new ArrayList<>();",
+      "Set<String> immutableList = Collections.unmodifiableList(list);",
+      "List<String> immutableList = new ArrayList<>(list);",
+      "List<String> immutableList = List.of();"
+    ],
+    "answer": "List<String> immutableList = List.of();"
+  },
+  {
+    "question": "What is autoboxing in Java?",
+    "options": [
+      "Automatic converting an object to a primitive",
+      "Automatic converting a primitive to its wrapper object",
+      "We need to perform using valueOf() method",
+      "We need to perform using xxxValue() method"
+    ],
+    "answer": "Automatic converting a primitive to its wrapper object"
+  },
+  {
+    "question": "What is unboxing in Java?",
+    "options": [
+      "Automatic converting an object to a primitive",
+      "Automatic converting a primitive to its wrapper object",
+      "We need to perform using valueOf() method",
+      "We need to perform using xxxValue() method"
+    ],
+    "answer": "Automatic converting an object to a primitive"
+  },
+  {
+    "question": "Which of the following is NOT true about Map in Java?",
+    "options": [
+      "Map stores data in key-value pairs",
+      "Keys in a Map are unique",
+      "A Map allows duplicate keys",
+      "Values in a Map can be duplicated"
+    ],
+    "answer": "A Map allows duplicate keys"
+  },
+  {
+    "question": "Which method syntax is CORRECT to accept ALL List implementation classes as input?",
+    "options": [
+      "void readData(ArrayList names)",
+      "void readData(List names)",
+      "void readData(HashSet names)",
+      "void readData(Set names)"
+    ],
+    "answer": "void readData(List names)"
   }
 ]

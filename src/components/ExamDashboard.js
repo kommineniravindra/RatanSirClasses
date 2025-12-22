@@ -143,12 +143,12 @@ const technologies = [
     icon: <FaReact />,
     quizChapters: dynamicChapters["react"] || [],
   },
-  // {
-  //   key: "java",
-  //   name: "Java",
-  //   icon: <FaJava />,
-  //   quizChapters: dynamicChapters["java"] || [],
-  // },
+  {
+    key: "java",
+    name: "Java",
+    icon: <FaJava />,
+    quizChapters: dynamicChapters["java"] || [],
+  },
   // {
   //   key: "python",
   //   name: "Python",
@@ -289,9 +289,6 @@ const ExamDashboard = ({ onLogout }) => {
         <h4>Instructions:</h4>
         <ul>
           <li>Timer starts immediately.</li>
-          <li>
-            Duration: <strong>30 minutes</strong>.
-          </li>
           <li>Switching tabs will auto-submit the test.</li>
         </ul>
         <div className="button-group">

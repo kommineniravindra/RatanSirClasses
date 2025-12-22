@@ -57,20 +57,59 @@ const SQL_WASM_URL =
   "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.wasm";
 
 const Compiler = () => {
-  const [code, setCode] = useState(() => {
-    return localStorage.getItem("compiler_code") || "";
-  });
+  /* =========================================
+     1. STATE MANAGEMENT
+     ========================================= */
+
+  // -- Editor & Compiler State --
+  const [code, setCode] = useState(
+    () => localStorage.getItem("compiler_code") || ""
+  );
   const [output, setOutput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [language, setLanguage] = useState(() => {
-    return localStorage.getItem("compiler_language") || "java";
-  });
-  const [mode, setMode] = useState(() => {
-    return localStorage.getItem("compiler_mode") || "java";
-  });
+  const [language, setLanguage] = useState(
+    () => localStorage.getItem("compiler_language") || "java"
+  );
+  const [mode, setMode] = useState(
+    () => localStorage.getItem("compiler_mode") || "java"
+  );
+
+  // -- UI State --
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [editorWidth, setEditorWidth] = useState(50); // Percentage
+  const [editorWidth, setEditorWidth] = useState(50);
   const [fontSize, setFontSize] = useState(16);
+  const [editorTheme, setEditorTheme] = useState("monokai");
+  const [showGenerateDropdown, setShowGenerateDropdown] = useState(false);
+  const [isBold, setIsBold] = useState(false);
+  const [isItalic, setIsItalic] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  // -- Refs --
+  const themeDropdownRef = useRef(null);
+  const generateDropdownRef = useRef(null);
+  const editorRef = useRef(null);
+  const settingsDropdownRef = useRef(null);
+  const containerRef = useRef(null);
+  const sqlDbRef = useRef(null);
+  const pdfCodeRef = useRef(null);
+  const pdfOutputRef = useRef(null);
+
+  // -- Dropdown State --
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
+  const [activeDropdown, setActiveDropdown] = useState(null);
+
+  /* =========================================
+     2. INPUT HANDLING STATE (Scanner Logic)
+     ========================================= */
+  const [userInput, setUserInput] = useState("");
+  const [isWaitingForInput, setIsWaitingForInput] = useState(false);
+  const [detectedPrompts, setDetectedPrompts] = useState([]);
+  const [currentPromptIndex, setCurrentPromptIndex] = useState(0);
+  const [promptValues, setPromptValues] = useState({});
+
+  /* =========================================
+     3. EVENT HANDLERS & HELPERS
+     ========================================= */
 
   const handleMouseDown = (e) => {
     e.preventDefault();
@@ -93,32 +132,65 @@ const Compiler = () => {
     document.removeEventListener("mouseup", handleMouseUp);
   };
 
-  // Local Storage Effects
-  useEffect(() => {
-    localStorage.setItem("compiler_code", code);
-  }, [code]);
+  // Check for Input Requirements (Scanner/input/prompt)
+  const checkForInput = (code, lang) => {
+    if (lang === "java") {
+      return (
+        code.includes("Scanner") &&
+        code.includes("System.in") &&
+        (code.includes("next") || code.includes("nextLine"))
+      );
+    }
+    if (lang === "python") return code.includes("input(");
+    if (lang === "javascript") return code.includes("prompt(");
+    return false;
+  };
 
-  useEffect(() => {
-    localStorage.setItem("compiler_language", language);
-    localStorage.setItem("compiler_mode", mode);
-  }, [language, mode]);
-  const [editorTheme, setEditorTheme] = useState("monokai");
-  const [showThemeDropdown, setShowThemeDropdown] = useState(false);
-  const [showGenerateDropdown, setShowGenerateDropdown] = useState(false);
-  const themeDropdownRef = useRef(null);
-  const generateDropdownRef = useRef(null);
-  const editorRef = useRef(null);
-  const settingsDropdownRef = useRef(null); // Added
-  const [showSettingsDropdown, setShowSettingsDropdown] = useState(false); // Added
-  const [isBold, setIsBold] = useState(false); // Added
-  const [isItalic, setIsItalic] = useState(false); // Added
-  const [isError, setIsError] = useState(false); // Added
+  // Detect System.out.print prompts
+  const analyzeInputPrompts = (codeString) => {
+    const prompts = [];
+    // Basic regex to find string literals in System.out.print/println
+    const printRegex = /System\.out\.print(?:ln)?\s*\(\s*"([^"]+)"\s*\)/g;
+    let match;
+    while ((match = printRegex.exec(codeString)) !== null) {
+      prompts.push(match[1]);
+    }
+    if (!codeString.includes("Scanner")) return [];
+    return prompts;
+  };
 
-  // --- Dynamic Fixed Positioning State ---
-  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
-  const [activeDropdown, setActiveDropdown] = useState(null); // 'theme', 'generate', 'settings', or null
+  const handleInputChange = (e) => {
+    setUserInput(e.target.value);
+  };
 
-  // Helper to toggle dropdowns with fixed positioning
+  const handleInputSubmit = (e) => {
+    if (e.key === "Enter") {
+      if (detectedPrompts.length > 0) {
+        // Smart Prompt Mode
+        const newValues = { ...promptValues, [currentPromptIndex]: userInput };
+        setPromptValues(newValues);
+        setUserInput("");
+
+        if (currentPromptIndex < detectedPrompts.length - 1) {
+          setCurrentPromptIndex((prev) => prev + 1);
+        } else {
+          // All prompts answered, execute with joined inputs
+          const finalInputs = [];
+          for (let i = 0; i < detectedPrompts.length; i++) {
+            finalInputs.push(newValues[i]);
+          }
+          const finalStr = finalInputs.join("\n");
+          setIsWaitingForInput(false);
+          executeCode(finalStr);
+        }
+      } else {
+        // Generic Input Mode
+        setIsWaitingForInput(false);
+        executeCode(userInput);
+      }
+    }
+  };
+
   const toggleDropdown = (e, dropdownName) => {
     e.preventDefault();
     e.stopPropagation();
@@ -129,10 +201,9 @@ const Compiler = () => {
     }
 
     const rect = e.currentTarget.getBoundingClientRect();
-    // Use a similar strategy: align widely to the left to avoid overflow
     setDropdownPos({
       top: rect.bottom + 5,
-      left: rect.left - 100, // Shift left
+      left: rect.left - 100,
     });
     setActiveDropdown(dropdownName);
   };
@@ -147,9 +218,6 @@ const Compiler = () => {
       window.removeEventListener("scroll", closeAll, true);
     };
   }, []);
-
-  const containerRef = useRef(null);
-  const sqlDbRef = useRef(null);
 
   // Initialize SQL.js on load via CDN
   useEffect(() => {
@@ -190,9 +258,6 @@ const Compiler = () => {
 
     loadSql();
   }, []);
-
-  const pdfCodeRef = useRef(null);
-  const pdfOutputRef = useRef(null);
 
   const handleDownloadPdf = async () => {
     const pdf = new jsPDF("p", "mm", "a4");
@@ -293,10 +358,15 @@ const Compiler = () => {
     }
   }, []);
 
-  const handleRun = async () => {
+  /* =========================================
+     4. CODE EXECUTION (Local & Piston API)
+     ========================================= */
+
+  const executeCode = async (paramsInput = "") => {
     setIsLoading(true);
     setOutput("");
 
+    // --- 1. WEB LANGUAGES (HTML, CSS) ---
     if (language === "html" || language === "css") {
       const content = language === "css" ? `<style>${code}</style>` : code;
       setOutput(content);
@@ -304,7 +374,7 @@ const Compiler = () => {
       return;
     }
 
-    // Special handling for SQL (Local Execution)
+    // --- 2. SQL LOCAL EXECUTION ---
     if (language === "sql") {
       if (!sqlDbRef.current) {
         setOutput("Initializing SQL Database... try again in a moment.");
@@ -314,7 +384,6 @@ const Compiler = () => {
 
       try {
         const db = sqlDbRef.current;
-
         let codeToExecute = code;
         if (editorRef.current) {
           const selectedText = editorRef.current.getSelectedText();
@@ -323,7 +392,6 @@ const Compiler = () => {
           }
         }
 
-        // Strip comments
         const sanitizedCode = codeToExecute
           .replace(/\/\*[\s\S]*?\*\//g, "")
           .split("\n")
@@ -333,7 +401,6 @@ const Compiler = () => {
           })
           .join("\n");
 
-        // Split commands by semicolon
         const commands = sanitizedCode
           .split(";")
           .filter((c) => c.trim().length > 0);
@@ -425,23 +492,72 @@ const Compiler = () => {
       return;
     }
 
+    // --- 3. PISTON EXECUTION (Java, Python, JS, etc.) ---
     try {
+      let codeToSend = code;
+      // Java Boilerplate Injection
+      if (language === "java") {
+        const {
+          prepareJavaCodeForExecution,
+        } = require("../utils/javaCodeGenerator");
+        codeToSend = prepareJavaCodeForExecution(code);
+      }
+
+      const fileData = { content: codeToSend };
+      if (language === "java") {
+        fileData.name = "Main.java";
+      }
+
       const response = await axios.post(
         "https://emkc.org/api/v2/piston/execute",
         {
           language: language,
           version: "*",
-          files: [{ content: code }],
+          files: [fileData],
+          stdin: paramsInput,
         }
       );
       const { run } = response.data;
       setOutput(run.output);
+      if (run.stderr) {
+        setIsError(true);
+      } else {
+        setIsError(false);
+      }
     } catch (error) {
       console.error("Execution error:", error);
       setOutput("Error executing code.\n" + error.message);
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleRun = async () => {
+    // 1. Analyze Code for Input Prompts (Java mostly)
+    const prompts = analyzeInputPrompts(code);
+    if (prompts.length > 0) {
+      // Smart Prompts Found
+      setDetectedPrompts(prompts);
+      setCurrentPromptIndex(0);
+      setPromptValues({});
+      setUserInput("");
+      setIsWaitingForInput(true);
+      return;
+    }
+
+    // 2. Fallback Check: Is Scanner/input used without detailed prompts?
+    const needsInput = checkForInput(code, language);
+    if (needsInput) {
+      // Generic Input Mode
+      setDetectedPrompts([]);
+      setUserInput("");
+      setIsWaitingForInput(true);
+      return;
+    }
+
+    // 3. No Input Needed -> Run Immediately
+    executeCode("");
   };
 
   const toggleFullScreen = () => {
@@ -464,7 +580,7 @@ const Compiler = () => {
     }
   };
 
-  // Listen for fullscreen change events (e.g. user presses Esc)
+  // Listen for fullscreen change events
   useEffect(() => {
     const handleFullScreenChange = () => {
       setIsFullScreen(!!document.fullscreenElement);
@@ -476,14 +592,15 @@ const Compiler = () => {
 
   const handleEditorLoad = (editor) => {
     editorRef.current = editor;
-    // 1. Ensure options
+
+    // Ensure options
     editor.setOptions({
       enableBasicAutocompletion: true,
       enableLiveAutocompletion: true,
       enableSnippets: true,
     });
 
-    // 2. Define Custom Completer with Import Logic
+    // Define Custom Completer with Import Logic
     const customCompleter = {
       getCompletions: function (editor, session, pos, prefix, callback) {
         // Only for Java or SQL
@@ -534,7 +651,7 @@ const Compiler = () => {
           }
         }
 
-        // 2. Handle Import Injection
+        // Handle Import Injection
         if (data.customImport) {
           const doc = editor.getSession().getDocument();
           const content = doc.getValue();
@@ -549,14 +666,14 @@ const Compiler = () => {
           });
         }
 
-        // 3. Insert Snippet
+        // Insert Snippet
         ace
           .require("ace/snippets")
           .snippetManager.insertSnippet(editor, data.snippet);
       },
     };
 
-    // 3. Register Completer
+    // Register Completer
     const langTools = ace.require("ace/ext/language_tools");
     if (langTools) {
       langTools.addCompleter(customCompleter);
@@ -565,7 +682,14 @@ const Compiler = () => {
 
   const generateCode = (type) => {
     setShowGenerateDropdown(false);
-    const result = generateJavaCode(code, type);
+
+    let cursorIndex = -1;
+    if (editorRef.current) {
+      const pos = editorRef.current.getCursorPosition();
+      cursorIndex = editorRef.current.session.doc.positionToIndex(pos);
+    }
+
+    const result = generateJavaCode(code, type, cursorIndex);
     if (result.success) {
       setCode(result.newCode);
     } else {
@@ -577,14 +701,9 @@ const Compiler = () => {
 
   return (
     <div className="compiler-container" ref={containerRef}>
-      {/* Header commented out as per user's previous state, preserving this choice. */}
-      {/* <header className="compiler-header">
-        <div className="header-left">
-          <div className="main-title">CodePulse-R</div>
-          <div className="slogan">Standard Compiler</div>
-        </div>
-      </header> */}
-
+      {/* =========================================
+          5. MAIN RENDER
+          ========================================= */}
       <div className="compiler-main">
         {/* Editor Section */}
         <div
@@ -768,7 +887,7 @@ const Compiler = () => {
                           icon: <FaFileCode />,
                         },
                         {
-                          id: "equals",
+                          id: "hashcode-equals",
                           label: "equals() & hashCode()",
                           icon: <FaEquals />,
                         },
@@ -821,6 +940,7 @@ const Compiler = () => {
               value={code}
               onChange={setCode}
               editorProps={{ $blockScrolling: true }}
+              fontSize={fontSize}
               setOptions={{
                 enableBasicAutocompletion: true,
                 enableLiveAutocompletion: true,
@@ -834,6 +954,7 @@ const Compiler = () => {
               style={{
                 width: "100%",
                 height: "100%",
+                fontSize: fontSize,
                 fontWeight: isBold ? "bold" : "normal",
                 fontStyle: isItalic ? "italic" : "normal",
               }}
@@ -864,13 +985,42 @@ const Compiler = () => {
               <FaDownload /> PDF
             </button>
           </div>
-          <div className={`output-content ${isWebLanguage ? "preview-mode" : ""}`}>
-            {isWebLanguage ? (
+          <div
+            className={`output-content ${isWebLanguage ? "preview-mode" : ""}`}
+          >
+            {/* Input Overlay */}
+            {isWaitingForInput ? (
+              <div className="console-input-overlay">
+                <div className="prompt-line">
+                  {detectedPrompts.length > 0 ? (
+                    <span>{detectedPrompts[currentPromptIndex]}</span>
+                  ) : (
+                    <span>Input required:</span>
+                  )}
+                  <input
+                    type="text"
+                    className="console-input"
+                    autoFocus
+                    value={userInput}
+                    onChange={handleInputChange}
+                    onKeyDown={handleInputSubmit}
+                  />
+                </div>
+                {detectedPrompts.length === 0 && (
+                  <div className="loading-indicator">Waiting for input...</div>
+                )}
+                {detectedPrompts.length > 0 && (
+                  <p className="input-fallback-text">
+                    (Press Enter to submit value)
+                  </p>
+                )}
+              </div>
+            ) : isWebLanguage ? (
               <div className="preview-container">
                 <BrowserPreview htmlCode={output} />
               </div>
             ) : Array.isArray(output) ? (
-              <div className="sql-result-container sql-result-container-padding">
+              <div className="sql-result-container sql-result-padding">
                 {output.map((msg, i) => (
                   <div key={i} className="sql-msg-item">
                     {msg.type === "success" && (
@@ -963,13 +1113,14 @@ const Compiler = () => {
             }}
           >
             <h3>Output</h3>
-            <pre>{typeof output === "string" ? output : JSON.stringify(output)}</pre>
+            <pre>
+              {typeof output === "string" ? output : JSON.stringify(output)}
+            </pre>
           </div>
         )}
       </div>
     </div>
   );
-
 };
 
 export default Compiler;

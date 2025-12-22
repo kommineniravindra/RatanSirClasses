@@ -6,21 +6,42 @@ import React, {
   useRef,
 } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { coy } from "react-syntax-highlighter/dist/esm/styles/prism";
 import AceEditor from "react-ace"; // Added Ace
 import ace from "ace-builds"; // Added Ace Core
-import { FaExclamationTriangle, FaMagic, FaChevronDown } from "react-icons/fa";
+import {
+  FaExclamationTriangle,
+  FaMagic,
+  FaChevronDown,
+  FaPlay,
+  FaRedo,
+  FaPlus,
+  FaMinus,
+  FaMoon,
+  FaSun,
+} from "react-icons/fa";
 import Swal from "sweetalert2";
 import axios from "axios";
 import "../css/Exam.css";
 import BrowserPreview from "./BrowserPreview";
+import ExamResult from "./ExamResult";
+import QuestionPalette from "./QuestionPalette"; // Added Import
 
 // Utilities
 import javaSnippets from "../utils/javaSnippets";
-import { languageBoilerplates } from "../utils/languageBoilerplates";
 import sqlSnippets from "../utils/sqlSnippets";
 import { generateJavaCode } from "../utils/javaCodeGenerator";
+import {
+  analyzeInputPrompts,
+  checkForInput,
+  checkKeywords, // Added Import
+} from "../utils/codeAnalysis";
+
+import {
+  languageConfig,
+  examCodeMap,
+  getExamConfig,
+  getExamDuration,
+} from "../utils/examConfig";
 
 // Ace Imports
 import "ace-builds/src-noconflict/mode-html";
@@ -45,158 +66,104 @@ ace.config.set(
 
 const examsContext = require.context("../exams", true, /\.json$/);
 
-const ExamConfig = {
-  mcqCount: 50, // no of MCQ
-  blankCount: 50, // no of blanks
-  codingCount: 3, //no of coding questions
-  mcqMarks: 1,
-  blankMarks: 1,
-  codingMarks: 10,
-};
-const EXAM_DURATION_MINUTES = 30; // set timmer for exam
+// Define Toast Mixin
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.onmouseenter = Swal.stopTimer;
+    toast.onmouseleave = Swal.resumeTimer;
+  },
+});
+// --- HELPER FUNCTION: Calculate marks based on Levenshtein distance & Keyword Analysis ---
+const calculateAccuracyMarks = (
+  expectedOutput,
+  actualOutput,
+  maxMarks,
+  code = "",
+  expectedKeywords = []
+) => {
+  // 1. Output Accuracy
+  let outputScore = 0;
+  if (expectedOutput && actualOutput) {
+    // Case-insensitive and space-insensitive comparison
+    const s1 = expectedOutput.trim().replace(/\s+/g, " ").toLowerCase();
+    const s2 = actualOutput.trim().replace(/\s+/g, " ").toLowerCase();
 
-const languageConfig = {
-  java: {
-    language: "java",
-    aceMode: "java",
-    judge0Id: 62,
-    type: "judge0",
-    boilerplate: languageBoilerplates.Java,
-  },
-  python: {
-    language: "python",
-    aceMode: "python",
-    judge0Id: 71,
-    type: "judge0",
-    boilerplate: languageBoilerplates.Python, // Exam default was "# Your code here", utils has hello world. Let's strictly use utils as requested.
-  },
-  javascript: {
-    language: "javascript",
-    aceMode: "javascript",
-    judge0Id: 63,
-    type: "judge0",
-    boilerplate: languageBoilerplates.JavaScript,
-  },
-  sql: {
-    language: "sql",
-    aceMode: "sql",
-    judge0Id: 82,
-    type: "judge0",
-    boilerplate: languageBoilerplates.SQL,
-  },
-  html: {
-    language: "html",
-    aceMode: "html",
-    type: "codepad",
-    boilerplate: languageBoilerplates.HTML,
-  },
-  css: {
-    language: "css",
-    aceMode: "css",
-    type: "codepad",
-    boilerplate: languageBoilerplates.CSS, // Exam uses regular CSS, not wrapped
-  },
-  restapi: {
-    language: "java",
-    aceMode: "java",
-    judge0Id: 62,
-    type: "judge0",
-    boilerplate: languageBoilerplates.Java,
-  },
-  react: { language: "javascript", aceMode: "javascript", type: "none" },
-  microservices: { language: "plaintext", aceMode: "text", type: "none" },
-  default: { language: "plaintext", aceMode: "text", type: "none" },
-};
-
-const JUDGE0_API = "https://ce.judge0.com";
-
-// --- HELPER FUNCTION: Run code using Judge0 API ---
-const runCode = async (userCode, customInput, languageId) => {
-  if (!languageId)
-    return { compileError: "Execution not supported.", output: "" };
-  try {
-    const res = await fetch(
-      `${JUDGE0_API}/submissions?base64_encoded=false&wait=true`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          source_code: userCode,
-          language_id: languageId,
-          stdin: customInput || "",
-        }),
-      }
-    );
-    const data = await res.json();
-    if (data.compile_output)
-      return { compileError: data.compile_output.trim(), output: "" };
-    return {
-      compileError: null,
-      output: data.stdout ? data.stdout.trim() : data.stderr || "",
-    };
-  } catch (err) {
-    return { compileError: err.message, output: "" };
-  }
-};
-
-// --- HELPER FUNCTION: Calculate marks based on Levenshtein distance ---
-const calculateAccuracyMarks = (expectedOutput, actualOutput, maxMarks) => {
-  if (!expectedOutput || !actualOutput) return 0;
-  const s1 = expectedOutput.trim().replace(/\s+/g, " ");
-  const s2 = actualOutput.trim().replace(/\s+/g, " ");
-  if (s1 === s2) return maxMarks;
-  const levenshteinDistance = (a, b) => {
-    const matrix = Array(b.length + 1)
-      .fill(null)
-      .map(() => Array(a.length + 1).fill(null));
-    for (let i = 0; i <= a.length; i += 1) matrix[0][i] = i;
-    for (let j = 0; j <= b.length; j += 1) matrix[j][0] = j;
-    for (let i = 1; i <= a.length; i += 1) {
-      for (let j = 1; j <= b.length; j += 1) {
-        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-        matrix[j][i] = Math.min(
-          matrix[j][i - 1] + 1,
-          matrix[j - 1][i] + 1,
-          matrix[j - 1][i - 1] + cost
-        );
-      }
+    if (s1 === s2) {
+      // If output matches perfectly (ignoring case/space), FULL MARKS
+      return maxMarks;
     }
-    return matrix[b.length][a.length];
-  };
-  const maxLength = Math.max(s1.length, s2.length);
-  if (maxLength === 0) return maxMarks;
-  const distance = levenshteinDistance(s1, s2);
-  const similarity = (maxLength - distance) / maxLength;
-  return Math.round(Math.max(0, similarity) * maxMarks);
+
+    // Check if lines match regardless of order (e.g. Map output)
+    const lines1 = s1
+      .split(/\r?\n/)
+      .map((l) => l.trim())
+      .filter((l) => l)
+      .sort();
+    const lines2 = s2
+      .split(/\r?\n/)
+      .map((l) => l.trim())
+      .filter((l) => l)
+      .sort();
+    if (JSON.stringify(lines1) === JSON.stringify(lines2)) {
+      return maxMarks;
+    } else {
+      const levenshteinDistance = (a, b) => {
+        const matrix = Array(b.length + 1)
+          .fill(null)
+          .map(() => Array(a.length + 1).fill(null));
+        for (let i = 0; i <= a.length; i += 1) matrix[0][i] = i;
+        for (let j = 0; j <= b.length; j += 1) matrix[j][0] = j;
+        for (let i = 1; i <= a.length; i += 1) {
+          for (let j = 1; j <= b.length; j += 1) {
+            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+            matrix[j][i] = Math.min(
+              matrix[j][i - 1] + 1,
+              matrix[j - 1][i] + 1,
+              matrix[j - 1][i - 1] + cost
+            );
+          }
+        }
+        return matrix[b.length][a.length];
+      };
+      const maxLength = Math.max(s1.length, s2.length);
+      const distance = levenshteinDistance(s1, s2);
+      const similarity =
+        maxLength === 0 ? 1 : (maxLength - distance) / maxLength;
+      outputScore = Math.max(0, similarity);
+    }
+  }
+
+  // 2. Keyword Accuracy (Backup if output is not perfect)
+  let keywordScore = 0;
+  const hasKeywords = expectedKeywords && expectedKeywords.length > 0;
+
+  if (hasKeywords) {
+    const { score } = checkKeywords(code, expectedKeywords);
+    keywordScore = score / 100;
+  }
+
+  // Calculate Weighted Total
+  let finalRatio = 0;
+  if (hasKeywords) {
+    finalRatio = outputScore * 0.6 + keywordScore * 0.4;
+  } else {
+    finalRatio = outputScore;
+  }
+
+  return Math.round(finalRatio * maxMarks);
 };
 
-const examCodeMap = {
-  "java-exam1": "JAVA101",
-  "java-exam2": "JAVA202",
-  "python-exam1": "PYTHON101",
-  "python-exam2": "PYTHON202",
-  "javascript-exam1": "JS101",
-  "javascript-exam2": "JS202",
-  "react-exam1": "REACT101",
-  "react-exam2": "REACT202",
-  "html-exam1": "HTML101",
-  "html-exam2": "HTML202",
-  "css-exam1": "CSS101",
-  "css-exam2": "CSS202",
-  "sql-exam1": "SQL101",
-  "sql-exam2": "SQL202",
-  "microservices-exam1": "MS101",
-  "microservices-exam2": "MS202",
-  "restapi-exam1": "REST101",
-  "restapi-exam2": "REST202",
-};
-
-// --- HELPER FUNCTION: Get the question section based on a global index ---
 const getQuestionDetailsFromGlobalIndex = (
   globalIndex,
   quiz,
   blanks,
-  coding
+  coding,
+  pseudo
 ) => {
   if (globalIndex < quiz.length) {
     return { page: 1, index: globalIndex, question: quiz[globalIndex] };
@@ -209,10 +176,18 @@ const getQuestionDetailsFromGlobalIndex = (
       question: blanks[globalIndex - blankStart],
     };
   }
-  const codingStart = blankStart + blanks.length;
-  if (globalIndex < codingStart + coding.length) {
+  const pseudoStart = blankStart + blanks.length;
+  if (globalIndex < pseudoStart + pseudo.length) {
     return {
       page: 3,
+      index: globalIndex - pseudoStart,
+      question: pseudo[globalIndex - pseudoStart],
+    };
+  }
+  const codingStart = pseudoStart + pseudo.length;
+  if (globalIndex < codingStart + coding.length) {
+    return {
+      page: 4,
       index: globalIndex - codingStart,
       question: coding[globalIndex - codingStart],
     };
@@ -220,87 +195,32 @@ const getQuestionDetailsFromGlobalIndex = (
   return { page: 1, index: 0, question: quiz[0] };
 };
 
-// --- START: Question Palette Component (FLATTENED for single-line scroll) ---
-const QuestionPalette = ({
-  quiz,
-  blanks,
-  coding,
-  handleQuestionJump,
-  isCodingRoundAvailable,
-  calculateAnswerStatus,
-}) => {
-  // Define all sections' data in the desired order
-  const getSectionDetails = (section) => {
-    if (section === 1) return { questions: quiz, startIndex: 0 };
-    if (section === 2) return { questions: blanks, startIndex: quiz.length };
-    if (section === 3)
-      return { questions: coding, startIndex: quiz.length + blanks.length };
-    return { questions: [], startIndex: 0 };
-  };
-
-  const allQuestionsData = [
-    getSectionDetails(1),
-    getSectionDetails(2),
-    isCodingRoundAvailable ? getSectionDetails(3) : null,
-  ].filter(Boolean);
-
-  // Flatten all questions from all sections into a single array of button JSX
-  const allButtons = allQuestionsData.flatMap(
-    ({ questions, startIndex }, sectionIndex) => {
-      const section = sectionIndex + 1;
-      if (questions.length === 0) return [];
-
-      return questions.map((_, i) => {
-        const globalIndex = startIndex + i;
-        const status = calculateAnswerStatus(section, i);
-
-        return (
-          <button
-            key={`pal-${globalIndex}`}
-            className={`palette-button ${status}`}
-            onClick={() => handleQuestionJump(globalIndex, section)}
-          >
-            {globalIndex + 1}
-          </button>
-        );
-      });
-    }
-  );
-
-  // Auto-scroll palette to keep current question in view
-  useEffect(() => {
-    const activeBtn = document.querySelector(".palette-button.current-in-view");
-    if (activeBtn) {
-      activeBtn.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
-    }
-  });
-
-  return (
-    <div className="question-palette-fixed-header">
-      {/* Using .palette-inner for the scrolling container */}
-      <div className="palette-inner">{allButtons}</div>
-    </div>
-  );
-};
-// --- END: Question Palette Component ---
+// --- END: Question Palette Component (Moved to QuestionPalette.js) ---
 
 const Exam = () => {
   const { technology, examId } = useParams();
+  const ExamConfig = useMemo(
+    () => getExamConfig(technology, examId),
+    [technology, examId]
+  );
   const navigate = useNavigate();
   const [selectedQuiz, setSelectedQuiz] = useState([]);
   const [selectedBlanks, setSelectedBlanks] = useState([]);
   const [selectedCoding, setSelectedCoding] = useState([]);
+  const [selectedPseudo, setSelectedPseudo] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [answers, setAnswers] = useState({});
   const [quizResults, setQuizResults] = useState({});
   const [blankResults, setBlankResults] = useState({});
   const [codeResults, setCodeResults] = useState({});
-  const [totals, setTotals] = useState({ mcq: 0, blanks: 0, coding: 0 });
+  const [pseudoResults, setPseudoResults] = useState({});
+  const [totals, setTotals] = useState({
+    mcq: 0,
+    blanks: 0,
+    coding: 0,
+    pseudo: 0,
+  });
   const [showResult, setShowResult] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [malpracticeDetected, setMalpracticeDetected] = useState(false);
@@ -310,20 +230,30 @@ const Exam = () => {
   const [runResults, setRunResults] = useState({}); // For "Run Code" (Debug) output
   const [runningQuestionId, setRunningQuestionId] = useState(null); // Track which question is running
 
+  // Sequential Input State
+  const [isWaitingForInput, setIsWaitingForInput] = useState(false);
+  const [detectedPrompts, setDetectedPrompts] = useState([]);
+  const [promptValues, setPromptValues] = useState({});
+  const [currentPromptIndex, setCurrentPromptIndex] = useState(0);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [currentQuestionInView, setCurrentQuestionInView] = useState(0);
 
-  const [timeLeft, setTimeLeft] = useState(EXAM_DURATION_MINUTES * 60);
+  const [timeLeft, setTimeLeft] = useState(getExamDuration(technology, examId));
   const [timerActive, setTimerActive] = useState(true);
   const [showTwoMinuteModal, setShowTwoMinuteModal] = useState(false);
 
   // Code Generation State
   const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
-  const generateDropdownRef = useRef(null);
   const editorRefs = useRef({});
   const [activeCodeQuestionIndex, setActiveCodeQuestionIndex] = useState(null);
 
+  // Editor styling state
+  const [fontSize, setFontSize] = useState(16);
+  const [editorTheme, setEditorTheme] = useState("monokai");
+
   const sqlDbRef = useRef(null);
+  const generateDropdownRef = useRef(null);
   const SQL_WASM_URL =
     "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.wasm";
 
@@ -376,7 +306,7 @@ const Exam = () => {
 
   const techConfig = languageConfig[technology] || languageConfig.default;
   const isCodingRoundAvailable = useMemo(
-    () => techConfig.type === "judge0" || techConfig.type === "codepad",
+    () => techConfig.type === "piston" || techConfig.type === "codepad",
     [techConfig]
   );
 
@@ -410,7 +340,8 @@ const Exam = () => {
     const totalMCQ = selectedQuiz.length;
     const totalBlank = selectedBlanks.length;
     const totalCoding = selectedCoding.length;
-    const totalCount = totalMCQ + totalBlank + totalCoding;
+    const totalPseudo = selectedPseudo.length;
+    const totalCount = totalMCQ + totalBlank + totalCoding + totalPseudo;
 
     for (let i = 0; i < totalCount; i++) {
       allQuestions.push(`question-${i}`);
@@ -427,7 +358,8 @@ const Exam = () => {
               globalIndex,
               selectedQuiz,
               selectedBlanks,
-              selectedCoding
+              selectedCoding,
+              selectedPseudo
             );
             setCurrentPage(details.page);
 
@@ -442,8 +374,8 @@ const Exam = () => {
       },
       {
         root: null,
-        rootMargin: "-50px 0px -50% 0px",
-        threshold: 0.1,
+        rootMargin: "-10% 0px -50% 0px",
+        threshold: 0,
       }
     );
 
@@ -457,14 +389,22 @@ const Exam = () => {
     return () => {
       observer.disconnect();
     };
-  }, [selectedQuiz, selectedBlanks, selectedCoding, showResult, isLoading]);
+  }, [
+    selectedQuiz,
+    selectedBlanks,
+    selectedCoding,
+    selectedPseudo,
+    showResult,
+    isLoading,
+  ]);
 
   const calculateAnswerStatus = useCallback(
     (section, index) => {
       let key;
       if (section === 1) key = `quiz-${index}`;
       else if (section === 2) key = `blank-${index}`;
-      else if (section === 3) key = `code-${index}`;
+      else if (section === 3) key = `pseudo-${index}`;
+      else if (section === 4) key = `code-${index}`;
 
       const isAnswered = answers[key] && String(answers[key]).trim() !== "";
 
@@ -472,20 +412,40 @@ const Exam = () => {
       if (section === 1) globalIndex = index;
       if (section === 2) globalIndex = selectedQuiz.length + index;
       if (section === 3)
+        // Pseudo
         globalIndex = selectedQuiz.length + selectedBlanks.length + index;
+      if (section === 4)
+        // Coding
+        globalIndex =
+          selectedQuiz.length +
+          selectedBlanks.length +
+          selectedPseudo.length +
+          index;
 
       const isCurrentInView = globalIndex === currentQuestionInView;
 
       if (isCurrentInView) return "current-in-view";
       if (isAnswered) return "answered";
-      return "unanswered";
     },
-    [answers, currentQuestionInView, selectedQuiz, selectedBlanks]
+    [
+      answers,
+      currentQuestionInView,
+      selectedQuiz,
+      selectedBlanks,
+      selectedCoding,
+      selectedPseudo,
+    ]
   );
 
   useEffect(() => {
+    // Fisher-Yates Shuffle
     const shuffleArray = (array) => {
-      return [...array].sort(() => Math.random() - 0.5);
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
     };
 
     const shuffleAnswers = (questions) => {
@@ -534,9 +494,20 @@ const Exam = () => {
           );
         }
 
+        // Load Pseudo
+        const pseudoModule = examsContext(
+          `./${technology}/${examId}Psuedo.json`
+        );
+        let shuffledPseudo = shuffleArray(pseudoModule).slice(
+          0,
+          ExamConfig.pseudoCount
+        );
+        shuffledPseudo = shuffleAnswers(shuffledPseudo);
+
         setSelectedQuiz(shuffledMCQ);
         setSelectedBlanks(shuffledBlanks);
         setSelectedCoding(shuffledCoding);
+        setSelectedPseudo(shuffledPseudo);
         setCurrentQuestionInView(0);
       } catch (err) {
         setError(`Could not find questions for "${technology} - ${examId}".`);
@@ -639,9 +610,15 @@ const Exam = () => {
   const handleGenerateCode = (type, index) => {
     setOpenDropdownIndex(null);
     const code = answers[`code-${index}`] || techConfig.boilerplate;
+
     const result = generateJavaCode(code, type);
+
     if (result.success) {
       handleChange(`code-${index}`, result.newCode);
+      Toast.fire({
+        icon: "success",
+        title: "Code Generated!",
+      });
     } else {
       Swal.fire("Info", result.message || "Could not generate code.", "info");
     }
@@ -712,17 +689,30 @@ const Exam = () => {
             );
             codingTotal += marks;
           } else {
-            // For judge0, or already evaluated codepad, use stored marks
             codingTotal += codeResults[i]?.marks || 0;
           }
         });
       }
-      setTotals({ mcq: mcqTotal, blanks: blanksTotal, coding: codingTotal });
+
+      let pseudoTotal = 0;
+      const pRes = {};
+      selectedPseudo.forEach((q, i) => {
+        const correct = answers[`pseudo-${i}`] === q.answer;
+        pRes[i] = { correct, chosen: answers[`pseudo-${i}`] || "" };
+        pseudoTotal += correct ? ExamConfig.pseudoMarks : 0;
+      });
+      setPseudoResults(pRes);
+
+      setTotals({
+        mcq: mcqTotal,
+        blanks: blanksTotal,
+        coding: codingTotal,
+        pseudo: pseudoTotal,
+      });
 
       try {
         const token = localStorage.getItem("token");
         const userEmail = localStorage.getItem("userEmail");
-        // const userName = localStorage.getItem("userName") || "Student";
 
         if (!token || !userEmail)
           throw new Error("Authentication details not found.");
@@ -737,8 +727,14 @@ const Exam = () => {
             )
           : 0;
 
+        const totalPossiblePseudo =
+          selectedPseudo.length * ExamConfig.pseudoMarks;
+
         const maxTotalMarks =
-          totalPossibleMCQ + totalPossibleBlanks + totalPossibleCoding;
+          totalPossibleMCQ +
+          totalPossibleBlanks +
+          totalPossibleCoding +
+          totalPossiblePseudo;
 
         const examKey = `${technology}-${examId}`;
         const examCode = examCodeMap[examKey];
@@ -750,6 +746,7 @@ const Exam = () => {
           mcqMarks: mcqTotal,
           fillMarks: blanksTotal,
           codingMarks: codingTotal,
+          pseudoMarks: pseudoTotal,
           totalMarksPossible: maxTotalMarks,
         };
 
@@ -770,11 +767,12 @@ const Exam = () => {
           }
         }
 
-        await Swal.fire({
-          icon: "success",
-          title: "Submitted!",
-          text: "Your exam has been submitted and results have been sent to your email (via backend).",
-        });
+        // Success alert removed to speed up flow
+        // await Swal.fire({
+        //   icon: "success",
+        //   title: "Submitted!",
+        //   text: "Your exam has been submitted and results have been sent to your email (via backend).",
+        // });
       } catch (error) {
         console.error("Failed to save/send exam results:", error);
         await Swal.fire({
@@ -796,6 +794,7 @@ const Exam = () => {
       techConfig.type,
       selectedBlanks,
       selectedCoding,
+      selectedPseudo,
       selectedQuiz,
       technology,
       examId,
@@ -814,8 +813,7 @@ const Exam = () => {
   }, [showResult, timerActive, submitExam]);
 
   // --- HELPER FUNCTION: Run code using Piston API (Replacing Judge0) ---
-  const runCode = async (userCode, customInput, language) => {
-    // Map Exam.js languages to Piston API languages
+  const executeCode = async (userCode, customInput, language) => {
     const langMap = {
       java: "java",
       python: "python",
@@ -910,13 +908,26 @@ const Exam = () => {
     const apiLang = langMap[language] || language;
 
     try {
+      let codeToExecute = userCode;
+      if (apiLang === "java") {
+        const {
+          prepareJavaCodeForExecution,
+        } = require("../utils/javaCodeGenerator");
+        codeToExecute = prepareJavaCodeForExecution(userCode);
+      }
+
+      const fileData = { content: codeToExecute };
+      if (apiLang === "java") {
+        fileData.name = "Main.java";
+      }
+
       const response = await fetch("https://emkc.org/api/v2/piston/execute", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           language: apiLang,
           version: "*",
-          files: [{ content: userCode }],
+          files: [fileData],
           stdin: customInput || "",
         }),
       });
@@ -943,6 +954,14 @@ const Exam = () => {
       setShowTwoMinuteModal(true);
     }
 
+    // 5-Minute Warning Toast
+    if (timeLeft === 300) {
+      Toast.fire({
+        icon: "warning",
+        title: "5 Minutes Remaining!",
+      });
+    }
+
     if (timeLeft <= 0) {
       submitExam(true);
       return;
@@ -950,7 +969,7 @@ const Exam = () => {
 
     const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
     return () => clearInterval(timer);
-  }, [timeLeft, timerActive, isLoading, submitExam]);
+  }, [timerActive, isLoading, submitExam]); // Removed timeLeft dependency
 
   const handleChange = (qKey, value) =>
     setAnswers((prev) => ({ ...prev, [qKey]: value }));
@@ -959,14 +978,44 @@ const Exam = () => {
       timeLeft % 60
     ).padStart(2, "0")}`;
 
-  const handleRunCode = async (i, code, mode = "run") => {
-    if (!code) return; // techConfig check removed as we support Piston now
+  const handleRunCode = async (
+    i,
+    code,
+    mode = "run",
+    inputsOverride = null
+  ) => {
+    if (!code) return;
+
+    // 1. Check for Prompts (Only in 'run' mode and if not already provided)
+    if (mode === "run" && !inputsOverride && techConfig.language === "java") {
+      const prompts = analyzeInputPrompts(code, techConfig.language);
+      if (prompts.length > 0) {
+        setDetectedPrompts(prompts);
+        setPromptValues({});
+        setCurrentPromptIndex(0);
+        setIsWaitingForInput(true);
+        setRunningQuestionId(i);
+        return;
+      }
+
+      // Fallback: Generic Input Check
+      if (checkForInput(code, techConfig.language)) {
+        setDetectedPrompts([]); // No specific prompts found
+        setIsWaitingForInput(true);
+        setRunningQuestionId(i);
+        // setOutput("Program requires input. Please enter values..."); // Maybe logic handled in UI?
+        return;
+      }
+    }
 
     setRunningQuestionId(i);
 
-    // Determine input: Custom Input for "run" mode, Sample Input for "evaluate" mode
-    const inputToUse =
-      mode === "run" ? customInputs[i] || "" : selectedCoding[i].sampleInput;
+    // Determine input: Use Override (from Wizard) OR Custom Input OR Sample Input
+    const inputToUse = inputsOverride
+      ? inputsOverride
+      : mode === "run" && customInputs[i] // if custom input is present
+      ? customInputs[i]
+      : selectedCoding[i].sampleInput || ""; // default to sample input
 
     // Check for selection
     let codeToRun = code;
@@ -977,27 +1026,55 @@ const Exam = () => {
       }
     }
 
-    // No preprocessing needed for Piston (handles custom class names better)
-    const { compileError, output } = await runCode(
+    const { compileError, output } = await executeCode(
       codeToRun,
       inputToUse,
       techConfig.language
     );
 
+    // Terminal Echo Injection
+    let finalOutput = output;
+    if (mode === "run" && inputsOverride && detectedPrompts.length > 0) {
+      detectedPrompts.forEach((prompt, idx) => {
+        const val = promptValues[idx] || "";
+        if (finalOutput.includes(prompt)) {
+          finalOutput = finalOutput.replace(prompt, prompt + " " + val + "\n");
+        }
+      });
+    }
+
     if (mode === "run") {
-      // Just update run results for debugging
       setRunResults((prev) => ({
         ...prev,
-        [i]: { compileError, output },
+        [i]: { compileError, output: finalOutput },
       }));
+
+      // Update Marks Calculation for Immediate Feedback (Only if using Sample Input)
+      if (inputToUse === selectedCoding[i].sampleInput) {
+        let marks = 0;
+        if (!compileError) {
+          marks = calculateAccuracyMarks(
+            selectedCoding[i].sampleOutput,
+            output, // Use raw output for comparison
+            selectedCoding[i].maxMarks || ExamConfig.codingMarks,
+            codeToRun,
+            selectedCoding[i].expectedKeywords || []
+          );
+        }
+        setCodeResults((prev) => ({
+          ...prev,
+          [i]: { compileError, output, marks, evaluated: true },
+        }));
+      }
     } else {
-      // Evaluate mode: Calculate marks based on Sample Output
       let marks = 0;
       if (!compileError) {
         marks = calculateAccuracyMarks(
           selectedCoding[i].sampleOutput,
           output,
-          selectedCoding[i].maxMarks || ExamConfig.codingMarks
+          selectedCoding[i].maxMarks || ExamConfig.codingMarks,
+          codeToRun, // Pass code
+          selectedCoding[i].expectedKeywords || [] // Pass expectedKeywords
         );
       }
       setCodeResults((prev) => ({
@@ -1005,7 +1082,11 @@ const Exam = () => {
         [i]: { compileError, output, marks, evaluated: true },
       }));
     }
+
     setRunningQuestionId(null);
+    setIsWaitingForInput(false);
+    setDetectedPrompts([]);
+    setCurrentPromptIndex(0);
   };
 
   const handleEvaluateCodePad = (index, code) => {
@@ -1013,7 +1094,9 @@ const Exam = () => {
     const marks = calculateAccuracyMarks(
       question.answer,
       code,
-      question.maxMarks || ExamConfig.codingMarks
+      question.maxMarks || ExamConfig.codingMarks,
+      code, // Pass Code
+      question.expectedKeywords || [] // Pass Keywords
     );
     setCodeResults((prev) => ({
       ...prev,
@@ -1050,7 +1133,8 @@ const Exam = () => {
           (sum, q) => sum + (q.maxMarks || ExamConfig.codingMarks),
           0
         )
-      : 0);
+      : 0) +
+    selectedPseudo.length * ExamConfig.pseudoMarks;
 
   return (
     <>
@@ -1111,11 +1195,14 @@ const Exam = () => {
             quiz={selectedQuiz}
             blanks={selectedBlanks}
             coding={selectedCoding}
+            pseudo={selectedPseudo}
             // currentPage={currentPage} // Removed unused prop
             // setCurrentPage={setCurrentPage} // Removed unused prop
             handleQuestionJump={handleQuestionJump}
             isCodingRoundAvailable={isCodingRoundAvailable}
             calculateAnswerStatus={calculateAnswerStatus}
+            currentQuestionInView={currentQuestionInView}
+            currentPage={currentPage} // Pass currentPage
           />
         </div>
       )}
@@ -1163,9 +1250,15 @@ const Exam = () => {
                       className={currentPage === 3 ? "active" : ""}
                       onClick={() => setCurrentPage(3)}
                     >
-                      Coding
+                      Pseudo Code
                     </button>
                   )}
+                  <button
+                    className={currentPage === 4 ? "active" : ""}
+                    onClick={() => setCurrentPage(4)}
+                  >
+                    Coding
+                  </button>
                 </div>
 
                 {/* --- START: Full Section View --- */}
@@ -1177,9 +1270,12 @@ const Exam = () => {
                         id={`question-${i}`}
                         className="question-block"
                       >
-                        <p className="question-title">
-                          <strong>{i + 1}. </strong> {q.question}
-                        </p>
+                        <p
+                          className="question-title"
+                          dangerouslySetInnerHTML={{
+                            __html: `<strong>${i + 1}. </strong> ${q.question}`,
+                          }}
+                        ></p>
                         <div className="options-group">
                           {q.options.map((opt) => (
                             <label key={opt} className="option-label">
@@ -1212,11 +1308,13 @@ const Exam = () => {
                           className="question-block"
                         >
                           <p className="question-title1">
+                            {/* Render question parts with HTML safety */}
                             <strong>{globalIndex + 1}. </strong>
-
                             {parts.map((part, idx) => (
                               <React.Fragment key={idx}>
-                                {part}
+                                <span
+                                  dangerouslySetInnerHTML={{ __html: part }}
+                                />
                                 {idx < parts.length - 1 && (
                                   <input
                                     type="text"
@@ -1224,6 +1322,9 @@ const Exam = () => {
                                     value={answers[inputKey] || ""}
                                     onChange={(e) =>
                                       handleChange(inputKey, e.target.value)
+                                    }
+                                    onFocus={() =>
+                                      setCurrentQuestionInView(globalIndex)
                                     }
                                   />
                                 )}
@@ -1234,11 +1335,67 @@ const Exam = () => {
                       );
                     })}
 
-                  {isCodingRoundAvailable &&
-                    currentPage === 3 &&
-                    selectedCoding.map((q, i) => {
+                  {/* --- SECTION 3: PSEUDO CODE --- */}
+                  {currentPage === 3 &&
+                    selectedPseudo.map((q, i) => {
                       const globalIndex =
                         selectedQuiz.length + selectedBlanks.length + i;
+                      return (
+                        <div
+                          key={`pseudo-${i}`}
+                          id={`question-${globalIndex}`}
+                          className="question-block"
+                        >
+                          <div className="main-code-block-wrapper">
+                            <pre
+                              style={{
+                                background: "#f8f9fa",
+                                padding: "15px",
+                                borderRadius: "8px",
+                                overflowX: "auto",
+                                border: "1px solid #e9ecef",
+                                color: "#000",
+                                fontWeight: "bold",
+                                fontSize: "1rem",
+                              }}
+                            >
+                              <strong>
+                                {globalIndex + 1}. What will be the output of
+                                the following code?
+                              </strong>
+                              <div style={{ height: "10px" }}></div>
+                              <code>{q.question}</code>
+                            </pre>
+                          </div>
+                          <div className="options-group">
+                            {q.options.map((opt, optIndex) => (
+                              <label key={opt} className="option-label">
+                                <input
+                                  type="radio"
+                                  name={`pseudo-${i}`}
+                                  value={opt}
+                                  checked={answers[`pseudo-${i}`] === opt}
+                                  onChange={(e) =>
+                                    handleChange(`pseudo-${i}`, e.target.value)
+                                  }
+                                />
+                                <span>{opt}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                  {/* --- SECTION 4: CODING QUESTIONS --- */}
+                  {isCodingRoundAvailable &&
+                    currentPage === 4 &&
+                    selectedCoding.map((q, i) => {
+                      const globalIndex =
+                        selectedQuiz.length +
+                        selectedBlanks.length +
+                        selectedPseudo.length +
+                        i;
 
                       return (
                         <div
@@ -1246,16 +1403,25 @@ const Exam = () => {
                           id={`question-${globalIndex}`}
                           className="question-block coding-block"
                         >
-                          <p className="question-title">
-                            <strong>{globalIndex + 1}.</strong> {q.question}
-                          </p>
+                          <p
+                            className="question-title"
+                            dangerouslySetInnerHTML={{
+                              __html: `<strong>${globalIndex + 1}.</strong> ${
+                                q.question
+                              }`,
+                            }}
+                          />
 
                           <div className="sample-box">
                             <div>
                               <p>
                                 <strong>Sample Input:</strong>
                               </p>
-                              <pre>{q.sampleInput || "N/A"}</pre>
+                              <pre
+                                dangerouslySetInnerHTML={{
+                                  __html: q.sampleInput || "N/A",
+                                }}
+                              />
                             </div>
                             <div>
                               <p>
@@ -1268,233 +1434,365 @@ const Exam = () => {
                                   />
                                 </div>
                               ) : (
-                                <pre>{q.sampleOutput || "N/A"}</pre>
+                                <pre
+                                  dangerouslySetInnerHTML={{
+                                    __html: q.sampleOutput || "N/A",
+                                  }}
+                                />
                               )}
                             </div>
                           </div>
 
-                          {techConfig.type === "judge0" && (
-                            <>
-                              {/* Generate Code Tool (Java only) */}
-                              {techConfig.language === "java" && (
-                                <div
-                                  style={{
-                                    position: "relative",
-                                    marginBottom: "10px",
-                                  }}
-                                  ref={generateDropdownRef}
-                                >
-                                  <button
-                                    className="btn-compiler"
-                                    style={{
-                                      background: "#8b5cf6",
-                                      display: "flex",
-                                      alignItems: "center",
-                                      gap: "8px",
-                                      color: "white",
-                                      padding: "8px 12px",
-                                      borderRadius: "5px",
-                                      border: "none",
-                                      cursor: "pointer",
-                                      fontSize: "0.9rem",
-                                    }}
-                                    onClick={() => {
-                                      setOpenDropdownIndex(
-                                        openDropdownIndex === i ? null : i
-                                      );
-                                    }}
-                                    title="Generate Boilerplate Code"
-                                  >
-                                    <FaMagic /> Generate{" "}
-                                    <FaChevronDown size={10} />
-                                  </button>
-                                  {openDropdownIndex === i && (
+                          {/* --- PISTON / JUDGE0 EDITOR WITH NEW STYLING --- */}
+                          {(techConfig.type === "judge0" ||
+                            techConfig.type === "piston") && (
+                            <div className="exam-editor-wrapper">
+                              {/* TOOLBAR */}
+                              <div className="exam-editor-toolbar">
+                                <div className="exam-toolbar-left">
+                                  <div className="exam-lang-badge">
+                                    <FaMagic size={12} />
+                                    {technology.toUpperCase()}
+                                  </div>
+                                  {techConfig.language === "java" && (
                                     <div
-                                      style={{
-                                        position: "absolute",
-                                        top: "110%",
-                                        left: 0,
-                                        backgroundColor:
-                                          "rgba(255, 255, 255, 0.95)",
-                                        backdropFilter: "blur(10px)",
-                                        border:
-                                          "1px solid rgba(255, 255, 255, 0.5)",
-                                        borderRadius: "8px",
-                                        zIndex: 1000,
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        minWidth: "180px",
-                                        boxShadow:
-                                          "0 10px 40px rgba(0,0,0,0.1)",
-                                        padding: "8px",
-                                      }}
+                                      className="exam-dropdown-container"
+                                      ref={
+                                        openDropdownIndex === i
+                                          ? generateDropdownRef
+                                          : null
+                                      }
                                     >
                                       <button
-                                        onClick={() =>
-                                          handleGenerateCode("constructor", i)
-                                        }
+                                        className="exam-action-btn"
                                         style={{
-                                          textAlign: "left",
-                                          padding: "8px",
-                                          border: "none",
-                                          background: "transparent",
-                                          cursor: "pointer",
-                                          display: "block",
-                                          width: "100%",
+                                          width: "auto",
+                                          padding: "0 10px",
+                                          fontSize: "0.85rem",
+                                          gap: "6px",
+                                        }}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setOpenDropdownIndex(
+                                            openDropdownIndex === i ? null : i
+                                          );
                                         }}
                                       >
-                                        Constructor
+                                        Generate <FaChevronDown size={10} />
                                       </button>
-                                      <button
-                                        onClick={() =>
-                                          handleGenerateCode("getters", i)
-                                        }
-                                        style={{
-                                          textAlign: "left",
-                                          padding: "8px",
-                                          border: "none",
-                                          background: "transparent",
-                                          cursor: "pointer",
-                                          display: "block",
-                                          width: "100%",
-                                        }}
-                                      >
-                                        Getters
-                                      </button>
-                                      <button
-                                        onClick={() =>
-                                          handleGenerateCode("setters", i)
-                                        }
-                                        style={{
-                                          textAlign: "left",
-                                          padding: "8px",
-                                          border: "none",
-                                          background: "transparent",
-                                          cursor: "pointer",
-                                          display: "block",
-                                          width: "100%",
-                                        }}
-                                      >
-                                        Setters
-                                      </button>
-                                      <button
-                                        onClick={() =>
-                                          handleGenerateCode("tostring", i)
-                                        }
-                                        style={{
-                                          textAlign: "left",
-                                          padding: "8px",
-                                          border: "none",
-                                          background: "transparent",
-                                          cursor: "pointer",
-                                          display: "block",
-                                          width: "100%",
-                                        }}
-                                      >
-                                        toString()
-                                      </button>
-                                      <button
-                                        onClick={() =>
-                                          handleGenerateCode(
-                                            "hashcode-equals",
-                                            i
-                                          )
-                                        }
-                                        style={{
-                                          textAlign: "left",
-                                          padding: "8px",
-                                          border: "none",
-                                          background: "transparent",
-                                          cursor: "pointer",
-                                          display: "block",
-                                          width: "100%",
-                                        }}
-                                      >
-                                        HashCode & Equals
-                                      </button>
+                                      {openDropdownIndex === i && (
+                                        <div className="exam-dropdown-menu">
+                                          {[
+                                            {
+                                              id: "all",
+                                              label: "Generate All ✨",
+                                            },
+                                            {
+                                              id: "constructor",
+                                              label: "Constructor",
+                                            },
+                                            {
+                                              id: "getters",
+                                              label: "Getters",
+                                            },
+                                            {
+                                              id: "setters",
+                                              label: "Setters",
+                                            },
+                                            {
+                                              id: "tostring",
+                                              label: "toString()",
+                                            },
+                                            {
+                                              id: "hashcode-equals",
+                                              label: "HashCode & Equals",
+                                            },
+                                            {
+                                              id: "scanner",
+                                              label: "Add Scanner Input",
+                                            },
+                                          ].map((item) => (
+                                            <button
+                                              key={item.id}
+                                              className="exam-dropdown-item"
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleGenerateCode(item.id, i);
+                                                setOpenDropdownIndex(null);
+                                              }}
+                                            >
+                                              {item.label}
+                                            </button>
+                                          ))}
+                                        </div>
+                                      )}
                                     </div>
                                   )}
                                 </div>
-                              )}
-
-                              {/* Ace Editor for Judge0 */}
-                              <div
-                                style={{
-                                  border: "1px solid #ccc",
-                                  borderRadius: "8px",
-                                  overflow: "hidden",
-                                  marginBottom: "15px",
-                                }}
-                              >
-                                <AceEditor
-                                  mode={techConfig.aceMode || "text"}
-                                  theme="monokai"
-                                  name={`exam-editor-${i}`}
-                                  onLoad={(editor) =>
-                                    handleEditorLoad(editor, i)
-                                  }
-                                  onChange={(val) =>
-                                    handleChange(`code-${i}`, val)
-                                  }
-                                  value={
-                                    answers[`code-${i}`] ||
-                                    techConfig.boilerplate
-                                  }
-                                  fontSize={16}
-                                  width="100%"
-                                  height="400px"
-                                  showPrintMargin={false}
-                                  showGutter={true}
-                                  highlightActiveLine={true}
-                                  setOptions={{
-                                    enableBasicAutocompletion: true,
-                                    enableLiveAutocompletion: true,
-                                    enableSnippets: true,
-                                    showLineNumbers: true,
-                                    tabSize: 4,
-                                  }}
-                                />
-                              </div>
-
-                              <div className="coding-controls-area">
-                                <div className="action-buttons">
+                                <div className="exam-toolbar-right">
                                   <button
-                                    className="run-button secondary"
+                                    className="exam-action-btn"
                                     onClick={() =>
-                                      handleRunCode(
-                                        i,
-                                        answers[`code-${i}`],
-                                        "run"
+                                      setEditorTheme(
+                                        editorTheme === "monokai"
+                                          ? "github"
+                                          : "monokai"
                                       )
                                     }
-                                    disabled={runningQuestionId === i}
+                                    title="Toggle Theme"
                                   >
-                                    {runningQuestionId === i
-                                      ? "Running..."
-                                      : "Run Code"}
+                                    {editorTheme === "monokai" ? (
+                                      <FaSun />
+                                    ) : (
+                                      <FaMoon />
+                                    )}
                                   </button>
                                   <button
-                                    className="run-button primary"
+                                    className="exam-action-btn"
                                     onClick={() =>
-                                      handleRunCode(
-                                        i,
-                                        answers[`code-${i}`],
-                                        "evaluate"
+                                      setFontSize((p) => Math.max(12, p - 2))
+                                    }
+                                    title="Decrease Font Size"
+                                  >
+                                    <FaMinus size={12} />
+                                  </button>
+                                  <span
+                                    style={{
+                                      fontSize: "0.85rem",
+                                      fontWeight: "600",
+                                      color: "#64748b",
+                                    }}
+                                  >
+                                    {fontSize}px
+                                  </span>
+                                  <button
+                                    className="exam-action-btn"
+                                    onClick={() =>
+                                      setFontSize((p) => Math.min(24, p + 2))
+                                    }
+                                    title="Increase Font Size"
+                                  >
+                                    <FaPlus size={12} />
+                                  </button>
+                                  <button
+                                    className="exam-action-btn"
+                                    onClick={() =>
+                                      handleChange(
+                                        `code-${i}`,
+                                        techConfig.boilerplate
                                       )
                                     }
-                                    disabled={runningQuestionId === i}
+                                    title="Reset Code"
                                   >
-                                    {runningQuestionId === i
-                                      ? "Evaluating..."
-                                      : "Submit & Evaluate"}
+                                    <FaRedo size={12} />
                                   </button>
                                 </div>
                               </div>
 
-                              {/* Display Run Results (Debug) */}
-                              {runResults[i] && !codeResults[i]?.evaluated && (
-                                <div className="run-output-display">
-                                  <h4>Run Output:</h4>
+                              {/* EDITOR */}
+                              <AceEditor
+                                mode={techConfig.aceMode || "text"}
+                                theme={editorTheme}
+                                name={`exam-editor-${i}`}
+                                onLoad={(editor) => handleEditorLoad(editor, i)}
+                                onChange={(val) =>
+                                  handleChange(`code-${i}`, val)
+                                }
+                                value={
+                                  answers[`code-${i}`] || techConfig.boilerplate
+                                }
+                                fontSize={fontSize}
+                                width="100%"
+                                height="400px"
+                                showPrintMargin={false}
+                                showGutter={true}
+                                highlightActiveLine={true}
+                                setOptions={{
+                                  enableBasicAutocompletion: true,
+                                  enableLiveAutocompletion: true,
+                                  enableSnippets: true,
+                                  showLineNumbers: true,
+                                  tabSize: 4,
+                                }}
+                              />
+
+                              {/* FOOTER */}
+                              <div className="exam-editor-footer">
+                                <button
+                                  className="exam-run-btn"
+                                  onClick={() =>
+                                    handleRunCode(
+                                      i,
+                                      answers[`code-${i}`],
+                                      "run"
+                                    )
+                                  }
+                                  disabled={runningQuestionId === i}
+                                >
+                                  {runningQuestionId === i ? (
+                                    "Running..."
+                                  ) : (
+                                    <>
+                                      <FaPlay size={12} /> Run Code
+                                    </>
+                                  )}
+                                </button>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Display Run Results (Debug) OR Input Wizard */}
+                          {/* Display Run Results (Debug) OR Input Wizard */}
+                          {runningQuestionId === i && isWaitingForInput ? (
+                            <div
+                              className="console-input-overlay"
+                              style={{
+                                padding: "15px",
+                                backgroundColor: "#fff",
+                                color: "#000",
+                                border: "1px solid #ccc",
+                                borderRadius: "5px",
+                                marginBottom: "15px",
+                                fontFamily: "monospace",
+                                fontWeight: "bold", // Bold
+                                fontSize: "18px", // 18px
+                              }}
+                            >
+                              <h4
+                                style={{
+                                  color: "#000",
+                                  marginBottom: "10px",
+                                }}
+                              >
+                                Interactive Input:
+                              </h4>
+
+                              {/* History */}
+                              {detectedPrompts.map((prompt, idx) => {
+                                if (idx < currentPromptIndex) {
+                                  return (
+                                    <div
+                                      key={idx}
+                                      style={{
+                                        marginBottom: "5px",
+                                        opacity: 0.7,
+                                      }}
+                                    >
+                                      <span>{prompt} </span>
+                                      <strong>{promptValues[idx]}</strong>
+                                    </div>
+                                  );
+                                }
+                                return null;
+                              })}
+
+                              {/* Active Input */}
+                              {currentPromptIndex < detectedPrompts.length && (
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <span>
+                                    {detectedPrompts[currentPromptIndex]}{" "}
+                                  </span>
+                                  <input
+                                    autoFocus
+                                    type="text"
+                                    style={{
+                                      flex: 1,
+                                      marginLeft: "10px",
+                                      border: "none",
+                                      borderBottom: "1px solid #000",
+                                      outline: "none",
+                                      fontFamily: "monospace",
+                                      fontSize: "18px",
+                                      fontWeight: "bold",
+                                      color: "#000",
+                                    }}
+                                    value={
+                                      promptValues[currentPromptIndex] || ""
+                                    }
+                                    onChange={(e) =>
+                                      setPromptValues({
+                                        ...promptValues,
+                                        [currentPromptIndex]: e.target.value,
+                                      })
+                                    }
+                                    onKeyDown={(e) => {
+                                      if (e.key === "Enter") {
+                                        const nextIndex =
+                                          currentPromptIndex + 1;
+                                        if (
+                                          nextIndex < detectedPrompts.length
+                                        ) {
+                                          setCurrentPromptIndex(nextIndex);
+                                        } else {
+                                          // Execute
+                                          const inputs = detectedPrompts.map(
+                                            (_, k) => promptValues[k] || ""
+                                          );
+                                          // Capture last value explicitly
+                                          inputs[currentPromptIndex] =
+                                            e.target.value;
+
+                                          handleRunCode(
+                                            i,
+                                            answers[`code-${i}`],
+                                            "run",
+                                            inputs.join("\n")
+                                          );
+                                        }
+                                      }
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          ) : (
+                            <>
+                              {/* Loading Indicator */}
+                              <div
+                                style={{
+                                  marginTop: "15px",
+                                  color: "#0000FF", // Blue
+                                  fontWeight: "bold",
+                                  fontFamily: "monospace",
+                                  display:
+                                    runningQuestionId === i ? "block" : "none",
+                                }}
+                              >
+                                Codepulse-R generating Output.......
+                              </div>
+
+                              {/* Run Output (Console) */}
+                              {runResults[i] && !isWaitingForInput && (
+                                <div
+                                  className="exam-terminal-output"
+                                  style={{ marginTop: "15px" }}
+                                >
+                                  <h4>
+                                    Console Output:
+                                    {codeResults[i]?.evaluated && (
+                                      <span
+                                        style={{
+                                          marginLeft: "15px",
+                                          fontWeight: "bold",
+                                          color:
+                                            codeResults[i].marks > 0
+                                              ? "#28a745"
+                                              : "#dc3545",
+                                          fontSize: "1rem",
+                                        }}
+                                      >
+                                        [Marks Scored: {codeResults[i].marks} /{" "}
+                                        {selectedCoding[i].maxMarks ||
+                                          ExamConfig.codingMarks}
+                                        ]
+                                      </span>
+                                    )}
+                                  </h4>
                                   {runResults[i].compileError ? (
                                     <pre className="error-text">
                                       {runResults[i].compileError}
@@ -1506,31 +1804,31 @@ const Exam = () => {
                                   )}
                                 </div>
                               )}
-
-                              {/* Display Evaluation Results (Grading) */}
-                              {codeResults[i] && (
-                                <div className="testcases">
-                                  {codeResults[i].compileError ? (
-                                    <div className="output-error">
-                                      <h4>Error</h4>
-                                      <pre>{codeResults[i].compileError}</pre>
-                                    </div>
-                                  ) : (
-                                    <div className="output-success">
-                                      <h4>Evaluation Output:</h4>
-                                      <pre>
-                                        {codeResults[i].output || "(no output)"}
-                                      </pre>
-                                      <p className="marks-display">
-                                        Marks: {codeResults[i].marks} /{" "}
-                                        {q.maxMarks || ExamConfig.codingMarks}
-                                      </p>
-                                    </div>
-                                  )}
-                                </div>
-                              )}
                             </>
                           )}
+
+                          {/* Display Evaluation Results (Grading) */}
+                          {/* {codeResults[i] && (
+                            <div className="testcases">
+                              {codeResults[i].compileError ? (
+                                <div className="output-error">
+                                  <h4>Error</h4>
+                                  <pre>{codeResults[i].compileError}</pre>
+                                </div>
+                              ) : (
+                                <div className="output-success">
+                                  <h4>Evaluation Output:</h4>
+                                  <pre>
+                                    {codeResults[i].output || "(no output)"}
+                                  </pre>
+                                  <p className="marks-display">
+                                    Marks: {codeResults[i].marks} /{" "}
+                                    {q.maxMarks || ExamConfig.codingMarks}
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          )} */}
 
                           {techConfig.type === "codepad" && (
                             <>
@@ -1603,148 +1901,26 @@ const Exam = () => {
               </div>
             </>
           ) : (
-            <div className="result-page">
-              <h2>Exam Results</h2>
-              {malpracticeDetected && (
-                <div className="malpractice-warning">
-                  <FaExclamationTriangle />
-                  <h3>Malpractice Detected</h3>
-                  <p>Your test was auto-submitted due to leaving the page.</p>
-                </div>
-              )}
-              <div className="total-summary">
-                <h3>Overall Score</h3>
-                <div className="score-details">
-                  <p>
-                    MCQ:{" "}
-                    <span>
-                      {totals.mcq} / {selectedQuiz.length * ExamConfig.mcqMarks}
-                    </span>
-                  </p>
-                  <p>
-                    Blanks:{" "}
-                    <span>
-                      {totals.blanks} /{" "}
-                      {selectedBlanks.length * ExamConfig.blankMarks}
-                    </span>
-                  </p>
-                  {isCodingRoundAvailable && (
-                    <p>
-                      Coding:{" "}
-                      <span>
-                        {totals.coding} /{" "}
-                        {selectedCoding.reduce(
-                          (sum, q) =>
-                            sum + (q.maxMarks || ExamConfig.codingMarks),
-                          0
-                        )}
-                      </span>
-                    </p>
-                  )}
-                </div>
-                <p className="grand-total">
-                  Grand Total:{" "}
-                  <span>
-                    {totals.mcq + totals.blanks + totals.coding} /{" "}
-                    {maxTotalMarksDisplay}
-                  </span>
-                </p>
-                <button
-                  className="go-to-dashboard-button"
-                  onClick={handleGoToDashboard}
-                >
-                  Go to Dashboard
-                </button>
-              </div>
-
-              <div className="feedback-section">
-                <h3>Detailed Feedback</h3>
-
-                <h4>MCQ Questions</h4>
-                {selectedQuiz.map((q, i) => (
-                  <div key={`quiz-fb-${i}`} className="feedback-item">
-                    <p>
-                      <strong>Q:</strong> {q.question}
-                    </p>
-                    <p
-                      className={`feedback-answer ${
-                        quizResults[i]?.correct ? "correct" : "incorrect"
-                      }`}
-                    >
-                      <strong>Your Answer:</strong>{" "}
-                      {quizResults[i]?.chosen || "Not answered"}
-                    </p>
-                    {!quizResults[i]?.correct && (
-                      <p className="feedback-answer correct">
-                        <strong>Correct Answer:</strong> {q.answer}
-                      </p>
-                    )}
-                  </div>
-                ))}
-
-                <h4>Fill in the Blanks</h4>
-                {selectedBlanks.map((q, i) => (
-                  <div key={`blank-fb-${i}`} className="feedback-item">
-                    <p>
-                      <strong>Q:</strong> {q.question}
-                    </p>
-                    <p
-                      className={`feedback-answer ${
-                        blankResults[i]?.correct ? "correct" : "incorrect"
-                      }`}
-                    >
-                      <strong>Your Answer:</strong>{" "}
-                      {blankResults[i]?.entered || "Not answered"}
-                    </p>
-                    {!blankResults[i]?.correct && (
-                      <p className="feedback-answer correct">
-                        <strong>Correct Answer:</strong> {q.answer}
-                      </p>
-                    )}
-                  </div>
-                ))}
-
-                {isCodingRoundAvailable && (
-                  <>
-                    <h4>Coding Questions</h4>
-                    {selectedCoding.map((q, i) => (
-                      <div key={`code-fb-${i}`} className="feedback-item">
-                        <p>
-                          <strong>Q:</strong> {q.question}
-                        </p>
-                        <p className="marks-display">
-                          <strong>Marks Scored:</strong>{" "}
-                          {codeResults[i]?.marks || 0} /{" "}
-                          {q.maxMarks || ExamConfig.codingMarks}
-                        </p>
-                        <details>
-                          <summary>Show Solution & Your Code</summary>
-                          <div className="code-feedback-details">
-                            <h5>Your Submitted Code:</h5>
-                            <SyntaxHighlighter
-                              language={techConfig.language}
-                              style={coy}
-                              customStyle={{ borderRadius: "8px" }}
-                            >
-                              {answers[`code-${i}`] ||
-                                "// You did not submit any code for this question."}
-                            </SyntaxHighlighter>
-                            <h5>Correct Solution:</h5>
-                            <SyntaxHighlighter
-                              language={techConfig.language}
-                              style={coy}
-                              customStyle={{ borderRadius: "8px" }}
-                            >
-                              {q.answer}
-                            </SyntaxHighlighter>
-                          </div>
-                        </details>
-                      </div>
-                    ))}
-                  </>
-                )}
-              </div>
-            </div>
+            <ExamResult
+              totals={totals}
+              maxTotalMarksDisplay={maxTotalMarksDisplay}
+              selectedQuiz={selectedQuiz}
+              selectedBlanks={selectedBlanks}
+              selectedCoding={selectedCoding}
+              selectedPseudo={selectedPseudo}
+              quizResults={quizResults}
+              blankResults={blankResults}
+              codeResults={codeResults}
+              pseudoResults={pseudoResults}
+              answers={answers}
+              malpracticeDetected={malpracticeDetected}
+              technology={technology}
+              examId={examId}
+              techConfig={techConfig}
+              onGoToDashboard={handleGoToDashboard}
+              ExamConfig={ExamConfig}
+              isCodingRoundAvailable={isCodingRoundAvailable}
+            />
           )}
         </div>
       </div>

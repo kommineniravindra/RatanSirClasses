@@ -3,7 +3,7 @@ const sqlSnippets = [
   {
     caption: "createTable",
     snippet:
-      "CREATE TABLE ${1:TableName} (\n    ${2:id} INT PRIMARY KEY,\n    ${3:column_name} ${4:VARCHAR(255)}\n);",
+      "CREATE TABLE ${1:TableName} (\n    ${2:id} NUMBER PRIMARY KEY,\n    ${3:column_name} ${4:VARCHAR(255)}\n);",
     type: "snippet",
   },
   {
@@ -284,7 +284,7 @@ const sqlSnippets = [
   {
     caption: "createTableEmployees",
     snippet:
-      "CREATE TABLE Employees (\n    employee_id INT PRIMARY KEY,\n    first_name VARCHAR(50),\n    last_name VARCHAR(50),\n    email VARCHAR(100),\n    department_id INT,\n    hire_date DATE,\n    salary DECIMAL(10, 2)\n);",
+      "CREATE TABLE Employees (\n    employee_id NUMBER PRIMARY KEY,\n    first_name VARCHAR(50),\n    last_name VARCHAR(50),\n    email VARCHAR(100),\n    department_id NUMBER,\n    hire_date DATE,\n    salary DECIMAL(10, 2)\n);",
     type: "snippet",
   },
   {
@@ -298,7 +298,7 @@ const sqlSnippets = [
   {
     caption: "createTableDepartments",
     snippet:
-      "CREATE TABLE Departments (\n    department_id INT PRIMARY KEY,\n    department_name VARCHAR(100),\n    location VARCHAR(100)\n);",
+      "CREATE TABLE Departments (\n    department_id NUMBER PRIMARY KEY,\n    department_name VARCHAR(100),\n    location VARCHAR(100)\n);",
     type: "snippet",
   },
   {
@@ -312,7 +312,7 @@ const sqlSnippets = [
   {
     caption: "createTableProjects",
     snippet:
-      "CREATE TABLE Projects (\n    project_id INT PRIMARY KEY,\n    name VARCHAR(100),\n    start_date DATE,\n    end_date DATE,\n    budget DECIMAL(15, 2)\n);",
+      "CREATE TABLE Projects (\n    project_id NUMBER PRIMARY KEY,\n    name VARCHAR(100),\n    start_date DATE,\n    end_date DATE,\n    budget DECIMAL(15, 2)\n);",
     type: "snippet",
   },
   {
@@ -326,7 +326,7 @@ const sqlSnippets = [
   {
     caption: "createTableCustomers",
     snippet:
-      "CREATE TABLE Customers (\n    customer_id INT PRIMARY KEY,\n    name VARCHAR(100),\n    email VARCHAR(100),\n    phone VARCHAR(20),\n    city VARCHAR(50)\n);",
+      "CREATE TABLE Customers (\n    customer_id NUMBER PRIMARY KEY,\n    name VARCHAR(100),\n    email VARCHAR(100),\n    phone VARCHAR(20),\n    city VARCHAR(50)\n);",
     type: "snippet",
   },
   {
@@ -340,7 +340,7 @@ const sqlSnippets = [
   {
     caption: "createTableOrders",
     snippet:
-      "CREATE TABLE Orders (\n    order_id INT PRIMARY KEY,\n    customer_id INT,\n    order_date DATE,\n    total_amount DECIMAL(10, 2),\n    status VARCHAR(20)\n);",
+      "CREATE TABLE Orders (\n    order_id NUMBER PRIMARY KEY,\n    customer_id NUMBER,\n    order_date DATE,\n    total_amount DECIMAL(10, 2),\n    status VARCHAR(20)\n);",
     type: "snippet",
   },
   {
@@ -354,7 +354,7 @@ const sqlSnippets = [
   {
     caption: "createTableProducts",
     snippet:
-      "CREATE TABLE Products (\n    product_id INT PRIMARY KEY,\n    name VARCHAR(100),\n    category VARCHAR(50),\n    price DECIMAL(10, 2),\n    stock INT\n);",
+      "CREATE TABLE Products (\n    product_id NUMBER PRIMARY KEY,\n    name VARCHAR(100),\n    category VARCHAR(50),\n    price DECIMAL(10, 2),\n    stock NUMBER\n);",
     type: "snippet",
   },
   {
@@ -368,7 +368,7 @@ const sqlSnippets = [
   {
     caption: "createTableStudents",
     snippet:
-      "CREATE TABLE Students (\n    student_id INT PRIMARY KEY,\n    name VARCHAR(100),\n    dob DATE,\n    major VARCHAR(50),\n    gpa DECIMAL(3, 2)\n);",
+      "CREATE TABLE Students (\n    student_id NUMBER PRIMARY KEY,\n    name VARCHAR(100),\n    dob DATE,\n    major VARCHAR(50),\n    gpa DECIMAL(3, 2)\n);",
     type: "snippet",
   },
   {
@@ -382,7 +382,7 @@ const sqlSnippets = [
   {
     caption: "createTableCourses",
     snippet:
-      "CREATE TABLE Courses (\n    course_id INT PRIMARY KEY,\n    title VARCHAR(100),\n    credits INT,\n    department VARCHAR(50)\n);",
+      "CREATE TABLE Courses (\n    course_id NUMBER PRIMARY KEY,\n    title VARCHAR(100),\n    credits NUMBER,\n    department VARCHAR(50)\n);",
     type: "snippet",
   },
   {
@@ -396,7 +396,7 @@ const sqlSnippets = [
   {
     caption: "createTableInventory",
     snippet:
-      "CREATE TABLE Inventory (\n    item_id INT PRIMARY KEY,\n    item_name VARCHAR(100),\n    warehouse VARCHAR(50),\n    quantity INT\n);",
+      "CREATE TABLE Inventory (\n    item_id NUMBER PRIMARY KEY,\n    item_name VARCHAR(100),\n    warehouse VARCHAR(50),\n    quantity NUMBER\n);",
     type: "snippet",
   },
   {
@@ -410,7 +410,7 @@ const sqlSnippets = [
   {
     caption: "createTableSalaries",
     snippet:
-      "CREATE TABLE Salaries (\n    payment_id INT PRIMARY KEY,\n    employee_id INT,\n    amount DECIMAL(10, 2),\n    payment_date DATE\n);",
+      "CREATE TABLE Salaries (\n    payment_id NUMBER PRIMARY KEY,\n    employee_id NUMBER,\n    amount DECIMAL(10, 2),\n    payment_date DATE\n);",
     type: "snippet",
   },
   {

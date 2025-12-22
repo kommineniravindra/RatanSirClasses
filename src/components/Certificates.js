@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
-import Swal from "sweetalert2";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   FaTrophy,
   FaLock,
@@ -48,7 +49,7 @@ const calculateProgressMetrics = (courseData, maxMarksMap) => {
 // -------------------------------------------------------------
 const CertificateDisplay = ({ course, userName }) => {
   const certificateRef = useRef(null);
-  const currentUserName = userName || "Student Name";
+  const currentUserName = localStorage.getItem("userName") || "Guest";
   const certId = `CERT-${new Date().getFullYear()}-XP${
     Math.floor(Math.random() * 900) + 100
   }`;
@@ -69,14 +70,7 @@ Support : help.codepulse@gmail.com
   const handleDownload = async () => {
     if (!certificateRef.current) return;
 
-    Swal.fire({
-      title: "Generating PDF...",
-      text: "Please wait, this might take a moment.",
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
+    toast.info("Generating PDF... Please wait.");
 
     try {
       const canvas = await html2canvas(certificateRef.current, {
@@ -93,16 +87,10 @@ Support : help.codepulse@gmail.com
       pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
       pdf.save(`${currentUserName}_${courseTitle}_Certificate.pdf`);
 
-      Swal.close();
-      Swal.fire("Success!", "Your certificate has been downloaded.", "success");
+      toast.success("Certificate Downloaded Successfully!");
     } catch (error) {
       console.error("PDF generation failed:", error);
-      Swal.close();
-      Swal.fire(
-        "Error",
-        "Failed to generate PDF. Check console for details.",
-        "error"
-      );
+      toast.error("Failed to generate PDF.");
     }
   };
 
@@ -180,6 +168,7 @@ Support : help.codepulse@gmail.com
       >
         <FaDownload className="download-icon" /> Download Certificate (PDF)
       </motion.button>
+      <ToastContainer position="bottom-right" theme="light" />
     </motion.div>
   );
 };

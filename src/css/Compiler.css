@@ -62,7 +62,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 0 24px;
+    padding: 0;
     height: 75px;
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(12px);
@@ -71,32 +71,19 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
     z-index: 20;
     flex-shrink: 0;
-    gap: 20px;
 }
 
-.compiler-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    /* Darker Gradient for Light Mode visibility */
-    background: linear-gradient(to right, #4338ca, #7c3aed);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    margin: 0;
-    letter-spacing: -0.02em;
-    display: flex;
-    align-items: center;
-    gap: 1px;
-}
+
 
 .compiler-nav {
     display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    gap: 2px;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 0;
+    /* Removing gap to ensure full flush look if desired, or keep small */
     align-items: center;
-    /* padding: 8px 12px; */
-    margin-top: 10px;
-    margin-bottom: 10px;
+    padding: 0;
+    margin: 0;
+    width: 100%;
 }
 
 /* Main Layout */
@@ -105,9 +92,25 @@
     flex: 1;
     padding: 0;
     gap: 0;
-    overflow: visible;
+    overflow: hidden;
+    /* Prevent dragging/overflow beyond 100vh */
+    min-height: 0;
+    /* Critical for flex nesting */
     position: relative;
     z-index: 10;
+}
+
+/* ... existing styles ... */
+
+.sql-table th {
+    background: #43a605;
+    color: white;
+    /* font-weight: bold; */
+    text-transform: uppercase;
+    position: sticky;
+    /* Sticky Header */
+    top: 0;
+    z-index: 5;
 }
 
 /* Section Containers - Clean White look */
@@ -119,8 +122,13 @@
     border: 1px solid var(--border-color);
     border-radius: 0;
     box-shadow: none;
-    overflow: visible;
+    overflow: hidden;
+    /* Constrain content */
     transition: all 0.3s ease;
+    min-width: 0;
+    /* Enable flex item shrinking */
+    min-height: 0;
+    /* Fix for nested flex scrolling */
 }
 
 .compiler-section:hover {
@@ -242,7 +250,7 @@
 
 /* Buttons */
 .btn-compiler {
-    color: #4f46e5;
+    color: #000000;
     border: 1px solid transparent;
     border-radius: 8px;
     cursor: pointer;
@@ -381,6 +389,7 @@
     display: flex;
     flex-direction: column;
     min-height: 0;
+    min-width: 0;
 }
 
 .output-content.preview-mode {
@@ -462,6 +471,7 @@
     white-space: pre-wrap;
     flex: 1;
     overflow-y: auto;
+    overflow-x: auto;
     line-height: 1.6;
 }
 
@@ -639,9 +649,28 @@
 
 /* SQL Table Output */
 .sql-result-container {
-    width: auto;
-    overflow-x: auto;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     padding-bottom: 5px;
+    overflow-x: auto;
+    display: block;
+}
+
+/* Console specific: Vertical & Horizontal Scroll on Wrapper */
+.output-content .sql-result-container {
+    flex: 1;
+    overflow: auto;
+    /* Handle BOTH X and Y scrolling */
+    min-height: 0;
+}
+
+.output-content .table-overflow {
+    overflow: visible;
+    /* Disable inner scroll, let wrapper handle it */
+    width: fit-content;
+    /* Allow table to expand wrapper */
+    min-width: 100%;
 }
 
 .sql-success-msg {
@@ -670,6 +699,7 @@
     /* INNER BORDERS dotted */
     text-align: left;
     border-spacing: 0;
+    white-space: nowrap;
 }
 
 /* Header */
@@ -812,11 +842,13 @@
 
 .table-overflow {
     overflow-x: auto;
+    width: 100%;
+    display: block;
 }
 
 /* =========================================
-   RESPONSIVE DESIGN SYSTEM
-   ========================================= */
+    RESPONSIVE DESIGN SYSTEM
+    ========================================= */
 
 /* 1. Large Screens & High Res Monitors (Min-width: 1441px) */
 @media (min-width: 1441px) {
@@ -845,9 +877,7 @@
         font-size: 1.1rem;
     }
 
-    .ace-editor-container {
-        font-size: 16px !important;
-    }
+
 }
 
 /* 2. Laptops & Small Desktops (Max-width: 1200px) */
@@ -1102,4 +1132,259 @@
         /* Better: Scale down */
         transform: scale(0.9);
     }
+}
+
+/* =========================================
+   REFACTORED INLINE STYLES (New Additions)
+   ========================================= */
+
+.lang-icon-header {
+    margin-right: 3px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.dropdown-fixed-position {
+    z-index: 2147483647;
+}
+
+.console-header-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+}
+
+/* Console Input Overlay Refinement */
+.console-input-overlay {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: 100%;
+    overflow-y: auto;
+    font-family: monospace;
+    color: #000;
+    font-weight: bold;
+    font-size: 18px;
+    background-color: #fff;
+}
+
+.prompt-line {
+    display: flex;
+    align-items: center;
+}
+
+.console-input {
+    background-color: transparent;
+    border: none;
+    color: #000;
+    outline: none;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 8px;
+    flex: 1;
+}
+
+.loading-indicator {
+    margin-top: 15px;
+    color: #0000FF;
+    font-weight: bold;
+    font-family: monospace;
+}
+
+.input-fallback-text {
+    color: #aaa;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.console-input-textarea {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    border: 1px solid #333;
+    padding: 10px;
+    font-family: monospace;
+    font-size: 16px;
+    resize: none;
+    outline: none;
+    height: 150px;
+    width: 100%;
+}
+
+.btn-execute {
+    width: fit-content;
+    align-self: flex-end;
+    margin-top: 10px;
+}
+
+.btn-execute-icon {
+    margin-right: 5px;
+}
+
+.output-pre-styled {
+    flex: 1;
+    margin-top: 0;
+    border-radius: 0;
+}
+
+/* PDF Generation Styles */
+.pdf-hidden-layout {
+    position: absolute;
+    top: -10000px;
+    left: -10000px;
+    z-index: -1;
+}
+
+.pdf-page-code-container {
+    width: fit-content;
+    min-width: 210mm;
+    min-height: 297mm;
+    background: white;
+    color: black;
+    padding: 40px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    page-break-after: always;
+}
+
+.pdf-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #1d13e2;
+    padding-bottom: 10px;
+}
+
+.pdf-title {
+    color: #1d13e2;
+    margin: 0;
+    font-size: 24px;
+}
+
+.pdf-subtitle {
+    margin: 5px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.pdf-student-info {
+    text-align: right;
+}
+
+.pdf-student-name {
+    margin: 2px 0;
+    font-weight: bold;
+}
+
+.pdf-date {
+    margin: 2px 0;
+    font-size: 12px;
+    color: #666;
+}
+
+.pdf-section-title {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    color: #333;
+    margin-top: 10px;
+}
+
+.pdf-code-block {
+    margin: 10px 0;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    overflow: hidden;
+    flex: 1;
+}
+
+.pdf-footer-wrapper {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #999;
+}
+
+.pdf-page-output-container {
+    width: fit-content;
+    min-width: 210mm;
+    min-height: 297mm;
+    background: white;
+    color: black;
+    padding: 40px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.pdf-result-box {
+    margin-top: 10px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    min-height: 100px;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+.pdf-sql-item {
+    border-bottom: 1px dashed #ccc;
+}
+
+.pdf-sql-success {
+    color: green;
+    font-weight: bold;
+}
+
+.pdf-sql-error {
+    color: red;
+}
+
+.pdf-table-wrapper {
+    overflow: visible;
+    margin-top: 5px;
+}
+
+.pdf-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000;
+}
+
+.pdf-table-th {
+    border: 1px solid #000;
+    padding: 5px;
+    background: #4caf50;
+    color: white;
+}
+
+.pdf-table-row-header {
+    background: #f0f0f0;
+}
+
+.pdf-table-td {
+    border: 1px solid #000;
+    padding: 5px;
+}
+
+.pdf-pre-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 0;
+}
+
+.pdf-code-block pre {
+    margin: 0 !important;
+    font-size: 12px !important;
+}
+
+/* Ensure Toasts are always visible on top */
+.Toastify__toast-container {
+    z-index: 2147483647 !important;
 }

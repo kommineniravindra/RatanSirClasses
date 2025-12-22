@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   FaHome,
@@ -126,18 +132,36 @@ const Quiz = () => {
         const authHeaders = { headers: { Authorization: `Bearer ${token}` } };
 
         // Save/update results in the database (Backend will send the email)
-        try {
-          await axios.post("/api/quizzes/submit", payload, authHeaders);
-        } catch (error) {
-          if (
-            error.response &&
-            error.response.status === 400 &&
-            error.response.data.message.includes("already exists")
-          ) {
-            await axios.patch("/api/quizzes/submit", payload, authHeaders);
-          } else {
+        const submitWithRetry = async (retries = 3, delay = 1000) => {
+          try {
+            await axios.post("/api/quizzes/submit", payload, authHeaders);
+          } catch (error) {
+            // If it's a conflict (already exists), handle it immediately (no retry needed for logic error)
+            if (
+              error.response &&
+              error.response.status === 400 &&
+              error.response.data.message.includes("already exists")
+            ) {
+              await axios.patch("/api/quizzes/submit", payload, authHeaders);
+              return; // Success after patch
+            }
+
+            // For other errors (network, 500s), retry if attempts remain
+            if (retries > 0) {
+              console.warn(
+                `Submission failed, retrying in ${delay}ms... (${retries} attempts left)`
+              );
+              await new Promise((resolve) => setTimeout(resolve, delay));
+              return submitWithRetry(retries - 1, delay * 2);
+            }
             throw error;
           }
+        };
+
+        try {
+          await submitWithRetry();
+        } catch (error) {
+          throw error; // Let the outer catch handle the final failure
         }
 
         Swal.fire({
@@ -264,34 +288,67 @@ const Quiz = () => {
     }
   }, [technology, quizId, startQuiz]);
 
+  // Stabilize handleSubmit for use in the timer
+  const handleSubmitRef = useRef(handleSubmit);
   useEffect(() => {
-    if (timerRunning && mcqs.length > 0) {
-      const progress = {
-        selectedLanguage,
-        currentChapter,
-        mcqs,
-        blanks,
-        answersMCQ,
-        answersBlanks,
-        timer,
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-    }
-  }, [
-    timer,
-    answersMCQ,
-    answersBlanks,
-    mcqs,
-    blanks,
+    handleSubmitRef.current = handleSubmit;
+  }, [handleSubmit]);
+
+  // Track if 2-minute warning has been shown to avoid repeated toasts
+  const hasShownWarningRef = useRef(false);
+
+  // Keep a ref to the latest state so we can save it anytime without dependencies
+  const stateRef = useRef({
     selectedLanguage,
     currentChapter,
-    timerRunning,
-  ]);
+    mcqs,
+    blanks,
+    answersMCQ,
+    answersBlanks,
+    timer,
+  });
 
   useEffect(() => {
+    stateRef.current = {
+      selectedLanguage,
+      currentChapter,
+      mcqs,
+      blanks,
+      answersMCQ,
+      answersBlanks,
+      timer,
+    };
+  }, [
+    selectedLanguage,
+    currentChapter,
+    mcqs,
+    blanks,
+    answersMCQ,
+    answersBlanks,
+    timer,
+  ]);
+
+  // 2. Save on answer change (immediate)
+  useEffect(() => {
+    if (timerRunning && mcqs.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(stateRef.current));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [answersMCQ, answersBlanks]);
+
+  // 3. Save timer periodically (every 5 seconds) to reduce disk I/O
+  useEffect(() => {
+    if (timerRunning && timer > 0 && timer % 5 === 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(stateRef.current));
+    }
+  }, [timer, timerRunning]);
+
+  // --- Timer Logic ---
+  useEffect(() => {
     if (timerRunning && timer > 0) {
-      // 2-Minute Warning
-      if (timer === 120) {
+      // 2-Minute Warning (Trigger once when entering the <= 120s zone)
+      if (timer <= 120 && !hasShownWarningRef.current) {
+        hasShownWarningRef.current = true;
         Swal.fire({
           toast: true,
           position: "top-end",
@@ -303,12 +360,29 @@ const Quiz = () => {
         });
       }
 
-      const timerId = setInterval(() => setTimer((prev) => prev - 1), 1000);
+      // Reset warning flag if timer is manually reset (e.g. retry)
+      if (timer > 120) {
+        hasShownWarningRef.current = false;
+      }
+
+      const timerId = setInterval(() => {
+        setTimer((prev) => {
+          if (prev <= 1) {
+            clearInterval(timerId);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      // Cleanup interval on unmount or if dependencies change (timerRunning)
+      // Note: We deliberately do NOT include 'timer' or 'handleSubmit' in the dependency array
+      // to prevents the interval from resetting on every tick or answer change.
       return () => clearInterval(timerId);
     } else if (timer === 0 && timerRunning) {
-      handleSubmit(true); // Force submit
+      handleSubmitRef.current(true); // Force submit using the stable ref
     }
-  }, [timer, timerRunning, handleSubmit]);
+  }, [timerRunning]); // ONLY restart interval if running state changes
 
   const handleAnswerChangeMCQ = (index, value) => {
     const newAnswers = [...answersMCQ];

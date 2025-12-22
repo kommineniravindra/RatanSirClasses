@@ -1,22 +1,82 @@
 [
   {
-    "question": "In Java, every class must be inside a _______ file.",
-    "answer": "Class"
+    "question": "Collections Framework is present in __________ package.",
+    "answer": "java.util"
   },
   {
-    "question": "The keyword used to inherit a class in Java is _______.",
-    "answer": "extends"
+    "question": "__________ Collection allows duplicate elements.",
+    "answer": "List"
   },
   {
-    "question": "The root class of all Java classes is _______.",
-    "answer": "Object"
+    "question": "__________ Collection does NOT allow duplicate elements.",
+    "answer": "Set"
   },
   {
-    "question": "Java code is compiled into _______ bytecode.",
-    "answer": "JVM"
+    "question": "__________ interface stores data in key-value pairs.",
+    "answer": "Map"
   },
   {
-    "question": "The method used as an entry point in Java is _______.",
-    "answer": "main"
+    "question": "____________ is the parent interface of Collection.",
+    "answer": "Iterable"
+  },
+  {
+    "question": "___________ List implementation is best for frequent insertions and deletions?",
+    "answer": "LinkedList"
+  },
+  {
+    "question": "___________ List implementation is best for frequent reading and searching?",
+    "answer": "ArrayList"
+  },
+  {
+    "question": "___________ List implementation is best for thread-safe operation?",
+    "answer": "Vector"
+  },
+  {
+    "question": "__________ is a bidirectional cursor that can traverse a List in both forward and backward directions.",
+    "answer": "ListIterator"
+  },
+  {
+    "question": "One _________ interface in particular is not considered to be a true Collection.",
+    "answer": "Map"
+  },
+  {
+    "question": "__________ cursor is applicable to all Collection classes in Java.",
+    "answer": "Iterator"
+  },
+  {
+    "question": "__________ does NOT allow null elements.",
+    "answer": "TreeSet"
+  },
+  {
+    "question": "Natural sorting is achieved using __________ interface.",
+    "answer": "Comparable"
+  },
+  {
+    "question": "Customized sorting is achieved using __________ interface.",
+    "answer": "Comparator"
+  },
+  {
+    "question": "What is the Ordered Collection ___________",
+    "answer": "List"
+  },
+  {
+    "question": "The map key value pair also knows as _______",
+    "answer": "Entry"
+  },
+  {
+    "question": "When we insert the duplicate data in Set it throws an error ______(true/false)",
+    "answer": "false"
+  },
+  {
+    "question": "In TreeMap by default the data sorted based on values ________(true/false)",
+    "answer": "false"
+  },
+  {
+    "question": "Is it List allows multiple null data insertion ________(yes/no)",
+    "answer": "yes"
+  },
+  {
+    "question": "Is it Set allows multiple null data insertion ________(yes/no)",
+    "answer": "no"
   }
 ]

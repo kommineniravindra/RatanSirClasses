@@ -47,6 +47,7 @@ import sqlTopics from "../learning/sql/sqlTopics";
 import javaSnippets from "../utils/javaSnippets";
 import sqlSnippets from "../utils/sqlSnippets";
 import { generateJavaCode } from "../utils/javaCodeGenerator";
+import { analyzeInputPrompts } from "../utils/codeAnalysis";
 import { availableThemes } from "../utils/editorThemes";
 import { languageBoilerplates } from "../utils/languageBoilerplates";
 
@@ -491,6 +492,12 @@ const StartLearning1 = ({
   const [showOutput, setShowOutput] = useState(false);
   const [evaluationResult, setEvaluationResult] = useState(null);
 
+  // Sequential Input State
+  const [isWaitingForInput, setIsWaitingForInput] = useState(false);
+  const [detectedPrompts, setDetectedPrompts] = useState([]);
+  const [promptValues, setPromptValues] = useState({});
+  const [currentPromptIndex, setCurrentPromptIndex] = useState(0);
+
   const [courseContests, setCourseContests] = useState({});
   const [chapterExampleCounts, setChapterExampleCounts] = useState({});
 
@@ -749,7 +756,13 @@ const StartLearning1 = ({
     }
   };
 
-  const handleEvaluateCode = async () => {
+  const handleEvaluateCode = async (inputsOverride = null) => {
+    // If called via button click, the event object might be passed as first arg.
+    // Ensure inputsOverride is strictly a string if provided, or null.
+    // React events are objects, so check type.
+    const actualInputsOverride =
+      typeof inputsOverride === "string" ? inputsOverride : null;
+
     if (!questionData) return;
     if (!code || !code.trim()) {
       showModal("Empty Code", "Please write some code first!", "warning");
@@ -769,6 +782,20 @@ const StartLearning1 = ({
     const isCodepad = CODEPAD_LANGS.includes(langKey);
     const maxMarks = questionData.maxMarks || ExamConfig.codingMarks;
     const expectedOutput = (questionData.sampleOutput || "").toString();
+
+    // 1. SMART PROMPT DETECTION (Java Only)
+    if (!actualInputsOverride && langKey === "java") {
+      const prompts = analyzeInputPrompts(code, "java");
+      if (prompts.length > 0) {
+        setDetectedPrompts(prompts);
+        setPromptValues({});
+        setCurrentPromptIndex(0);
+        setIsWaitingForInput(true);
+        setShowOutput(true); // Open output pane to show wizard
+        setOutput(""); // Clear previous output
+        return;
+      }
+    }
 
     setIsRunning(true);
     setShowOutput(true);
@@ -1072,13 +1099,26 @@ const StartLearning1 = ({
 
       // Call Piston API
       try {
+        let codeToSend = code;
+        if (apiLang === "java") {
+          const {
+            prepareJavaCodeForExecution,
+          } = require("../utils/javaCodeGenerator");
+          codeToSend = prepareJavaCodeForExecution(code);
+        }
+
+        const fileData = { content: codeToSend };
+        if (apiLang === "java") {
+          fileData.name = "Main.java";
+        }
+
         const response = await axios.post(
           "https://emkc.org/api/v2/piston/execute",
           {
             language: apiLang,
             version: "*",
-            files: [{ content: code }],
-            stdin: questionData?.sampleInput || "",
+            files: [fileData],
+            stdin: actualInputsOverride || questionData?.sampleInput || "",
           }
         );
 
@@ -1097,7 +1137,21 @@ const StartLearning1 = ({
       }
 
       const cleanedUserOutput = (runOutput || "").toString().trim();
-      setOutput(runOutput || "");
+
+      // Inject Inputs for Echo (Black/White Terminal Style)
+      let finalOutput = runOutput || "";
+      if (actualInputsOverride && detectedPrompts.length > 0) {
+        detectedPrompts.forEach((prompt, idx) => {
+          const val = promptValues[idx] || "";
+          if (finalOutput.includes(prompt)) {
+            finalOutput = finalOutput.replace(
+              prompt,
+              prompt + " " + val + "\n"
+            );
+          }
+        });
+      }
+      setOutput(finalOutput);
 
       let finalScore = 0;
       let resultMessage = "";
@@ -1137,6 +1191,10 @@ const StartLearning1 = ({
       });
     } finally {
       setIsRunning(false);
+      // Clean up wizard state
+      setIsWaitingForInput(false);
+      setDetectedPrompts([]);
+      setCurrentPromptIndex(0);
     }
   };
 
@@ -1603,7 +1661,106 @@ const StartLearning1 = ({
               {showOutput && (
                 <div className="output-box-container">
                   <h4>🧾Output/Preview:</h4>
-                  {isCodepad ? (
+                  {isWaitingForInput ? (
+                    /* Sequential Terminal Input Wizard */
+                    <div
+                      className="console-input-overlay"
+                      style={{
+                        padding: "15px",
+                        backgroundColor: "#fff",
+                        color: "#000", // Black text
+                        border: "1px solid #ccc",
+                        borderRadius: "5px",
+                        marginBottom: "15px",
+                        fontFamily: "monospace",
+                        minHeight: "150px",
+                        fontWeight: "bold", // Bold
+                        fontSize: "18px", // 18px
+                      }}
+                    >
+                      <h4 style={{ color: "#000", marginBottom: "10px" }}>
+                        Interactive Input:
+                      </h4>
+
+                      {/* History */}
+                      {detectedPrompts.map((prompt, idx) => {
+                        if (idx < currentPromptIndex) {
+                          return (
+                            <div
+                              key={idx}
+                              style={{ marginBottom: "5px", opacity: 0.7 }}
+                            >
+                              <span>{prompt} </span>
+                              <strong>{promptValues[idx]}</strong>
+                            </div>
+                          );
+                        }
+                        return null;
+                      })}
+
+                      {/* Active Input */}
+                      {currentPromptIndex < detectedPrompts.length && (
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <span>{detectedPrompts[currentPromptIndex]} </span>
+                          <input
+                            autoFocus
+                            type="text"
+                            disabled={isRunning}
+                            style={{
+                              flex: 1,
+                              marginLeft: "10px",
+                              border: "none",
+                              borderBottom: "1px solid #000",
+                              outline: "none",
+                              fontFamily: "monospace",
+                              fontSize: "18px", // 18px
+                              fontWeight: "bold", // Bold
+                              color: "#000",
+                            }}
+                            value={promptValues[currentPromptIndex] || ""}
+                            onChange={(e) =>
+                              setPromptValues({
+                                ...promptValues,
+                                [currentPromptIndex]: e.target.value,
+                              })
+                            }
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" && !isRunning) {
+                                const nextIndex = currentPromptIndex + 1;
+                                if (nextIndex < detectedPrompts.length) {
+                                  setCurrentPromptIndex(nextIndex);
+                                } else {
+                                  // Execute
+                                  const inputs = detectedPrompts.map(
+                                    (_, k) => promptValues[k] || ""
+                                  );
+                                  // Capture last value explicitly
+                                  inputs[currentPromptIndex] = e.target.value;
+
+                                  // Pass inputs to handleEvaluateCode
+                                  handleEvaluateCode(inputs.join("\n"));
+                                }
+                              }
+                            }}
+                          />
+                        </div>
+                      )}
+                      {/* Loading Indicator */}
+                      {isRunning && (
+                        <div
+                          style={{
+                            marginTop: "15px",
+                            color: "#0000FF", // Blue
+                            fontWeight: "bold",
+                            fontFamily: "monospace",
+                          }}
+                        >
+                          Codepulse-R generating Output.......
+                        </div>
+                      )}
+                    </div>
+                  ) : /* Existing Output Logic */
+                  isCodepad ? (
                     <iframe
                       title="Preview"
                       srcDoc={output}
@@ -1702,13 +1859,13 @@ const StartLearning1 = ({
 
   return (
     <div className="learning-chapters-container">
-      <button className="learning-back-btn" onClick={handleBackToDashboard}>
-        <FaArrowAltCircleLeft size={18} style={{ marginRight: "1px" }} />
-        Back to Courses
-      </button>
-      <h2 className="learning-content-header">
-        <span>{selectedCourse} Course </span>
-      </h2>
+      <div className="course-header-row">
+        <button className="learning-back-btn" onClick={handleBackToDashboard}>
+          <FaArrowAltCircleLeft size={18} style={{ marginRight: "1px" }} />
+          Back to Courses
+        </button>
+        <span className="course-title-text">{selectedCourse} Course</span>
+      </div>
 
       <div className="course-content-layout">
         <div className="chapter-accordion-container">
@@ -1782,11 +1939,11 @@ const StartLearning1 = ({
                           }`}
                         >
                           <h4 className="exercise-title">
-                            Exercise {exerciseNum}: {exercise.title}
+                            Exercise {exerciseNum}: &emsp;
+                            <span className="exercise-description">
+                              {exercise.description}
+                            </span>
                           </h4>
-                          <p className="exercise-description">
-                            {exercise.description}
-                          </p>
                           <button
                             className="exercise-start-btn"
                             disabled={!exUnlocked}

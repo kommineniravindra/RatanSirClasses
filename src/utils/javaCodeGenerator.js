@@ -87,11 +87,9 @@ const findClassScopes = (sourceCode) => {
   return resultScopes;
 };
 
-// Helper: Parse fields only at top level of the scope (ignore methods/nested blocks)
 const findFieldsInScope = (sourceCode, scope) => {
   const { bodyStartIndex, endIndex } = scope;
-  // We only care about the content between { and }
-  // Scan carefully again to respect nested braces
+
   const Token = {
     CODE: 0,
     STRING: 1,
@@ -104,14 +102,9 @@ const findFieldsInScope = (sourceCode, scope) => {
   let buffer = "";
   const fields = [];
 
-  // Correct regex for loose field matching (type name [= val];)
-  // Matches:  modifiers type name (= val)?;
-  // Group 1: type
-  // Group 2: name
   const statementRegex =
     /^\s*(?:(?:public|private|protected|static|final|volatile|transient)\s+)*([a-zA-Z0-9_<>\[\]]+)\s+([a-zA-Z0-9_]+)(?:\s*=.*?)?\s*$/;
 
-  // Ignore keywords that look like types
   const keywords = new Set([
     "return",
     "if",
@@ -151,13 +144,12 @@ const findFieldsInScope = (sourceCode, scope) => {
         i++;
       } else if (char === "{") {
         braceLevel++;
-        buffer = ""; // Clear buffer on entering block (it was a method sig or something)
+        buffer = "";
       } else if (char === "}") {
         braceLevel--;
-        buffer = ""; // Clear buffer on exiting block
+        buffer = "";
       } else if (char === ";") {
         if (braceLevel === 0) {
-          // Possible field statement
           const trimmed = buffer.trim();
           const match = trimmed.match(statementRegex);
           if (match) {
@@ -194,167 +186,157 @@ const findFieldsInScope = (sourceCode, scope) => {
  * @param {string} type - The type of code to generate (all, constructor, getters, etc.).
  * @returns {object} { success: boolean, newCode: string, message: string }
  */
-export const generateJavaCode = (currentCode, type) => {
-  // 1. Find scopes
-  const scopes = findClassScopes(currentCode);
+export const generateJavaCode = (currentCode, type, cursorIndex = -1) => {
+  let scopes = findClassScopes(currentCode);
+  let targets = [];
 
-  // 2. Find fields strictly in scope
-  let targetScope = null;
-  let targetFields = [];
-
-  for (const scope of scopes) {
-    const fields = findFieldsInScope(currentCode, scope);
-    if (fields.length > 0) {
-      targetScope = scope;
-      targetFields = fields;
-      break; // Pick first class with fields
+  if (cursorIndex !== -1) {
+    const cursorTarget = scopes.find(
+      (s) => cursorIndex >= s.startIndex && cursorIndex <= s.endIndex
+    );
+    if (cursorTarget) {
+      targets.push(cursorTarget);
     }
   }
 
-  // If no fields found, maybe we should default to the FIRST valid class anyway?
-  // User might want to generate a constructor for a class with NO fields? (Empty constructor)
-  // But usually boilerplate needs fields.
-  // Exception: Constructor (can be empty).
-
-  if (!targetScope && scopes.length > 0) {
-    // Fallback: Pick the first class if it exists, even if no fields
-    targetScope = scopes[0];
+  if (targets.length === 0) {
+    targets = scopes;
   }
 
-  if (!targetScope) {
-    return {
-      success: false,
-      message: "No class found. Define a class first.",
-    };
+  if (targets.length === 0) {
+    return { success: false, message: "No class found. Define a class first." };
   }
 
-  // If we have a scope but no fields, and user wants getters/setters, warn properly.
-  if (
-    targetFields.length === 0 &&
-    type !== "constructor" &&
-    type !== "tostring" &&
-    type !== "all"
-  ) {
-    return {
-      success: false,
-      message:
-        "No fields found in class '" +
-        targetScope.className +
-        "'. define fields like 'int id;' first.",
-    };
-  }
-
-  const { className } = targetScope;
-  const fields = targetFields;
-
-  let generated = "\n\n";
-
-  // --- Code Generation Strings ---
-
-  // Constructor
-  if (type === "all" || type === "constructor") {
-    // If no fields, generate empty constructor
-    if (fields.length === 0) {
-      generated += `  public ${className}() {\n  }\n\n`;
-    } else {
-      const params = fields.map((f) => `${f.type} ${f.name}`).join(", ");
-      const body = fields
-        .map((f) => `    this.${f.name} = ${f.name};`)
-        .join("\n");
-      generated += `  public ${className}(${params}) {\n${body}\n  }\n\n`;
-    }
-  }
-
-  // Getters
-  if (type === "all" || type === "getters") {
-    fields.forEach((f) => {
-      const capName = f.name.charAt(0).toUpperCase() + f.name.slice(1);
-      generated += `  public ${f.type} get${capName}() {\n    return ${f.name};\n  }\n`;
-    });
-  }
-
-  // Setters
-  if (type === "all" || type === "setters") {
-    fields.forEach((f) => {
-      const capName = f.name.charAt(0).toUpperCase() + f.name.slice(1);
-      generated += `  public void set${capName}(${f.type} ${f.name}) {\n    this.${f.name} = ${f.name};\n  }\n\n`;
-    });
-  }
-
-  // toString
-  if (type === "all" || type === "tostring") {
-    if (fields.length === 0) {
-      generated += `  @Override\n  public String toString() {\n    return "${className} []";\n  }\n\n`;
-    } else {
-      const fieldStr = fields
-        .map((f) => `"${f.name}=" + ${f.name}`)
-        .join(' + ", " + ');
-      generated += `  @Override\n  public String toString() {\n    return "${
-        className ? className + " [" : "Object ["
-      }" + ${fieldStr} + "]";\n  }\n\n`;
-    }
-  }
-
-  // HashCode & Equals
-  if (type === "all" || type === "hashcode-equals") {
-    if (fields.length === 0)
-      return { success: false, message: "Use fields for hashCode/equals." };
-
-    generated += `  @Override\n  public int hashCode() {\n`;
-    generated += `    return java.util.Objects.hash(${fields
-      .map((f) => f.name)
-      .join(", ")});\n`;
-    generated += `  }\n\n`;
-
-    generated += `  @Override\n  public boolean equals(Object obj) {\n`;
-    generated += `    if (this == obj) return true;\n`;
-    generated += `    if (obj == null || getClass() != obj.getClass()) return false;\n`;
-    generated += `    ${className} other = (${className}) obj;\n`;
-
-    const checks = fields
-      .map((f) => {
-        if (
-          [
-            "int",
-            "long",
-            "double",
-            "float",
-            "boolean",
-            "char",
-            "byte",
-            "short",
-          ].includes(f.type)
-        ) {
-          return `    if (${f.name} != other.${f.name}) return false;`;
-        } else {
-          return `    if (!java.util.Objects.equals(${f.name}, other.${f.name})) return false;`;
-        }
-      })
-      .join("\n");
-    generated += checks + "\n";
-    generated += `    return true;\n  }\n\n`;
-  }
-
-  // 3. Insert and Import Logic
-  let nextCode = currentCode;
   const importsNeeded = new Set();
-  fields.forEach((f) => {
-    if (f.type.startsWith("List") || f.type.startsWith("ArrayList")) {
-      importsNeeded.add("import java.util.List;");
-      importsNeeded.add("import java.util.ArrayList;");
-    }
-    if (f.type.startsWith("Map") || f.type.startsWith("HashMap")) {
-      importsNeeded.add("import java.util.Map;");
-      importsNeeded.add("import java.util.HashMap;");
-    }
-    if (f.type.startsWith("Set") || f.type.startsWith("HashSet")) {
-      importsNeeded.add("import java.util.Set;");
-      importsNeeded.add("import java.util.HashSet;");
-    }
-    if (f.type === "Date") importsNeeded.add("import java.util.Date;");
-    if (f.type === "UUID") importsNeeded.add("import java.util.UUID;");
-  });
+  const updates = []; 
 
+  for (const scope of targets) {
+    const fields = findFieldsInScope(currentCode, scope);
+
+    if (
+      fields.length === 0 &&
+      type !== "constructor" &&
+      type !== "tostring" &&
+      type !== "all"
+    ) {
+      continue;
+    }
+
+    // Collect imports
+    fields.forEach((f) => {
+      if (f.type.startsWith("List") || f.type.startsWith("ArrayList")) {
+        importsNeeded.add("import java.util.List;");
+        importsNeeded.add("import java.util.ArrayList;");
+      }
+      if (f.type.startsWith("Map") || f.type.startsWith("HashMap")) {
+        importsNeeded.add("import java.util.Map;");
+        importsNeeded.add("import java.util.HashMap;");
+      }
+      if (f.type.startsWith("Set") || f.type.startsWith("HashSet")) {
+        importsNeeded.add("import java.util.Set;");
+        importsNeeded.add("import java.util.HashSet;");
+      }
+      if (f.type === "Date") importsNeeded.add("import java.util.Date;");
+      if (f.type === "UUID") importsNeeded.add("import java.util.UUID;");
+    });
+
+    // Generate Snippet
+    const { className } = scope;
+    let generated = "\n\n";
+
+    // Constructor
+    if (type === "all" || type === "constructor") {
+      if (fields.length === 0) {
+        generated += `  public ${className}() {\n  }\n\n`;
+      } else {
+        const params = fields.map((f) => `${f.type} ${f.name}`).join(", ");
+        const body = fields
+          .map((f) => `    this.${f.name} = ${f.name};`)
+          .join("\n");
+        generated += `  public ${className}(${params}) {\n${body}\n  }\n\n`;
+      }
+    }
+
+    // Getters
+    if (type === "all" || type === "getters") {
+      fields.forEach((f) => {
+        const capName = f.name.charAt(0).toUpperCase() + f.name.slice(1);
+        generated += `  public ${f.type} get${capName}() {\n    return ${f.name};\n  }\n`;
+      });
+    }
+
+    // Setters
+    if (type === "all" || type === "setters") {
+      fields.forEach((f) => {
+        const capName = f.name.charAt(0).toUpperCase() + f.name.slice(1);
+        generated += `  public void set${capName}(${f.type} ${f.name}) {\n    this.${f.name} = ${f.name};\n  }\n\n`;
+      });
+    }
+
+    // toString
+    if (type === "all" || type === "tostring") {
+      if (fields.length === 0) {
+        generated += `  @Override\n  public String toString() {\n    return "${className} []";\n  }\n\n`;
+      } else {
+        const fieldStr = fields
+          .map((f) => `"${f.name}=" + ${f.name}`)
+          .join(' + ", " + ');
+        generated += `  @Override\n  public String toString() {\n    return "${
+          className ? className + " [" : "Object ["
+        }" + ${fieldStr} + "]";\n  }\n\n`;
+      }
+    }
+
+    // HashCode & Equals
+    if (type === "all" || type === "hashcode-equals") {
+      if (fields.length > 0) {
+        generated += `  @Override\n  public int hashCode() {\n`;
+        generated += `    return java.util.Objects.hash(${fields
+          .map((f) => f.name)
+          .join(", ")});\n`;
+        generated += `  }\n\n`;
+
+        generated += `  @Override\n  public boolean equals(Object obj) {\n`;
+        generated += `    if (this == obj) return true;\n`;
+        generated += `    if (obj == null || getClass() != obj.getClass()) return false;\n`;
+        generated += `    ${className} other = (${className}) obj;\n`;
+
+        const checks = fields
+          .map((f) => {
+            if (
+              [
+                "int",
+                "long",
+                "double",
+                "float",
+                "boolean",
+                "char",
+                "byte",
+                "short",
+              ].includes(f.type)
+            ) {
+              return `    if (${f.name} != other.${f.name}) return false;`;
+            } else {
+              return `    if (!java.util.Objects.equals(${f.name}, other.${f.name})) return false;`;
+            }
+          })
+          .join("\n");
+        generated += checks + "\n";
+        generated += `    return true;\n  }\n\n`;
+      }
+    }
+
+    updates.push({ className, snippet: generated, oldScope: scope });
+  }
+
+  if (updates.length === 0) {
+    if (targets.length === 1 && targets[0] === scopes[0]) {
+      return { success: false, message: "No suitable fields found." };
+    }
+    return { success: false, message: "Nothing to generate." };
+  }
+
+  let nextCode = currentCode;
   if (importsNeeded.size > 0) {
     const newImports = [];
     importsNeeded.forEach((imp) => {
@@ -367,15 +349,56 @@ export const generateJavaCode = (currentCode, type) => {
     }
   }
 
-  // Re-run finder (indices might have shifted)
-  const newScopes = findClassScopes(nextCode);
-  const target = newScopes.find((s) => s.className === className);
-
-  if (target) {
-    const finalCode = nextCode.substring(0, target.endIndex) + generated + "}";
-    return { success: true, newCode: finalCode };
+  const finalScopes = findClassScopes(nextCode);
+  const updatesToApply = [];
+  for (const update of updates) {
+    const scope = finalScopes.find((s) => s.className === update.className);
+    if (scope) {
+      updatesToApply.push({ scope, snippet: update.snippet });
+    }
   }
 
-  // Fallback
-  return { success: true, newCode: nextCode + generated };
+  updatesToApply.sort((a, b) => b.scope.endIndex - a.scope.endIndex);
+
+  let finalCode = nextCode;
+  for (const item of updatesToApply) {
+    const { scope, snippet } = item;
+    const contentBefore = finalCode.substring(0, scope.endIndex);
+    const contentAfter = finalCode.substring(scope.endIndex);
+    finalCode = contentBefore + snippet + contentAfter;
+  }
+
+  return { success: true, newCode: finalCode };
+};
+
+export const prepareJavaCodeForExecution = (code) => {
+  const scopes = findClassScopes(code);
+  const mainClass = scopes.find((scope) => {
+    const body = scope.content;
+    return (
+      /public\s+static\s+void\s+main\s*\(\s*String\s*\[\s*\]\s*args\s*\)/.test(
+        body
+      ) ||
+      /public\s+static\s+void\s+main\s*\(\s*String\s*\.\.\.\s*args\s*\)/.test(
+        body
+      )
+    );
+  });
+
+  if (!mainClass) return code;
+
+  if (scopes[0] === mainClass) return code;
+  let start = mainClass.startIndex;
+
+  const prefix = code.substring(0, start);
+  const match = prefix.match(/((?:public|final|abstract|strictfp)\s+)*$/);
+  if (match && match[0]) {
+    start -= match[0].length;
+  }
+
+  const mainCode = code.substring(start, mainClass.endIndex + 1);
+  const beforeMain = code.substring(0, start);
+  const afterMain = code.substring(mainClass.endIndex + 1);
+
+  return mainCode + "\n\n" + beforeMain + afterMain;
 };

@@ -120,6 +120,25 @@ const javaSnippets = [
     customImport: "import java.util.ArrayList;",
   },
   {
+    caption: "List",
+    snippet: "List<${1:String}> ${2:list} = new ArrayList<>();",
+    type: "snippet",
+    customImport: "import java.util.*;",
+  },
+  {
+    caption: "Set",
+    snippet: "Set<${1:String}> ${2:set} = new HashSet<>();",
+    type: "snippet",
+    customImport: "import java.util.*;",
+  },
+
+  {
+    caption: "Map",
+    snippet: "Map<${1:KeyType}, ${2:ValueType}> ${3:map} = new HashMap<>();",
+    type: "snippet",
+    customImport: "import java.util.*;",
+  },
+  {
     caption: "hashMap",
     snippet: "HashMap<${1:String}, ${2:Integer}> ${3:map} = new HashMap<>();",
     type: "snippet",
@@ -129,7 +148,7 @@ const javaSnippets = [
     caption: "hashSet",
     snippet: "HashSet<${1:String}> ${2:set} = new HashSet<>();",
     type: "snippet",
-    customImport: "import java.util.HashSet;",
+    customImport: "import java.util.*;",
   },
   {
     caption: "linkedList",
@@ -157,12 +176,6 @@ const javaSnippets = [
   },
 
   // --- Class Only Auto-Imports (User preferences) ---
-  {
-    caption: "Scanner",
-    snippet: "Scanner",
-    type: "snippet",
-    customImport: "import java.util.Scanner;",
-  },
   {
     caption: "ArrayList",
     snippet: "ArrayList",
@@ -403,13 +416,13 @@ const javaSnippets = [
   {
     caption: "Main",
     snippet:
-      'public class Main {\n    public static void main(String[] args) {\n        // Write your Java code here\n        System.out.println("Welcome to codepulse-r!");\n    }\n}',
+      'class Main {\n    public static void main(String[] args) {\n        // Write your Java code here\n        System.out.println("Welcome to codepulse-r!");\n    }\n}',
     type: "snippet",
   },
   {
     caption: "Product",
     snippet:
-      'class Product {\n    int id;\n    String name;\n    double price;\n}',
+      "class Product {\n    int id;\n    String name;\n    double price;\n}",
     type: "snippet",
   },
   {
@@ -488,6 +501,78 @@ const javaSnippets = [
     caption: "Comment",
     snippet:
       "class Comment {\n    int id;\n    String text;\n    String author;\n    int postId;\n}",
+    type: "snippet",
+  },
+
+  // --- Object Creation (Common Domain Classes) ---
+  {
+    caption: "ProductObject",
+    snippet: "Product product = new Product();",
+    type: "snippet",
+  },
+  {
+    caption: "EmployeeObject",
+    snippet: "Employee employee = new Employee();",
+    type: "snippet",
+  },
+  {
+    caption: "StudentObject",
+    snippet: "Student student = new Student();",
+    type: "snippet",
+  },
+  {
+    caption: "CustomerObject",
+    snippet: "Customer customer = new Customer();",
+    type: "snippet",
+  },
+  {
+    caption: "BookObject",
+    snippet: "Book book = new Book();",
+    type: "snippet",
+  },
+  {
+    caption: "OrderObject",
+    snippet: "Order order = new Order();",
+    type: "snippet",
+  },
+  {
+    caption: "UserObject",
+    snippet: "User user = new User();",
+    type: "snippet",
+  },
+  {
+    caption: "AccountObject",
+    snippet: "Account account = new Account();",
+    type: "snippet",
+  },
+  {
+    caption: "VehicleObject",
+    snippet: "Vehicle vehicle = new Vehicle();",
+    type: "snippet",
+  },
+  {
+    caption: "CourseObject",
+    snippet: "Course course = new Course();",
+    type: "snippet",
+  },
+  {
+    caption: "MovieObject",
+    snippet: "Movie movie = new Movie();",
+    type: "snippet",
+  },
+  {
+    caption: "LaptopObject",
+    snippet: "Laptop laptop = new Laptop();",
+    type: "snippet",
+  },
+  {
+    caption: "PostObject",
+    snippet: "Post post = new Post();",
+    type: "snippet",
+  },
+  {
+    caption: "CommentObject",
+    snippet: "Comment comment = new Comment();",
     type: "snippet",
   },
 ];
