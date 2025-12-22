@@ -254,41 +254,7 @@ const Exam = () => {
 
   const sqlDbRef = useRef(null);
   const generateDropdownRef = useRef(null);
-  const SQL_WASM_URL =
-    "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.wasm";
-
-  useEffect(() => {
-    const loadSql = async () => {
-      if (window.initSqlJs) {
-        try {
-          const SQL = await window.initSqlJs({
-            locateFile: () => SQL_WASM_URL,
-          });
-          sqlDbRef.current = new SQL.Database();
-          return;
-        } catch (e) {
-          console.error("Error initializing existing SQL", e);
-        }
-      }
-      const script = document.createElement("script");
-      script.src =
-        "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js";
-      script.async = true;
-      script.onload = async () => {
-        try {
-          const SQL = await window.initSqlJs({
-            locateFile: () => SQL_WASM_URL,
-          });
-          sqlDbRef.current = new SQL.Database();
-        } catch (err) {
-          console.error("Failed to initialize SQL.js", err);
-        }
-      };
-      script.onerror = () => console.error("Failed to load SQL.js script");
-      document.body.appendChild(script);
-    };
-    loadSql();
-  }, []);
+  // SQL.js initialization removed - Switched to AlaSQL
 
   // Auto-Fullscreen on Mount
   useEffect(() => {
@@ -422,14 +388,14 @@ const Exam = () => {
           selectedPseudo.length +
           index;
 
-      const isCurrentInView = globalIndex === currentQuestionInView;
+      // const isCurrentInView = globalIndex === currentQuestionInView;
 
-      if (isCurrentInView) return "current-in-view";
+      // if (isCurrentInView) return "current-in-view";
       if (isAnswered) return "answered";
     },
     [
       answers,
-      currentQuestionInView,
+      // currentQuestionInView,
       selectedQuiz,
       selectedBlanks,
       selectedCoding,
@@ -465,8 +431,16 @@ const Exam = () => {
         setIsLoading(true);
         setError(null);
 
+        const availableFiles = examsContext.keys();
+        const loadSafe = (fileSuffix) => {
+          const fileName = `./${technology}/${examId}${fileSuffix}.json`;
+          return availableFiles.includes(fileName)
+            ? examsContext(fileName)
+            : [];
+        };
+
         // Load MCQ
-        const quizModule = examsContext(`./${technology}/${examId}MCQ.json`);
+        const quizModule = loadSafe("MCQ");
         let shuffledMCQ = shuffleArray(quizModule).slice(
           0,
           ExamConfig.mcqCount
@@ -474,9 +448,7 @@ const Exam = () => {
         shuffledMCQ = shuffleAnswers(shuffledMCQ);
 
         // Load Blanks
-        const blanksModule = examsContext(
-          `./${technology}/${examId}Blanks.json`
-        );
+        const blanksModule = loadSafe("Blanks");
         const shuffledBlanks = shuffleArray(blanksModule).slice(
           0,
           ExamConfig.blankCount
@@ -485,9 +457,7 @@ const Exam = () => {
         // Load Coding
         let shuffledCoding = [];
         if (isCodingRoundAvailable) {
-          const codingModule = examsContext(
-            `./${technology}/${examId}Coding.json`
-          );
+          const codingModule = loadSafe("Coding");
           shuffledCoding = shuffleArray(codingModule).slice(
             0,
             ExamConfig.codingCount
@@ -495,22 +465,32 @@ const Exam = () => {
         }
 
         // Load Pseudo
-        const pseudoModule = examsContext(
-          `./${technology}/${examId}Psuedo.json`
-        );
+        const pseudoModule = loadSafe("Psuedo");
         let shuffledPseudo = shuffleArray(pseudoModule).slice(
           0,
           ExamConfig.pseudoCount
         );
         shuffledPseudo = shuffleAnswers(shuffledPseudo);
 
-        setSelectedQuiz(shuffledMCQ);
-        setSelectedBlanks(shuffledBlanks);
-        setSelectedCoding(shuffledCoding);
-        setSelectedPseudo(shuffledPseudo);
-        setCurrentQuestionInView(0);
+        if (
+          shuffledMCQ.length === 0 &&
+          shuffledBlanks.length === 0 &&
+          shuffledCoding.length === 0 &&
+          shuffledPseudo.length === 0
+        ) {
+          setError(
+            `Could not find any questions for "${technology} - ${examId}".`
+          );
+        } else {
+          setSelectedQuiz(shuffledMCQ);
+          setSelectedBlanks(shuffledBlanks);
+          setSelectedCoding(shuffledCoding);
+          setSelectedPseudo(shuffledPseudo);
+          setCurrentQuestionInView(0);
+        }
       } catch (err) {
-        setError(`Could not find questions for "${technology} - ${examId}".`);
+        console.error(err);
+        setError(`Error loading questions: ${err.message}`);
       } finally {
         setIsLoading(false);
       }
@@ -752,39 +732,51 @@ const Exam = () => {
 
         const authHeaders = { headers: { Authorization: `Bearer ${token}` } };
 
-        try {
-          // Attempt to save new result
-          await axios.post("/api/exams", payload, authHeaders);
-        } catch (error) {
-          if (
-            error.response &&
-            error.response.status === 400 &&
-            error.response.data.message.includes("already exists")
-          ) {
-            await axios.patch("/api/exams", payload, authHeaders);
-          } else {
-            throw error;
-          }
-        }
-
-        // Success alert removed to speed up flow
-        // await Swal.fire({
-        //   icon: "success",
-        //   title: "Submitted!",
-        //   text: "Your exam has been submitted and results have been sent to your email (via backend).",
-        // });
-      } catch (error) {
-        console.error("Failed to save/send exam results:", error);
-        await Swal.fire({
-          icon: "error",
-          title: "Submission Failed",
-          text:
-            error.response?.data?.message ||
-            "Could not save/send your results.",
-        });
-      } finally {
+        // --- OPTIMISTIC SUBMISSION ---
+        // 1. Immediately show results (Don't wait for Email/DB)
         setIsSubmitting(false);
         setShowResult(true);
+
+        // 2. Perform Save in Background
+        (async () => {
+          try {
+            await axios.post("/api/exams", payload, authHeaders);
+          } catch (error) {
+            // Retry with PATCH if it already exists
+            if (
+              error.response &&
+              error.response.status === 400 &&
+              error.response.data.message.includes("already exists")
+            ) {
+              try {
+                await axios.patch("/api/exams", payload, authHeaders);
+              } catch (patchError) {
+                console.error("Background Save Failed (Patch):", patchError);
+                Swal.fire(
+                  "Warning",
+                  "Your result was displayed, but we couldn't save it to the server.",
+                  "error"
+                );
+              }
+            } else {
+              console.error("Background Save Failed (Post):", error);
+              Swal.fire(
+                "Warning",
+                "Your result was displayed, but we couldn't save it to the server.",
+                "error"
+              );
+            }
+          }
+        })();
+      } catch (error) {
+        console.error("Submission Prep Failed:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Submission Failed",
+          text: error.message,
+        });
+        setIsSubmitting(false);
+        // Do not show result if prep failed
       }
     },
     [
@@ -823,12 +815,22 @@ const Exam = () => {
 
     // Special handling for SQL (Local Execution)
     if (language === "sql") {
-      if (!sqlDbRef.current) {
-        return { compileError: "SQL Database initializing...", output: "" };
-      }
-      try {
-        const db = sqlDbRef.current;
+      const alasql = require("alasql");
 
+      // Polyfill NVL
+      if (!alasql.fn.NVL) {
+        alasql.fn.NVL = function (val, defaultVal) {
+          return val === null || val === undefined ? defaultVal : val;
+        };
+      }
+
+      if (!sqlDbRef.current) {
+        sqlDbRef.current = new alasql.Database();
+        sqlDbRef.current.exec("CREATE DATABASE IF NOT EXISTS myDB; USE myDB");
+      }
+      const db = sqlDbRef.current;
+
+      try {
         // Strip comments
         const sanitizedCode = userCode
           .replace(/\/\*[\s\S]*?\*\//g, "")
@@ -843,11 +845,52 @@ const Exam = () => {
           .split(";")
           .filter((c) => c.trim().length > 0);
         let outputLog = [];
+
+        // Helper to formatting table text
+        const formatTable = (data) => {
+          if (!data || data.length === 0) return "Query returned no results.";
+          const cols = Object.keys(data[0]);
+          const header = cols.join(" | ");
+          const separator = "-".repeat(header.length);
+          const rows = data
+            .map((row) => cols.map((c) => row[c]).join(" | "))
+            .join("\n");
+          return `${header}\n${separator}\n${rows}`;
+        };
+
         for (let cmd of commands) {
           try {
-            const res = db.exec(cmd);
             const trimmedCmd = cmd.trim();
             const lowerCmd = trimmedCmd.toLowerCase();
+            let res = db.exec(trimmedCmd);
+
+            // Handle DESCRIBE manually
+            if (
+              lowerCmd.startsWith("describe") ||
+              lowerCmd.startsWith("desc")
+            ) {
+              const match = trimmedCmd.match(
+                /(?:describe|desc)\s+["`]?([^\s("`]+)/i
+              );
+              if (match) {
+                const tableName = match[1];
+                if (
+                  db.tables &&
+                  db.tables[tableName] &&
+                  db.tables[tableName].columns
+                ) {
+                  const cols = db.tables[tableName].columns.map((c) => ({
+                    Field: c.columnid,
+                    Type: c.dbtypeid || "UNKNOWN",
+                    Null: "YES",
+                    Key: c.pk ? "PRI" : "",
+                    Default: "NULL",
+                    Extra: "",
+                  }));
+                  res = cols;
+                }
+              }
+            }
 
             if (lowerCmd.startsWith("create table")) {
               const match = trimmedCmd.match(
@@ -879,20 +922,70 @@ const Exam = () => {
               );
               const tableName = match ? match[1] : "table";
               outputLog.push(`Rows deleted from '${tableName}' successfully.`);
-            } else if (lowerCmd.startsWith("select")) {
-              if (res.length > 0) {
-                // Format simple table text for exam output (since we can't easily render HTML table in current Exam UI)
-                const cols = res[0].columns.join(" | ");
-                const separator = "-".repeat(cols.length);
-                const rows = res[0].values
-                  .map((row) => row.join(" | "))
-                  .join("\n");
-                outputLog.push(`${cols}\n${separator}\n${rows}`);
+            } else if (lowerCmd.startsWith("truncate")) {
+              const match = trimmedCmd.match(
+                /truncate(?:\s+table)?\s+["`]?([^\s("`]+)/i
+              );
+              const tableName = match ? match[1] : "Table";
+              outputLog.push(`Table '${tableName}' truncated successfully.`);
+            } else if (lowerCmd.startsWith("alter table")) {
+              outputLog.push(`Table altered successfully.`);
+            } else if (
+              lowerCmd.startsWith("describe") ||
+              lowerCmd.startsWith("desc")
+            ) {
+              // If res is array (from manual match above)
+              if (Array.isArray(res)) {
+                outputLog.push(formatTable(res));
+              } else {
+                const match = trimmedCmd.match(
+                  /(?:describe|desc)\s+["`]?([^\s("`]+)/i
+                );
+                const tableName = match ? match[1] : "Table";
+                outputLog.push(`Table '${tableName}' does not exist or error.`);
+              }
+            } else if (
+              lowerCmd.startsWith("select") ||
+              lowerCmd.startsWith("show")
+            ) {
+              if (Array.isArray(res) && res.length > 0) {
+                outputLog.push(formatTable(res));
+              } else if (Array.isArray(res)) {
+                // Empty result processing
+                let showedEmpty = false;
+                try {
+                  const fromMatch = trimmedCmd.match(
+                    /from\s+["`]?([^\s("`]+)/i
+                  );
+                  if (fromMatch) {
+                    const tName = fromMatch[1];
+                    if (
+                      db.tables &&
+                      db.tables[tName] &&
+                      db.tables[tName].columns
+                    ) {
+                      const cols = db.tables[tName].columns.map(
+                        (c) => c.columnid
+                      );
+                      if (cols.length > 0) {
+                        const header = cols.join(" | ");
+                        const separator = "-".repeat(header.length);
+                        outputLog.push(`${header}\n${separator}\n`);
+                        showedEmpty = true;
+                      }
+                    }
+                  }
+                } catch (e) {}
+
+                if (!showedEmpty) {
+                  outputLog.push("Query returned no results.");
+                }
               } else {
                 outputLog.push("Query returned no results.");
               }
             } else {
-              if (res.length > 0) outputLog.push(JSON.stringify(res[0]));
+              if (Array.isArray(res) && res.length > 0)
+                outputLog.push(formatTable(res));
               else outputLog.push("Command executed successfully.");
             }
           } catch (e) {
@@ -1211,14 +1304,14 @@ const Exam = () => {
       <div className="page-container">
         <div className="exam-container">
           {/* Header for Result Page only */}
-          {showResult && (
+          {/* {showResult && (
             <div className="exam-header">
               <h1>
                 {technology.charAt(0).toUpperCase() + technology.slice(1)} Exam
                 #{examNumber}
               </h1>
             </div>
-          )}
+          )} */}
 
           {!showResult ? (
             <>
@@ -1309,7 +1402,7 @@ const Exam = () => {
                         >
                           <p className="question-title1">
                             {/* Render question parts with HTML safety */}
-                            <strong>{globalIndex + 1}. </strong>
+                            <strong>{i + 1}. </strong>
                             {parts.map((part, idx) => (
                               <React.Fragment key={idx}>
                                 <span
@@ -1338,32 +1431,19 @@ const Exam = () => {
                   {/* --- SECTION 3: PSEUDO CODE --- */}
                   {currentPage === 3 &&
                     selectedPseudo.map((q, i) => {
-                      const globalIndex =
-                        selectedQuiz.length + selectedBlanks.length + i;
+                      
                       return (
                         <div
                           key={`pseudo-${i}`}
-                          id={`question-${globalIndex}`}
+                          id={`question-${i}`}
                           className="question-block"
                         >
                           <div className="main-code-block-wrapper">
-                            <pre
-                              style={{
-                                background: "#f8f9fa",
-                                padding: "15px",
-                                borderRadius: "8px",
-                                overflowX: "auto",
-                                border: "1px solid #e9ecef",
-                                color: "#000",
-                                fontWeight: "bold",
-                                fontSize: "1rem",
-                              }}
-                            >
-                              <strong>
-                                {globalIndex + 1}. What will be the output of
-                                the following code?
-                              </strong>
-                              <div style={{ height: "10px" }}></div>
+                            <pre className="code-block1">
+                              <p className="question-title">
+                                {i + 1}. What will be the output of the
+                                following code?
+                              </p>
                               <code>{q.question}</code>
                             </pre>
                           </div>
@@ -1391,22 +1471,18 @@ const Exam = () => {
                   {isCodingRoundAvailable &&
                     currentPage === 4 &&
                     selectedCoding.map((q, i) => {
-                      const globalIndex =
-                        selectedQuiz.length +
-                        selectedBlanks.length +
-                        selectedPseudo.length +
-                        i;
+                     
 
                       return (
                         <div
                           key={`code-${i}`}
-                          id={`question-${globalIndex}`}
+                          id={`question-${i}`}
                           className="question-block coding-block"
                         >
                           <p
-                            className="question-title"
+                            className="question-title2"
                             dangerouslySetInnerHTML={{
-                              __html: `<strong>${globalIndex + 1}.</strong> ${
+                              __html: `<strong>${i + 1}.</strong> ${
                                 q.question
                               }`,
                             }}

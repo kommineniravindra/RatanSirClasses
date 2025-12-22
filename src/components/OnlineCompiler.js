@@ -371,10 +371,8 @@ const OnlineCompiler = () => {
         java: "Java",
         python: "Python",
         sql: "SQL",
-        sql: "SQL", // let's support both
         c: "c",
         cpp: "cpp",
-        csharp: "csharp",
         csharp: "csharp",
         dotnet: "csharp",
         typescript: "TypeScript",
@@ -398,44 +396,7 @@ const OnlineCompiler = () => {
 
   const sqlDbRef = useRef(null);
 
-  // Initialize SQL.js on load via CDN to avoid Webpack 5 Polyfill errors
-  useEffect(() => {
-    const loadSql = async () => {
-      // Check if already loaded
-      if (window.initSqlJs) {
-        try {
-          const SQL = await window.initSqlJs({
-            locateFile: () => SQL_WASM_URL,
-          });
-          sqlDbRef.current = new SQL.Database();
-          return;
-        } catch (e) {
-          console.error("Error initializing existing SQL", e);
-        }
-      }
-
-      // Load Script Dynamically
-      const script = document.createElement("script");
-      script.src =
-        "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js";
-      script.async = true;
-      script.onload = async () => {
-        try {
-          const SQL = await window.initSqlJs({
-            locateFile: () => SQL_WASM_URL,
-          });
-          sqlDbRef.current = new SQL.Database();
-        } catch (err) {
-          console.error("Failed to initialize SQL.js", err);
-        }
-      };
-      script.onerror = () =>
-        console.error("Failed to load SQL.js script from CDN");
-      document.body.appendChild(script);
-    };
-
-    loadSql();
-  }, []);
+  // SQL initialization removed - Switched to AlaSQL (Dynamic import in implementation)
 
   const pdfCodeRef = useRef(null);
   const pdfOutputRef = useRef(null);
@@ -535,17 +496,23 @@ const OnlineCompiler = () => {
       return;
     }
 
-    // Special handling for SQL (Local Execution)
+    // Special handling for SQL (AlaSQL - MySQL/Oracle simulation)
     if (language === "sql") {
-      if (!sqlDbRef.current) {
-        setOutput("Initializing SQL Database... try again in a moment.");
-        setIsLoading(false);
-        setIsWaitingForInput(false); // Reset here
-        return;
-      }
-
       try {
-        const db = sqlDbRef.current;
+        const alasql = require("alasql");
+
+        // Polyfill NVL for Oracle compatibility
+        if (!alasql.fn.NVL) {
+          alasql.fn.NVL = function (val, defaultVal) {
+            return val === null || val === undefined ? defaultVal : val;
+          };
+        }
+
+        // Ensure Database exists (simulated session)
+        if (!alasql.databases.myDB) {
+          alasql("CREATE DATABASE myDB");
+        }
+        alasql("USE myDB");
 
         let codeToExecute = code;
         // Check for selection
@@ -556,7 +523,7 @@ const OnlineCompiler = () => {
           }
         }
 
-        // Remove comments (Block /*...*/ and Line --)
+        // Remove comments (Block \/*...*\/ and Line --)
         const sanitizedCode = codeToExecute
           .replace(/\/\*[\s\S]*?\*\//g, "") // Remove block comments
           .split("\n")
@@ -571,15 +538,15 @@ const OnlineCompiler = () => {
           .split(";")
           .filter((c) => c.trim().length > 0);
 
-        let lastResult = null;
         let messages = [];
 
         for (let cmd of commands) {
           try {
-            const res = db.exec(cmd);
-            // res is an array of results [{columns, values}]
-
             const trimmedCmd = cmd.trim();
+            // alasql.exec returns array of results if multiple queries, or single result
+            // Since we loop, we execute one by one
+            let res = alasql(trimmedCmd);
+
             const lowerCmd = trimmedCmd.toLowerCase();
 
             if (lowerCmd.startsWith("create table")) {
@@ -600,11 +567,25 @@ const OnlineCompiler = () => {
                 type: "success",
                 text: `Table '${tableName}' dropped successfully.`,
               });
+            } else if (
+              lowerCmd.startsWith("truncate table") ||
+              lowerCmd.startsWith("truncate")
+            ) {
+              const match = trimmedCmd.match(
+                /truncate(?:\s+table)?\s+["`]?([^\s("`]+)/i
+              );
+              const tableName = match ? match[1] : "Table";
+              messages.push({
+                type: "success",
+                text: `Table '${tableName}' truncated successfully.`,
+              });
             } else if (lowerCmd.startsWith("insert into")) {
               const match = trimmedCmd.match(
                 /insert\s+into\s+["`]?([^\s("`]+)/i
               );
               const tableName = match ? match[1] : "table";
+              // res is usually the number of rows affected for INSERT in some engines,
+              // but alasql returns 1 for single insert
               messages.push({
                 type: "success",
                 text: `Values inserted into '${tableName}' successfully.`,
@@ -612,37 +593,142 @@ const OnlineCompiler = () => {
             } else if (lowerCmd.startsWith("update")) {
               const match = trimmedCmd.match(/update\s+["`]?([^\s("`]+)/i);
               const tableName = match ? match[1] : "table";
+              const rows = res; // alasql returns number of affected rows for update
               messages.push({
                 type: "success",
-                text: `Table '${tableName}' updated successfully.`,
+                text: `Table '${tableName}' updated. Rows affected: ${rows}`,
               });
             } else if (lowerCmd.startsWith("delete from")) {
               const match = trimmedCmd.match(
                 /delete\s+from\s+["`]?([^\s("`]+)/i
               );
               const tableName = match ? match[1] : "table";
+              const rows = res; // alasql returns number of affected rows
               messages.push({
                 type: "success",
-                text: `Rows deleted from '${tableName}' successfully.`,
+                text: `Rows deleted from '${tableName}'. Rows affected: ${rows}`,
               });
-            } else if (lowerCmd.startsWith("select")) {
-              if (res.length > 0) {
-                messages.push({ type: "table", data: res[0] });
+            } else if (lowerCmd.startsWith("alter table")) {
+              const match = trimmedCmd.match(
+                /alter\s+table\s+["`]?([^\s("`]+)/i
+              );
+              const tableName = match ? match[1] : "Table";
+              messages.push({
+                type: "success",
+                text: `Table '${tableName}' altered successfully.`,
+              });
+            } else if (
+              lowerCmd.startsWith("describe") ||
+              lowerCmd.startsWith("desc")
+            ) {
+              const match = trimmedCmd.match(
+                /(?:describe|desc)\s+["`]?([^\s("`]+)/i
+              );
+              if (match) {
+                const tableName = match[1];
+                const db = alasql.databases.myDB;
+                if (db && db.tables && db.tables[tableName]) {
+                  const columnsData = db.tables[tableName].columns.map(
+                    (col) => ({
+                      Field: col.columnid,
+                      Type: col.dbtypeid || "UNKNOWN",
+                      Null: "YES", // AlaSQL metadata might vary, strict emulation
+                      Key: col.pk ? "PRI" : "",
+                      Default: "NULL",
+                      Extra: "",
+                    })
+                  );
+                  // Convert to array format for our UI
+                  const columns = [
+                    "Field",
+                    "Type",
+                    "Null",
+                    "Key",
+                    "Default",
+                    "Extra",
+                  ];
+                  const values = columnsData.map((row) => [
+                    row.Field,
+                    row.Type,
+                    row.Null,
+                    row.Key,
+                    row.Default,
+                    row.Extra,
+                  ]);
+
+                  messages.push({ type: "table", data: { columns, values } });
+                } else {
+                  messages.push({
+                    type: "error",
+                    text: `Table '${tableName}' does not exist`,
+                  });
+                }
+              }
+            } else if (
+              lowerCmd.startsWith("select") ||
+              lowerCmd.startsWith("show")
+            ) {
+              if (Array.isArray(res) && res.length > 0) {
+                // AlaSQL returns array of objects {col1: val1, ...} directly
+                // We need to shape it for our Table component if expectation is {columns:[], values:[]}
+
+                const columns = Object.keys(res[0]);
+                const values = res.map((row) => columns.map((col) => row[col]));
+
+                messages.push({ type: "table", data: { columns, values } });
+              } else if (Array.isArray(res) && res.length === 0) {
+                // Empty result set - Try to show Table Columns if possible (for "Empty Table" visualization)
+                let showedEmptyTable = false;
+                try {
+                  // Try to extract table name from simple SELECT queries
+                  const fromMatch = trimmedCmd.match(
+                    /from\s+["`]?([^\s("`]+)/i
+                  );
+                  if (fromMatch) {
+                    const tableName = fromMatch[1];
+                    // Check metadata for columns
+                    const db = alasql.databases.myDB;
+                    if (
+                      db &&
+                      db.tables &&
+                      db.tables[tableName] &&
+                      db.tables[tableName].columns
+                    ) {
+                      const columns = db.tables[tableName].columns.map(
+                        (c) => c.columnid
+                      );
+                      if (columns && columns.length > 0) {
+                        messages.push({
+                          type: "table",
+                          data: { columns: columns, values: [] },
+                        });
+                        showedEmptyTable = true;
+                      }
+                    }
+                  }
+                } catch (err) {
+                  console.log("Could not extract columns for empty table", err);
+                }
+
+                if (!showedEmptyTable) {
+                  messages.push({
+                    type: "info",
+                    text: "Query returned no results.",
+                  });
+                }
               } else {
+                // Single value result?
                 messages.push({
                   type: "info",
-                  text: "Query returned no results.",
+                  text: JSON.stringify(res),
                 });
               }
             } else {
-              // Other commands
-              if (res.length > 0)
-                messages.push({ type: "table", data: res[0] });
-              else
-                messages.push({
-                  type: "success",
-                  text: "Command executed successfully.",
-                });
+              // Other commands (commit, etc)
+              messages.push({
+                type: "success",
+                text: "Command executed successfully.",
+              });
             }
           } catch (e) {
             messages.push({ type: "error", text: `Error: ${e.message}` });
@@ -650,8 +736,6 @@ const OnlineCompiler = () => {
           }
         }
 
-        // If we have collected structured messages, set Output to that array
-        // Otherwise fallback to text
         if (messages.length > 0) {
           setOutput(messages);
         } else {

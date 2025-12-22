@@ -219,45 +219,7 @@ const Compiler = () => {
     };
   }, []);
 
-  // Initialize SQL.js on load via CDN
-  useEffect(() => {
-    const loadSql = async () => {
-      // Check if already loaded
-      if (window.initSqlJs) {
-        try {
-          const SQL = await window.initSqlJs({
-            locateFile: () => SQL_WASM_URL,
-          });
-          sqlDbRef.current = new SQL.Database();
-          return;
-        } catch (e) {
-          console.error("Error initializing existing SQL", e);
-        }
-      }
-
-      // Load Script Dynamically
-      const script = document.createElement("script");
-      script.src =
-        "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js";
-      script.async = true;
-      script.onload = async () => {
-        try {
-          const SQL = await window.initSqlJs({
-            locateFile: () => SQL_WASM_URL,
-          });
-          sqlDbRef.current = new SQL.Database();
-        } catch (err) {
-          console.error("Failed to initialize SQL.js", err);
-        }
-      };
-      script.onerror = () =>
-        console.error("Failed to load SQL.js script from CDN");
-      document.body.appendChild(script);
-      document.body.appendChild(script);
-    };
-
-    loadSql();
-  }, []);
+  // SQL.js initialization removed - Switched to AlaSQL
 
   const handleDownloadPdf = async () => {
     const pdf = new jsPDF("p", "mm", "a4");
@@ -376,14 +338,23 @@ const Compiler = () => {
 
     // --- 2. SQL LOCAL EXECUTION ---
     if (language === "sql") {
-      if (!sqlDbRef.current) {
-        setOutput("Initializing SQL Database... try again in a moment.");
-        setIsLoading(false);
-        return;
+      const alasql = require("alasql");
+
+      // Polyfill NVL for Oracle compatibility
+      if (!alasql.fn.NVL) {
+        alasql.fn.NVL = function (val, defaultVal) {
+          return val === null || val === undefined ? defaultVal : val;
+        };
       }
 
+      // Initialize Persistent Database if not exists
+      if (!sqlDbRef.current) {
+        sqlDbRef.current = new alasql.Database();
+        sqlDbRef.current.exec("CREATE DATABASE IF NOT EXISTS myDB; USE myDB");
+      }
+      const db = sqlDbRef.current;
+
       try {
-        const db = sqlDbRef.current;
         let codeToExecute = code;
         if (editorRef.current) {
           const selectedText = editorRef.current.getSelectedText();
@@ -408,9 +379,37 @@ const Compiler = () => {
 
         for (let cmd of commands) {
           try {
-            const res = db.exec(cmd);
             const trimmedCmd = cmd.trim();
             const lowerCmd = trimmedCmd.toLowerCase();
+            let res = db.exec(trimmedCmd);
+
+            // Handle DESCRIBE manually by inspecting metadata
+            if (
+              lowerCmd.startsWith("describe") ||
+              lowerCmd.startsWith("desc")
+            ) {
+              const match = trimmedCmd.match(
+                /(?:describe|desc)\s+["`]?([^\s("`]+)/i
+              );
+              if (match) {
+                const tableName = match[1];
+                if (
+                  db.tables &&
+                  db.tables[tableName] &&
+                  db.tables[tableName].columns
+                ) {
+                  const cols = db.tables[tableName].columns.map((c) => ({
+                    Field: c.columnid,
+                    Type: c.dbtypeid || "UNKNOWN",
+                    Null: "YES", // AlaSQL metadata might vary
+                    Key: c.pk ? "PRI" : "",
+                    Default: "NULL",
+                    Extra: "",
+                  }));
+                  res = cols;
+                }
+              }
+            }
 
             if (lowerCmd.startsWith("create table")) {
               const match = trimmedCmd.match(
@@ -442,41 +441,126 @@ const Compiler = () => {
             } else if (lowerCmd.startsWith("update")) {
               const match = trimmedCmd.match(/update\s+["`]?([^\s("`]+)/i);
               const tableName = match ? match[1] : "table";
+              const rows = res;
               messages.push({
                 type: "success",
-                text: `Table '${tableName}' updated successfully.`,
+                text: `Table '${tableName}' updated successfully. Affected: ${rows}`,
               });
             } else if (lowerCmd.startsWith("delete from")) {
               const match = trimmedCmd.match(
                 /delete\s+from\s+["`]?([^\s("`]+)/i
               );
               const tableName = match ? match[1] : "table";
+              const rows = res;
               messages.push({
                 type: "success",
-                text: `Rows deleted from '${tableName}' successfully.`,
+                text: `Rows deleted from '${tableName}' successfully. Affected: ${rows}`,
               });
-            } else if (lowerCmd.startsWith("select")) {
-              if (res.length > 0) {
-                messages.push({ type: "table", data: res[0] });
+            } else if (lowerCmd.startsWith("truncate")) {
+              const match = trimmedCmd.match(
+                /truncate(?:\s+table)?\s+["`]?([^\s("`]+)/i
+              );
+              const tableName = match ? match[1] : "Table";
+              messages.push({
+                type: "success",
+                text: `Table '${tableName}' truncated successfully.`,
+              });
+            } else if (lowerCmd.startsWith("alter table")) {
+              messages.push({
+                type: "success",
+                text: `Table altered successfully.`,
+              });
+            } else if (
+              lowerCmd.startsWith("describe") ||
+              lowerCmd.startsWith("desc")
+            ) {
+              const match = trimmedCmd.match(
+                /(?:describe|desc)\s+["`]?([^\s("`]+)/i
+              );
+              const tableName = match ? match[1] : "Table";
+              if (Array.isArray(res)) {
               } else {
                 messages.push({
-                  type: "info",
-                  text: "Query returned no results.",
+                  type: "error",
+                  text: `Table '${tableName}' does not exist`,
                 });
               }
-            } else {
-              if (res.length > 0)
-                messages.push({ type: "table", data: res[0] });
-              else
-                messages.push({
-                  type: "success",
-                  text: "Command executed successfully.",
-                });
+            }
+
+            // Check if it's a query returning results (SELECT, SHOW, DESCRIBE)
+            if (Array.isArray(res)) {
+              if (res.length > 0) {
+                // AlaSQL returns array of rows. Parse in post-processing.
+                messages.push({ type: "table", data: res });
+              } else {
+                // Empty result handling
+                let showedEmpty = false;
+                try {
+                  const fromMatch = trimmedCmd.match(
+                    /from\s+["`]?([^\s("`]+)/i
+                  );
+                  if (fromMatch) {
+                    const tName = fromMatch[1];
+                    if (
+                      db.tables &&
+                      db.tables[tName] &&
+                      db.tables[tName].columns
+                    ) {
+                      const cols = db.tables[tName].columns.map(
+                        (c) => c.columnid
+                      );
+                      if (cols.length > 0) {
+                        messages.push({
+                          type: "table",
+                          data: { columns: cols, values: [] },
+                        });
+                        showedEmpty = true;
+                      }
+                    }
+                  }
+                } catch (e) {}
+
+                if (!showedEmpty) {
+                  messages.push({
+                    type: "info",
+                    text: "Query returned no results.",
+                  });
+                }
+              }
+            }
+
+            if (
+              !Array.isArray(res) &&
+              !messages.some((m) => m.text.includes("successfully"))
+            ) {
+              // If we haven't pushed a success message yet (e.g. for unknown command that returned non-array)
+              messages.push({
+                type: "success",
+                text: "Command executed successfully.",
+              });
             }
           } catch (e) {
             messages.push({ type: "error", text: `Error: ${e.message}` });
           }
         }
+
+        // Post-processing messages to ensure specific format for "table" type
+        messages = messages.map((msg) => {
+          if (msg.type === "table") {
+            // If data is array of objects (AlaSQL style), convert to {columns, values}
+            if (Array.isArray(msg.data)) {
+              // It's the full result array
+              if (msg.data.length > 0) {
+                const cols = Object.keys(msg.data[0]);
+                const vals = msg.data.map((r) => cols.map((c) => r[c]));
+                return { type: "table", data: { columns: cols, values: vals } };
+              }
+            }
+            // If it's already {columns, values} (from Empty handling maybe?), keep it
+            return msg;
+          }
+          return msg;
+        });
 
         if (messages.length > 0) {
           setOutput(messages);

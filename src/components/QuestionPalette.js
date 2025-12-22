@@ -30,21 +30,20 @@ const QuestionPalette = ({
   };
 
   // Determine current section data
-  const { questions, startIndex } = getSectionDetails(currentPage);
+  const { questions } = getSectionDetails(currentPage);
 
   // Generate buttons for ONLY the current section
   const allButtons = questions.map((_, i) => {
-    const globalIndex = startIndex + i;
     // currentPage corresponds to the section number (1, 2, 3, 4)
     const status = calculateAnswerStatus(currentPage, i);
 
     return (
       <button
-        key={`pal-${globalIndex}`}
+        key={`pal-${i}`}
         className={`palette-button ${status}`}
-        onClick={() => handleQuestionJump(globalIndex, currentPage)}
+        onClick={() => handleQuestionJump(i, currentPage)}
       >
-        {globalIndex + 1}
+        {i + 1}
       </button>
     );
   });

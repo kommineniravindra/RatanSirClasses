@@ -383,46 +383,7 @@ const StartLearning1 = ({
   const SQL_WASM_URL =
     "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.wasm";
 
-  // Initialize SQL.js on load via CDN
-  useEffect(() => {
-    const loadSql = async () => {
-      // Check if already loaded
-      if (window.initSqlJs) {
-        try {
-          const SQL = await window.initSqlJs({
-            locateFile: () => SQL_WASM_URL,
-          });
-          sqlFactoryRef.current = SQL;
-          sqlDbRef.current = new SQL.Database();
-          return;
-        } catch (e) {
-          console.error("Error initializing existing SQL", e);
-        }
-      }
-
-      // Load Script Dynamically
-      const script = document.createElement("script");
-      script.src =
-        "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js";
-      script.async = true;
-      script.onload = async () => {
-        try {
-          const SQL = await window.initSqlJs({
-            locateFile: () => SQL_WASM_URL,
-          });
-          sqlFactoryRef.current = SQL;
-          sqlDbRef.current = new SQL.Database();
-        } catch (err) {
-          console.error("Failed to initialize SQL.js", err);
-        }
-      };
-      script.onerror = () =>
-        console.error("Failed to load SQL.js script from CDN");
-      document.body.appendChild(script);
-    };
-
-    loadSql();
-  }, []);
+  // SQL.js initialization removed - Switched to AlaSQL for StartLearning
 
   /* Custom Modal State */
   const [modalState, setModalState] = useState({
@@ -679,6 +640,11 @@ const StartLearning1 = ({
     }
   }, [expandedChapter]);
 
+  // Reset SQL DB when switching examples/chapters
+  useEffect(() => {
+    sqlDbRef.current = null;
+  }, [selectedCourse, expandedChapter, selectedExample]);
+
   // Listen for fullscreen change events
   useEffect(() => {
     const handleFullScreenChange = () => {
@@ -757,9 +723,6 @@ const StartLearning1 = ({
   };
 
   const handleEvaluateCode = async (inputsOverride = null) => {
-    // If called via button click, the event object might be passed as first arg.
-    // Ensure inputsOverride is strictly a string if provided, or null.
-    // React events are objects, so check type.
     const actualInputsOverride =
       typeof inputsOverride === "string" ? inputsOverride : null;
 
@@ -849,29 +812,32 @@ const StartLearning1 = ({
         // HTML/CSS are handled by Codepad block above
       };
 
-      // Special handling for SQL (Local Execution with Dynamic Verification)
+      // Special handling for SQL (AlaSQL - MySQL/Oracle simulation)
       if (langKey === "sql") {
-        if (!sqlFactoryRef.current) {
-          setOutput("Initializing SQL Database... try again in a moment.");
-          setIsRunning(false);
-          return;
+        const alasql = require("alasql");
+
+        // Polyfill NVL for Oracle compatibility
+        if (!alasql.fn.NVL) {
+          alasql.fn.NVL = function (val, defaultVal) {
+            return val === null || val === undefined ? defaultVal : val;
+          };
         }
 
         try {
-          const SQL = sqlFactoryRef.current;
-
-          // 1. Run User Code on a Fresh DB
-          const userDb = new SQL.Database();
-          // Apply Common Setup for Chapter
-          // Uses activeChapter first (reliable), fallback to expandedChapter (legacy/backup)
-          const setupChapter = activeChapter || expandedChapter;
-          if (CHAPTER_SETUP[setupChapter]) {
-            try {
-              userDb.exec(CHAPTER_SETUP[setupChapter]);
-            } catch (e) {
-              console.error("Common Setup Failed for User DB:", e);
+          // 1. Run User Code on a Persistent DB (for this session)
+          if (!sqlDbRef.current) {
+            sqlDbRef.current = new alasql.Database();
+            // Apply Common Setup for Chapter ONLY on creation
+            const setupChapter = activeChapter || expandedChapter;
+            if (CHAPTER_SETUP[setupChapter]) {
+              try {
+                sqlDbRef.current.exec(CHAPTER_SETUP[setupChapter]);
+              } catch (e) {
+                console.error("Common Setup Failed for User DB:", e);
+              }
             }
           }
+          const userDb = sqlDbRef.current;
 
           const userMessages = [];
           let userResultData = null;
@@ -896,69 +862,138 @@ const StartLearning1 = ({
 
             for (let cmd of cmds) {
               try {
-                const res = db.exec(cmd);
                 const trimmedCmd = cmd.trim();
+                let res = db.exec(cmd);
+
                 const lowerCmd = trimmedCmd.toLowerCase();
 
-                // Basic success messages logic (simplified for brevity, can be expanded if needed)
-                if (res.length > 0) {
-                  lastSelectResult = res[0]; // {columns:[], values:[]}
-                  msgs.push({ type: "table", data: res[0] });
-                } else if (lowerCmd.startsWith("create table")) {
+                // Handle DESCRIBE manually by inspecting metadata
+                if (
+                  lowerCmd.startsWith("describe") ||
+                  lowerCmd.startsWith("desc")
+                ) {
                   const match = trimmedCmd.match(
-                    /create\s+table\s+(?:if\s+not\s+exists\s+)?["`]?([^\s("`]+)/i
+                    /(?:describe|desc)\s+["`]?([^\s("`]+)/i
                   );
-                  const tableName = match ? match[1] : "Table";
-                  if (captureMessages)
-                    msgs.push({
-                      type: "success",
-                      text: `Table '${tableName}' created successfully.`,
-                    });
-                } else if (lowerCmd.startsWith("drop table")) {
-                  const match = trimmedCmd.match(
-                    /drop\s+table\s+(?:if\s+exists\s+)?["`]?([^\s("`]+)/i
-                  );
-                  const tableName = match ? match[1] : "Table";
-                  if (captureMessages)
-                    msgs.push({
-                      type: "success",
-                      text: `Table '${tableName}' dropped successfully.`,
-                    });
-                } else if (lowerCmd.startsWith("insert into")) {
-                  const match = trimmedCmd.match(
-                    /insert\s+into\s+["`]?([^\s("`]+)/i
-                  );
-                  const tableName = match ? match[1] : "table";
-                  if (captureMessages)
-                    msgs.push({
-                      type: "success",
-                      text: `Values inserted into '${tableName}' successfully.`,
-                    });
-                } else if (lowerCmd.startsWith("update")) {
-                  const match = trimmedCmd.match(/update\s+["`]?([^\s("`]+)/i);
-                  const tableName = match ? match[1] : "table";
-                  if (captureMessages)
-                    msgs.push({
-                      type: "success",
-                      text: `Table '${tableName}' updated successfully.`,
-                    });
-                } else if (lowerCmd.startsWith("delete from")) {
-                  const match = trimmedCmd.match(
-                    /delete\s+from\s+["`]?([^\s("`]+)/i
-                  );
-                  const tableName = match ? match[1] : "table";
-                  if (captureMessages)
-                    msgs.push({
-                      type: "success",
-                      text: `Rows deleted from '${tableName}' successfully.`,
-                    });
+                  if (match) {
+                    const tableName = match[1];
+                    if (
+                      db.tables &&
+                      db.tables[tableName] &&
+                      db.tables[tableName].columns
+                    ) {
+                      const cols = db.tables[tableName].columns.map((c) => ({
+                        Field: c.columnid,
+                        Type: c.dbtypeid || "UNKNOWN",
+                        Null: "YES",
+                        Key: c.pk ? "PRI" : "",
+                        Default: "NULL",
+                        Extra: "",
+                      }));
+                      res = cols;
+                    }
+                  }
+                }
+
+                // Check key commands
+                if (
+                  lowerCmd.startsWith("select") ||
+                  lowerCmd.startsWith("show") ||
+                  lowerCmd.startsWith("describe") ||
+                  lowerCmd.startsWith("desc")
+                ) {
+                  if (Array.isArray(res)) {
+                    if (res.length > 0) {
+                      // Convert array of objects to {columns, values}
+                      const columns = Object.keys(res[0]);
+                      const values = res.map((row) =>
+                        columns.map((c) => row[c])
+                      );
+                      const formatted = { columns, values };
+                      lastSelectResult = formatted;
+                      msgs.push({ type: "table", data: formatted });
+                    } else {
+                      // Empty result handling
+                      let showedEmpty = false;
+                      // Try to show header for SELECT FROM
+                      try {
+                        const fromMatch = trimmedCmd.match(
+                          /from\s+["`]?([^\s("`]+)/i
+                        );
+                        if (fromMatch) {
+                          const tName = fromMatch[1];
+                          if (
+                            db.tables &&
+                            db.tables[tName] &&
+                            db.tables[tName].columns
+                          ) {
+                            const cols = db.tables[tName].columns.map(
+                              (c) => c.columnid
+                            );
+                            if (cols.length > 0) {
+                              lastSelectResult = { columns: cols, values: [] };
+                              msgs.push({
+                                type: "table",
+                                data: lastSelectResult,
+                              });
+                              showedEmpty = true;
+                            }
+                          }
+                        }
+                      } catch (e) {}
+
+                      if (!showedEmpty && captureMessages) {
+                        msgs.push({
+                          type: "info",
+                          text: "Query returned no results.",
+                        });
+                      }
+                      if (!lastSelectResult)
+                        lastSelectResult = { columns: [], values: [] };
+                    }
+                  }
                 } else {
-                  // Fallback
+                  // Create/Insert/Update/Delete/Truncate
+                  let msg = "Command executed successfully.";
+                  if (lowerCmd.startsWith("create table")) {
+                    const m = trimmedCmd.match(
+                      /create\s+table\s+(?:if\s+not\s+exists\s+)?["`]?([^\s("`]+)/i
+                    );
+                    if (m) msg = `Table '${m[1]}' created successfully.`;
+                  } else if (lowerCmd.startsWith("drop table")) {
+                    const m = trimmedCmd.match(
+                      /drop\s+table\s+(?:if\s+exists\s+)?["`]?([^\s("`]+)/i
+                    );
+                    if (m) msg = `Table '${m[1]}' dropped successfully.`;
+                  } else if (lowerCmd.startsWith("truncate")) {
+                    const m = trimmedCmd.match(
+                      /truncate(?:\s+table)?\s+["`]?([^\s("`]+)/i
+                    );
+                    if (m) msg = `Table '${m[1]}' truncated successfully.`;
+                    // AlaSQL truncate returns 1 (or count), treat as rows affected?
+                  } else if (lowerCmd.startsWith("insert")) {
+                    const m = trimmedCmd.match(
+                      /insert\s+into\s+["`]?([^\s("`]+)/i
+                    );
+                    if (m) msg = `Values inserted into '${m[1]}' successfully.`;
+                  } else if (
+                    lowerCmd.startsWith("update") ||
+                    lowerCmd.startsWith("delete")
+                  ) {
+                    const action = lowerCmd.startsWith("update")
+                      ? "updated"
+                      : "deleted from";
+                    // alasql returns count
+                    msg = `Rows ${action} successfully. Affected: ${res}`;
+                  } else if (lowerCmd.startsWith("alter")) {
+                    msg = "Table altered successfully.";
+                  }
+
                   if (captureMessages)
-                    msgs.push({ type: "success", text: "Command executed." });
+                    msgs.push({ type: "success", text: msg });
                 }
               } catch (e) {
-                msgs.push({ type: "error", text: e.message });
+                msgs.push({ type: "error", text: e.message || String(e) });
                 throw e; // Stop execution on error
               }
             }
@@ -970,19 +1005,22 @@ const StartLearning1 = ({
             const selectedText = editorRef.current.getSelectedText();
             if (selectedText && selectedText.trim().length > 0) {
               userCodeToRun = selectedText;
+              // DEBUG: remove later
+              // alert("Running Selected Code:\n" + userCodeToRun);
             }
+          } else {
+            console.warn("Editor ref is null");
           }
 
           try {
-            // If initialCode is NOT in the user code (user deleted it), we might want to prepend it?
-            // But usually user code represents the whole script.
-            // If the question depends on setup, and user deleted setup, it will fail. That's expected.
-            // BUT, if we want to be nice, we can check. For now, assume user code is self-sufficient OR user kept the initialCode.
             const userRun = runQuery(userDb, userCodeToRun);
             userMessages.push(...userRun.msgs);
             userResultData = userRun.lastSelectResult;
           } catch (e) {
-            userMessages.push({ type: "error", text: `Error: ${e.message}` });
+            userMessages.push({
+              type: "error",
+              text: `Error: ${e.message || String(e)}`,
+            });
           }
 
           // Output for user
@@ -991,9 +1029,9 @@ const StartLearning1 = ({
           );
 
           // 2. Run Expected Answer on a FRESH DB (Dynamic Verification)
-          const expectedDb = new SQL.Database();
-          // Apply Common Setup for Chapter
-          // Uses activeChapter first (reliable), fallback to expandedChapter
+          // ONLY if we are grading (i.e. not just running freely, but checking against expected output)
+          // StartLearning1 always checks if correct? Yes.
+          const expectedDb = new alasql.Database();
           const setupExpectedChapter = activeChapter || expandedChapter;
           if (CHAPTER_SETUP[setupExpectedChapter]) {
             try {
@@ -1011,15 +1049,16 @@ const StartLearning1 = ({
               runQuery(expectedDb, questionData.initialCode, false);
             }
             // Run answer
-            const ansRun = runQuery(
-              expectedDb,
-              questionData.answer || "",
-              false
-            );
-            expectedResultData = ansRun.lastSelectResult;
+            if (questionData.answer) {
+              const ansRun = runQuery(
+                expectedDb,
+                questionData.answer || "",
+                false
+              );
+              expectedResultData = ansRun.lastSelectResult;
+            }
           } catch (e) {
             console.error("Error generating expected result:", e);
-            // If expected code fails, we can't grade properly.
           }
 
           // 3. Compare Results
@@ -1034,14 +1073,8 @@ const StartLearning1 = ({
             if (!t1 || !t2) return false;
             // Compare rows count
             if (t1.values.length !== t2.values.length) {
-              console.log(
-                "Row count mismatch:",
-                t1.values.length,
-                t2.values.length
-              );
               return false;
             }
-
             // Robust comparison: Sort rows to ignore order (SQL sets are unordered)
             const v1 = [...t1.values].sort((a, b) =>
               JSON.stringify(a).localeCompare(JSON.stringify(b))
@@ -1049,10 +1082,8 @@ const StartLearning1 = ({
             const v2 = [...t2.values].sort((a, b) =>
               JSON.stringify(a).localeCompare(JSON.stringify(b))
             );
-
             const s1 = JSON.stringify(v1);
             const s2 = JSON.stringify(v2);
-            console.log("Stringified values:", { s1, s2 });
             return s1 === s2;
           };
 
@@ -1067,8 +1098,6 @@ const StartLearning1 = ({
             score = 0;
             reason = "Result does not match expected output.";
           }
-
-          console.log("Evaluation:", { score, isCorrect, reason });
 
           setEvaluationResult({
             score,
@@ -1317,50 +1346,6 @@ const StartLearning1 = ({
       showModal("Info", result.message || "Could not generate code.", "info");
     }
   };
-
-  // Optional: Toast
-
-  // const renderCourseProgress = () => {
-  //   const totalExamplesInCourse = Object.values(chapterExampleCounts).reduce(
-  //     (a, b) => a + b,
-  //     0
-  //   );
-  //   const totalCompletedInCourse = Object.values(courseContests).filter(
-  //     (c) => c.marks >= ExamConfig.codingMarks
-  //   ).length;
-  //   let percentage = 0;
-  //   if (totalExamplesInCourse > 0) {
-  //     percentage = (totalCompletedInCourse / totalExamplesInCourse) * 100;
-  //   }
-  //   return (
-  //     <div className="course-progress-sidebar">
-  //       <h3>
-  //         <i className="fa-solid fa-chart-simple"></i> Course Progress
-  //       </h3>
-  //       <div className="progress-stats">
-  //         <span className="progress-percentage">{Math.round(percentage)}%</span>
-  //         <span className="progress-fraction">
-  //           {totalCompletedInCourse} / {totalExamplesInCourse}
-  //         </span>
-  //       </div>
-  //       <div className="progress-bar-container">
-  //         <div
-  //           className="progress-bar-fill"
-  //           style={{ width: `${percentage}%` }}
-  //         ></div>
-  //       </div>
-  //       <div className="progress-status-message">
-  //         {percentage === 100
-  //           ? "🎉 Excellent!"
-  //           : percentage >= 70
-  //           ? "🔥 Great job!"
-  //           : percentage >= 40
-  //           ? "💡 Good progress!"
-  //           : "🚀 Start learning!"}
-  //       </div>
-  //     </div>
-  //   );
-  // };
 
   const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
