@@ -27,14 +27,31 @@ const sqlSnippets = [
     type: "snippet",
   },
   {
-    caption: "alterTableModify",
-    snippet:
-      "ALTER TABLE ${1:TableName}\nMODIFY COLUMN ${2:column_name} ${3:new_datatype};",
+    caption: "rename",
+    snippet: "RENAME ${1:OldName} TO ${2:NewName};",
     type: "snippet",
   },
   {
-    caption: "renameTable",
-    snippet: "ALTER TABLE ${1:OldName} RENAME TO ${2:NewName};",
+    caption: "desc",
+    snippet: "DESC ${1:TableName};",
+    type: "snippet",
+  },
+  {
+    caption: "alterTableAddMulti",
+    snippet:
+      "ALTER TABLE ${1:TableName}\nADD (\n    ${2:column1} ${3:datatype},\n    ${4:column2} ${5:datatype}\n);",
+    type: "snippet",
+  },
+  {
+    caption: "alterTableModify",
+    snippet:
+      "ALTER TABLE ${1:TableName}\nMODIFY ${2:column_name} ${3:new_datatype};",
+    type: "snippet",
+  },
+  {
+    caption: "alterTableAddConstraint",
+    snippet:
+      "ALTER TABLE ${1:TableName}\nADD CONSTRAINT ${2:constraint_name} ${3:UNIQUE|CHECK|PRIMARY KEY} (${4:column});",
     type: "snippet",
   },
   {
@@ -109,6 +126,12 @@ const sqlSnippets = [
   {
     caption: "selectLimit",
     snippet: "SELECT * FROM ${1:TableName}\nLIMIT ${2:10};",
+    type: "snippet",
+  },
+  {
+    caption: "selectOffsetFetch",
+    snippet:
+      "SELECT * FROM ${1:TableName}\nOFFSET ${2:0} ROWS FETCH NEXT ${3:10} ROWS ONLY;",
     type: "snippet",
   },
   {
@@ -266,6 +289,81 @@ const sqlSnippets = [
   {
     caption: "coalesce",
     snippet: "COALESCE(${1:column}, ${2:default_value})",
+    type: "snippet",
+  },
+  {
+    caption: "nvl",
+    snippet: "NVL(${1:column}, ${2:replacement_value})",
+    type: "snippet",
+  },
+  {
+    caption: "toLocaleDate",
+    snippet: "TO_DATE('${1:2023-12-24}', '${2:YYYY-MM-DD}')",
+    type: "snippet",
+  },
+  {
+    caption: "toLocaleChar",
+    snippet: "TO_CHAR(${1:column}, '${2:FORMAT}')",
+    type: "snippet",
+  },
+  {
+    caption: "toCharDate",
+    snippet: "TO_CHAR(${1:SYSDATE}, '${2:DD-MON-YYYY HH24:MI:SS}')",
+    type: "snippet",
+  },
+  {
+    caption: "toCharNum",
+    snippet: "TO_CHAR(${1:salary}, '${2:L99G999D99}')",
+    type: "snippet",
+  },
+  {
+    caption: "selectFromDual",
+    snippet: "SELECT ${1:SYSDATE} FROM dual;",
+    type: "snippet",
+  },
+  {
+    caption: "sysdate",
+    snippet: "SYSDATE",
+    type: "snippet",
+  },
+  {
+    caption: "user",
+    snippet: "USER",
+    type: "snippet",
+  },
+  {
+    caption: "level",
+    snippet: "LEVEL",
+    type: "snippet",
+  },
+  {
+    caption: "rownum",
+    snippet: "WHERE ROWNUM <= ${1:10}",
+    type: "snippet",
+  },
+  {
+    caption: "decode",
+    snippet: "DECODE(${1:column}, ${2:search1}, ${3:result1}, ${4:default})",
+    type: "snippet",
+  },
+  {
+    caption: "instr",
+    snippet: "INSTR(${1:string}, ${2:substring})",
+    type: "snippet",
+  },
+  {
+    caption: "substr",
+    snippet: "SUBSTR(${1:string}, ${2:start}, ${3:length})",
+    type: "snippet",
+  },
+  {
+    caption: "lpad",
+    snippet: "LPAD(${1:string}, ${2:length}, '${3:padded_char}')",
+    type: "snippet",
+  },
+  {
+    caption: "rpad",
+    snippet: "RPAD(${1:string}, ${2:length}, '${3:padded_char}')",
     type: "snippet",
   },
   {

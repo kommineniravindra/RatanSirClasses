@@ -131,7 +131,7 @@ const handleEnrollClick = () => {
         <div className="syllabus-modal-overlay">
           <div className="syllabus-modal-content">
             <button className="modal-close-btn" onClick={handleCloseModal}>
-              <FaTimes />
+              X
             </button>
             <h2 className="modal-title">Full Stack Development Flow</h2>
             <div className="flow-diagram">

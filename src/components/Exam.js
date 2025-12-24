@@ -89,7 +89,7 @@ const calculateAccuracyMarks = (
   // 1. Output Accuracy
   let outputScore = 0;
   if (expectedOutput && actualOutput) {
-    // Case-insensitive and space-insensitive comparison
+    // Case 1: Direct "Loose" Match (Squash all whitespace)
     const s1 = expectedOutput.trim().replace(/\s+/g, " ").toLowerCase();
     const s2 = actualOutput.trim().replace(/\s+/g, " ").toLowerCase();
 
@@ -98,20 +98,25 @@ const calculateAccuracyMarks = (
       return maxMarks;
     }
 
-    // Check if lines match regardless of order (e.g. Map output)
-    const lines1 = s1
-      .split(/\r?\n/)
-      .map((l) => l.trim())
-      .filter((l) => l)
-      .sort();
-    const lines2 = s2
-      .split(/\r?\n/)
-      .map((l) => l.trim())
-      .filter((l) => l)
-      .sort();
+    // Case 2: Line-Order Independent Match
+    // FIX: Split original strings by newline, THEN normalize each line.
+    // This prevents "squashing" newlines before splitting.
+    const getNormalizedLines = (text) =>
+      text
+        .trim()
+        .toLowerCase()
+        .split(/\r?\n/)
+        .map((l) => l.trim().replace(/\s+/g, " ")) // Normalize spaces within line
+        .filter((l) => l) // Remove empty lines
+        .sort();
+
+    const lines1 = getNormalizedLines(expectedOutput);
+    const lines2 = getNormalizedLines(actualOutput);
+
     if (JSON.stringify(lines1) === JSON.stringify(lines2)) {
       return maxMarks;
     } else {
+      // Levenshtein Distance (on squashed strings for simplicity/fallback)
       const levenshteinDistance = (a, b) => {
         const matrix = Array(b.length + 1)
           .fill(null)
@@ -1002,16 +1007,22 @@ const Exam = () => {
 
     try {
       let codeToExecute = userCode;
+      let fileName = "Main.java"; // Default
+
       if (apiLang === "java") {
         const {
           prepareJavaCodeForExecution,
         } = require("../utils/javaCodeGenerator");
-        codeToExecute = prepareJavaCodeForExecution(userCode);
+        const prepared = prepareJavaCodeForExecution(userCode);
+        codeToExecute = prepared.content;
+        if (prepared.mainClassName) {
+          fileName = `${prepared.mainClassName}.java`;
+        }
       }
 
       const fileData = { content: codeToExecute };
       if (apiLang === "java") {
-        fileData.name = "Main.java";
+        fileData.name = fileName;
       }
 
       const response = await fetch("https://emkc.org/api/v2/piston/execute", {
@@ -1043,6 +1054,18 @@ const Exam = () => {
   useEffect(() => {
     if (!timerActive || isLoading) return;
 
+    // Checks executed every second because of the setTimeout dependency chain below
+    const totalDuration = getExamDuration(technology, examId); // Assuming we can get max time, but here we just check remaining.
+
+    // 30-Minute Warning (Every 30 mins remaining, e.g. 90 mins, 60 mins, 30 mins)
+    // Avoid spamming by checking exact second match.
+    if (timeLeft > 0 && timeLeft % 1800 === 0 && timeLeft !== totalDuration) {
+      Toast.fire({
+        icon: "info",
+        title: `${Math.floor(timeLeft / 60)} Minutes Remaining`,
+      });
+    }
+
     if (timeLeft === 120) {
       setShowTwoMinuteModal(true);
     }
@@ -1056,13 +1079,37 @@ const Exam = () => {
     }
 
     if (timeLeft <= 0) {
-      submitExam(true);
+      submitExam(true); // Auto-submit
       return;
     }
 
-    const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
-    return () => clearInterval(timer);
-  }, [timerActive, isLoading, submitExam]); // Removed timeLeft dependency
+    // Use setTimeout to create a countdown loop that respects new values of `timeLeft`
+    const timerId = setTimeout(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearTimeout(timerId);
+  }, [timeLeft, timerActive, isLoading, submitExam, technology, examId]);
+
+  // --- NAVIGATION BLOCKER ---
+  const isBlocking = timerActive && !isLoading && timeLeft > 0;
+
+  // 1. Browser Level (Tab Close/Refresh)
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (isBlocking) {
+        e.preventDefault();
+        e.returnValue = ""; // Required for Chrome/modern browsers
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isBlocking]);
+
+  // 2. Client Side Navigation (Back Button / Swipe)
+  // 2. Client Side Navigation (Back Button / Swipe)
+  // Removed useBlocker because it requires Data Router (createBrowserRouter) which creates conflicts.
+  // We rely on window.onbeforeunload for tab close protection.
 
   const handleChange = (qKey, value) =>
     setAnswers((prev) => ({ ...prev, [qKey]: value }));
@@ -1289,8 +1336,6 @@ const Exam = () => {
             blanks={selectedBlanks}
             coding={selectedCoding}
             pseudo={selectedPseudo}
-            // currentPage={currentPage} // Removed unused prop
-            // setCurrentPage={setCurrentPage} // Removed unused prop
             handleQuestionJump={handleQuestionJump}
             isCodingRoundAvailable={isCodingRoundAvailable}
             calculateAnswerStatus={calculateAnswerStatus}
@@ -1431,7 +1476,6 @@ const Exam = () => {
                   {/* --- SECTION 3: PSEUDO CODE --- */}
                   {currentPage === 3 &&
                     selectedPseudo.map((q, i) => {
-                      
                       return (
                         <div
                           key={`pseudo-${i}`}
@@ -1471,8 +1515,6 @@ const Exam = () => {
                   {isCodingRoundAvailable &&
                     currentPage === 4 &&
                     selectedCoding.map((q, i) => {
-                     
-
                       return (
                         <div
                           key={`code-${i}`}

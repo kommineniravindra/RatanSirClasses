@@ -70,6 +70,16 @@ const Master = () => {
     sessionStorage.setItem("selectedItem", selectedItem);
   }, [selectedPage, selectedTechnology, selectedItem]);
 
+  // UseEffect to hide intro after 3 seconds
+  useEffect(() => {
+    if (showIntro) {
+      const timer = setTimeout(() => {
+        setShowIntro(false);
+      }, 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [showIntro]);
+
   const handleVideoComplete = () => {
     setShowIntro(false);
   };

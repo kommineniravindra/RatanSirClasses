@@ -45,17 +45,14 @@ import {
 import "../css/Compiler.css";
 import BrowserPreview from "./BrowserPreview";
 import javaSnippets from "../utils/javaSnippets";
-import sqlSnippets from "../utils/sqlSnippets";
+import { executeSqlCommands, sqlSnippets } from "../utils/sqllogic";
 import { generateJavaCode } from "../utils/javaCodeGenerator";
 import { availableThemes } from "../utils/editorThemes";
 import { languageBoilerplates } from "../utils/languageBoilerplates";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
-import { jsPDF } from "jspdf";
-import html2canvas from "html2canvas";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { downloadCompilerPdf, PdfPrintLayout } from "../utils/pdfUtils";
 
 import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/mode-css";
@@ -89,10 +86,6 @@ ace.config.set(
   "https://cdn.jsdelivr.net/npm/ace-builds@1.35.0/src-noconflict/"
 );
 
-// WASM URL for sql.js
-const SQL_WASM_URL =
-  "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.wasm";
-
 const OnlineCompiler = () => {
   const [code, setCode] = useState(() => {
     return (
@@ -114,11 +107,11 @@ const OnlineCompiler = () => {
   const [isItalic, setIsItalic] = useState(false);
   const [isError, setIsError] = useState(false);
   const [userInput, setUserInput] = useState("");
-  const [showInput, setShowInput] = useState(false);
   const [isWaitingForInput, setIsWaitingForInput] = useState(false);
   const [detectedPrompts, setDetectedPrompts] = useState([]);
   const [promptValues, setPromptValues] = useState({});
   const [currentPromptIndex, setCurrentPromptIndex] = useState(0);
+  const [consoleFontSize, setConsoleFontSize] = useState(14);
 
   // Settings dropdown state
   const [showSettingsDropdown, setShowSettingsDropdown] = useState(false);
@@ -398,73 +391,8 @@ const OnlineCompiler = () => {
 
   // SQL initialization removed - Switched to AlaSQL (Dynamic import in implementation)
 
-  const pdfCodeRef = useRef(null);
-  const pdfOutputRef = useRef(null);
-
-  const handleDownloadPdf = async () => {
-    toast.info("Generating PDF... Please wait.");
-    await new Promise((r) => setTimeout(r, 100));
-
-    const pdf = new jsPDF("p", "mm", "a4");
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    // const pdfHeight = pdf.internal.pageSize.getHeight();
-
-    // Helper to capture and add a page
-    const captureAndAdd = async (element, isFirst) => {
-      const canvas = await html2canvas(element, {
-        scale: 1.5,
-        useCORS: true,
-        logging: false,
-        backgroundColor: "#ffffff",
-      });
-      const imgData = canvas.toDataURL("image/png");
-      const imgWidth = pdfWidth;
-      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-
-      if (!isFirst) {
-        pdf.addPage();
-      }
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-    };
-
-    try {
-      // 1. Process Code Pages
-      const codePages = document.querySelectorAll(".pdf-page-code");
-      for (let i = 0; i < codePages.length; i++) {
-        await captureAndAdd(codePages[i], i === 0);
-      }
-
-      // 2. Process Output Pages
-      if (!isWebLanguage) {
-        const outputPages = document.querySelectorAll(".pdf-page-output");
-
-        for (let i = 0; i < outputPages.length; i++) {
-          // If we already added code pages, we need to add a new page for output
-          const needsPageBreak = codePages.length > 0 || i > 0;
-
-          if (outputPages[i]) {
-            if (needsPageBreak) pdf.addPage();
-
-            const canvas = await html2canvas(outputPages[i], {
-              scale: 1.5,
-              backgroundColor: "#ffffff",
-            });
-            const imgData = canvas.toDataURL("image/png");
-            const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, imgHeight);
-          }
-        }
-      }
-
-      // Determine filename based on language name
-      const langObj = languages.find((l) => l.apiLang === language);
-      const fileName = langObj ? langObj.name : "CodePulse_Output";
-      pdf.save(`${fileName}.pdf`);
-      toast.success("PDF Downloaded Successfully!");
-    } catch (error) {
-      console.error("PDF Generation Error:", error);
-      toast.error("Failed to generate PDF.");
-    }
+  const handleDownloadPdf = () => {
+    downloadCompilerPdf(language);
   };
 
   const checkForInput = (code, lang) => {
@@ -498,257 +426,14 @@ const OnlineCompiler = () => {
 
     // Special handling for SQL (AlaSQL - MySQL/Oracle simulation)
     if (language === "sql") {
-      try {
-        const alasql = require("alasql");
-
-        // Polyfill NVL for Oracle compatibility
-        if (!alasql.fn.NVL) {
-          alasql.fn.NVL = function (val, defaultVal) {
-            return val === null || val === undefined ? defaultVal : val;
-          };
-        }
-
-        // Ensure Database exists (simulated session)
-        if (!alasql.databases.myDB) {
-          alasql("CREATE DATABASE myDB");
-        }
-        alasql("USE myDB");
-
-        let codeToExecute = code;
-        // Check for selection
-        if (editorRef.current) {
-          const selectedText = editorRef.current.getSelectedText();
-          if (selectedText && selectedText.trim().length > 0) {
-            codeToExecute = selectedText;
-          }
-        }
-
-        // Remove comments (Block \/*...*\/ and Line --)
-        const sanitizedCode = codeToExecute
-          .replace(/\/\*[\s\S]*?\*\//g, "") // Remove block comments
-          .split("\n")
-          .map((line) => {
-            const idx = line.indexOf("--");
-            return idx >= 0 ? line.substring(0, idx) : line;
-          })
-          .join("\n");
-
-        // Split commands by semicolon to handle multiple statements
-        const commands = sanitizedCode
-          .split(";")
-          .filter((c) => c.trim().length > 0);
-
-        let messages = [];
-
-        for (let cmd of commands) {
-          try {
-            const trimmedCmd = cmd.trim();
-            // alasql.exec returns array of results if multiple queries, or single result
-            // Since we loop, we execute one by one
-            let res = alasql(trimmedCmd);
-
-            const lowerCmd = trimmedCmd.toLowerCase();
-
-            if (lowerCmd.startsWith("create table")) {
-              const match = trimmedCmd.match(
-                /create\s+table\s+(?:if\s+not\s+exists\s+)?["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "Table";
-              messages.push({
-                type: "success",
-                text: `Table '${tableName}' created successfully.`,
-              });
-            } else if (lowerCmd.startsWith("drop table")) {
-              const match = trimmedCmd.match(
-                /drop\s+table\s+(?:if\s+exists\s+)?["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "Table";
-              messages.push({
-                type: "success",
-                text: `Table '${tableName}' dropped successfully.`,
-              });
-            } else if (
-              lowerCmd.startsWith("truncate table") ||
-              lowerCmd.startsWith("truncate")
-            ) {
-              const match = trimmedCmd.match(
-                /truncate(?:\s+table)?\s+["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "Table";
-              messages.push({
-                type: "success",
-                text: `Table '${tableName}' truncated successfully.`,
-              });
-            } else if (lowerCmd.startsWith("insert into")) {
-              const match = trimmedCmd.match(
-                /insert\s+into\s+["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "table";
-              // res is usually the number of rows affected for INSERT in some engines,
-              // but alasql returns 1 for single insert
-              messages.push({
-                type: "success",
-                text: `Values inserted into '${tableName}' successfully.`,
-              });
-            } else if (lowerCmd.startsWith("update")) {
-              const match = trimmedCmd.match(/update\s+["`]?([^\s("`]+)/i);
-              const tableName = match ? match[1] : "table";
-              const rows = res; // alasql returns number of affected rows for update
-              messages.push({
-                type: "success",
-                text: `Table '${tableName}' updated. Rows affected: ${rows}`,
-              });
-            } else if (lowerCmd.startsWith("delete from")) {
-              const match = trimmedCmd.match(
-                /delete\s+from\s+["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "table";
-              const rows = res; // alasql returns number of affected rows
-              messages.push({
-                type: "success",
-                text: `Rows deleted from '${tableName}'. Rows affected: ${rows}`,
-              });
-            } else if (lowerCmd.startsWith("alter table")) {
-              const match = trimmedCmd.match(
-                /alter\s+table\s+["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "Table";
-              messages.push({
-                type: "success",
-                text: `Table '${tableName}' altered successfully.`,
-              });
-            } else if (
-              lowerCmd.startsWith("describe") ||
-              lowerCmd.startsWith("desc")
-            ) {
-              const match = trimmedCmd.match(
-                /(?:describe|desc)\s+["`]?([^\s("`]+)/i
-              );
-              if (match) {
-                const tableName = match[1];
-                const db = alasql.databases.myDB;
-                if (db && db.tables && db.tables[tableName]) {
-                  const columnsData = db.tables[tableName].columns.map(
-                    (col) => ({
-                      Field: col.columnid,
-                      Type: col.dbtypeid || "UNKNOWN",
-                      Null: "YES", // AlaSQL metadata might vary, strict emulation
-                      Key: col.pk ? "PRI" : "",
-                      Default: "NULL",
-                      Extra: "",
-                    })
-                  );
-                  // Convert to array format for our UI
-                  const columns = [
-                    "Field",
-                    "Type",
-                    "Null",
-                    "Key",
-                    "Default",
-                    "Extra",
-                  ];
-                  const values = columnsData.map((row) => [
-                    row.Field,
-                    row.Type,
-                    row.Null,
-                    row.Key,
-                    row.Default,
-                    row.Extra,
-                  ]);
-
-                  messages.push({ type: "table", data: { columns, values } });
-                } else {
-                  messages.push({
-                    type: "error",
-                    text: `Table '${tableName}' does not exist`,
-                  });
-                }
-              }
-            } else if (
-              lowerCmd.startsWith("select") ||
-              lowerCmd.startsWith("show")
-            ) {
-              if (Array.isArray(res) && res.length > 0) {
-                // AlaSQL returns array of objects {col1: val1, ...} directly
-                // We need to shape it for our Table component if expectation is {columns:[], values:[]}
-
-                const columns = Object.keys(res[0]);
-                const values = res.map((row) => columns.map((col) => row[col]));
-
-                messages.push({ type: "table", data: { columns, values } });
-              } else if (Array.isArray(res) && res.length === 0) {
-                // Empty result set - Try to show Table Columns if possible (for "Empty Table" visualization)
-                let showedEmptyTable = false;
-                try {
-                  // Try to extract table name from simple SELECT queries
-                  const fromMatch = trimmedCmd.match(
-                    /from\s+["`]?([^\s("`]+)/i
-                  );
-                  if (fromMatch) {
-                    const tableName = fromMatch[1];
-                    // Check metadata for columns
-                    const db = alasql.databases.myDB;
-                    if (
-                      db &&
-                      db.tables &&
-                      db.tables[tableName] &&
-                      db.tables[tableName].columns
-                    ) {
-                      const columns = db.tables[tableName].columns.map(
-                        (c) => c.columnid
-                      );
-                      if (columns && columns.length > 0) {
-                        messages.push({
-                          type: "table",
-                          data: { columns: columns, values: [] },
-                        });
-                        showedEmptyTable = true;
-                      }
-                    }
-                  }
-                } catch (err) {
-                  console.log("Could not extract columns for empty table", err);
-                }
-
-                if (!showedEmptyTable) {
-                  messages.push({
-                    type: "info",
-                    text: "Query returned no results.",
-                  });
-                }
-              } else {
-                // Single value result?
-                messages.push({
-                  type: "info",
-                  text: JSON.stringify(res),
-                });
-              }
-            } else {
-              // Other commands (commit, etc)
-              messages.push({
-                type: "success",
-                text: "Command executed successfully.",
-              });
-            }
-          } catch (e) {
-            messages.push({ type: "error", text: `Error: ${e.message}` });
-            setIsError(true);
-          }
-        }
-
-        if (messages.length > 0) {
-          setOutput(messages);
-        } else {
-          setOutput("Executed successfully.");
-        }
-      } catch (err) {
-        console.error(err);
-        setOutput(`SQL Error: ${err.message}`);
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-        setIsWaitingForInput(false); // Reset here
-      }
+      executeSqlCommands(
+        code,
+        editorRef,
+        setOutput,
+        setIsError,
+        setIsLoading,
+        setIsWaitingForInput
+      );
       return;
     }
 
@@ -766,7 +451,8 @@ const OnlineCompiler = () => {
         const {
           prepareJavaCodeForExecution,
         } = require("../utils/javaCodeGenerator"); // Import dynamically or ensure top-level
-        codeToSend = prepareJavaCodeForExecution(code);
+        const prepared = prepareJavaCodeForExecution(code);
+        codeToSend = prepared.content;
       }
 
       const fileData = { content: codeToSend };
@@ -801,7 +487,7 @@ const OnlineCompiler = () => {
       }
 
       setOutput(finalOutput);
-      if (run.code !== 0) {
+      if (run.code !== 0 && run.stderr) {
         setIsError(true);
       }
     } catch (error) {
@@ -1052,14 +738,6 @@ const OnlineCompiler = () => {
     <div className="compiler-container" ref={containerRef}>
       {!isFullScreen && (
         <header className="compiler-header">
-          {/* Left: Branding */}
-          {/* <div className="header-left">
-            <span className="animated-title-3d main-title ">
-              <span>CODEPULSE-R</span>
-            </span>
-            <span className="animated-title-3d slogan">Online Compiler's</span>
-          </div> */}
-
           <div className="compiler-nav">
             {languages.map((lang) => {
               const isActive = language === lang.apiLang;
@@ -1376,8 +1054,47 @@ const OnlineCompiler = () => {
               <FaTerminal /> Console
             </h3>
             <div className="console-header-actions">
+              <div
+                className="console-font-controls"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "5px",
+                  marginRight: "15px",
+                }}
+              >
+                <button
+                  className="btn-compiler1"
+                  onClick={() =>
+                    setConsoleFontSize((prev) => Math.max(10, prev - 1))
+                  }
+                  title="Decrease Font Size"
+                >
+                  -
+                </button>
+                <span
+                  style={{
+                    fontSize: "0.85rem",
+                    color: "#641e7c",
+                    minWidth: "35px",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {consoleFontSize}px
+                </span>
+                <button
+                  className="btn-compiler1"
+                  onClick={() =>
+                    setConsoleFontSize((prev) => Math.min(35, prev + 1))
+                  }
+                  title="Increase Font Size"
+                >
+                  +
+                </button>
+              </div>
               <button
-                className="btn-compiler"
+                className="btn-compiler1"
                 onClick={handleDownloadPdf}
                 title="Download PDF"
               >
@@ -1387,13 +1104,17 @@ const OnlineCompiler = () => {
           </div>
           <div
             className={`output-content ${isWebLanguage ? "preview-mode" : ""}`}
+            style={{ fontSize: `${consoleFontSize}px` }}
           >
             {isWebLanguage ? (
               <div className="preview-container">
                 <BrowserPreview htmlCode={output} />
               </div>
             ) : Array.isArray(output) ? (
-              <div className="sql-result-container sql-result-padding">
+              <div
+                className="sql-result-container sql-result-padding"
+                style={{ fontSize: `${consoleFontSize}px` }}
+              >
                 {output.map((msg, i) => (
                   <div key={i} className="sql-msg-item">
                     {msg.type === "success" && (
@@ -1406,21 +1127,45 @@ const OnlineCompiler = () => {
                       <div className="info-msg-text">{msg.text}</div>
                     )}
                     {msg.type === "table" && (
-                      <div className="table-overflow">
-                        <table className="sql-table">
-                          <thead>
-                            <tr>
+                      <div
+                        className="table-overflow"
+                        style={{ fontSize: "inherit" }}
+                      >
+                        <table
+                          className="sql-table"
+                          style={{ fontSize: "inherit" }}
+                        >
+                          <thead style={{ fontSize: "inherit" }}>
+                            <tr style={{ fontSize: "inherit" }}>
                               {msg.data.columns.map((col, idx) => (
-                                <th key={idx}>{col}</th>
+                                <th key={idx} style={{ fontSize: "inherit" }}>
+                                  {col}
+                                </th>
                               ))}
                             </tr>
                           </thead>
-                          <tbody>
+                          <tbody style={{ fontSize: "inherit" }}>
                             {msg.data.values.map((row, rIdx) => (
-                              <tr key={rIdx}>
-                                {row.map((val, cIdx) => (
-                                  <td key={cIdx}>{val}</td>
-                                ))}
+                              <tr key={rIdx} style={{ fontSize: "inherit" }}>
+                                {row.map((val, cIdx) => {
+                                  // Explicitly check for null/undefined to use placeholder
+                                  const isNull =
+                                    val === null ||
+                                    val === undefined ||
+                                    (typeof val === "number" && isNaN(val));
+                                  return (
+                                    <td
+                                      key={cIdx}
+                                      style={{ fontSize: "inherit" }}
+                                    >
+                                      {isNull ? (
+                                        <span className="null-value">NULL</span>
+                                      ) : (
+                                        String(val)
+                                      )}
+                                    </td>
+                                  );
+                                })}
                               </tr>
                             ))}
                           </tbody>
@@ -1434,7 +1179,10 @@ const OnlineCompiler = () => {
               <div className="output-section-wrapper">
                 {/* Run Intercept: Input Overlay */}
                 {isWaitingForInput ? (
-                  <div className="console-input-overlay">
+                  <div
+                    className="console-input-overlay"
+                    style={{ fontSize: `${consoleFontSize}px` }}
+                  >
                     {detectedPrompts.length > 0 ? (
                       <>
                         {/* History: Show previous prompts and values */}
@@ -1515,6 +1263,7 @@ const OnlineCompiler = () => {
                     className={`output-pre ${
                       isError ? "error-text" : ""
                     } output-pre-styled`}
+                    style={{ fontSize: `${consoleFontSize}px` }}
                   >
                     {isLoading ? (
                       <span className="loading-dots">
@@ -1535,157 +1284,13 @@ const OnlineCompiler = () => {
 
       <ToastContainer position="top-right" theme="light" />
 
-      {/* Hidden Print Layout for PDF Generation */}
-      <div className="pdf-hidden-layout">
-        {/* Render Code Pages */}
-        {(() => {
-          const lines = (code || "").split("\n");
-          const LINES_PER_PAGE = 40;
-          const totalPages = Math.ceil(lines.length / LINES_PER_PAGE) || 1;
-          const pages = [];
-
-          for (let i = 0; i < totalPages; i++) {
-            const chunk = lines
-              .slice(i * LINES_PER_PAGE, (i + 1) * LINES_PER_PAGE)
-              .join("\n");
-            pages.push(
-              <div
-                key={`code-page-${i}`}
-                className="pdf-page-code pdf-page-code-container"
-              >
-                {/* HEADER */}
-                <div className="pdf-header-wrapper">
-                  <div>
-                    <h1 className="pdf-title">CodePulse-R</h1>
-                    <p className="pdf-subtitle">
-                      Source Code - Page {i + 1} of {totalPages}
-                    </p>
-                  </div>
-                  <div className="pdf-student-info">
-                    <p className="pdf-student-name">
-                      Student: {localStorage.getItem("userName") || "Guest"}
-                    </p>
-                    <p className="pdf-date">
-                      Date: {new Date().toLocaleDateString()}
-                      <br />
-                      Time: {new Date().toLocaleTimeString()}
-                    </p>
-                  </div>
-                </div>
-
-                {/* CONTENT */}
-                <h3 className="pdf-section-title">
-                  {language} ({i + 1}/{totalPages})
-                </h3>
-                <div className="pdf-code-block">
-                  <SyntaxHighlighter
-                    language={language === "sqlite3" ? "sql" : language}
-                    style={docco}
-                    showLineNumbers={true}
-                    startingLineNumber={i * LINES_PER_PAGE + 1}
-                    wrapLongLines={true}
-                  >
-                    {chunk || ""}
-                  </SyntaxHighlighter>
-                </div>
-
-                {/* FOOTER */}
-                <div className="pdf-footer-wrapper">
-                  <span>Generated by CodePulse-R</span>
-                  <span>www.codepulse-r.com</span>
-                </div>
-              </div>
-            );
-          }
-          return pages;
-        })()}
-
-        {/* Render Output Pages (Only if not Web Language) */}
-        {!isWebLanguage && (
-          <div className="pdf-page-output">
-            <div ref={pdfOutputRef} className="pdf-page-output-container">
-              {/* PDF HEADER (Page 2) */}
-              <div className="pdf-header-wrapper">
-                <div>
-                  <h1 className="pdf-title">CodePulse-R</h1>
-                  <p className="pdf-subtitle">Console Output</p>
-                </div>
-                <div className="pdf-student-info">
-                  <p className="pdf-student-name">
-                    Name: {localStorage.getItem("userName") || "Guest"}
-                  </p>
-                  <p className="pdf-date">
-                    Date: {new Date().toLocaleDateString()}
-                    <br />
-                    Time: {new Date().toLocaleTimeString()}
-                  </p>
-                </div>
-              </div>
-
-              <h3 className="pdf-section-title">Execution Result</h3>
-              <div className="pdf-result-box">
-                {Array.isArray(output) ? (
-                  <div className="sql-result-container">
-                    {output.map((msg, i) => (
-                      <div key={i} className="sql-msg-item pdf-sql-item">
-                        {msg.type === "success" && (
-                          <div className="sql-success-msg pdf-sql-success">
-                            ✔ {msg.text}
-                          </div>
-                        )}
-                        {msg.type === "error" && (
-                          <div className="error-msg-box pdf-sql-error">
-                            {msg.text}
-                          </div>
-                        )}
-                        {msg.type === "info" && (
-                          <div className="info-msg-text">{msg.text}</div>
-                        )}
-                        {msg.type === "table" && msg.data && (
-                          <div className="pdf-table-wrapper">
-                            <table className="pdf-table">
-                              <thead>
-                                <tr className="pdf-table-row-header">
-                                  {msg.data.columns.map((col, idx) => (
-                                    <th key={idx} className="pdf-table-th">
-                                      {col}
-                                    </th>
-                                  ))}
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {msg.data.values.map((row, rIdx) => (
-                                  <tr key={rIdx}>
-                                    {row.map((val, cIdx) => (
-                                      <td key={cIdx} className="pdf-table-td">
-                                        {val}
-                                      </td>
-                                    ))}
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <pre className="pdf-pre-output">
-                    {output || "No output generated."}
-                  </pre>
-                )}
-              </div>
-
-              {/* PDF FOOTER (Page 2) */}
-              <div className="pdf-footer-wrapper">
-                <span>Generated by CodePulse-R</span>
-                <span>www.codepulse-r.com</span>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+      {/* Unified PDF Print Layout */}
+      <PdfPrintLayout
+        code={code}
+        language={language}
+        output={output}
+        userName={localStorage.getItem("userName") || "Guest"}
+      />
     </div>
   );
 };

@@ -208,7 +208,7 @@ export const generateJavaCode = (currentCode, type, cursorIndex = -1) => {
   }
 
   const importsNeeded = new Set();
-  const updates = []; 
+  const updates = [];
 
   for (const scope of targets) {
     const fields = findFieldsInScope(currentCode, scope);
@@ -372,33 +372,107 @@ export const generateJavaCode = (currentCode, type, cursorIndex = -1) => {
 };
 
 export const prepareJavaCodeForExecution = (code) => {
-  const scopes = findClassScopes(code);
-  const mainClass = scopes.find((scope) => {
+  // 1. Strip Package Declarations
+  let cleanedCode = code.replace(/^\s*package\s+[\w.]+;\s*$/gm, "");
+
+  // 1b. Check for duplicates imports or extract them
+  const importRegex = /^\s*import\s+[\w\s.*]+;\s*$/gm;
+  const imports = [];
+  let match;
+  while ((match = importRegex.exec(cleanedCode)) !== null) {
+    if (!imports.includes(match[0])) {
+      imports.push(match[0]);
+    }
+  }
+
+  // Remove imports from code to avoid duplication/misplacement during reorder
+  let codeWithoutImports = cleanedCode.replace(importRegex, "").trim();
+
+  // 2. Perform Class Reordering (Logic to put Main class first)
+  const scopes = findClassScopes(codeWithoutImports);
+
+  // Find Main Class (Entry Point)
+  let mainClass = scopes.find((scope) => {
     const body = scope.content;
-    return (
-      /public\s+static\s+void\s+main\s*\(\s*String\s*\[\s*\]\s*args\s*\)/.test(
-        body
-      ) ||
-      /public\s+static\s+void\s+main\s*\(\s*String\s*\.\.\.\s*args\s*\)/.test(
-        body
-      )
+    // Support regex for "public static void main" or "static public void main"
+    // And standard args variants
+    return /(?:public\s+static|static\s+public)\s+void\s+main\s*\(\s*String\s*(?:\[\s*\]|\.\.\.)\s*\w+\s*\)/.test(
+      body
     );
   });
 
-  if (!mainClass) return code;
-
-  if (scopes[0] === mainClass) return code;
-  let start = mainClass.startIndex;
-
-  const prefix = code.substring(0, start);
-  const match = prefix.match(/((?:public|final|abstract|strictfp)\s+)*$/);
-  if (match && match[0]) {
-    start -= match[0].length;
+  // Fallback 1: If no main method, try to find a public class to name the file
+  if (!mainClass) {
+    mainClass = scopes.find((scope) => {
+      // Check modifiers before class definition
+      const prefix = codeWithoutImports.substring(0, scope.startIndex);
+      return /public\s+$/.test(prefix.trimEnd());
+    });
   }
 
-  const mainCode = code.substring(start, mainClass.endIndex + 1);
-  const beforeMain = code.substring(0, start);
-  const afterMain = code.substring(mainClass.endIndex + 1);
+  // Fallback 2: First class
+  if (!mainClass && scopes.length > 0) {
+    mainClass = scopes[0];
+  }
 
-  return mainCode + "\n\n" + beforeMain + afterMain;
+  let finalReorderedCode = codeWithoutImports;
+  let mainClassName = null;
+
+  if (mainClass) {
+    mainClassName = mainClass.className;
+
+    // We categorize parts: Main Class, and Others.
+    let mainClassCode = "";
+
+    // Extract Main Class Code
+    let start = mainClass.startIndex;
+    const prefix = codeWithoutImports.substring(0, start);
+    const modMatch = prefix.match(/((?:public|final|abstract|strictfp)\s+)*$/);
+    if (modMatch && modMatch[0]) {
+      start -= modMatch[0].length;
+    }
+    mainClassCode = codeWithoutImports.substring(start, mainClass.endIndex + 1);
+
+    // Ensure Main Class is Public (good practice for Piston main file)
+    if (!mainClassCode.trim().startsWith("public")) {
+      mainClassCode = "public " + mainClassCode;
+    }
+
+    // Helper to strip public from class defs
+    const stripPublic = (str) => str.replace(/public\s+class\s/g, "class ");
+
+    if (scopes[0] !== mainClass) {
+      // We calculate before/after based on ORIGINAL indices
+
+      let originalStart = mainClass.startIndex;
+      const p = codeWithoutImports.substring(0, originalStart);
+      const m = p.match(/((?:public|final|abstract|strictfp)\s+)*$/);
+      if (m && m[0]) originalStart -= m[0].length;
+
+      const beforeMain = codeWithoutImports.substring(0, originalStart);
+      const afterMain = codeWithoutImports.substring(mainClass.endIndex + 1);
+
+      finalReorderedCode =
+        mainClassCode +
+        "\n\n" +
+        stripPublic(beforeMain) +
+        stripPublic(afterMain);
+    } else {
+      // Main class is already at top.
+      // We still need to strip public from SUBSEQUENT classes.
+      // The main class ends at mainClass.endIndex.
+      const firstPart = codeWithoutImports.substring(0, mainClass.endIndex + 1);
+      const rest = codeWithoutImports.substring(mainClass.endIndex + 1);
+      finalReorderedCode = firstPart + stripPublic(rest);
+    }
+  }
+
+  // 3. Re-inject Imports
+  const importsStr = imports.join("\n");
+  const finalContent = importsStr + "\n\n" + finalReorderedCode;
+
+  return {
+    content: finalContent,
+    mainClassName: mainClassName,
+  };
 };

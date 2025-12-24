@@ -24,14 +24,13 @@ import {
 import "../css/Compiler.css";
 import BrowserPreview from "./BrowserPreview";
 import javaSnippets from "../utils/javaSnippets";
-import sqlSnippets from "../utils/sqlSnippets";
+import { executeSqlCommands, sqlSnippets } from "../utils/sqllogic";
 import { generateJavaCode } from "../utils/javaCodeGenerator";
 import { availableThemes } from "../utils/editorThemes";
 import Swal from "sweetalert2";
-import { jsPDF } from "jspdf";
-import html2canvas from "html2canvas";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { downloadCompilerPdf, PdfPrintLayout } from "../utils/pdfUtils";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/mode-html";
@@ -90,9 +89,6 @@ const Compiler = () => {
   const editorRef = useRef(null);
   const settingsDropdownRef = useRef(null);
   const containerRef = useRef(null);
-  const sqlDbRef = useRef(null);
-  const pdfCodeRef = useRef(null);
-  const pdfOutputRef = useRef(null);
 
   // -- Dropdown State --
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
@@ -221,63 +217,8 @@ const Compiler = () => {
 
   // SQL.js initialization removed - Switched to AlaSQL
 
-  const handleDownloadPdf = async () => {
-    const pdf = new jsPDF("p", "mm", "a4");
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
-
-    const addToPdf = async (ref, isFirstSection) => {
-      if (!ref.current) return;
-
-      const canvas = await html2canvas(ref.current, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: "#ffffff",
-      });
-
-      const imgData = canvas.toDataURL("image/png");
-      const imgWidth = pdfWidth;
-      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-
-      if (!isFirstSection) {
-        pdf.addPage();
-      }
-
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      // Add first page of this section
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pdfHeight;
-
-      // Add additional pages if content overflows
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
-      }
-    };
-
-    try {
-      // 1. Process Code Section
-      await addToPdf(pdfCodeRef, true);
-
-      // 2. Process Output Section (if applicable)
-      if (
-        !(language === "html" || language === "css") &&
-        pdfOutputRef.current
-      ) {
-        await addToPdf(pdfOutputRef, false);
-      }
-
-      pdf.save("CodePulse_Output.pdf");
-      Swal.fire("Success", "PDF Downloaded Successfully!", "success");
-    } catch (error) {
-      console.error("PDF Generation Error:", error);
-      Swal.fire("Error", "Failed to generate PDF.", "error");
-    }
+  const handleDownloadPdf = () => {
+    downloadCompilerPdf(language);
   };
 
   useEffect(() => {
@@ -338,241 +279,14 @@ const Compiler = () => {
 
     // --- 2. SQL LOCAL EXECUTION ---
     if (language === "sql") {
-      const alasql = require("alasql");
-
-      // Polyfill NVL for Oracle compatibility
-      if (!alasql.fn.NVL) {
-        alasql.fn.NVL = function (val, defaultVal) {
-          return val === null || val === undefined ? defaultVal : val;
-        };
-      }
-
-      // Initialize Persistent Database if not exists
-      if (!sqlDbRef.current) {
-        sqlDbRef.current = new alasql.Database();
-        sqlDbRef.current.exec("CREATE DATABASE IF NOT EXISTS myDB; USE myDB");
-      }
-      const db = sqlDbRef.current;
-
-      try {
-        let codeToExecute = code;
-        if (editorRef.current) {
-          const selectedText = editorRef.current.getSelectedText();
-          if (selectedText && selectedText.trim().length > 0) {
-            codeToExecute = selectedText;
-          }
-        }
-
-        const sanitizedCode = codeToExecute
-          .replace(/\/\*[\s\S]*?\*\//g, "")
-          .split("\n")
-          .map((line) => {
-            const idx = line.indexOf("--");
-            return idx >= 0 ? line.substring(0, idx) : line;
-          })
-          .join("\n");
-
-        const commands = sanitizedCode
-          .split(";")
-          .filter((c) => c.trim().length > 0);
-        let messages = [];
-
-        for (let cmd of commands) {
-          try {
-            const trimmedCmd = cmd.trim();
-            const lowerCmd = trimmedCmd.toLowerCase();
-            let res = db.exec(trimmedCmd);
-
-            // Handle DESCRIBE manually by inspecting metadata
-            if (
-              lowerCmd.startsWith("describe") ||
-              lowerCmd.startsWith("desc")
-            ) {
-              const match = trimmedCmd.match(
-                /(?:describe|desc)\s+["`]?([^\s("`]+)/i
-              );
-              if (match) {
-                const tableName = match[1];
-                if (
-                  db.tables &&
-                  db.tables[tableName] &&
-                  db.tables[tableName].columns
-                ) {
-                  const cols = db.tables[tableName].columns.map((c) => ({
-                    Field: c.columnid,
-                    Type: c.dbtypeid || "UNKNOWN",
-                    Null: "YES", // AlaSQL metadata might vary
-                    Key: c.pk ? "PRI" : "",
-                    Default: "NULL",
-                    Extra: "",
-                  }));
-                  res = cols;
-                }
-              }
-            }
-
-            if (lowerCmd.startsWith("create table")) {
-              const match = trimmedCmd.match(
-                /create\s+table\s+(?:if\s+not\s+exists\s+)?["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "Table";
-              messages.push({
-                type: "success",
-                text: `Table '${tableName}' created successfully.`,
-              });
-            } else if (lowerCmd.startsWith("drop table")) {
-              const match = trimmedCmd.match(
-                /drop\s+table\s+(?:if\s+exists\s+)?["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "Table";
-              messages.push({
-                type: "success",
-                text: `Table '${tableName}' dropped successfully.`,
-              });
-            } else if (lowerCmd.startsWith("insert into")) {
-              const match = trimmedCmd.match(
-                /insert\s+into\s+["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "table";
-              messages.push({
-                type: "success",
-                text: `Values inserted into '${tableName}' successfully.`,
-              });
-            } else if (lowerCmd.startsWith("update")) {
-              const match = trimmedCmd.match(/update\s+["`]?([^\s("`]+)/i);
-              const tableName = match ? match[1] : "table";
-              const rows = res;
-              messages.push({
-                type: "success",
-                text: `Table '${tableName}' updated successfully. Affected: ${rows}`,
-              });
-            } else if (lowerCmd.startsWith("delete from")) {
-              const match = trimmedCmd.match(
-                /delete\s+from\s+["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "table";
-              const rows = res;
-              messages.push({
-                type: "success",
-                text: `Rows deleted from '${tableName}' successfully. Affected: ${rows}`,
-              });
-            } else if (lowerCmd.startsWith("truncate")) {
-              const match = trimmedCmd.match(
-                /truncate(?:\s+table)?\s+["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "Table";
-              messages.push({
-                type: "success",
-                text: `Table '${tableName}' truncated successfully.`,
-              });
-            } else if (lowerCmd.startsWith("alter table")) {
-              messages.push({
-                type: "success",
-                text: `Table altered successfully.`,
-              });
-            } else if (
-              lowerCmd.startsWith("describe") ||
-              lowerCmd.startsWith("desc")
-            ) {
-              const match = trimmedCmd.match(
-                /(?:describe|desc)\s+["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "Table";
-              if (Array.isArray(res)) {
-              } else {
-                messages.push({
-                  type: "error",
-                  text: `Table '${tableName}' does not exist`,
-                });
-              }
-            }
-
-            // Check if it's a query returning results (SELECT, SHOW, DESCRIBE)
-            if (Array.isArray(res)) {
-              if (res.length > 0) {
-                // AlaSQL returns array of rows. Parse in post-processing.
-                messages.push({ type: "table", data: res });
-              } else {
-                // Empty result handling
-                let showedEmpty = false;
-                try {
-                  const fromMatch = trimmedCmd.match(
-                    /from\s+["`]?([^\s("`]+)/i
-                  );
-                  if (fromMatch) {
-                    const tName = fromMatch[1];
-                    if (
-                      db.tables &&
-                      db.tables[tName] &&
-                      db.tables[tName].columns
-                    ) {
-                      const cols = db.tables[tName].columns.map(
-                        (c) => c.columnid
-                      );
-                      if (cols.length > 0) {
-                        messages.push({
-                          type: "table",
-                          data: { columns: cols, values: [] },
-                        });
-                        showedEmpty = true;
-                      }
-                    }
-                  }
-                } catch (e) {}
-
-                if (!showedEmpty) {
-                  messages.push({
-                    type: "info",
-                    text: "Query returned no results.",
-                  });
-                }
-              }
-            }
-
-            if (
-              !Array.isArray(res) &&
-              !messages.some((m) => m.text.includes("successfully"))
-            ) {
-              // If we haven't pushed a success message yet (e.g. for unknown command that returned non-array)
-              messages.push({
-                type: "success",
-                text: "Command executed successfully.",
-              });
-            }
-          } catch (e) {
-            messages.push({ type: "error", text: `Error: ${e.message}` });
-          }
-        }
-
-        // Post-processing messages to ensure specific format for "table" type
-        messages = messages.map((msg) => {
-          if (msg.type === "table") {
-            // If data is array of objects (AlaSQL style), convert to {columns, values}
-            if (Array.isArray(msg.data)) {
-              // It's the full result array
-              if (msg.data.length > 0) {
-                const cols = Object.keys(msg.data[0]);
-                const vals = msg.data.map((r) => cols.map((c) => r[c]));
-                return { type: "table", data: { columns: cols, values: vals } };
-              }
-            }
-            // If it's already {columns, values} (from Empty handling maybe?), keep it
-            return msg;
-          }
-          return msg;
-        });
-
-        if (messages.length > 0) {
-          setOutput(messages);
-        } else {
-          setOutput("Executed successfully.");
-        }
-      } catch (err) {
-        console.error(err);
-        setOutput(`SQL Error: ${err.message}`);
-      } finally {
-        setIsLoading(false);
-      }
+      executeSqlCommands(
+        code,
+        editorRef,
+        setOutput,
+        setIsError,
+        setIsLoading,
+        setIsWaitingForInput
+      );
       return;
     }
 
@@ -1061,7 +775,7 @@ const Compiler = () => {
               <FaTerminal /> Console
             </h3>
             <button
-              className="btn-compiler"
+              className="btn-compiler1"
               onClick={handleDownloadPdf}
               title="Download PDF"
               style={{ marginLeft: "auto", marginRight: "10px" }}
@@ -1155,54 +869,16 @@ const Compiler = () => {
           </div>
         </div>
       </div>
-      {/* Hidden PDF Print Layout */}
-      <div
-        style={{
-          position: "absolute",
-          top: "-10000px",
-          left: "-10000px",
-          zIndex: -1,
-        }}
-      >
-        <div
-          ref={pdfCodeRef}
-          style={{
-            width: "210mm",
-            minHeight: "297mm",
-            background: "white",
-            color: "black",
-            padding: "40px",
-            fontFamily: "Arial, sans-serif",
-          }}
-        >
-          {/* Reuse logic or simplify for print */}
-          <h3>Source Code ({language})</h3>
-          <SyntaxHighlighter
-            language={language}
-            style={docco}
-            showLineNumbers={true}
-            wrapLongLines={true}
-          >
-            {code || ""}
-          </SyntaxHighlighter>
-        </div>
-        {!isWebLanguage && (
-          <div
-            ref={pdfOutputRef}
-            style={{
-              width: "210mm",
-              minHeight: "297mm",
-              background: "white",
-              padding: "40px",
-            }}
-          >
-            <h3>Output</h3>
-            <pre>
-              {typeof output === "string" ? output : JSON.stringify(output)}
-            </pre>
-          </div>
-        )}
-      </div>
+
+      <ToastContainer position="top-right" theme="light" />
+
+      {/* Unified PDF Print Layout */}
+      <PdfPrintLayout
+        code={code}
+        language={language}
+        output={output}
+        userName={localStorage.getItem("userName") || "Guest"}
+      />
     </div>
   );
 };

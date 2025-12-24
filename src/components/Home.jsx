@@ -214,35 +214,36 @@ const careerSupportSteps = [
 
 const testimonials = [
   {
-    name: "Alex Johnson",
+    name: "Akhil",
     course: "Full Stack Java",
     quote:
       "This course was a game-changer! The hands-on projects helped me land my dream job.",
   },
   {
-    name: "Priya Sharma",
+    name: "Anil Kalla",
     course: "JavaScript & React",
     quote:
       "The instructor explained complex topics so clearly. I finally understand React Hooks!",
   },
   {
-    name: "Michael Lee",
+    name: "Seetha",
     course: "Python & Django",
     quote:
       "I loved the hands-on projects. They really helped me understand how to build real web apps.",
   },
   {
-    name: "Sara Williams",
+    name: "Sai Lokesh Kommineni",
     course: "React.js Frontend Development",
     quote:
       "The React course made everything so easy to grasp. The projects were fun and practical.",
   },
   {
-    name: "David Kim",
+    name: "Sruthi Potla",
     course: "Cloud & DevOps",
     quote:
       "Thanks to the cloud & DevOps course, I confidently deployed my first project to AWS.",
   },
+
 ];
 
 //  Accept the 'onTechnologySelect' prop from the parent component (Master.js)
