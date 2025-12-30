@@ -23,7 +23,7 @@ export const languageConfig = {
   sql: {
     language: "sql",
     aceMode: "sql",
-    type: "judge0", // SQL is client-side anyway based on Exam.js, but let's keep judge0 or none for now if it's not piston remote
+    type: "piston", 
     boilerplate: languageBoilerplates.SQL,
   },
   html: {
@@ -85,11 +85,13 @@ const DEFAULT_EXAM_CONFIG = {
 
 const EXAM_CONFIGS = {
   default: DEFAULT_EXAM_CONFIG,
+  // Add technology specific overrides here
+  // example: java: { ...DEFAULT_EXAM_CONFIG, codingCount: 5 }
 };
 
 const SECTION_CONFIGS = {
   // Define overrides here using Exam Code (e.g., JAVA101)
-  "JAVA101": { mcqCount: 25, blankCount: 20, codingCount: 5, pseudoCount: 15 },
+  // "JAVA101": { mcqCount: 20, blankCount: 0, codingCount: 2, pseudoCount: 5 },
 };
 
 export const getExamConfig = (technology, examId) => {

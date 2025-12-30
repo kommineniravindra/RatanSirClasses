@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Iceland&display=swap');
+
+.legal-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    color: #000000;
+    line-height: 1.6;
+    background-color: #ffffff;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.legal-container h1 {
+    font-family: 'Iceland', cursive;
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #000000;
+    text-align: center;
+}
+@import url('https://fonts.googleapis.com/css2?family=Libertinus+Serif:wght@700&display=swap');
+.legal-container h2 {
+    font-family: "Libertinus Serif", serif;
+    font-size: 1.8rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #000000;
+    border-bottom: 2px solid #eaeaea;
+    padding-bottom: 5px;
+}
+@import url('https://fonts.googleapis.com/css2?family=Libertinus+Serif:wght@700&display=swap');
+.legal-container p,
+.legal-container li {
+    font-family: "Libertinus Serif", serif;
+    font-size: 1.2rem;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.legal-container ul {
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
+.legal-container a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.legal-container a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .legal-container {
+        padding: 20px;
+    }
+
+    .legal-container h1 {
+        font-size: 2rem;
+    }
+
+    .legal-container h2 {
+        font-size: 1.3rem;
+    }
+}

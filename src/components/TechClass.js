@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
+import SEO from "./SEO";
 import "../css/TechClass.css";
 import {
   FaArrowUp,
@@ -777,6 +778,17 @@ function TechClass() {
         isFullScreen ? "fullscreen-mode" : ""
       }`}
     >
+      <SEO
+        title={`${
+          technology
+            ? technology.charAt(0).toUpperCase() + technology.slice(1)
+            : "Tech"
+        } Class`}
+        description={`Learn ${
+          technology || "technology"
+        } with our premium class notes and interactive whiteboard.`}
+        keywords={`${technology} class, learn ${technology}, programming notes, tech tutorials`}
+      />
       <FullScreenToggle
         isFullScreen={isFullScreen}
         onToggle={handleFullScreenToggle}
@@ -970,7 +982,8 @@ function TechClass() {
                     </h2>
 
                     <div className="answer-text">
-                      <b>Ans:&emsp;</b>{q.answer &&(
+                      <b>Ans:&emsp;</b>
+                      {q.answer && (
                         <div
                           dangerouslySetInnerHTML={{
                             __html: Array.isArray(q.answer)

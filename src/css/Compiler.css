@@ -137,7 +137,7 @@
 }
 
 /* Section Headers */
-.section-header {
+.section-header1 {
     height: 56px;
     padding: 0 20px;
     display: flex;
@@ -155,7 +155,7 @@
     z-index: 2000;
 }
 
-.section-title {
+.section-title12 {
     margin: 0;
     font-size: 0.9rem;
     font-weight: 700;
@@ -244,13 +244,12 @@
 
 
 
-.section-title svg {
+.section-title12 svg {
     color: var(--accent-color);
 }
 
 /* Buttons */
 .btn-compiler {
-    color: #000000;
     border: 1px solid transparent;
     border-radius: 8px;
     cursor: pointer;
@@ -266,21 +265,18 @@
     transition: all 0.2s ease;
 }
 
-.btn-compiler1 {
-    color: #4f46e5;
+.oc-btn-compiler {
     border: 1px solid transparent;
     border-radius: 8px;
-    font-weight: bold !important;
     cursor: pointer;
     font-weight: 500;
-    font-size: 0.85rem;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 2px;
     padding: 6px 12px;
     height: 32px;
-    font-size: 0.85rem;
     transition: all 0.2s ease;
 }
 
@@ -321,7 +317,14 @@
     box-shadow: 0 4px 12px var(--accent-glow);
     font-weight: 600;
 }
-
+.btn-run1{
+    color: white;
+    background-color:rgba(0, 0, 255, 0.39) ;
+    border: 2px solid blue;
+}
+.btn-run1:hover{
+    background-color: blue;
+}
 /* Run Button */
 .btn-run {
     background: var(--accent-color);
@@ -760,7 +763,7 @@
 
 /* Resizer Handle */
 .resizer {
-    width: 6px;
+    width: 3px;
     background: #e2e8f0;
     cursor: col-resize;
     display: flex;
@@ -897,7 +900,7 @@
         padding: 8px 16px;
     }
 
-    .section-title {
+    .section-title12 {
         font-size: 1.1rem;
     }
 
@@ -1019,7 +1022,7 @@
         min-height: 400px;
     }
 
-    .section-header {
+    .section-header1 {
         padding: 0 12px;
         flex-wrap: wrap;
         height: auto;

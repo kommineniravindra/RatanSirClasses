@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import AceEditor from "react-ace";
 import ace from "ace-builds";
-import axios from "axios";
 import {
   FaPlay,
   FaExpand,
@@ -15,8 +14,6 @@ import {
   FaMoon,
   FaSun,
   FaCog,
-  FaBold,
-  FaItalic,
   FaDownload,
   FaFileCode,
   FaEquals,
@@ -51,9 +48,6 @@ ace.config.set(
   "https://cdn.jsdelivr.net/npm/ace-builds@1.35.0/src-noconflict/"
 );
 
-// WASM URL for sql.js reference
-const SQL_WASM_URL =
-  "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.wasm";
 
 const Compiler = () => {
   /* =========================================
@@ -271,7 +265,14 @@ const Compiler = () => {
 
     // --- 1. WEB LANGUAGES (HTML, CSS) ---
     if (language === "html" || language === "css") {
-      const content = language === "css" ? `<style>${code}</style>` : code;
+      let content = code;
+      if (language === "html") {
+        const { runHtmlCode } = require("../utils/htmllogic");
+        content = runHtmlCode(code).output;
+      } else {
+        const { runCssCode } = require("../utils/csslogic");
+        content = runCssCode(code).output;
+      }
       setOutput(content);
       setIsLoading(false);
       return;
@@ -292,36 +293,27 @@ const Compiler = () => {
 
     // --- 3. PISTON EXECUTION (Java, Python, JS, etc.) ---
     try {
-      let codeToSend = code;
-      // Java Boilerplate Injection
-      if (language === "java") {
-        const {
-          prepareJavaCodeForExecution,
-        } = require("../utils/javaCodeGenerator");
-        codeToSend = prepareJavaCodeForExecution(code);
-      }
+      let result;
 
-      const fileData = { content: codeToSend };
       if (language === "java") {
-        fileData.name = "Main.java";
-      }
-
-      const response = await axios.post(
-        "https://emkc.org/api/v2/piston/execute",
-        {
-          language: language,
-          version: "*",
-          files: [fileData],
-          stdin: paramsInput,
-        }
-      );
-      const { run } = response.data;
-      setOutput(run.output);
-      if (run.stderr) {
-        setIsError(true);
+        const { runJavaCode } = require("../utils/javalogic");
+        result = await runJavaCode(code, paramsInput);
+      } else if (language === "python") {
+        const { runPythonCode } = require("../utils/pythonlogic");
+        result = await runPythonCode(code, paramsInput);
+      } else if (language === "javascript") {
+        const { runJavascriptCode } = require("../utils/javascriptlogic");
+        result = await runJavascriptCode(code, paramsInput);
       } else {
-        setIsError(false);
+        // Fallback for others if any
+        result = {
+          output: "Language execution logic not found.",
+          isError: true,
+        };
       }
+
+      setOutput(result.output);
+      setIsError(result.isError);
     } catch (error) {
       console.error("Execution error:", error);
       setOutput("Error executing code.\n" + error.message);
@@ -414,22 +406,52 @@ const Compiler = () => {
           return;
         }
 
-        if (prefix.length === 0) {
+        // --- Context Aware Logic for Dot (.) ---
+        const line = session.getLine(pos.row);
+        const lineUpToCursor = line.slice(0, pos.column);
+        const isDotTrigger = lineUpToCursor.trimEnd().endsWith(".");
+
+        // If trigger is dot, ignore prefix length check, OR if regular typing check prefix
+        if (!isDotTrigger && prefix.length === 0) {
           callback(null, []);
           return;
+        }
+
+        let filteredSnippets = snippetsToUse;
+
+        // If triggered by dot, ONLY show snippets starting with "." (methods)
+        if (isDotTrigger && mode.endsWith("/java")) {
+          filteredSnippets = snippetsToUse.filter((s) =>
+            s.snippet.startsWith(".")
+          );
         }
 
         // Return our snippets with high score
         callback(
           null,
-          snippetsToUse.map((s) => ({
-            caption: s.caption,
-            snippet: s.snippet,
-            type: "snippet",
-            meta: s.customImport ? "Auto-Import" : "Snippet",
-            customImport: s.customImport, // Very high score to appear first
-            completer: customCompleter, // Self reference
-          }))
+          filteredSnippets.map((s) => {
+            // If dot trigger, we need to STRIP the leading dot from snippet to avoid double dot
+            let finalSnippet = s.snippet;
+            let displayCaption = s.caption;
+
+            if (isDotTrigger && finalSnippet.startsWith(".")) {
+              finalSnippet = finalSnippet.substring(1); // Remove leading dot
+            }
+
+            return {
+              caption: displayCaption,
+              snippet: finalSnippet,
+              type: "snippet",
+              meta: s.customImport
+                ? "Auto-Import"
+                : isDotTrigger
+                ? "Method"
+                : "Snippet",
+              customImport: s.customImport, // Very high score to appear first
+              score: 1000000 + (isDotTrigger ? 1000 : 0),
+              completer: customCompleter, // Self reference
+            };
+          })
         );
       },
       insertMatch: function (editor, data) {
@@ -508,8 +530,8 @@ const Compiler = () => {
           className="compiler-section"
           style={{ flex: `0 0 ${editorWidth}%` }}
         >
-          <div className="section-header">
-            <h3 className="section-title">
+          <div className="section-header1">
+            <h3 className="section-title12">
               <FaCode className="text-primary" />({language})
             </h3>
             <div className="compiler-controls">
@@ -711,7 +733,7 @@ const Compiler = () => {
                 {isFullScreen ? <FaCompress /> : <FaExpand />}
               </button>
               <button
-                className="btn-compiler btn-run"
+                className="btn-compiler btn-run1"
                 onClick={handleRun}
                 disabled={isLoading}
               >
@@ -770,8 +792,8 @@ const Compiler = () => {
 
         {/* Output Section */}
         <div className="compiler-section">
-          <div className="section-header">
-            <h3 className="section-title">
+          <div className="section-header1">
+            <h3 className="section-title12">
               <FaTerminal /> Console
             </h3>
             <button

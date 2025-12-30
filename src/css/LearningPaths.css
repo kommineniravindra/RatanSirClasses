@@ -1,0 +1,209 @@
+.paths-root {
+    background-color: #ffffff;
+    color: #ffffff;
+    padding: 20px 0;
+}
+
+.paths-container {
+    max-width: 98%;
+    /* Increased from 1200px to fill screen */
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.paths-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+@media (max-width: 1200px) {
+    .paths-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .paths-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.section-heading1 {
+    text-align: center;
+    font-family: 'Merriweather', serif;
+    font-size: 2.5rem;
+    margin-top: 0.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #000000;
+    margin-bottom: 0.5rem;
+}
+
+.path-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 140px;
+    display: flex;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.path-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Shine Effect */
+.path-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: skewX(-25deg);
+    transition: 0.5s;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.path-card:hover::after {
+    left: 200%;
+    transition: 0.7s ease-in-out;
+}
+
+/* Background Image with Overlay */
+.path-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    transition: transform 0.5s ease;
+}
+
+.path-card:hover .path-bg {
+    transform: scale(1.05);
+}
+
+.path-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.749) 0%, rgba(0, 0, 0, 0.541) 100%);
+    z-index: 1;
+}
+
+.path-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    padding: 1.5rem;
+    width: 100%;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.path-icon-container {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    padding: 10px;
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s ease;
+}
+
+.path-card:hover .path-icon-container {
+    transform: scale(1.1) rotate(5deg);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.path-icon-img {
+    width: 100%;
+    height: auto;
+    opacity: 1;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+}
+
+.path-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.path-info h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.path-info h3 span {
+    font-size: 1.2rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+    color: #ed8936;
+}
+
+.path-card:hover .path-info h3 span {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.path-info p {
+    font-size: 0.95rem;
+    color: #e0e0e0;
+    margin: 0;
+    line-height: 1.5;
+    max-width: 100%;
+}
+
+@media (max-width: 600px) {
+    .paths-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .path-card {
+        height: auto;
+        min-height: 120px;
+    }
+
+    .path-content {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .path-icon-container {
+        width: 60px;
+        height: 60px;
+    }
+
+    .path-info h3 {
+        font-size: 1.3rem;
+    }
+}

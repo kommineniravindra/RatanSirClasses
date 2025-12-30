@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
+import SEO from "./SEO";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Bar, Doughnut } from "react-chartjs-2";
+import { MdQuiz } from "react-icons/md";
 import { FaFileAlt } from "react-icons/fa";
+import { FaRegEdit } from "react-icons/fa";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -289,6 +293,9 @@ const ExamDashboard = ({ onLogout }) => {
         <h4>Instructions:</h4>
         <ul>
           <li>Timer starts immediately.</li>
+          <li>
+            Duration: <strong>30 minutes</strong>.
+          </li>
           <li>Switching tabs will auto-submit the test.</li>
         </ul>
         <div className="button-group">
@@ -353,7 +360,11 @@ const ExamDashboard = ({ onLogout }) => {
                               correctCode
                             ) {
                               setModalOpen(false);
-                              startExamModal(tech, examNumber);
+                              // startExamModal(tech, examNumber); // logic skipped
+                              window.open(
+                                `/exam/${tech.key}/exam${examNumber}`,
+                                "_blank"
+                              );
                             } else {
                               setModalTitle("Incorrect Code");
                               setModalBody(
@@ -563,6 +574,11 @@ const ExamDashboard = ({ onLogout }) => {
 
   return (
     <div className="dashboard-container">
+      <SEO
+        title="Student Dashboard"
+        description="View your exam and quiz performance, access new tests, and track your progress."
+        keywords="student dashboard, exam results, quiz progress, learning analytics"
+      />
       {/* ---------- Sidebar ---------- */}
       <aside className="dashboard-sidebar">
         <div className="profile-header">
@@ -620,7 +636,11 @@ const ExamDashboard = ({ onLogout }) => {
       <main className="dashboard-main">
         {/* --- Quiz Grid --- */}
         <div className="tech-grid-section">
-          <h2>📝Take Quizes</h2>
+          {/* <h2>📝Take Quizes</h2> */}
+          <h2 className="ed-quiz-title">
+            <MdQuiz className="ed-quiz-icon" />
+            Take Quizzes
+          </h2>
           <div className="tech-grid">
             {technologies
               .filter(
@@ -696,15 +716,41 @@ const ExamDashboard = ({ onLogout }) => {
           </div>
         )}
 
-        {/* Next-Level Cybernetic Flow Divider */}
-
-        {/* <span className="cyber-message">
-          Your curiosity is the spark. Our courses are the fuel.
-        </span> */}
+        {/* --- Separator --- */}
+        {/* --- Animated Separator --- */}
+        {/* --- Text Marquee Separator --- */}
+        <div className="text-marquee-container">
+          <div className="marquee-track">
+            <div className="marquee-content">
+              GET CERTIFIED <span className="dot">•</span> MASTER YOUR SKILLS{" "}
+              <span className="dot">•</span> ACHIEVE EXCELLENCE{" "}
+              <span className="dot">•</span>
+            </div>
+            <div className="marquee-content">
+              GET CERTIFIED <span className="dot">•</span> MASTER YOUR SKILLS{" "}
+              <span className="dot">•</span> ACHIEVE EXCELLENCE{" "}
+              <span className="dot">•</span>
+            </div>
+            <div className="marquee-content">
+              GET CERTIFIED <span className="dot">•</span> MASTER YOUR SKILLS{" "}
+              <span className="dot">•</span> ACHIEVE EXCELLENCE{" "}
+              <span className="dot">•</span>
+            </div>
+            <div className="marquee-content">
+              GET CERTIFIED <span className="dot">•</span> MASTER YOUR SKILLS{" "}
+              <span className="dot">•</span> ACHIEVE EXCELLENCE{" "}
+              <span className="dot">•</span>
+            </div>
+          </div>
+        </div>
 
         {/* --- Exam Grid --- */}
         <div className="tech-grid-section">
-          <h2>📜Take Exam</h2>
+          {/* <h2>📜Take Exam</h2> */}
+          <h2 className="ed-quiz-title">
+            <FaRegEdit className="ed-quiz-icon" />
+            Take Exams
+          </h2>
           <div className="tech-grid">
             {technologies
               .filter((tech) =>

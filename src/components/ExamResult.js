@@ -27,12 +27,12 @@ const ExamResult = ({
 
   return (
     <div className="exam-container">
-      {/* <div className="exam-header">
+      <div className="exam-header">
         <h1>
           {technology.charAt(0).toUpperCase() + technology.slice(1)} Exam #
           {examNumber}
         </h1>
-      </div> */}
+      </div>
       <div className="result-page">
         <h2>Exam Results</h2>
         {malpracticeDetected && (
@@ -71,7 +71,7 @@ const ExamResult = ({
                 <span>
                   {totals.coding} /{" "}
                   {selectedCoding.reduce(
-                    (sum, q) => sum + (q.maxMarks || ExamConfig.codingMarks),
+                    (sum, q) => sum + (q.maxMarks || 0),
                     0
                   )}
                 </span>
@@ -191,7 +191,7 @@ const ExamResult = ({
                   </p>
                   <p className="marks-display">
                     <strong>Marks Scored:</strong> {codeResults[i]?.marks || 0}{" "}
-                    / {q.maxMarks || ExamConfig.codingMarks}
+                    / {q.maxMarks}
                   </p>
                   <details>
                     <summary>Show Solution & Your Code</summary>

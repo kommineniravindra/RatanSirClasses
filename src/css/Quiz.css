@@ -261,7 +261,7 @@
 .question-text {
     margin-top: 20px;
     font-family: "Libertinus Serif", serif;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 450;
     color: #040404;
 }
@@ -283,7 +283,7 @@
     transition: all 0.2s ease;
     color: rgb(54, 54, 54);
     font-family: "Source Serif Pro", serif;
-    font-size: 15px;
+    font-size: 1.1rem;
     color: #333;
 }
 
@@ -298,8 +298,8 @@
 }
 
 .option-prefix {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     margin-right: 10px;
     display: flex;
     justify-content: center;

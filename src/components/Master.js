@@ -9,7 +9,12 @@ import QnAComponent from "./QnAComponent";
 import DSA from "./DSA";
 import ContactUs from "./ContactUs";
 import AboutUs from "./AboutUs";
+import PrivacyPolicy from "./PrivacyPolicy";
+import TermsOfService from "./TermsOfService";
+import Sitemap from "./Sitemap";
+import Footer from "../Home/Footer";
 import NavBar from "./NavBar";
+import SEO from "./SEO";
 import { javaMenuData } from "../technologies/java/menuOptions";
 import { pythonMenuData } from "../technologies/python/menuOptions";
 import { htmlMenuData } from "../technologies/html/menuOptions";
@@ -23,6 +28,7 @@ import { gitMenuData } from "../technologies/git/menuOptions";
 import { downloadsMenuData } from "../technologies/downloads/menuOptions";
 
 import { useLocation } from "react-router-dom"; // Add import
+import OnlineCompiler from "./OnlineCompiler";
 
 const Master = () => {
   const location = useLocation(); // Hook to access URL params
@@ -33,12 +39,24 @@ const Master = () => {
     const pageParam = queryParams.get("page");
     if (
       pageParam &&
-      ["Home", "Q&A", "DSA", "ContactUs", "AboutUs"].includes(pageParam)
+      [
+        "Home",
+        "Q&A",
+        "DSA",
+        "ContactUs",
+        "AboutUs",
+        "PrivacyPolicy",
+        "TermsOfService",
+        "Sitemap",
+        "Compiler",
+      ].includes(pageParam)
     ) {
       return pageParam;
     }
     return sessionStorage.getItem("selectedPage") || "Home";
   });
+
+  const [compilerLanguage, setCompilerLanguage] = useState("");
 
   const [selectedTechnology, setSelectedTechnology] = useState(() => {
     return sessionStorage.getItem("selectedTechnology") || "";
@@ -107,7 +125,19 @@ const Master = () => {
   );
 
   const handleTechnologySelect = (name) => {
-    if (["Home", "Q&A", "DSA", "ContactUs", "AboutUs"].includes(name)) {
+    if (
+      [
+        "Home",
+        "Q&A",
+        "DSA",
+        "ContactUs",
+        "AboutUs",
+        "PrivacyPolicy",
+        "TermsOfService",
+        "Sitemap",
+        "Compiler",
+      ].includes(name)
+    ) {
       setSelectedPage(name);
       setSelectedTechnology("");
       setSelectedItem("");
@@ -123,6 +153,27 @@ const Master = () => {
     } else {
       setSelectedItem("");
     }
+  };
+
+  const handleCompilerEntry = (techKey) => {
+    // Map techKey (e.g. HTML, CSS, JavaScript) to OnlineCompiler apiLang
+    const langMap = {
+      HTML: "html",
+      CSS: "css",
+      JavaScript: "javascript",
+      Java: "java",
+      Python: "python",
+      SQL: "sql",
+      RESTAPI: "java",
+      Microservices: "java",
+      React: "javascript",
+    };
+    const targetLang = langMap[techKey] || "java";
+
+    setCompilerLanguage(targetLang);
+    setSelectedPage("Compiler");
+    setSelectedTechnology("");
+    setSelectedItem("");
   };
 
   const handleItemClick = (itemName) => {
@@ -152,8 +203,21 @@ const Master = () => {
     );
   }
 
+  // Determine SEO title
+  let pageTitle = "Home";
+  if (selectedPage === "Technology") {
+    pageTitle = selectedTechnology;
+    if (selectedItem) {
+      pageTitle = `${selectedTechnology} - ${selectedItem}`;
+    }
+  } else {
+    pageTitle = selectedPage;
+  }
+
   return (
     <>
+      <SEO title={pageTitle} />
+
       <NavBar
         onTechnologySelect={handleTechnologySelect}
         selectedTechnology={selectedTechnology}
@@ -161,12 +225,32 @@ const Master = () => {
       />
 
       {selectedPage === "Home" && (
-        <Home onTechnologySelect={handleTechnologySelect} />
+        <Home
+          onTechnologySelect={handleTechnologySelect}
+          onCompilerSelect={handleCompilerEntry}
+        />
+      )}
+      {selectedPage === "Compiler" && (
+        <OnlineCompiler initialLanguage={compilerLanguage} />
       )}
       {selectedPage === "Q&A" && <QnAComponent />}
       {selectedPage === "DSA" && <DSA />}
       {selectedPage === "ContactUs" && <ContactUs />}
       {selectedPage === "AboutUs" && <AboutUs />}
+      {selectedPage === "PrivacyPolicy" && <PrivacyPolicy />}
+      {selectedPage === "TermsOfService" && <TermsOfService />}
+      {selectedPage === "Sitemap" && <Sitemap />}
+
+      {[
+        "Home",
+        "AboutUs",
+        "ContactUs",
+        "PrivacyPolicy",
+        "TermsOfService",
+        "Sitemap",
+      ].includes(selectedPage) && (
+        <Footer onNavigate={handleTechnologySelect} />
+      )}
 
       {selectedPage === "Technology" && (
         <div className="master-grid">

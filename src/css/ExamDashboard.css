@@ -550,7 +550,7 @@
   /* gap: 24px; */
   overflow-y: auto;
   height: 100%;
-  padding: 20px;
+  padding: 10px;
   /* Added base padding for desktop view */
 }
 
@@ -587,14 +587,11 @@
 }
 
 
-.tech-grid-section h2,
-.exam-history-section h2 {
+/* .tech-grid-section h2{
   font-family: "Libertinus Serif", serif;
   font-weight: 700;
   font-size: 2.1rem;
   color: #3f3a66;
-
-  /* Layout */
   display: inline-block;
   text-align: left !important;
   margin: 0 0 1.5rem 0;
@@ -603,7 +600,63 @@
   border-left: 5px solid #6a5acd;
   border-radius: 4px 10px 10px 4px;
   box-shadow: 0 2px 6px rgba(63, 58, 102, 0.08);
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Iceland&display=swap');
+
+.ed-quiz-title {
+  font-family: "Iceland", sans-serif;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 2.6rem;
+  line-height: 1;
+  padding: 5px 20px;
+  margin: 0 0 10px 0;
+  background-color: #f5f7ff;
+  border: 3px solid #4f46e5;
+  border-radius: 14px;
+  color: #1e1b4b;
+  transition: all 0.25s ease;
 }
+
+/* Icon styling */
+.ed-quiz-icon {
+  font-size: 2.5rem;
+  color: #4f46e5;
+  transition: transform 0.25s ease;
+}
+
+/* Subtle premium hover */
+.ed-quiz-title:hover {
+  background-color: #eef2ff;
+}
+
+.ed-quiz-title:hover .ed-quiz-icon {
+  transform: scale(1.08);
+}
+
+
+
+
+/* 
+.exam-history-section h2 {
+  font-family: "Libertinus Serif", serif;
+  font-weight: 700;
+  font-size: 2.1rem;
+  color: #3f3a66;
+  display: inline-block;
+  text-align: left !important;
+  margin: 0 0 1.5rem 0;
+  padding: 5px 15px;
+  background: #f5f6ff;
+  border-left: 5px solid #6a5acd;
+  border-radius: 4px 10px 10px 4px;
+  box-shadow: 0 2px 6px rgba(63, 58, 102, 0.08);
+} */
+
+
 
 
 
@@ -618,7 +671,7 @@
 
 .tech-card {
   border-radius: var(--border-radius-md);
-  padding: 5px;
+  padding: 2px;
   text-align: center;
   border: 1px solid var(--border-color);
   cursor: pointer;
@@ -628,13 +681,13 @@
 }
 
 .tech-icon {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 2.1rem;
+  margin-bottom: 0.1rem;
   transition: all var(--transition-speed) ease;
 }
 
 .tech-name {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
   font-family: "Source Serif Pro", serif;
   color: var(--text-secondary);
@@ -1089,86 +1142,6 @@
   border-left: 4px solid #dc2626;
 }
 
-/* .cybernetic-divider-container {
-  height: 50px;
-  background-color: #f1f1f1;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
-
-/* .cybernetic-divider {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: linear-gradient(90deg, #16b5ff64, #8120ff4d, #f35b2e, #16b7ff);
-  background-size: 400% 100%;
-  animation: flow 15s linear infinite;
-  box-shadow: 0 0 10px rgba(22, 183, 255, 0.5), 0 0 20px rgba(127, 32, 255, 0.5);
-} */
-
-/* .cybernetic-divider::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: inherit;
-  filter: blur(15px);
-  opacity: 0.7;
-  z-index: 1;
-} */
-
-/* @keyframes flow {
-  0% {
-    background-position: 0% 0;
-  }
-
-  100% {
-    background-position: 400% 0;
-  }
-} */
-
-
-/* @keyframes fadeInModal {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes popIn {
-  from {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-} */
-
 .cyber-message {
   margin-top: 30px;
   margin-bottom: 30px;
@@ -1197,6 +1170,69 @@
   }
 }
 
+/* --- TEXT MARQUEE SEPARATOR --- */
+.text-marquee-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  min-height: 50px;
+  /* Force height */
+  padding: 5px 0;
+  margin: 5px 0;
+  background: #fdf4ff;
+  /* Debug background */
+  z-index: 10;
+  border-top: 2px solid #a955f7a1;
+  border-bottom: 2px solid #a955f7c1;
+  user-select: none;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 0;
+  align-items: center;
+  animation: marquee 40s linear infinite;
+}
+
+.marquee-content {
+  flex-shrink: 0;
+  padding: 0 4px;
+  font-family: "Iceland", sans-serif;
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: #6b21a8;
+  text-transform: uppercase;
+  white-space: nowrap;
+  letter-spacing: 2px;
+  line-height: 1.8;
+  display: flex;
+  align-items: center;
+  opacity: 1;
+  visibility: visible;
+}
+
+.marquee-content .dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin: 0 1rem;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+  -webkit-text-stroke: 0;
+  flex-shrink: 0;
+  font-size: 0;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
 
 /* --- 9. RESPONSIVE DESIGN --- */
 @media (max-width: 1200px) {

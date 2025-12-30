@@ -1,0 +1,152 @@
+[
+  {
+    "question": "SQL Query Output\nSELECT dept, AVG(salary) AS avg_salary\nFROM employee\nGROUP BY dept\nHAVING AVG(salary) BETWEEN 40000 AND 60000\nORDER BY avg_salary ASC;",
+    "options": [
+      "Departments with avg salary < 40000 or > 60000",
+      "Departments with avg salary 40000–60000, sorted ascending",
+      "All departments",
+      "Error"
+    ],
+    "answer": "Departments with avg salary 40000–60000, sorted ascending"
+  },
+  {
+    "question": "SQL Query Output\nSELECT dept, SUM(salary) AS total_salary\nFROM employee\nGROUP BY dept\nHAVING SUM(salary) > 200000\nORDER BY total_salary DESC;",
+    "options": [
+      "Departments with total salary ≤ 200000",
+      "Departments with total salary > 200000, sorted descending",
+      "All departments, sorted ascending",
+      "Error"
+    ],
+    "answer": "Departments with total salary > 200000, sorted descending"
+  },
+  {
+    "question": "SQL Query Output\nSELECT dept, COUNT(DISTINCT job_id) AS jobs\nFROM employee\nGROUP BY dept\nHAVING COUNT(DISTINCT job_id) > 2\nORDER BY jobs DESC;",
+    "options": [
+      "Departments with ≤ 2 distinct jobs",
+      "Departments with > 2 distinct jobs, sorted descending",
+      "All departments",
+      "Error"
+    ],
+    "answer": "Departments with > 2 distinct jobs, sorted descending"
+  },
+  {
+    "question": "SQL Query Output\nSELECT dept, COUNT(*) \nFROM employee\nGROUP BY dept\nHAVING COUNT(*) > 2;",
+    "options": [
+      "Departments with more than 2 employees",
+      "All departments",
+      "Rows with salary > 2",
+      "Error"
+    ],
+    "answer": "Departments with more than 2 employees"
+  },
+  {
+    "question": "SQL Query Output\nSELECT dept, COUNT(*) AS emp_count\nFROM employee\nGROUP BY dept\nHAVING COUNT(*) BETWEEN 5 AND 10\nORDER BY emp_count ASC;",
+    "options": [
+      "Departments with 1–4 employees",
+      "Departments with 5–10 employees, sorted ascending",
+      "All departments",
+      "Error"
+    ],
+    "answer": "Departments with 5–10 employees, sorted ascending"
+  },
+  {
+    "question": "SQL Query Output\nSELECT dept, COUNT(*) AS emp_count\nFROM employee\nGROUP BY dept\nHAVING COUNT(*) > 3\nORDER BY emp_count DESC;",
+    "options": [
+      "Departments with ≤ 3 employees",
+      "Departments with > 3 employees, sorted descending",
+      "All departments",
+      "Error"
+    ],
+    "answer": "Departments with > 3 employees, sorted descending"
+  },
+  {
+    "question": "SQL Query Output\nSELECT dept, SUM(salary) AS total_sal, AVG(salary) AS avg_sal\nFROM employee\nGROUP BY dept\nHAVING SUM(salary) > 150000\nORDER BY avg_sal DESC;",
+    "options": [
+      "Departments with SUM(salary) ≤ 150000",
+      "Departments with SUM(salary) > 150000, sorted by average salary descending",
+      "All departments",
+      "Error"
+    ],
+    "answer": "Departments with SUM(salary) > 150000, sorted by average salary descending"
+  },
+  {
+    "question": "SQL Query Output\nSELECT dept, COUNT(*) AS emp_count, MAX(salary) AS max_salary\nFROM employee\nGROUP BY dept\nHAVING COUNT(*) > 5\nORDER BY emp_count DESC, max_salary DESC;",
+    "options": [
+      "Departments with ≤ 5 employees",
+      "Departments with > 5 employees, sorted by emp_count then max_salary descending",
+      "All departments",
+      "Error"
+    ],
+    "answer": "Departments with > 5 employees, sorted by emp_count then max_salary descending"
+  },
+  {
+    "question": "Aggregate Function with HAVING\nSELECT dept, SUM(salary) \nFROM employee \nGROUP BY dept \nHAVING SUM(salary) > 200000;",
+    "options": [
+      "Departments with total salary ≤ 200000",
+      "Departments with total salary > 200000",
+      "All departments",
+      "Error"
+    ],
+    "answer": "Departments with total salary > 200000"
+  },
+  {
+    "question": "SQL Query Output\nSELECT * FROM employee \nWHERE salary > 30000 \nORDER BY salary ASC;",
+    "options": [
+      "Employees with salary ≤ 30000",
+      "Employees with salary > 30000 sorted ascending",
+      "Employees with salary > 30000 sorted descending",
+      "Error"
+    ],
+    "answer": "Employees with salary > 30000 sorted ascending"
+  },
+  {
+    "question": "SQL Query Output\nSELECT * FROM employee \nWHERE dept IN ('HR', 'SALES') \nORDER BY salary DESC;",
+    "options": [
+      "Employees in HR or SALES sorted descending by salary",
+      "Employees not in HR or SALES sorted ascending",
+      "All employees",
+      "Error"
+    ],
+    "answer": "Employees in HR or SALES sorted descending by salary"
+  },
+  {
+    "question": "SQL Query Output\nSELECT dept, SUM(salary) \nFROM employee \nWHERE salary > 30000 \nGROUP BY dept \nORDER BY SUM(salary) DESC;",
+    "options": [
+      "Departments with total salary < 30000",
+      "Departments with total salary from employees with salary > 30000, sorted descending",
+      "All departments sorted ascending",
+      "Error"
+    ],
+    "answer": "Departments with total salary from employees with salary > 30000, sorted descending"
+  },
+  {
+    "question": "SQL Query Output\nSELECT * FROM employee \nWHERE name LIKE '%a%' \nORDER BY name ASC;",
+    "options": [
+      "Names containing 'a', sorted ascending",
+      "Names containing 'a', sorted descending",
+      "Names starting with 'a'",
+      "Error"
+    ],
+    "answer": "Names containing 'a', sorted ascending"
+  },
+  {
+    "question": "Multiple Column ORDER BY\nSELECT * FROM employee \nORDER BY dept ASC, salary DESC;",
+    "options": [
+      "Sorted by salary first then dept",
+      "Sorted by dept ascending, then salary descending",
+      "Sorted by dept descending, salary ascending",
+      "Error"
+    ],
+    "answer": "Sorted by dept ascending, then salary descending"
+  },
+  {
+    "question": "SQL Query Output\nSELECT DISTINCT dept \nFROM employee \nWHERE salary > 40000 \nORDER BY dept ASC;",
+    "options": [
+      "All departments",
+      "Unique departments with employees earning > 40000, sorted ascending",
+      "Departments with salary ≤ 40000",
+      "Error"
+    ],
+    "answer": "Unique departments with employees earning > 40000, sorted ascending"
+  }
+]

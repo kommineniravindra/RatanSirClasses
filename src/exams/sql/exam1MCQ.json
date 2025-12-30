@@ -1,27 +1,254 @@
 [
   {
-    "question": "What is the size of int variable in Java?",
-    "options": ["4 bytes", "8 bytes", "Depends on the platform", "None of the above"],
-    "answer": "4 bytes"
+    "question": "The main purpose of Oracle Database is to:",
+    "options": [
+      "Write the Queries",
+      "Store and manage data",
+      "Design web pages",
+      "Compile code"
+    ],
+    "answer": "Store and manage data"
   },
   {
-    "question": "Which keyword is used to prevent method overriding in Java?",
-    "options": ["final", "abstract", "static", "private"],
-    "answer": "final"
+    "question": "SQL is used to:",
+    "options": [
+      "Design hardware",
+      "Communicate with database",
+      "Create operating systems",
+      "Control networks"
+    ],
+    "answer": "Communicate with database"
   },
   {
-    "question": "What is the output of 10 >> 2 in Java?",
-    "options": ["2", "2.5", "2.25", "2.75"],
-    "answer": "2"
+    "question": "What is the meaning of VARCHAR2(50)?",
+    "options": [
+      "Fixed 50 characters",
+      "Variable up to 50 characters",
+      "Exactly 50 bytes",
+      "None of the above"
+    ],
+    "answer": "Variable up to 50 characters"
   },
   {
-    "question": "Which of the following is not a primitive data type in Java?",
-    "options": ["int", "float", "String", "double"],
-    "answer": "String"
+    "question": "Which of the following is NOT a valid Oracle data type?",
+    "options": [
+      "NUMBER",
+      "VARCHAR2",
+      "STRING",
+      "CHAR"
+    ],
+    "answer": "STRING"
   },
   {
-    "question": "Which access modifier makes the member accessible only within its own class?",
-    "options": ["public", "protected", "private", "default"],
-    "answer": "private"
+    "question": "Which Oracle data type is used to store multilingual (Unicode) characters?",
+    "options": [
+      "CHAR",
+      "VARCHAR2",
+      "NVARCHAR2",
+      "NUMBER"
+    ],
+    "answer": "NVARCHAR2"
+  },
+  {
+    "question": "Which clause is used after GROUP BY?",
+    "options": [
+      "WHERE",
+      "HAVING",
+      "ORDER BY",
+      "SELECT"
+    ],
+    "answer": "HAVING"
+  },
+  {
+    "question": "Which of the following filters grouped data correctly?",
+    "options": [
+      "WHERE COUNT(*) > 2",
+      "HAVING COUNT(*) > 2",
+      "SELECT COUNT(*) > 2",
+      "GROUP BY COUNT(*) > 2"
+    ],
+    "answer": "HAVING COUNT(*) > 2"
+  },
+  {
+    "question": "Which clause cannot use aggregate functions?",
+    "options": [
+      "WHERE",
+      "HAVING",
+      "SELECT",
+      "GROUP BY"
+    ],
+    "answer": "WHERE"
+  },
+  {
+    "question": "Which operator is used to compare two values for equality?",
+    "options": [
+      "<>",
+      "=",
+      "LIKE",
+      "IN"
+    ],
+    "answer": "="
+  },
+  {
+    "question": "How do you check if a column contains null values?",
+    "options": [
+      "= NULL",
+      "IS NULL",
+      "NOT NULL",
+      "LIKE NULL"
+    ],
+    "answer": "IS NULL"
+  },
+  {
+    "question": "What is the main purpose of SQL clauses?",
+    "options": [
+      "To store data in tables",
+      "To define data types",
+      "To specify conditions and structure in SQL queries",
+      "To make the query perfect"
+    ],
+    "answer": "To specify conditions and structure in SQL queries"
+  },
+  {
+    "question": "The purpose of the GROUP BY clause is to:",
+    "options": [
+      "Sort rows",
+      "Filter rows",
+      "Group rows based on column values",
+      "Remove duplicates"
+    ],
+    "answer": "Group rows based on column values"
+  },
+  {
+    "question": "What is the purpose of SQL data types?",
+    "options": [
+      "To sort query results",
+      "To control access to tables",
+      "To specify the kind of data a column can store",
+      "To perform operations and return results"
+    ],
+    "answer": "To specify the kind of data a column can store"
+  },
+  {
+    "question": "What is the purpose of SQL clauses?",
+    "options": [
+      "To store data permanently in database",
+      "To define constraints on column",
+      "To control filtering, grouping, and sorting of query results",
+      "To specify the type of data the column can store"
+    ],
+    "answer": "To control filtering, grouping, and sorting of query results"
+  },
+  {
+    "question": "What is the purpose of comments in SQL?",
+    "options": [
+      "To explain SQL code",
+      "To make the code more readable",
+      "To ignore statements during execution",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following is a valid SQL identifier?",
+    "options": [
+      "Should start with letter",
+      "Multiple words separated with underscore",
+      "Should not contain spaces",
+      "Keywords not allowed as identifier",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which aggregate function ignores NULL values?",
+    "options": [
+      "SUM",
+      "AVG",
+      "COUNT(column_name)",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which aggregate function counts all rows including NULL values?",
+    "options": [
+      "COUNT(column_name)",
+      "COUNT(*)",
+      "SUM",
+      "AVG"
+    ],
+    "answer": "COUNT(*)"
+  },
+  {
+    "question": "Which keyword is used to sort data in descending order?",
+    "options": [
+      "ASC",
+      "DESC",
+      "DESC",
+      "HIGH"
+    ],
+    "answer": "DESC"
+  },
+  {
+    "question": "Which statement is correct about ORDER BY?",
+    "options": [
+      "It can sort only one column",
+      "It must come before WHERE",
+      "It can sort multiple columns",
+      "It cannot use column names"
+    ],
+    "answer": "It can sort multiple columns"
+  },
+  {
+    "question": "What does NULL represent in SQL?",
+    "options": [
+      "Zero value",
+      "Empty string",
+      "Unknown or missing value",
+      "False value",
+      "All of the above"
+    ],
+    "answer": "Unknown or missing value"
+  },
+  {
+    "question": "Which of the following is the correct order of SQL clauses?",
+    "options": [
+      "SELECT → WHERE → FROM → ORDER BY",
+      "SELECT → FROM → GROUP BY → WHERE",
+      "SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY",
+      "SELECT → ORDER BY → FROM → WHERE"
+    ],
+    "answer": "SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY"
+  },
+  {
+    "question": "Which clause must always appear last in a SQL query?",
+    "options": [
+      "WHERE",
+      "GROUP BY",
+      "HAVING",
+      "ORDER BY"
+    ],
+    "answer": "ORDER BY"
+  },
+  {
+    "question": "Which of the following is the Incorrect order of SQL clauses?",
+    "options": [
+      "SELECT → FROM → GROUP BY → HAVING → ORDER BY",
+      "SELECT → FROM → WHERE → GROUP BY → HAVING",
+      "SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY",
+      "SELECT → FROM → HAVING → GROUP BY → ORDER BY"
+    ],
+    "answer": "SELECT → FROM → HAVING → GROUP BY → ORDER BY"
+  },
+  {
+    "question": "Which constraint ensures that a column cannot have NULL values and unique values?",
+    "options": [
+      "PRIMARY KEY",
+      "UNIQUE",
+      "NOT NULL",
+      "FOREIGN KEY"
+    ],
+    "answer": "PRIMARY KEY"
   }
 ]

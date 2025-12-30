@@ -19,6 +19,7 @@ import {
   FaArrowAltCircleRight,
   FaArrowRight,
   FaDiscourse,
+  FaLayerGroup,
 } from "react-icons/fa";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -33,13 +34,31 @@ import StartLearning1, {
   ExamConfig,
   learningContexts,
 } from "./StartLearning1";
+import SEO from "./SEO";
 
 // ----------------- Component -----------------
 function StartLearning() {
-  const [activeSection, setActiveSection] = useState("Dashboard");
+  const [activeSection, setActiveSection] = useState(
+    localStorage.getItem("activeSection") || "Dashboard"
+  );
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [selectedCourse, setSelectedCourse] = useState(
+    localStorage.getItem("selectedCourse") || null
+  );
   const [isLoading, setIsLoading] = useState(false);
+
+  // Persist Navigation State
+  useEffect(() => {
+    localStorage.setItem("activeSection", activeSection);
+  }, [activeSection]);
+
+  useEffect(() => {
+    if (selectedCourse) {
+      localStorage.setItem("selectedCourse", selectedCourse);
+    } else {
+      localStorage.removeItem("selectedCourse");
+    }
+  }, [selectedCourse]);
 
   // Initialize from LocalStorage if available
   const [userProfile, setUserProfile] = useState(() => {
@@ -298,7 +317,9 @@ function StartLearning() {
       // Fallback Course Grid
       return (
         <div className="learning-courses-section">
-          <h1 className="upgraded-catalog-header">📚 Available Courses</h1>
+          <h1 className="upgraded-catalog-header">
+            <FaLayerGroup className="catalog-header-icon" /> Available Courses
+          </h1>
           <div className="upgraded-courses-container">
             {courses.map((course) => (
               <div
@@ -355,7 +376,9 @@ function StartLearning() {
           <Profile userProfile={userProfile} />
 
           <div className="dashboard-courses-preview">
-            <h2 className="upgraded-catalog-header">✨ Available Courses</h2>
+            <h2 className="upgraded-catalog-header">
+              <FaLayerGroup className="catalog-header-icon" /> Available Courses
+            </h2>
             <div className="upgraded-courses-container">
               {courses.map((course) => (
                 <div
@@ -395,10 +418,6 @@ function StartLearning() {
               ))}
             </div>
           </div>
-
-          <p className="learning-info-box">
-            Click on any course card above to view chapters and start coding!
-          </p>
         </div>
       );
     }
@@ -407,8 +426,17 @@ function StartLearning() {
 
   const isExamActive = activeSection === "My Courses" && selectedCourse; // Simplified
 
+  // SEO Logic
+  let seoTitle = "Learning Dashboard";
+  if (selectedCourse) {
+    seoTitle = `${selectedCourse} Course`;
+  } else if (activeSection) {
+    seoTitle = activeSection;
+  }
+
   return (
     <div className="learning-container">
+      <SEO title={seoTitle} />
       {isLoading && (
         <div className="premium-loading-overlay">
           <div className="spinner-wrapper">

@@ -34,7 +34,8 @@ import "../css/Home1.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Globe from "../components/Globe";
 import CircularSlider from "../components/CircularSlider";
-import HomeUI1 from "./HomeUI1";
+import HomeUI1 from "../Home/HomeUI1";
+import LearningPaths from "../Home/LearningPaths";
 
 Modal.setAppElement("#root");
 
@@ -113,17 +114,18 @@ const courses = [
   {
     icon: <FaLightbulb size={40} />,
     title: "Project-Based Learning",
-    description: "Build real-world projects to apply your knowledge and build confidence.",
+    description:
+      "Build real-world projects to apply your knowledge and build confidence.",
     content:
       "Our courses are project-based, ensuring you build a solid portfolio.",
   },
   {
     icon: <FaUserCheck size={40} />,
     title: "Career Support",
-    description: "Get help with your resume, portfolio, and interview preparation.",
-    content:
+    description:
       "Get help with your resume, portfolio, and interview preparation.",
-  }
+    content: "Get help with your resume, portfolio, and interview preparation.",
+  },
 ];
 
 const features = [
@@ -243,11 +245,54 @@ const testimonials = [
     quote:
       "Thanks to the cloud & DevOps course, I confidently deployed my first project to AWS.",
   },
-
+];
+const sections = [
+  {
+    title: "Front-End Development",
+    description:
+      "Become an expert in building beautiful, responsive user interfaces. Dive deep into the React ecosystem, mastering hooks, state management, and component patterns. You'll also explore advanced CSS techniques like Grid and Flexbox, ensuring your applications look stunning and perform flawlessly on every screen size.",
+    image: "/pics/frontend.avif",
+    reverse: true, // Image Left
+  },
+  {
+    title: "Backend Engineering",
+    description:
+      "Build the powerful logic behind web applications. Learn to design scalable APIs and microservices using Java, Spring Boot, and Node.js. You'll understand how to handle authentication, manage server-side state, and optimize performance to ensure your backend can handle complex data processing and high user traffic efficiently.",
+    image: "/pics/backend.avif",
+    reverse: false, // Image Right
+  },
+  {
+    title: "Database Management Systems",
+    description:
+      "Master the art of data storage and retrieval. Gain proficiency in SQL and NoSQL databases like MySQL, PostgreSQL, and MongoDB. Learn database design principles, normalization, and indexing strategies to create efficient schemas and optimize query performance for data-driven applications.",
+    image: "/pics/dbms.avif",
+    reverse: true, // Image Left
+  },
+  {
+    title: "DevOps Tools",
+    description:
+      "Streamline your development workflow with industry-standard tools. Master Git for version control to manage code evolution. Learn Docker for consistent containerization, ensuring your app runs everywhere. Use Postman for rigorous API testing and Swagger for clear, interactive documentation to collaborate effectively in modern agile teams.",
+    image: "/pics/Dev.avif",
+    reverse: false, // Image Right
+  },
+  {
+    title: "Cloud Computing & Deployment",
+    description:
+      "Take your applications to the cloud. Learn to deploy, scale, and manage services on leading platforms like AWS and Azure. You'll gain hands-on experience with serverless functions, cloud storage, and setting up continuous integration and deployment (CI/CD) pipelines to automate your release process.",
+    image: "/pics/cloud.jpg",
+    reverse: true, // Image Left
+  },
+  {
+    title: "Real-World Capstone Projects",
+    description:
+      "Apply your skills in comprehensive capstone projects. You will build full-stack applications from scratch, taking them from concept to deployment. These projects allow you to simulate real-world scenarios, solving actual business problems, and help you build a professional portfolio that showcases your readiness for the tech industry.",
+    image: "/pics/project.avif",
+    reverse: false, // Image Right
+  },
 ];
 
 //  Accept the 'onTechnologySelect' prop from the parent component (Master.js)
-const Home = ({ onTechnologySelect }) => {
+const Home = ({ onTechnologySelect, onCompilerSelect }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -311,6 +356,40 @@ const Home = ({ onTechnologySelect }) => {
         </div>
       </motion.section> */}
 
+        <div className="zig-home-container">
+          <div className="zig-sections-wrapper">
+            {sections.map((section, index) => (
+              <motion.div
+                key={index}
+                className={`zig-content-section ${
+                  section.reverse ? "zig-reverse" : ""
+                }`}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                viewport={{ once: true, margin: "-100px" }}
+              >
+                {/* Content Side */}
+                <div className="zig-text-card">
+                  <h2>{section.title}</h2>
+                  <div className="zig-accent-line" />
+                  <p>{section.description}</p>
+                </div>
+
+                {/* Image Side */}
+                <div className="zig-image-card">
+                  <div
+                    className={`zig-polygon-img ${
+                      !section.reverse ? "left-arrow" : ""
+                    }`}
+                    style={{ backgroundImage: `url(${section.image})` }}
+                  />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
         {/* --- Career Acceleration Section --- */}
         <section className="career-support-section">
           <motion.div
@@ -366,8 +445,10 @@ const Home = ({ onTechnologySelect }) => {
           </motion.div>
         </section>
 
+        <LearningPaths onTechnologySelect={onCompilerSelect} />
+
         {/* --- Premium Courses Cards Section --- */}
-        <section ref={coursesSectionRef} className="cards-container-section">
+        {/* <section ref={coursesSectionRef} className="cards-container-section">
           <h2 className="section-heading">Explore Our Premium Courses</h2>
           <motion.div
             className="cards-container"
@@ -395,7 +476,7 @@ const Home = ({ onTechnologySelect }) => {
               </motion.div>
             ))}
           </motion.div>
-        </section>
+        </section> */}
 
         {/* <Globe /> */}
 

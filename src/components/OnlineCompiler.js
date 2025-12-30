@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import AceEditor from "react-ace";
+import SEO from "./SEO";
 import ace from "ace-builds";
 import axios from "axios";
 import {
@@ -86,7 +87,14 @@ ace.config.set(
   "https://cdn.jsdelivr.net/npm/ace-builds@1.35.0/src-noconflict/"
 );
 
-const OnlineCompiler = () => {
+const OnlineCompiler = ({ initialLanguage }) => {
+  // Parsing query params strictly for direct URL access (e.g., new tab)
+  const getUrlParam = (name) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    return searchParams.get(name);
+  };
+  const urlLang = getUrlParam("lang");
+
   const [code, setCode] = useState(() => {
     return (
       localStorage.getItem("onlineCompiler_code") || languageBoilerplates.Java
@@ -95,8 +103,29 @@ const OnlineCompiler = () => {
   const [output, setOutput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [language, setLanguage] = useState(() => {
-    return localStorage.getItem("onlineCompiler_language") || "java";
+    // Priority: Prop > URL Query > LocalStorage > Default
+    return (
+      initialLanguage ||
+      urlLang ||
+      localStorage.getItem("onlineCompiler_language") ||
+      "java"
+    );
   });
+
+  useEffect(() => {
+    // Handle Prop Changes (Internal Navigation)
+    if (initialLanguage) {
+      setLanguage(initialLanguage);
+      const langObj = languages.find((l) => l.apiLang === initialLanguage);
+      if (langObj) setMode(langObj.mode);
+    }
+    // Handle URL Params (Direct Access / New Tab)
+    else if (urlLang) {
+      setLanguage(urlLang);
+      const langObj = languages.find((l) => l.apiLang === urlLang);
+      if (langObj) setMode(langObj.mode);
+    }
+  }, [initialLanguage, urlLang]);
   const [mode, setMode] = useState(() => {
     return localStorage.getItem("onlineCompiler_mode") || "java";
   });
@@ -397,15 +426,23 @@ const OnlineCompiler = () => {
 
   const checkForInput = (code, lang) => {
     if (!code) return false;
+    if (lang === "java") {
+      const { checkForJavaInput } = require("../utils/javalogic");
+      return checkForJavaInput(code);
+    }
+    if (lang === "python") {
+      const { checkForPythonInput } = require("../utils/pythonlogic");
+      return checkForPythonInput(code);
+    }
+    if (lang === "javascript") {
+      const { checkForJavascriptInput } = require("../utils/javascriptlogic");
+      return checkForJavascriptInput(code);
+    }
+    // Legacy/Fallback Checks
     const c = code;
-    // Simple heuristic regexes for common input patterns
-    if (lang === "java")
-      return c.includes("Scanner") || c.includes("System.in");
-    if (lang === "python") return c.includes("input(");
     if (lang === "cpp" || lang === "c")
       return c.includes("cin") || c.includes("scanf");
     if (lang === "csharp") return c.includes("Console.ReadLine");
-    if (lang === "javascript") return c.includes("prompt("); // Not really supported in Node but good to catch
     return false;
   };
 
@@ -418,7 +455,15 @@ const OnlineCompiler = () => {
 
     // Special handling for HTML/CSS
     if (language === "html" || language === "css") {
-      setOutput(code);
+      let content = code;
+      if (language === "html") {
+        const { runHtmlCode } = require("../utils/htmllogic");
+        content = runHtmlCode(code).output;
+      } else {
+        const { runCssCode } = require("../utils/csslogic");
+        content = runCssCode(code).output;
+      }
+      setOutput(content);
       setIsLoading(false);
       setIsWaitingForInput(false); // Reset here
       return;
@@ -446,49 +491,56 @@ const OnlineCompiler = () => {
     else if (apiLanguage === "cpp") apiLanguage = "cpp";
 
     try {
-      let codeToSend = code;
-      if (apiLanguage === "java") {
-        const {
-          prepareJavaCodeForExecution,
-        } = require("../utils/javaCodeGenerator"); // Import dynamically or ensure top-level
-        const prepared = prepareJavaCodeForExecution(code);
-        codeToSend = prepared.content;
-      }
+      // 1. Check for Extracted Logic (Java, Python, JS)
+      if (["java", "python", "javascript"].includes(apiLanguage)) {
+        let result = { output: "", isError: false };
 
-      const fileData = { content: codeToSend };
-      if (apiLanguage === "java") {
-        fileData.name = "Main.java";
-      }
-
-      const response = await axios.post(
-        "https://emkc.org/api/v2/piston/execute",
-        {
-          language: apiLanguage,
-          version: version,
-          files: [fileData],
-          stdin: stdinValue,
+        if (apiLanguage === "java") {
+          const { runJavaCode } = require("../utils/javalogic");
+          result = await runJavaCode(code, stdinValue);
+        } else if (apiLanguage === "python") {
+          const { runPythonCode } = require("../utils/pythonlogic");
+          result = await runPythonCode(code, stdinValue);
+        } else if (apiLanguage === "javascript") {
+          const { runJavascriptCode } = require("../utils/javascriptlogic");
+          result = await runJavascriptCode(code, stdinValue);
         }
-      );
-      const { run } = response.data;
 
-      let finalOutput = run.output;
+        let finalOutput = result.output;
 
-      // Smart Output Formatting: Inject user inputs back for "Terminal Echo" look
-      if (detectedPrompts.length > 0) {
-        detectedPrompts.forEach((prompt, index) => {
-          const userVal = promptValues[index] || "";
-          if (finalOutput.includes(prompt)) {
-            finalOutput = finalOutput.replace(
-              prompt,
-              prompt + " " + userVal + "\n"
-            );
+        // Smart Output Formatting: Inject user inputs back for "Terminal Echo" look
+        if (detectedPrompts.length > 0) {
+          detectedPrompts.forEach((prompt, index) => {
+            const userVal = promptValues[index] || "";
+            if (finalOutput.includes(prompt)) {
+              finalOutput = finalOutput.replace(
+                prompt,
+                prompt + " " + userVal + "\n"
+              );
+            }
+          });
+        }
+
+        setOutput(finalOutput);
+        setIsError(result.isError);
+      } else {
+        // 2. Fallback for C, C++, C#, etc. (Original Logic)
+        let codeToSend = code;
+        const fileData = { content: codeToSend };
+        const response = await axios.post(
+          "https://emkc.org/api/v2/piston/execute",
+          {
+            language: apiLanguage,
+            version: version,
+            files: [fileData],
+            stdin: stdinValue,
           }
-        });
-      }
-
-      setOutput(finalOutput);
-      if (run.code !== 0 && run.stderr) {
-        setIsError(true);
+        );
+        const { run } = response.data;
+        setOutput(run.output);
+        if (run.code !== 0 && run.stderr) {
+          setIsError(true);
+        }
       }
     } catch (error) {
       console.error("Execution error:", error);
@@ -505,44 +557,11 @@ const OnlineCompiler = () => {
 
   const analyzeInputPrompts = (code) => {
     if (!code) return [];
-    if (language !== "java") return []; // Only support Java for now as requested
-
-    const lines = code.split("\n");
-    const foundPrompts = [];
-    let i = 0;
-    while (i < lines.length) {
-      const line = lines[i].trim();
-      // Look for System.out.print/println
-      // Regex captures content inside quotes
-      const printMatch = line.match(
-        /System\.out\.print(?:ln)?\s*\(\s*"([^"]+)"/
-      );
-
-      if (printMatch) {
-        // Found a print. Look ahead for Scanner input
-        // Simple Heuristic: Check next few lines for nextInt, nextDouble, etc.
-        let j = i + 1;
-        let foundScanner = false;
-        while (j < lines.length && j < i + 5) {
-          // Check next 5 lines max
-          if (
-            lines[j].includes("sc.next") ||
-            lines[j].includes("scanner.next")
-          ) {
-            foundScanner = true;
-            break;
-          }
-          j++;
-        }
-        if (foundScanner) {
-          foundPrompts.push(printMatch[1]);
-          // Skip ahead to avoid duplicate checks if multiple scans close by
-          i = j;
-        }
-      }
-      i++;
+    if (language === "java") {
+      const { analyzeJavaPrompts } = require("../utils/javalogic");
+      return analyzeJavaPrompts(code);
     }
-    return foundPrompts;
+    return [];
   };
 
   const handleRun = () => {
@@ -650,23 +669,52 @@ const OnlineCompiler = () => {
           return;
         }
 
-        if (prefix.length === 0) {
+        // --- Context Aware Logic for Dot (.) ---
+        const line = session.getLine(pos.row);
+        const lineUpToCursor = line.slice(0, pos.column);
+        const isDotTrigger = lineUpToCursor.trimEnd().endsWith(".");
+
+        // If trigger is dot, ignore prefix length check, OR if regular typing check prefix
+        if (!isDotTrigger && prefix.length === 0) {
           callback(null, []);
           return;
+        }
+
+        let filteredSnippets = snippetsToUse;
+
+        // If triggered by dot, ONLY show snippets starting with "." (methods)
+        if (isDotTrigger && mode.endsWith("/java")) {
+          filteredSnippets = snippetsToUse.filter((s) =>
+            s.snippet.startsWith(".")
+          );
         }
 
         // Return our snippets with high score
         callback(
           null,
-          snippetsToUse.map((s) => ({
-            caption: s.caption,
-            snippet: s.snippet,
-            type: "snippet",
-            meta: s.customImport ? "Auto-Import" : "Snippet",
-            customImport: s.customImport,
-            score: 1000000, // Very high score to appear first
-            completer: customCompleter, // Self reference
-          }))
+          filteredSnippets.map((s) => {
+            // If dot trigger, we need to STRIP the leading dot from snippet to avoid double dot
+            let finalSnippet = s.snippet;
+            let displayCaption = s.caption;
+
+            if (isDotTrigger && finalSnippet.startsWith(".")) {
+              finalSnippet = finalSnippet.substring(1); // Remove leading dot
+            }
+
+            return {
+              caption: displayCaption,
+              snippet: finalSnippet,
+              type: "snippet",
+              meta: s.customImport
+                ? "Auto-Import"
+                : isDotTrigger
+                ? "Method"
+                : "Snippet",
+              customImport: s.customImport, // Very high score to appear first
+              score: 1000000 + (isDotTrigger ? 1000 : 0),
+              completer: customCompleter, // Self reference
+            };
+          })
         );
       },
       insertMatch: function (editor, data) {
@@ -686,7 +734,7 @@ const OnlineCompiler = () => {
           }
         }
 
-        // 2. Handle Import Injection
+        // Handle Import Injection
         if (data.customImport) {
           const doc = editor.getSession().getDocument();
           const content = doc.getValue();
@@ -701,7 +749,7 @@ const OnlineCompiler = () => {
           });
         }
 
-        // 3. Insert Snippet
+        // Insert Snippet
         ace
           .require("ace/snippets")
           .snippetManager.insertSnippet(editor, data.snippet);
@@ -736,6 +784,15 @@ const OnlineCompiler = () => {
 
   return (
     <div className="compiler-container" ref={containerRef}>
+      <SEO
+        title={`Online Compiler - ${
+          language
+            ? language.charAt(0).toUpperCase() + language.slice(1)
+            : "Code"
+        }`}
+        description="Run and test your code online with our powerful multi-language compiler."
+        keywords={`online compiler, ${language} compiler, run ${language} code, coding playground`}
+      />
       {!isFullScreen && (
         <header className="compiler-header">
           <div className="compiler-nav">
@@ -766,8 +823,8 @@ const OnlineCompiler = () => {
           className="compiler-section"
           style={{ flex: `0 0 ${editorWidth}%` }}
         >
-          <div className="section-header">
-            <h3 className="section-title">
+          <div className="section-header1">
+            <h3 className="section-title12">
               {(() => {
                 const currentLang = languages.find(
                   (l) => l.apiLang === language
@@ -990,7 +1047,8 @@ const OnlineCompiler = () => {
                 {isFullScreen ? <FaCompress /> : <FaExpand />}
               </button>
               <button
-                className="btn-compiler btn-run"
+             
+                className="btn-compiler btn-run1"
                 onClick={handleRun}
                 disabled={isLoading}
               >
@@ -1049,8 +1107,8 @@ const OnlineCompiler = () => {
 
         {/* Output Section */}
         <div className="compiler-section">
-          <div className="section-header">
-            <h3 className="section-title">
+          <div className="section-header1">
+            <h3 className="section-title12">
               <FaTerminal /> Console
             </h3>
             <div className="console-header-actions">
@@ -1064,7 +1122,7 @@ const OnlineCompiler = () => {
                 }}
               >
                 <button
-                  className="btn-compiler1"
+                  className="oc-btn-compiler"
                   onClick={() =>
                     setConsoleFontSize((prev) => Math.max(10, prev - 1))
                   }
@@ -1084,7 +1142,7 @@ const OnlineCompiler = () => {
                   {consoleFontSize}px
                 </span>
                 <button
-                  className="btn-compiler1"
+                  className="oc-btn-compiler"
                   onClick={() =>
                     setConsoleFontSize((prev) => Math.min(35, prev + 1))
                   }
@@ -1094,7 +1152,7 @@ const OnlineCompiler = () => {
                 </button>
               </div>
               <button
-                className="btn-compiler1"
+                className="oc-btn-compiler"
                 onClick={handleDownloadPdf}
                 title="Download PDF"
               >

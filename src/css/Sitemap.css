@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Iceland&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libertinus+Serif:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+.sitemap-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    /* Light grey background for contrast */
+    border-radius: 10px;
+}
+
+.sitemap-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.sitemap-header h1 {
+    font-family: 'Iceland', cursive;
+    font-size: 3.5rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.sitemap-header p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.sitemap-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* Default desktop: 4 columns side-by-side */
+    gap: 20px;
+    padding: 10px;
+}
+
+/* Card Styling */
+.sitemap-section {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    /* Soft shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #eaeaea;
+}
+
+.sitemap-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.sitemap-section h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid;
+    display: inline-block;
+}
+
+/* Specific border colors for sections */
+.sitemap-section:nth-child(1) h2 {
+    border-color: #3498db;
+}
+
+/* General - Blue */
+.sitemap-section:nth-child(2) h2 {
+    border-color: #e74c3c;
+}
+
+/* Student Zone - Red */
+.sitemap-section:nth-child(3) h2 {
+    border-color: #9b59b6;
+}
+
+/* Tech - Purple */
+.sitemap-section:nth-child(4) h2 {
+    border-color: #2ecc71;
+}
+
+/* Resources - Green */
+
+.sitemap-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sitemap-section li {
+    margin-bottom: 12px;
+}
+
+.sitemap-section a {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #555;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.sitemap-section a:before {
+    content: "•";
+    color: #ccc;
+    margin-right: 10px;
+    font-size: 1.2rem;
+    transition: color 0.2s ease;
+}
+
+.sitemap-section a:hover {
+    color: #007bff;
+    padding-left: 5px;
+}
+
+.sitemap-section a:hover:before {
+    color: #007bff;
+}
+
+/* Responsive: 2 columns on medium screens (tablets) */
+@media (max-width: 1024px) {
+    .sitemap-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Responsive: 1 column on mobile */
+@media (max-width: 600px) {
+    .sitemap-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sitemap-header h1 {
+        font-size: 2.5rem;
+    }
+}
+
+/* Compiler Links Grid (New) */
+.compiler-links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+@media (max-width: 480px) {
+    .compiler-links-grid {
+        grid-template-columns: 1fr;
+    }
+}

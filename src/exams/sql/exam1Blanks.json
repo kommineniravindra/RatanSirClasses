@@ -1,22 +1,82 @@
 [
   {
-    "question": "In Java, every class must be inside a _______ file.",
-    "answer": "Class"
+    "question": "The clause used to filter rows is _______",
+    "answer": "WHERE"
   },
   {
-    "question": "The keyword used to inherit a class in Java is _______.",
-    "answer": "extends"
+    "question": "The clause used to group rows is _______",
+    "answer": "GROUP BY"
   },
   {
-    "question": "The root class of all Java classes is _______.",
-    "answer": "Object"
+    "question": "The clause used to filter groups is _______",
+    "answer": "HAVING"
   },
   {
-    "question": "Java code is compiled into _______ bytecode.",
-    "answer": "JVM"
+    "question": "The clause used to sorts rows is _______",
+    "answer": "ORDER BY"
   },
   {
-    "question": "The method used as an entry point in Java is _______.",
-    "answer": "main"
+    "question": "The clause used to removes duplicates is _______",
+    "answer": "DISTINCT"
+  },
+  {
+    "question": "The clause used to retrieve only specific columns from a table is _______",
+    "answer": "SELECT"
+  },
+  {
+    "question": "The clause used to skip a number of rows before returning the result is _______",
+    "answer": "OFFSET"
+  },
+  {
+    "question": "The clause used to get only specific columns from a table is _______",
+    "answer": "SELECT"
+  },
+  {
+    "question": "The _______ clause is used to specify the table from which data is retrieved.",
+    "answer": "FROM"
+  },
+  {
+    "question": "The clause used to filter rows before grouping is _______",
+    "answer": "WHERE"
+  },
+  {
+    "question": "The clause used to filter groups after aggregation is _______",
+    "answer": "HAVING"
+  },
+  {
+    "question": "The SQL statement type used to create tables is _______ (DDL/DML/DRL)",
+    "answer": "DDL"
+  },
+  {
+    "question": "The SQL statement type used to retrieve data is _______ (DDL/DML/DRL)",
+    "answer": "DRL"
+  },
+  {
+    "question": "The SQL statement type used to insert data is _______ (DDL/DML/DRL)",
+    "answer": "DML"
+  },
+  {
+    "question": "The data type used to take the fixed character set is _______",
+    "answer": "CHAR"
+  },
+  {
+    "question": "The operator used to compare two values for equality is _______",
+    "answer": "="
+  },
+  {
+    "question": "The operator used to select values within a range is _______",
+    "answer": "BETWEEN"
+  },
+  {
+    "question": "The operator used for pattern matching is _______",
+    "answer": "LIKE"
+  },
+  {
+    "question": "The operator used to match multiple values in a list is _______",
+    "answer": "IN"
+  },
+  {
+    "question": "The operator used to check the data matching is _______",
+    "answer": "LIKE"
   }
 ]

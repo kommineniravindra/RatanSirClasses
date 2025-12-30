@@ -2,81 +2,33 @@ export const checkForInput = (code, language) => {
   if (!code) return false;
   const lang = language.toLowerCase();
 
-  // 1. JAVA
   if (lang === "java") {
-    // Check for Scanner usage
-    return (
-      code.includes("Scanner") &&
-      (code.includes("nextInt()") ||
-        code.includes("nextLine()") ||
-        code.includes("next()") ||
-        code.includes("nextDouble()") ||
-        code.includes("nextBoolean()"))
-    );
+    const { checkForJavaInput } = require("./javalogic");
+    return checkForJavaInput(code);
   }
-
-  // 2. PYTHON
   if (lang === "python") {
-    return code.includes("input(");
+    const { checkForPythonInput } = require("./pythonlogic");
+    return checkForPythonInput(code);
+  }
+  if (lang === "javascript") {
+    const { checkForJavascriptInput } = require("./javascriptlogic");
+    return checkForJavascriptInput(code);
   }
 
-  // 3. C++
-  if (lang === "cpp" || lang === "c++") {
-    return code.includes("cin >>");
-  }
-
-  // 4. C
-  if (lang === "c") {
-    return code.includes("scanf(");
-  }
+  // Legacy Checks
+  if (lang === "cpp" || lang === "c++") return code.includes("cin >>");
+  if (lang === "c") return code.includes("scanf(");
 
   return false;
 };
 
 export const analyzeInputPrompts = (code, language) => {
   if (!code) return [];
-  // Currently optimized for Java as per user request
-  if (language !== "java" && language !== "c" && language !== "cpp") return [];
-
-  const lines = code.split("\n");
-  const foundPrompts = [];
-  let i = 0;
-
-  while (i < lines.length) {
-    const line = lines[i].trim();
-    let printMatch = null;
-
-    // Java: System.out.print
-    if (language === "java") {
-      printMatch = line.match(/System\.out\.print(?:ln)?\s*\(\s*"([^"]+)"/);
-    }
-    // Python (Future)
-    // C/C++ (Future)
-
-    if (printMatch) {
-      // Look ahead for input
-      let j = i + 1;
-      let foundScanner = false;
-      while (j < lines.length && j < i + 5) {
-        if (language === "java") {
-          if (
-            lines[j].includes("sc.next") ||
-            lines[j].includes("scanner.next")
-          ) {
-            foundScanner = true;
-            break;
-          }
-        }
-        j++;
-      }
-      if (foundScanner) {
-        foundPrompts.push(printMatch[1]);
-        i = j;
-      }
-    }
-    i++;
+  if (language === "java") {
+    const { analyzeJavaPrompts } = require("./javalogic");
+    return analyzeJavaPrompts(code);
   }
-  return foundPrompts;
+  return [];
 };
 
 /**

@@ -5,6 +5,7 @@ import React, {
   useMemo,
   useRef,
 } from "react";
+import SEO from "./SEO";
 import { useParams, useNavigate } from "react-router-dom";
 import AceEditor from "react-ace"; // Added Ace
 import ace from "ace-builds"; // Added Ace Core
@@ -24,16 +25,21 @@ import axios from "axios";
 import "../css/Exam.css";
 import BrowserPreview from "./BrowserPreview";
 import ExamResult from "./ExamResult";
-import QuestionPalette from "./QuestionPalette"; // Added Import
+import QuestionPalette from "./QuestionPalette";
 
 // Utilities
 import javaSnippets from "../utils/javaSnippets";
-import sqlSnippets from "../utils/sqlSnippets";
+import {
+  sqlSnippets,
+  runSqlCode,
+  populateDbFromHtml,
+  verifySqlSolution,
+} from "../utils/sqllogic";
 import { generateJavaCode } from "../utils/javaCodeGenerator";
 import {
   analyzeInputPrompts,
   checkForInput,
-  checkKeywords, // Added Import
+  checkKeywords,
 } from "../utils/codeAnalysis";
 
 import {
@@ -208,6 +214,13 @@ const Exam = () => {
     () => getExamConfig(technology, examId),
     [technology, examId]
   );
+
+  // Logic for SEO Title
+  const seoTitle = `${
+    technology
+      ? technology.charAt(0).toUpperCase() + technology.slice(1)
+      : "Tech"
+  } Exam ${examId}`;
   const navigate = useNavigate();
   const [selectedQuiz, setSelectedQuiz] = useState([]);
   const [selectedBlanks, setSelectedBlanks] = useState([]);
@@ -257,23 +270,23 @@ const Exam = () => {
   const [fontSize, setFontSize] = useState(16);
   const [editorTheme, setEditorTheme] = useState("monokai");
 
+  const [isExamStarted, setIsExamStarted] = useState(false);
+
   const sqlDbRef = useRef(null);
   const generateDropdownRef = useRef(null);
-  // SQL.js initialization removed - Switched to AlaSQL
 
-  // Auto-Fullscreen on Mount
-  useEffect(() => {
-    const enterFullScreen = async () => {
-      try {
-        if (!document.fullscreenElement) {
-          await document.documentElement.requestFullscreen();
-        }
-      } catch (err) {
-        console.warn("Fullscreen request denied:", err);
+  const handleStartExam = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
       }
-    };
-    enterFullScreen();
-  }, []);
+      setIsExamStarted(true);
+    } catch (err) {
+      console.warn("Fullscreen request denied:", err);
+      // Still start the exam even if fullscreen is denied
+      setIsExamStarted(true);
+    }
+  };
 
   const techConfig = languageConfig[technology] || languageConfig.default;
   const isCodingRoundAvailable = useMemo(
@@ -530,22 +543,52 @@ const Exam = () => {
           return;
         }
 
-        if (prefix.length === 0) {
+        // --- Context Aware Logic for Dot (.) ---
+        const line = session.getLine(pos.row);
+        const lineUpToCursor = line.slice(0, pos.column);
+        const isDotTrigger = lineUpToCursor.trimEnd().endsWith(".");
+
+        // If trigger is dot, ignore prefix length check, OR if regular typing check prefix
+        if (!isDotTrigger && prefix.length === 0) {
           callback(null, []);
           return;
         }
 
+        let filteredSnippets = snippetsToUse;
+
+        // If triggered by dot, ONLY show snippets starting with "." (methods)
+        if (isDotTrigger && mode.endsWith("/java")) {
+          filteredSnippets = snippetsToUse.filter((s) =>
+            s.snippet.startsWith(".")
+          );
+        }
+
+        // Return our snippets with high score
         callback(
           null,
-          snippetsToUse.map((s) => ({
-            caption: s.caption,
-            snippet: s.snippet,
-            type: "snippet",
-            meta: s.customImport ? "Auto-Import" : "Snippet",
-            customImport: s.customImport,
-            score: 1000000,
-            completer: customCompleter,
-          }))
+          filteredSnippets.map((s) => {
+            // If dot trigger, we need to STRIP the leading dot from snippet to avoid double dot
+            let finalSnippet = s.snippet;
+            let displayCaption = s.caption;
+
+            if (isDotTrigger && finalSnippet.startsWith(".")) {
+              finalSnippet = finalSnippet.substring(1); // Remove leading dot
+            }
+
+            return {
+              caption: displayCaption,
+              snippet: finalSnippet,
+              type: "snippet",
+              meta: s.customImport
+                ? "Auto-Import"
+                : isDotTrigger
+                ? "Method"
+                : "Snippet",
+              customImport: s.customImport, // Very high score to appear first
+              score: 1000000 + (isDotTrigger ? 1000 : 0),
+              completer: customCompleter, // Self reference
+            };
+          })
         );
       },
       insertMatch: function (editor, data) {
@@ -670,7 +713,7 @@ const Exam = () => {
             const marks = calculateAccuracyMarks(
               q.answer,
               answers[`code-${i}`] || "",
-              q.maxMarks || ExamConfig.codingMarks
+              q.maxMarks
             );
             codingTotal += marks;
           } else {
@@ -706,10 +749,7 @@ const Exam = () => {
         const totalPossibleBlanks =
           selectedBlanks.length * ExamConfig.blankMarks;
         const totalPossibleCoding = isCodingRoundAvailable
-          ? selectedCoding.reduce(
-              (sum, q) => sum + (q.maxMarks || ExamConfig.codingMarks),
-              0
-            )
+          ? selectedCoding.reduce((sum, q) => sum + (q.maxMarks || 0), 0)
           : 0;
 
         const totalPossiblePseudo =
@@ -800,16 +840,16 @@ const Exam = () => {
 
   useEffect(() => {
     const handleVisibilityChange = () => {
-      if (document.hidden && !showResult && timerActive) {
+      if (document.hidden && !showResult && timerActive && isExamStarted) {
         submitExam(true, true);
       }
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () =>
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, [showResult, timerActive, submitExam]);
+  }, [showResult, timerActive, submitExam, isExamStarted]);
 
-  // --- HELPER FUNCTION: Run code using Piston API (Replacing Judge0) ---
+  // --- HELPER FUNCTION: Run code using Piston API (Refactored) ---
   const executeCode = async (userCode, customInput, language) => {
     const langMap = {
       java: "java",
@@ -818,212 +858,148 @@ const Exam = () => {
       sql: "sql",
     };
 
-    // Special handling for SQL (Local Execution)
+    // Special handling for SQL (Global Execution Logic)
     if (language === "sql") {
-      const alasql = require("alasql");
-
-      // Polyfill NVL
-      if (!alasql.fn.NVL) {
-        alasql.fn.NVL = function (val, defaultVal) {
-          return val === null || val === undefined ? defaultVal : val;
-        };
-      }
-
-      if (!sqlDbRef.current) {
-        sqlDbRef.current = new alasql.Database();
-        sqlDbRef.current.exec("CREATE DATABASE IF NOT EXISTS myDB; USE myDB");
-      }
-      const db = sqlDbRef.current;
-
       try {
-        // Strip comments
-        const sanitizedCode = userCode
-          .replace(/\/\*[\s\S]*?\*\//g, "")
-          .split("\n")
-          .map((line) => {
-            const idx = line.indexOf("--");
-            return idx >= 0 ? line.substring(0, idx) : line;
-          })
-          .join("\n");
-
-        const commands = sanitizedCode
-          .split(";")
-          .filter((c) => c.trim().length > 0);
-        let outputLog = [];
-
-        // Helper to formatting table text
-        const formatTable = (data) => {
-          if (!data || data.length === 0) return "Query returned no results.";
-          const cols = Object.keys(data[0]);
-          const header = cols.join(" | ");
-          const separator = "-".repeat(header.length);
-          const rows = data
-            .map((row) => cols.map((c) => row[c]).join(" | "))
-            .join("\n");
-          return `${header}\n${separator}\n${rows}`;
-        };
-
-        for (let cmd of commands) {
-          try {
-            const trimmedCmd = cmd.trim();
-            const lowerCmd = trimmedCmd.toLowerCase();
-            let res = db.exec(trimmedCmd);
-
-            // Handle DESCRIBE manually
-            if (
-              lowerCmd.startsWith("describe") ||
-              lowerCmd.startsWith("desc")
-            ) {
-              const match = trimmedCmd.match(
-                /(?:describe|desc)\s+["`]?([^\s("`]+)/i
-              );
-              if (match) {
-                const tableName = match[1];
-                if (
-                  db.tables &&
-                  db.tables[tableName] &&
-                  db.tables[tableName].columns
-                ) {
-                  const cols = db.tables[tableName].columns.map((c) => ({
-                    Field: c.columnid,
-                    Type: c.dbtypeid || "UNKNOWN",
-                    Null: "YES",
-                    Key: c.pk ? "PRI" : "",
-                    Default: "NULL",
-                    Extra: "",
-                  }));
-                  res = cols;
-                }
-              }
-            }
-
-            if (lowerCmd.startsWith("create table")) {
-              const match = trimmedCmd.match(
-                /create\s+table\s+(?:if\s+not\s+exists\s+)?["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "Table";
-              outputLog.push(`Table '${tableName}' created successfully.`);
-            } else if (lowerCmd.startsWith("drop table")) {
-              const match = trimmedCmd.match(
-                /drop\s+table\s+(?:if\s+exists\s+)?["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "Table";
-              outputLog.push(`Table '${tableName}' dropped successfully.`);
-            } else if (lowerCmd.startsWith("insert into")) {
-              const match = trimmedCmd.match(
-                /insert\s+into\s+["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "table";
-              outputLog.push(
-                `Values inserted into '${tableName}' successfully.`
-              );
-            } else if (lowerCmd.startsWith("update")) {
-              const match = trimmedCmd.match(/update\s+["`]?([^\s("`]+)/i);
-              const tableName = match ? match[1] : "table";
-              outputLog.push(`Table '${tableName}' updated successfully.`);
-            } else if (lowerCmd.startsWith("delete from")) {
-              const match = trimmedCmd.match(
-                /delete\s+from\s+["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "table";
-              outputLog.push(`Rows deleted from '${tableName}' successfully.`);
-            } else if (lowerCmd.startsWith("truncate")) {
-              const match = trimmedCmd.match(
-                /truncate(?:\s+table)?\s+["`]?([^\s("`]+)/i
-              );
-              const tableName = match ? match[1] : "Table";
-              outputLog.push(`Table '${tableName}' truncated successfully.`);
-            } else if (lowerCmd.startsWith("alter table")) {
-              outputLog.push(`Table altered successfully.`);
-            } else if (
-              lowerCmd.startsWith("describe") ||
-              lowerCmd.startsWith("desc")
-            ) {
-              // If res is array (from manual match above)
-              if (Array.isArray(res)) {
-                outputLog.push(formatTable(res));
-              } else {
-                const match = trimmedCmd.match(
-                  /(?:describe|desc)\s+["`]?([^\s("`]+)/i
-                );
-                const tableName = match ? match[1] : "Table";
-                outputLog.push(`Table '${tableName}' does not exist or error.`);
-              }
-            } else if (
-              lowerCmd.startsWith("select") ||
-              lowerCmd.startsWith("show")
-            ) {
-              if (Array.isArray(res) && res.length > 0) {
-                outputLog.push(formatTable(res));
-              } else if (Array.isArray(res)) {
-                // Empty result processing
-                let showedEmpty = false;
-                try {
-                  const fromMatch = trimmedCmd.match(
-                    /from\s+["`]?([^\s("`]+)/i
-                  );
-                  if (fromMatch) {
-                    const tName = fromMatch[1];
-                    if (
-                      db.tables &&
-                      db.tables[tName] &&
-                      db.tables[tName].columns
-                    ) {
-                      const cols = db.tables[tName].columns.map(
-                        (c) => c.columnid
-                      );
-                      if (cols.length > 0) {
-                        const header = cols.join(" | ");
-                        const separator = "-".repeat(header.length);
-                        outputLog.push(`${header}\n${separator}\n`);
-                        showedEmpty = true;
-                      }
-                    }
-                  }
-                } catch (e) {}
-
-                if (!showedEmpty) {
-                  outputLog.push("Query returned no results.");
-                }
-              } else {
-                outputLog.push("Query returned no results.");
-              }
-            } else {
-              if (Array.isArray(res) && res.length > 0)
-                outputLog.push(formatTable(res));
-              else outputLog.push("Command executed successfully.");
-            }
-          } catch (e) {
-            return { compileError: `SQL Error: ${e.message}`, output: "" };
-          }
+        // Initialize DB locally for Exam session if not exists
+        if (!sqlDbRef.current) {
+          const alasql = require("alasql");
+          sqlDbRef.current = new alasql.Database();
+          sqlDbRef.current.exec("CREATE DATABASE IF NOT EXISTS myDB; USE myDB");
         }
-        return { compileError: null, output: outputLog.join("\n\n") };
+
+        // --- Auto-Populate Logic ---
+        // If user code does NOT contain CREATE or INSERT, try to populate from Sample Input (HTML)
+        const hasDDL = /CREATE\s+TABLE/i.test(userCode);
+        const hasDML = /INSERT\s+INTO/i.test(userCode);
+
+        if (!hasDDL && !hasDML) {
+          populateDbFromHtml(sqlDbRef.current, customInput);
+        }
+
+        const { messages, error } = runSqlCode(sqlDbRef.current, userCode);
+
+        // Format output for Exam display (String Log)
+        const outputLog = messages
+          .map((m) => {
+            if (m.type === "table") {
+              if (!m.data || m.data.values.length === 0)
+                return "Query returned no results.";
+              const header = m.data.columns.join(" | ");
+              const separator = "-".repeat(header.length);
+              const rows = m.data.values
+                .map((row) =>
+                  row.map((v) => (v === null ? "NULL" : v)).join(" | ")
+                )
+                .join("\n");
+              return `${header}\n${separator}\n${rows}`;
+            }
+            return m.text;
+          })
+          .join("\n\n");
+
+        // Format output for HTML Preview (Table)
+        const htmlLog = messages
+          .map((m) => {
+            if (m.type === "table") {
+              if (!m.data || m.data.values.length === 0)
+                return '<div class="sql-msg info">Query returned no results.</div>';
+
+              const headers = m.data.columns
+                .map((c) => `<th>${c}</th>`)
+                .join("");
+
+              const rows = m.data.values
+                .map((row) => {
+                  const cells = row
+                    .map((v) => `<td>${v === null ? "NULL" : v}</td>`)
+                    .join("");
+                  return `<tr>${cells}</tr>`;
+                })
+                .join("");
+
+              return `<table class="sql-result-table"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table>`;
+            }
+            return `<div class="sql-msg ${m.type}">${m.text}</div>`;
+          })
+          .join("");
+
+        // Format output for GRADING (Tables Only, No Status Messages)
+        const gradingLog = messages
+          .filter((m) => m.type === "table")
+          .map((m) => {
+            if (!m.data || m.data.values.length === 0) return "";
+            const header = m.data.columns.join(" | ");
+            const separator = "-".repeat(header.length);
+            const rows = m.data.values
+              .map((row) =>
+                row.map((v) => (v === null ? "NULL" : v)).join(" | ")
+              )
+              .join("\n");
+            return `${header}\n${separator}\n${rows}`;
+          })
+          .join("\n\n");
+
+        return {
+          compileError: error,
+          output: outputLog,
+          htmlOutput: htmlLog,
+          gradingOutput: gradingLog,
+          sqlMessages: messages,
+        };
       } catch (err) {
-        return { compileError: err.message, output: "" };
+        return {
+          compileError: err.message,
+          output: "",
+          htmlOutput: "",
+          gradingOutput: "",
+          sqlMessages: [],
+        };
       }
     }
 
     const apiLang = langMap[language] || language;
 
+    // 1. Extracted Logic (Java, Python, JS)
+    if (["java", "python", "javascript"].includes(apiLang)) {
+      let result = { output: "", compileError: null, isError: false };
+
+      if (apiLang === "java") {
+        const { runJavaCode } = require("../utils/javalogic");
+        const r = await runJavaCode(userCode, customInput);
+        result.output = r.output;
+        result.isError = r.isError;
+        if (r.isError) result.compileError = r.error;
+      } else if (apiLang === "python") {
+        const { runPythonCode } = require("../utils/pythonlogic");
+        const r = await runPythonCode(userCode, customInput);
+        result.output = r.output;
+        result.isError = r.isError;
+        if (r.isError) result.compileError = r.error;
+      } else if (apiLang === "javascript") {
+        const { runJavascriptCode } = require("../utils/javascriptlogic");
+        const r = await runJavascriptCode(userCode, customInput);
+        result.output = r.output;
+        result.isError = r.isError;
+        if (r.isError) result.compileError = r.error;
+      }
+
+      return {
+        compileError: result.isError
+          ? result.compileError || result.output
+          : null,
+        output: result.output || "",
+      };
+    }
+
+    // 2. Fallback Piston Logic (for others)
     try {
       let codeToExecute = userCode;
       let fileName = "Main.java"; // Default
 
-      if (apiLang === "java") {
-        const {
-          prepareJavaCodeForExecution,
-        } = require("../utils/javaCodeGenerator");
-        const prepared = prepareJavaCodeForExecution(userCode);
-        codeToExecute = prepared.content;
-        if (prepared.mainClassName) {
-          fileName = `${prepared.mainClassName}.java`;
-        }
-      }
+      // Java Fallback (removed since extracted)
 
       const fileData = { content: codeToExecute };
-      if (apiLang === "java") {
-        fileData.name = fileName;
-      }
 
       const response = await fetch("https://emkc.org/api/v2/piston/execute", {
         method: "POST",
@@ -1038,7 +1014,6 @@ const Exam = () => {
       const data = await response.json();
 
       if (data.run && data.run.code !== 0) {
-        // Error case
         return { compileError: data.run.stderr || data.run.stdout, output: "" };
       }
 
@@ -1095,21 +1070,17 @@ const Exam = () => {
   const isBlocking = timerActive && !isLoading && timeLeft > 0;
 
   // 1. Browser Level (Tab Close/Refresh)
+
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       if (isBlocking) {
         e.preventDefault();
-        e.returnValue = ""; // Required for Chrome/modern browsers
+        e.returnValue = "";
       }
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [isBlocking]);
-
-  // 2. Client Side Navigation (Back Button / Swipe)
-  // 2. Client Side Navigation (Back Button / Swipe)
-  // Removed useBlocker because it requires Data Router (createBrowserRouter) which creates conflicts.
-  // We rely on window.onbeforeunload for tab close protection.
 
   const handleChange = (qKey, value) =>
     setAnswers((prev) => ({ ...prev, [qKey]: value }));
@@ -1166,11 +1137,8 @@ const Exam = () => {
       }
     }
 
-    const { compileError, output } = await executeCode(
-      codeToRun,
-      inputToUse,
-      techConfig.language
-    );
+    const { compileError, output, htmlOutput, gradingOutput, sqlMessages } =
+      await executeCode(codeToRun, inputToUse, techConfig.language);
 
     // Terminal Echo Injection
     let finalOutput = output;
@@ -1186,20 +1154,34 @@ const Exam = () => {
     if (mode === "run") {
       setRunResults((prev) => ({
         ...prev,
-        [i]: { compileError, output: finalOutput },
+        [i]: { compileError, output: finalOutput, htmlOutput },
       }));
 
       // Update Marks Calculation for Immediate Feedback (Only if using Sample Input)
       if (inputToUse === selectedCoding[i].sampleInput) {
         let marks = 0;
         if (!compileError) {
-          marks = calculateAccuracyMarks(
-            selectedCoding[i].sampleOutput,
-            output, // Use raw output for comparison
-            selectedCoding[i].maxMarks || ExamConfig.codingMarks,
-            codeToRun,
-            selectedCoding[i].expectedKeywords || []
-          );
+          // Special Grading Logic for SQL
+          let expected = selectedCoding[i].sampleOutput;
+          let actual = output;
+
+          if (techConfig.language === "sql") {
+            const verification = verifySqlSolution(
+              sqlMessages,
+              selectedCoding[i].answer,
+              selectedCoding[i].sampleInput,
+              selectedCoding[i].maxMarks
+            );
+            marks = verification.marks;
+          } else {
+            marks = calculateAccuracyMarks(
+              expected,
+              actual,
+              selectedCoding[i].maxMarks,
+              codeToRun,
+              selectedCoding[i].expectedKeywords || []
+            );
+          }
         }
         setCodeResults((prev) => ({
           ...prev,
@@ -1209,17 +1191,34 @@ const Exam = () => {
     } else {
       let marks = 0;
       if (!compileError) {
+        // Special Grading Logic for SQL
+        let expected = selectedCoding[i].sampleOutput;
+        let actual = output;
+
+        if (techConfig.language === "sql") {
+          // Normalize Expected (Strip HTML tags & whitespace)
+          expected = expected
+            .replace(/<[^>]*>/g, " ")
+            .replace(/\s+/g, " ")
+            .trim();
+          // Normalize Actual (Strip table separators & extra whitespace)
+          actual = actual
+            .replace(/[|\-+]/g, " ")
+            .replace(/\s+/g, " ")
+            .trim();
+        }
+
         marks = calculateAccuracyMarks(
-          selectedCoding[i].sampleOutput,
-          output,
-          selectedCoding[i].maxMarks || ExamConfig.codingMarks,
+          expected,
+          actual,
+          selectedCoding[i].maxMarks,
           codeToRun, // Pass code
           selectedCoding[i].expectedKeywords || [] // Pass expectedKeywords
         );
       }
       setCodeResults((prev) => ({
         ...prev,
-        [i]: { compileError, output, marks, evaluated: true },
+        [i]: { compileError, output, htmlOutput, marks, evaluated: true },
       }));
     }
 
@@ -1234,7 +1233,7 @@ const Exam = () => {
     const marks = calculateAccuracyMarks(
       question.answer,
       code,
-      question.maxMarks || ExamConfig.codingMarks,
+      question.maxMarks,
       code, // Pass Code
       question.expectedKeywords || [] // Pass Keywords
     );
@@ -1278,9 +1277,33 @@ const Exam = () => {
 
   return (
     <>
+      {/* Start Exam Overlay */}
+      {!isLoading && !showResult && !isExamStarted && (
+        <div className="exam-start-overlay">
+          <div className="start-card">
+            <h2>Welcome to the {technology.toUpperCase()} Exam</h2>
+            <p>
+              <strong>Instructions:</strong>
+            </p>
+            <ul style={{ textAlign: "left", marginBottom: "2rem" }}>
+              <li>
+                The exam will be conducted in <strong>Full Screen Mode</strong>.
+              </li>
+              <li>Do not try to exit full screen or switch tabs.</li>
+              <li>Ensure you have a stable internet connection.</li>
+            </ul>
+            <button className="start-action-btn" onClick={handleStartExam}>
+              Start My Exam
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Top Fixed Bar Container (Header + Palette) */}
       {!showResult && (
-        <div className="top-fixed-bar">
+        <div
+          className={`top-fixed-bar ${!isExamStarted ? "blur-content" : ""}`}
+        >
           {/* 1. Exam Name, Timer, Submit Button */}
           <div className="exam-header">
             <h1>
@@ -1346,7 +1369,7 @@ const Exam = () => {
       )}
 
       {/* Main Content Area */}
-      <div className="page-container">
+      <div className={`page-container ${!isExamStarted ? "blur-content" : ""}`}>
         <div className="exam-container">
           {/* Header for Result Page only */}
           {/* {showResult && (
@@ -1886,41 +1909,79 @@ const Exam = () => {
 
                               {/* Run Output (Console) */}
                               {runResults[i] && !isWaitingForInput && (
-                                <div
-                                  className="exam-terminal-output"
-                                  style={{ marginTop: "15px" }}
-                                >
-                                  <h4>
-                                    Console Output:
-                                    {codeResults[i]?.evaluated && (
-                                      <span
-                                        style={{
-                                          marginLeft: "15px",
-                                          fontWeight: "bold",
-                                          color:
-                                            codeResults[i].marks > 0
-                                              ? "#28a745"
-                                              : "#dc3545",
-                                          fontSize: "1rem",
-                                        }}
-                                      >
-                                        [Marks Scored: {codeResults[i].marks} /{" "}
-                                        {selectedCoding[i].maxMarks ||
-                                          ExamConfig.codingMarks}
-                                        ]
-                                      </span>
-                                    )}
-                                  </h4>
-                                  {runResults[i].compileError ? (
-                                    <pre className="error-text">
-                                      {runResults[i].compileError}
-                                    </pre>
-                                  ) : (
-                                    <pre>
-                                      {runResults[i].output || "(No output)"}
-                                    </pre>
+                                <>
+                                  {/* Console Output (Hidden for SQL) */}
+                                  {techConfig.language !== "sql" && (
+                                    <div
+                                      className="exam-terminal-output"
+                                      style={{ marginTop: "15px" }}
+                                    >
+                                      <h4>
+                                        Console Output:
+                                        {codeResults[i]?.evaluated && (
+                                          <span
+                                            style={{
+                                              marginLeft: "15px",
+                                              fontWeight: "bold",
+                                              color:
+                                                codeResults[i].marks > 0
+                                                  ? "#28a745"
+                                                  : "#dc3545",
+                                              fontSize: "1rem",
+                                            }}
+                                          >
+                                            [Marks Scored:{" "}
+                                            {codeResults[i].marks} /{" "}
+                                            {selectedCoding[i].maxMarks}]
+                                          </span>
+                                        )}
+                                      </h4>
+                                      {runResults[i].compileError ? (
+                                        <pre className="error-text">
+                                          {runResults[i].compileError}
+                                        </pre>
+                                      ) : (
+                                        <pre>
+                                          {runResults[i].output ||
+                                            "(No output)"}
+                                        </pre>
+                                      )}
+                                    </div>
                                   )}
-                                </div>
+
+                                  {/* SQL Preview Section (Visible for SQL) */}
+                                  {techConfig.language === "sql" &&
+                                    runResults[i]?.htmlOutput && (
+                                      <div className="sql-preview-container">
+                                        <div className="sql-preview-header">
+                                          📄 Output/Preview:
+                                          {codeResults[i]?.evaluated && (
+                                            <span
+                                              style={{
+                                                marginLeft: "15px",
+                                                fontWeight: "bold",
+                                                color:
+                                                  codeResults[i].marks > 0
+                                                    ? "#28a745"
+                                                    : "#dc3545",
+                                                fontSize: "0.9rem",
+                                              }}
+                                            >
+                                              MARK SCORED:{" "}
+                                              {codeResults[i].marks} /{" "}
+                                              {selectedCoding[i].maxMarks}
+                                            </span>
+                                          )}
+                                        </div>
+                                        <div
+                                          dangerouslySetInnerHTML={{
+                                            __html: runResults[i].htmlOutput,
+                                          }}
+                                          style={{ overflowX: "auto" }}
+                                        />
+                                      </div>
+                                    )}
+                                </>
                               )}
                             </>
                           )}
@@ -2005,7 +2066,7 @@ const Exam = () => {
                                   <div className="output-success">
                                     <p className="marks-display">
                                       Marks: {codeResults[i].marks} /{" "}
-                                      {q.maxMarks || ExamConfig.codingMarks}
+                                      {q.maxMarks}
                                     </p>
                                   </div>
                                 </div>

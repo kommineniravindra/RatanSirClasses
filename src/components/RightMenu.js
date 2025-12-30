@@ -57,14 +57,14 @@ import "../css/RightMenu.css";
 const RightMenu = () => {
   const [currentRotation, setCurrentRotation] = useState(0);
   const angle = 90;
-  const autoScrollInterval = 100000; // Faster scroll for debugging
+  const autoScrollInterval = 10000; // Faster scroll for debugging
 
-  // Defined inside to ensure update
+  // Fixed paths to use absolute root for public assets
   const media = [
-    { type: "image", src: "/right1.jpg" },
-    { type: "image", src: "/right2.jpg" },
-    { type: "image", src: "/right3.jpg" },
-    { type: "image", src: "/right4.jpg" },
+    { type: "image", src: "/rightmenu/right1.jpg" },
+    { type: "image", src: "/rightmenu/right2.jpg" },
+    { type: "image", src: "/rightmenu/right3.jpg" },
+    { type: "image", src: "/rightmenu/right4.jpg" },
   ];
 
   useEffect(() => {
@@ -85,38 +85,22 @@ const RightMenu = () => {
         <div className="cube" style={cubeStyle}>
           {/* FACE 1 */}
           <div className="face front">
-            {media[0].type === "image" ? (
-              <img src={media[0].src} alt="Face 1" />
-            ) : (
-              <img src={media[0].src} alt="Face 1" />
-            )}
+            <img src={media[0].src} alt="Face 1" />
           </div>
 
           {/* FACE 2 */}
           <div className="face right">
-            {media[1].type === "image" ? (
-              <img src={media[1].src} alt="Face 2" />
-            ) : (
-              <img src={media[1].src} alt="Face 2" />
-            )}
+            <img src={media[1].src} alt="Face 2" />
           </div>
 
           {/* FACE 3 */}
           <div className="face back">
-            {media[2].type === "image" ? (
-              <img src={media[2].src} alt="Face 3" />
-            ) : (
-              <img src={media[2].src} alt="Face 3" />
-            )}
+            <img src={media[2].src} alt="Face 3" />
           </div>
 
           {/* FACE 4 */}
           <div className="face left">
-            {media[3].type === "image" ? (
-              <img src={media[3].src} alt="Face 4" />
-            ) : (
-              <img src={media[3].src} alt="Face 4" />
-            )}
+            <img src={media[3].src} alt="Face 4" />
           </div>
         </div>
       </div>

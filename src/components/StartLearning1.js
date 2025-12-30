@@ -18,9 +18,6 @@ import {
 import { FiArrowLeft } from "react-icons/fi";
 
 // Ace Imports (refactored to utils/editorThemes.js)
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
-import { CHAPTER_SETUP } from "../learning/sql/SqlSetup";
 import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/mode-css";
 import "ace-builds/src-noconflict/mode-javascript";
@@ -45,7 +42,12 @@ import javaTopics from "../learning/java/javaTopics";
 import pythonTopics from "../learning/python/pythonTopics";
 import sqlTopics from "../learning/sql/sqlTopics";
 import javaSnippets from "../utils/javaSnippets";
-import sqlSnippets from "../utils/sqlSnippets";
+import {
+  sqlSnippets,
+  runSqlCode,
+  compareSqlTables,
+  populateDbFromHtml,
+} from "../utils/sqllogic";
 import { generateJavaCode } from "../utils/javaCodeGenerator";
 import { analyzeInputPrompts } from "../utils/codeAnalysis";
 import { availableThemes } from "../utils/editorThemes";
@@ -377,13 +379,6 @@ const StartLearning1 = ({
   }, []);
 
   const sqlDbRef = useRef(null);
-  const sqlFactoryRef = useRef(null);
-
-  // WASM URL for sql.js reference
-  const SQL_WASM_URL =
-    "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.wasm";
-
-  // SQL.js initialization removed - Switched to AlaSQL for StartLearning
 
   /* Custom Modal State */
   const [modalState, setModalState] = useState({
@@ -534,23 +529,52 @@ const StartLearning1 = ({
           return;
         }
 
-        if (prefix.length === 0) {
+        // --- Context Aware Logic for Dot (.) ---
+        const line = session.getLine(pos.row);
+        const lineUpToCursor = line.slice(0, pos.column);
+        const isDotTrigger = lineUpToCursor.trimEnd().endsWith(".");
+
+        // If trigger is dot, ignore prefix length check, OR if regular typing check prefix
+        if (!isDotTrigger && prefix.length === 0) {
           callback(null, []);
           return;
+        }
+
+        let filteredSnippets = snippetsToUse;
+
+        // If triggered by dot, ONLY show snippets starting with "." (methods)
+        if (isDotTrigger && mode.endsWith("/java")) {
+          filteredSnippets = snippetsToUse.filter((s) =>
+            s.snippet.startsWith(".")
+          );
         }
 
         // Return our snippets with high score
         callback(
           null,
-          snippetsToUse.map((s) => ({
-            caption: s.caption,
-            snippet: s.snippet,
-            type: "snippet",
-            meta: s.customImport ? "Auto-Import" : "Snippet",
-            customImport: s.customImport,
-            score: 1000000, // Very high score to appear first
-            completer: customCompleter, // Self reference
-          }))
+          filteredSnippets.map((s) => {
+            // If dot trigger, we need to STRIP the leading dot from snippet to avoid double dot
+            let finalSnippet = s.snippet;
+            let displayCaption = s.caption;
+
+            if (isDotTrigger && finalSnippet.startsWith(".")) {
+              finalSnippet = finalSnippet.substring(1); // Remove leading dot
+            }
+
+            return {
+              caption: displayCaption,
+              snippet: finalSnippet,
+              type: "snippet",
+              meta: s.customImport
+                ? "Auto-Import"
+                : isDotTrigger
+                ? "Method"
+                : "Snippet",
+              customImport: s.customImport,
+              score: 1000000 + (isDotTrigger ? 1000 : 0), // Boost score if dot context
+              completer: customCompleter, // Self reference
+            };
+          })
         );
       },
       insertMatch: function (editor, data) {
@@ -813,290 +837,192 @@ const StartLearning1 = ({
       };
 
       // Special handling for SQL (AlaSQL - MySQL/Oracle simulation)
+      // Special handling for SQL (Global Component Logic)
       if (langKey === "sql") {
-        const alasql = require("alasql");
-
-        // Polyfill NVL for Oracle compatibility
-        if (!alasql.fn.NVL) {
-          alasql.fn.NVL = function (val, defaultVal) {
-            return val === null || val === undefined ? defaultVal : val;
-          };
-        }
-
         try {
-          // 1. Run User Code on a Persistent DB (for this session)
-          if (!sqlDbRef.current) {
-            sqlDbRef.current = new alasql.Database();
-            // Apply Common Setup for Chapter ONLY on creation
-            const setupChapter = activeChapter || expandedChapter;
-            if (CHAPTER_SETUP[setupChapter]) {
-              try {
-                sqlDbRef.current.exec(CHAPTER_SETUP[setupChapter]);
-              } catch (e) {
-                console.error("Common Setup Failed for User DB:", e);
-              }
-            }
-          }
-          const userDb = sqlDbRef.current;
-
-          const userMessages = [];
-          let userResultData = null;
-
-          // Helper to execute and capture
-          const runQuery = (db, codeToRun, captureMessages = true) => {
-            // Strip comments and split
-            const sanitized = codeToRun
-              .replace(/\/\*[\s\S]*?\*\//g, "")
-              .split("\n")
-              .map((line) => {
-                const idx = line.indexOf("--");
-                return idx >= 0 ? line.substring(0, idx) : line;
-              })
-              .join("\n");
-
-            const cmds = sanitized
-              .split(";")
-              .filter((c) => c.trim().length > 0);
-            const msgs = [];
-            let lastSelectResult = null;
-
-            for (let cmd of cmds) {
-              try {
-                const trimmedCmd = cmd.trim();
-                let res = db.exec(cmd);
-
-                const lowerCmd = trimmedCmd.toLowerCase();
-
-                // Handle DESCRIBE manually by inspecting metadata
-                if (
-                  lowerCmd.startsWith("describe") ||
-                  lowerCmd.startsWith("desc")
-                ) {
-                  const match = trimmedCmd.match(
-                    /(?:describe|desc)\s+["`]?([^\s("`]+)/i
-                  );
-                  if (match) {
-                    const tableName = match[1];
-                    if (
-                      db.tables &&
-                      db.tables[tableName] &&
-                      db.tables[tableName].columns
-                    ) {
-                      const cols = db.tables[tableName].columns.map((c) => ({
-                        Field: c.columnid,
-                        Type: c.dbtypeid || "UNKNOWN",
-                        Null: "YES",
-                        Key: c.pk ? "PRI" : "",
-                        Default: "NULL",
-                        Extra: "",
-                      }));
-                      res = cols;
-                    }
-                  }
-                }
-
-                // Check key commands
-                if (
-                  lowerCmd.startsWith("select") ||
-                  lowerCmd.startsWith("show") ||
-                  lowerCmd.startsWith("describe") ||
-                  lowerCmd.startsWith("desc")
-                ) {
-                  if (Array.isArray(res)) {
-                    if (res.length > 0) {
-                      // Convert array of objects to {columns, values}
-                      const columns = Object.keys(res[0]);
-                      const values = res.map((row) =>
-                        columns.map((c) => row[c])
-                      );
-                      const formatted = { columns, values };
-                      lastSelectResult = formatted;
-                      msgs.push({ type: "table", data: formatted });
-                    } else {
-                      // Empty result handling
-                      let showedEmpty = false;
-                      // Try to show header for SELECT FROM
-                      try {
-                        const fromMatch = trimmedCmd.match(
-                          /from\s+["`]?([^\s("`]+)/i
-                        );
-                        if (fromMatch) {
-                          const tName = fromMatch[1];
-                          if (
-                            db.tables &&
-                            db.tables[tName] &&
-                            db.tables[tName].columns
-                          ) {
-                            const cols = db.tables[tName].columns.map(
-                              (c) => c.columnid
-                            );
-                            if (cols.length > 0) {
-                              lastSelectResult = { columns: cols, values: [] };
-                              msgs.push({
-                                type: "table",
-                                data: lastSelectResult,
-                              });
-                              showedEmpty = true;
-                            }
-                          }
-                        }
-                      } catch (e) {}
-
-                      if (!showedEmpty && captureMessages) {
-                        msgs.push({
-                          type: "info",
-                          text: "Query returned no results.",
-                        });
-                      }
-                      if (!lastSelectResult)
-                        lastSelectResult = { columns: [], values: [] };
-                    }
-                  }
-                } else {
-                  // Create/Insert/Update/Delete/Truncate
-                  let msg = "Command executed successfully.";
-                  if (lowerCmd.startsWith("create table")) {
-                    const m = trimmedCmd.match(
-                      /create\s+table\s+(?:if\s+not\s+exists\s+)?["`]?([^\s("`]+)/i
-                    );
-                    if (m) msg = `Table '${m[1]}' created successfully.`;
-                  } else if (lowerCmd.startsWith("drop table")) {
-                    const m = trimmedCmd.match(
-                      /drop\s+table\s+(?:if\s+exists\s+)?["`]?([^\s("`]+)/i
-                    );
-                    if (m) msg = `Table '${m[1]}' dropped successfully.`;
-                  } else if (lowerCmd.startsWith("truncate")) {
-                    const m = trimmedCmd.match(
-                      /truncate(?:\s+table)?\s+["`]?([^\s("`]+)/i
-                    );
-                    if (m) msg = `Table '${m[1]}' truncated successfully.`;
-                    // AlaSQL truncate returns 1 (or count), treat as rows affected?
-                  } else if (lowerCmd.startsWith("insert")) {
-                    const m = trimmedCmd.match(
-                      /insert\s+into\s+["`]?([^\s("`]+)/i
-                    );
-                    if (m) msg = `Values inserted into '${m[1]}' successfully.`;
-                  } else if (
-                    lowerCmd.startsWith("update") ||
-                    lowerCmd.startsWith("delete")
-                  ) {
-                    const action = lowerCmd.startsWith("update")
-                      ? "updated"
-                      : "deleted from";
-                    // alasql returns count
-                    msg = `Rows ${action} successfully. Affected: ${res}`;
-                  } else if (lowerCmd.startsWith("alter")) {
-                    msg = "Table altered successfully.";
-                  }
-
-                  if (captureMessages)
-                    msgs.push({ type: "success", text: msg });
-                }
-              } catch (e) {
-                msgs.push({ type: "error", text: e.message || String(e) });
-                throw e; // Stop execution on error
-              }
-            }
-            return { msgs, lastSelectResult };
-          };
-
+          // 1. Setup User DB
           let userCodeToRun = code;
+          let isSelection = false;
           if (editorRef.current) {
             const selectedText = editorRef.current.getSelectedText();
             if (selectedText && selectedText.trim().length > 0) {
               userCodeToRun = selectedText;
-              // DEBUG: remove later
-              // alert("Running Selected Code:\n" + userCodeToRun);
+              isSelection = true;
             }
-          } else {
-            console.warn("Editor ref is null");
           }
 
-          try {
-            const userRun = runQuery(userDb, userCodeToRun);
-            userMessages.push(...userRun.msgs);
-            userResultData = userRun.lastSelectResult;
-          } catch (e) {
-            userMessages.push({
-              type: "error",
-              text: `Error: ${e.message || String(e)}`,
-            });
+          if (!isSelection || !sqlDbRef.current) {
+            const alasql = require("alasql");
+            try {
+              alasql("DROP DATABASE IF EXISTS myDB");
+            } catch (e) {}
+            sqlDbRef.current = new alasql.Database();
+            sqlDbRef.current.exec("CREATE DATABASE myDB; USE myDB");
+          }
+          const userDb = sqlDbRef.current;
+
+          // 1b. Run Setup (Initial Code) if reset & not selection
+          // CHECK: If user code manually CREATEs and INSERTs, skip initialCode
+          const userHasDDL = /CREATE\s+TABLE/i.test(userCodeToRun);
+          const userHasDML = /INSERT\s+INTO/i.test(userCodeToRun);
+          const userHasSetup = userHasDDL && userHasDML;
+
+          if (!isSelection && questionData.initialCode && !userHasSetup) {
+            try {
+              runSqlCode(userDb, questionData.initialCode);
+            } catch (e) {}
           }
 
-          // Output for user
+          // 1c. Auto-Populate from Sample Input if NO Table Creation detected
+          // (If neither User nor Initial code creates a table, but we have Sample Input)
+          const initialHasDDL = /CREATE\s+TABLE/i.test(
+            questionData.initialCode || ""
+          );
+
+          if (!userHasDDL && !initialHasDDL && questionData.sampleInput) {
+            populateDbFromHtml(userDb, questionData.sampleInput);
+          }
+
+          // 2. Run User Code
+          const userRes = runSqlCode(userDb, userCodeToRun);
+          const userMessages = userRes.messages;
+          let userResultData = userRes.lastSelectResult;
+
+          // Auto-verify DML (StartLearning specific feature)
+          if (
+            (!userResultData || userResultData.values.length === 0) &&
+            userRes.modifiedTables.length > 0
+          ) {
+            try {
+              const t =
+                userRes.modifiedTables[userRes.modifiedTables.length - 1];
+              const res = userDb.exec(`SELECT * FROM ${t}`);
+              if (Array.isArray(res) && res.length > 0) {
+                const columns = Object.keys(res[0]);
+                const values = res.map((row) => columns.map((c) => row[c]));
+                userResultData = { columns, values };
+                userMessages.push({ type: "table", data: userResultData });
+              }
+            } catch (e) {}
+          }
+
           setOutput(
             userMessages.length > 0 ? userMessages : "Executed successfully."
           );
 
-          // 2. Run Expected Answer on a FRESH DB (Dynamic Verification)
-          // ONLY if we are grading (i.e. not just running freely, but checking against expected output)
-          // StartLearning1 always checks if correct? Yes.
-          const expectedDb = new alasql.Database();
-          const setupExpectedChapter = activeChapter || expandedChapter;
-          if (CHAPTER_SETUP[setupExpectedChapter]) {
-            try {
-              expectedDb.exec(CHAPTER_SETUP[setupExpectedChapter]);
-            } catch (e) {
-              console.error("Common Setup Failed for Expected DB:", e);
-            }
-          }
-
+          // 3. Expected Result Check (for grading)
+          const alasql = require("alasql");
+          const expectedDb = new alasql.Database(); // Fresh DB for expected
           let expectedResultData = null;
+          let expectedTables = [];
 
-          try {
-            // Run initialCode first (Setup)
-            if (questionData.initialCode) {
-              runQuery(expectedDb, questionData.initialCode, false);
-            }
-            // Run answer
-            if (questionData.answer) {
-              const ansRun = runQuery(
-                expectedDb,
-                questionData.answer || "",
-                false
-              );
-              expectedResultData = ansRun.lastSelectResult;
-            }
-          } catch (e) {
-            console.error("Error generating expected result:", e);
+          // Try to populate DB from Sample Input if the Answer Code is just a SELECT (no DDL/DML)
+          const ansHasDDL = /CREATE\s+TABLE/i.test(questionData.answer || "");
+          const ansHasDML = /INSERT\s+INTO/i.test(questionData.answer || "");
+
+          if (!ansHasDDL && !ansHasDML && questionData.sampleInput) {
+            populateDbFromHtml(expectedDb, questionData.sampleInput);
           }
 
-          // 3. Compare Results
+          if (questionData.initialCode) {
+            runSqlCode(expectedDb, questionData.initialCode);
+          }
+          if (questionData.answer) {
+            const ansRes = runSqlCode(expectedDb, questionData.answer);
+            expectedResultData = ansRes.lastSelectResult;
+            expectedTables = ansRes.messages
+              .filter((m) => m.type === "table")
+              .map((m) => m.data);
+
+            // DML Check for Expected
+            if (
+              (!expectedResultData || expectedResultData.values.length === 0) &&
+              ansRes.modifiedTables.length > 0
+            ) {
+              try {
+                const t =
+                  ansRes.modifiedTables[ansRes.modifiedTables.length - 1];
+                const res = expectedDb.exec(`SELECT * FROM ${t}`);
+                if (Array.isArray(res) && res.length > 0) {
+                  const columns = Object.keys(res[0]);
+                  const values = res.map((row) => columns.map((c) => row[c]));
+                  expectedResultData = { columns, values };
+                }
+              } catch (e) {}
+            }
+          }
+
+          // 4. Comparison
           let score = 0;
           let reason = "";
           let isCorrect = false;
 
-          // Helper for loose comparison of result tables
-          const compareTables = (t1, t2) => {
-            console.log("Comparing Tables:", { t1, t2 });
-            if (!t1 && !t2) return true;
-            if (!t1 || !t2) return false;
-            // Compare rows count
-            if (t1.values.length !== t2.values.length) {
-              return false;
-            }
-            // Robust comparison: Sort rows to ignore order (SQL sets are unordered)
-            const v1 = [...t1.values].sort((a, b) =>
-              JSON.stringify(a).localeCompare(JSON.stringify(b))
-            );
-            const v2 = [...t2.values].sort((a, b) =>
-              JSON.stringify(a).localeCompare(JSON.stringify(b))
-            );
-            const s1 = JSON.stringify(v1);
-            const s2 = JSON.stringify(v2);
-            return s1 === s2;
-          };
+          // Gather all user tables
+          const allUserTables = userMessages
+            .filter((m) => m.type === "table" && m.data)
+            .map((m) => m.data);
 
-          if (userMessages.some((m) => m.type === "error")) {
-            score = 0;
-            reason = "Execution Error";
-          } else if (compareTables(expectedResultData, userResultData)) {
+          const allExpectedTables =
+            expectedTables.length > 0
+              ? expectedTables
+              : expectedResultData
+              ? [expectedResultData]
+              : [];
+
+          if (allExpectedTables.length === 0) {
+            // No expected output?
             score = maxMarks;
-            reason = "Result matches expected output!";
+            reason = "No expected output tables defined. Passed.";
             isCorrect = true;
-          } else {
+          } else if (allUserTables.length === 0) {
             score = 0;
-            reason = "Result does not match expected output.";
+            reason = "No output tables found. Did you use SELECT?";
+            isCorrect = false;
+          } else {
+            // Compare one by one
+            let allMatch = true;
+            let matchCount = 0;
+
+            // We expect the user to produce AT LEAST the expected tables, in roughly the same order.
+            // But sometimes user might have extra selects.
+            // Let's try to match them loosely or strictly?
+            // STRICT ORDER MATCH seems best for multi-step problems.
+
+            // If user has fewer tables than expected, fail immediately
+            if (allUserTables.length < allExpectedTables.length) {
+              allMatch = false;
+              reason = `Expected ${allExpectedTables.length} tables, but got ${allUserTables.length}.`;
+            } else {
+              for (let i = 0; i < allExpectedTables.length; i++) {
+                const exp = allExpectedTables[i];
+                const usr = allUserTables[i]; // Strict index matching
+                const res = compareSqlTables(exp, usr);
+                if (!res.pass) {
+                  allMatch = false;
+                  reason = `Table ${i + 1} mismatch: ${res.reason}`;
+                  break;
+                }
+                matchCount++;
+              }
+            }
+
+            if (allMatch) {
+              score = maxMarks;
+              reason = `All ${matchCount} tables matched perfectly!`;
+              isCorrect = true;
+            } else {
+              score = 0; // Fail if any mismatch in a multi-step
+              // reason is already set
+            }
+          }
+
+          let expectedTable = null;
+          if (expectedResultData && expectedResultData.values.length > 0) {
+            expectedTable = {
+              type: "table",
+              data: expectedResultData,
+              title: "Expected Output Test",
+            };
           }
 
           setEvaluationResult({
@@ -1104,21 +1030,22 @@ const StartLearning1 = ({
             message: reason,
             isCorrect,
             userOutput: "See Output Panel",
-            expectedOutput: questionData.sampleOutput || "Expected Result",
+            expectedOutput: JSON.stringify(expectedResultData),
+            expectedTable,
+            expectedTables,
           });
-        } catch (err) {
-          console.error(err);
-          setOutput(`SQL Error: ${err.message}`);
+        } catch (e) {
+          console.error(e);
+          setOutput([{ type: "error", text: e.message || String(e) }]);
           setEvaluationResult({
             score: 0,
-            message: "SQL Execution Error",
+            message: `Error: ${e.message}`,
             isCorrect: false,
-            userOutput: err.message,
-            expectedOutput: "Valid SQL",
+            userOutput: "",
+            expectedOutput: "",
           });
-        } finally {
-          setIsRunning(false);
         }
+        setIsRunning(false);
         return;
       }
 
@@ -1126,43 +1053,52 @@ const StartLearning1 = ({
       let runOutput = "";
       let isError = false;
 
-      // Call Piston API
-      try {
-        let codeToSend = code;
+      // 1. Check for Extracted Logic (Java, Python, JS)
+      if (["java", "python", "javascript"].includes(apiLang)) {
+        let result = { output: "", isError: false };
+        const inputToUse =
+          actualInputsOverride || questionData?.sampleInput || "";
+
         if (apiLang === "java") {
-          const {
-            prepareJavaCodeForExecution,
-          } = require("../utils/javaCodeGenerator");
-          codeToSend = prepareJavaCodeForExecution(code);
+          const { runJavaCode } = require("../utils/javalogic");
+          result = await runJavaCode(code, inputToUse);
+        } else if (apiLang === "python") {
+          const { runPythonCode } = require("../utils/pythonlogic");
+          result = await runPythonCode(code, inputToUse);
+        } else if (apiLang === "javascript") {
+          const { runJavascriptCode } = require("../utils/javascriptlogic");
+          result = await runJavascriptCode(code, inputToUse);
         }
+        runOutput = result.output;
+        isError = result.isError;
+      } else {
+        // Fallback Piston Call
+        try {
+          let codeToSend = code;
+          let fileName = "Main.java";
+          const fileData = { content: codeToSend }; // Default
 
-        const fileData = { content: codeToSend };
-        if (apiLang === "java") {
-          fileData.name = "Main.java";
-        }
-
-        const response = await axios.post(
-          "https://emkc.org/api/v2/piston/execute",
-          {
-            language: apiLang,
-            version: "*",
-            files: [fileData],
-            stdin: actualInputsOverride || questionData?.sampleInput || "",
+          const response = await axios.post(
+            "https://emkc.org/api/v2/piston/execute",
+            {
+              language: apiLang,
+              version: "*",
+              files: [fileData],
+              stdin: actualInputsOverride || questionData?.sampleInput || "",
+            }
+          );
+          const pistonData = response.data;
+          if (pistonData.run) {
+            runOutput = pistonData.run.output;
+            if (pistonData.run.code !== 0) {
+              isError = true;
+            }
           }
-        );
-
-        const pistonData = response.data;
-        if (pistonData.run) {
-          // Standard output or stderr
-          runOutput = pistonData.run.output;
-          if (pistonData.run.code !== 0) {
-            isError = true;
-          }
+        } catch (err) {
+          console.error("Piston API Error:", err);
+          runOutput = err.message || "Execution Failed";
+          isError = true;
         }
-      } catch (err) {
-        console.error("Piston API Error:", err);
-        runOutput = err.message || "Execution Failed";
-        isError = true;
       }
 
       const cleanedUserOutput = (runOutput || "").toString().trim();
@@ -1235,8 +1171,8 @@ const StartLearning1 = ({
     const maxMarks = questionData?.maxMarks || ExamConfig.codingMarks;
     if (evaluationResult.score < maxMarks) {
       showModal(
-        "Score Too Low",
-        `You must achieve ${maxMarks}/${maxMarks}.`,
+        "Output Mismatch",
+        `Reason: ${evaluationResult.message}`,
         "warning"
       );
       return;
@@ -1257,18 +1193,25 @@ const StartLearning1 = ({
 
     try {
       await axios.post(`/api/contests/${userId}`, contestData);
-      showModal("Saved! 🎉", "Submitted.", "success", () => {
-        fetchCourseTotal(userId, selectedCourse, true);
-        const totalExamples = chapterExampleCounts[expandedChapter] || 0;
-        const nextExample = Number(selectedExample) + 1;
-        if (nextExample <= totalExamples) {
-          handleExampleClick(expandedChapter, nextExample);
-        } else {
-          setQuestionData(null);
-          setSelectedExample(null);
-        }
-        setEvaluationResult(null);
-      });
+      showModal(
+        "Saved! 🎉",
+        "Submitted successfully. Ready for next challenge?",
+        "success",
+        () => {
+          fetchCourseTotal(userId, selectedCourse, true);
+          const totalExamples = chapterExampleCounts[expandedChapter] || 0;
+          const nextExample = Number(selectedExample) + 1;
+          if (nextExample <= totalExamples) {
+            handleExampleClick(expandedChapter, nextExample);
+          } else {
+            setQuestionData(null);
+            setSelectedExample(null);
+          }
+          setEvaluationResult(null);
+        },
+        false,
+        "Next Problem ➡"
+      );
     } catch (error) {
       showModal("Submission Failed!", "Error saving score.", "error");
     }
@@ -1387,15 +1330,42 @@ const StartLearning1 = ({
           </div>
         )}
         {!isFullScreen && (
+          // <button
+          //   className="learning-back-btn"
+          //   onClick={() => {
+          //     setQuestionData(null);
+          //     setSelectedExample(null);
+          //   }}
+          // >
+          //   <FaArrowAltCircleLeft size={18} className="back-btn-icon" />
+          //   Back to Chapters
+          // </button>
           <button
-            className="learning-back-btn"
+            class="learning-back-btn"
+            type="button"
             onClick={() => {
               setQuestionData(null);
               setSelectedExample(null);
             }}
           >
-            <FaArrowAltCircleLeft size={18} className="back-btn-icon" />
-            Back to Chapters
+            <div className="icon-box">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1024 1024"
+                height="25px"
+                width="25px"
+              >
+                <path
+                  d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
+                  fill="#000000"
+                />
+                <path
+                  d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
+                  fill="#000000"
+                />
+              </svg>
+            </div>
+            <p className="btn-text1">Chapters</p>
           </button>
         )}
 
@@ -1845,11 +1815,35 @@ const StartLearning1 = ({
   return (
     <div className="learning-chapters-container">
       <div className="course-header-row">
-        <button className="learning-back-btn" onClick={handleBackToDashboard}>
+        {/* <button className="learning-back-btn" onClick={handleBackToDashboard}>
           <FaArrowAltCircleLeft size={18} style={{ marginRight: "1px" }} />
           Back to Courses
+        </button> */}
+        <button
+          class="learning-back-btn"
+          type="button"
+          onClick={handleBackToDashboard}
+        >
+          <div className="icon-box">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 1024 1024"
+              height="25px"
+              width="25px"
+            >
+              <path
+                d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
+                fill="#000000"
+              />
+              <path
+                d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
+                fill="#000000"
+              />
+            </svg>
+          </div>
+          <p className="btn-text1">Courses</p>
         </button>
-        <span className="course-title-text">{selectedCourse} Course</span>
+        {/* <span className="course-title-text">{selectedCourse} Course</span> */}
       </div>
 
       <div className="course-content-layout">

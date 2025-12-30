@@ -5,6 +5,7 @@ import React, {
   useMemo,
   useRef,
 } from "react";
+import SEO from "./SEO";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   FaHome,
@@ -492,6 +493,13 @@ const Quiz = () => {
 
   const renderQuizPage = () => (
     <div className="app-wrapper quiz-content-wrapper">
+      <SEO
+        title={`${
+          selectedLanguage ? selectedLanguage : "Quiz"
+        } - Chapter ${currentChapter}`}
+        description={`Test your knowledge in ${selectedLanguage} with our interactive quiz.`}
+        keywords={`${selectedLanguage} quiz, programming quiz, codepulse-r`}
+      />
       {renderQuizHeader()}
       <div className="quiz-container">
         <div className="quiz-content">
@@ -562,6 +570,11 @@ const Quiz = () => {
 
     return (
       <div className="app-wrapper">
+        <SEO
+          title={`Results: ${selectedLanguage} - Quiz ${currentChapter}`}
+          description={`View your results for ${selectedLanguage} Quiz ${currentChapter}.`}
+          keywords={`${selectedLanguage} quiz results, programming quiz, codepulse-r`}
+        />
         <div className="results-page">
           {renderQuizHeader()}
 

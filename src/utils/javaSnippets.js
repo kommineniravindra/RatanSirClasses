@@ -575,6 +575,533 @@ const javaSnippets = [
     snippet: "Comment comment = new Comment();",
     type: "snippet",
   },
+
+  // --- Stream API & Lambdas ---
+  {
+    caption: "stream",
+    snippet: ".stream()",
+    type: "snippet",
+    customImport: "import java.util.stream.*;",
+  },
+  {
+    caption: "filter",
+    snippet: ".filter(${1:item} -> ${2:condition})",
+    type: "snippet",
+    customImport: "import java.util.stream.*;",
+  },
+  {
+    caption: "map",
+    snippet: ".map(${1:item} -> ${2:transformation})",
+    type: "snippet",
+    customImport: "import java.util.stream.*;",
+  },
+  {
+    caption: "forEach",
+    snippet: ".forEach(${1:item} -> System.out.println(${1:item}));",
+    type: "snippet",
+  },
+  {
+    caption: "collectList",
+    snippet: ".collect(Collectors.toList())",
+    type: "snippet",
+    customImport: "import java.util.stream.Collectors;",
+  },
+  {
+    caption: "collectSet",
+    snippet: ".collect(Collectors.toSet())",
+    type: "snippet",
+    customImport: "import java.util.stream.Collectors;",
+  },
+  {
+    caption: "sorted",
+    snippet: ".sorted()",
+    type: "snippet",
+  },
+  {
+    caption: "sortedComparator",
+    snippet: ".sorted((a, b) -> a.compareTo(b))",
+    type: "snippet",
+  },
+  {
+    caption: "findFirst",
+    snippet: ".findFirst()",
+    type: "snippet",
+  },
+  {
+    caption: "findAny",
+    snippet: ".findAny()",
+    type: "snippet",
+  },
+  {
+    caption: "orElse",
+    snippet: ".orElse(${1:default})",
+    type: "snippet",
+  },
+  {
+    caption: "count",
+    snippet: ".count()",
+    type: "snippet",
+  },
+
+  // --- Functional Interfaces ---
+  {
+    caption: "Predicate",
+    snippet: "Predicate<${1:Type}> ${2:name} = ${3:x} -> ${4:condition};",
+    type: "snippet",
+    customImport: "import java.util.function.Predicate;",
+  },
+  {
+    caption: "Consumer",
+    snippet: "Consumer<${1:Type}> ${2:name} = ${3:x} -> ${4:action};",
+    type: "snippet",
+    customImport: "import java.util.function.Consumer;",
+  },
+  {
+    caption: "Function",
+    snippet: "Function<${1:T}, ${2:R}> ${3:name} = ${4:x} -> ${5:result};",
+    type: "snippet",
+    customImport: "import java.util.function.Function;",
+  },
+  {
+    caption: "Supplier",
+    snippet: "Supplier<${1:Type}> ${2:name} = () -> ${3:value};",
+    type: "snippet",
+    customImport: "import java.util.function.Supplier;",
+  },
+
+  // --- Modern Java Collections ---
+  {
+    caption: "listOf",
+    snippet: "List.of(${1:items})",
+    type: "snippet",
+    customImport: "import java.util.List;",
+  },
+  {
+    caption: "setOf",
+    snippet: "Set.of(${1:items})",
+    type: "snippet",
+    customImport: "import java.util.Set;",
+  },
+  {
+    caption: "mapOf",
+    snippet: "Map.of(${1:k1}, ${2:v1})",
+    type: "snippet",
+    customImport: "import java.util.Map;",
+  },
+
+  // --- String Methods ---
+  {
+    caption: "length",
+    snippet: ".length()",
+    type: "snippet",
+  },
+  {
+    caption: "charAt",
+    snippet: ".charAt(${1:index})",
+    type: "snippet",
+  },
+  {
+    caption: "substring",
+    snippet: ".substring(${1:begin}, ${2:end})",
+    type: "snippet",
+  },
+  {
+    caption: "contains",
+    snippet: '.contains("${1:chars}")',
+    type: "snippet",
+  },
+  {
+    caption: "equals",
+    snippet: ".equals(${1:other})",
+    type: "snippet",
+  },
+  {
+    caption: "equalsIgnoreCase",
+    snippet: ".equalsIgnoreCase(${1:other})",
+    type: "snippet",
+  },
+  {
+    caption: "startsWith",
+    snippet: '.startsWith("${1:prefix}")',
+    type: "snippet",
+  },
+  {
+    caption: "endsWith",
+    snippet: '.endsWith("${1:suffix}")',
+    type: "snippet",
+  },
+  {
+    caption: "toLowerCase",
+    snippet: ".toLowerCase()",
+    type: "snippet",
+  },
+  {
+    caption: "toUpperCase",
+    snippet: ".toUpperCase()",
+    type: "snippet",
+  },
+  {
+    caption: "trim",
+    snippet: ".trim()",
+    type: "snippet",
+  },
+  {
+    caption: "split",
+    snippet: '.split("${1:regex}")',
+    type: "snippet",
+  },
+  {
+    caption: "replace",
+    snippet: '.replace("${1:old}", "${2:new}")',
+    type: "snippet",
+  },
+  {
+    caption: "replaceAll",
+    snippet: '.replaceAll("${1:regex}", "${2:replacement}")',
+    type: "snippet",
+  },
+
+  // --- Math Methods ---
+  {
+    caption: "abs",
+    snippet: "Math.abs(${1:num})",
+    type: "snippet",
+  },
+  {
+    caption: "pow",
+    snippet: "Math.pow(${1:base}, ${2:exp})",
+    type: "snippet",
+  },
+  {
+    caption: "sqrt",
+    snippet: "Math.sqrt(${1:num})",
+    type: "snippet",
+  },
+  {
+    caption: "min",
+    snippet: "Math.min(${1:a}, ${2:b})",
+    type: "snippet",
+  },
+  {
+    caption: "max",
+    snippet: "Math.max(${1:a}, ${2:b})",
+    type: "snippet",
+  },
+  {
+    caption: "randomMath",
+    snippet: "Math.random()",
+    type: "snippet",
+  },
+
+  // --- Exceptions ---
+  {
+    caption: "throw",
+    snippet: 'throw new ${1:RuntimeException}("${2:message}");',
+    type: "snippet",
+  },
+  {
+    caption: "throws",
+    snippet: "throws ${1:Exception}",
+    type: "snippet",
+  },
+
+  // --- Concurrency / Threads ---
+  {
+    caption: "synchronized",
+    snippet: "synchronized (${1:lock}) {\n    ${2}\n}",
+    type: "snippet",
+  },
+  {
+    caption: "wait",
+    snippet: "wait();",
+    type: "snippet",
+  },
+  {
+    caption: "notify",
+    snippet: "notify();",
+    type: "snippet",
+  },
+  {
+    caption: "notifyAll",
+    snippet: "notifyAll();",
+    type: "snippet",
+  },
+
+  // --- Files (NIO) ---
+  {
+    caption: "readString",
+    snippet: 'Files.readString(Path.of("${1:file.txt}"))',
+    type: "snippet",
+    customImport: "import java.nio.file.Files;\nimport java.nio.file.Path;",
+  },
+  {
+    caption: "writeString",
+    snippet: 'Files.writeString(Path.of("${1:file.txt}"), "${2:content}")',
+    type: "snippet",
+    customImport: "import java.nio.file.Files;\nimport java.nio.file.Path;",
+  },
+
+  // --- Optional ---
+  {
+    caption: "Optional.of",
+    snippet: "Optional.of(${1:value})",
+    type: "snippet",
+    customImport: "import java.util.Optional;",
+  },
+  {
+    caption: "Optional.empty",
+    snippet: "Optional.empty()",
+    type: "snippet",
+    customImport: "import java.util.Optional;",
+  },
+  {
+    caption: "Optional.ofNullable",
+    snippet: "Optional.ofNullable(${1:value})",
+    type: "snippet",
+    customImport: "import java.util.Optional;",
+  },
+  {
+    caption: "isPresent",
+    snippet: ".isPresent()",
+    type: "snippet",
+  },
+  {
+    caption: "ifPresent",
+    snippet: ".ifPresent(${1:val} -> ${2:action})",
+    type: "snippet",
+  },
 ];
+
+// --- Additional Snippets (Set 2) ---
+const extraSnippets = [
+  // --- Modern Date/Time (Java 8+) ---
+  {
+    caption: "LocalDateTime",
+    snippet: "LocalDateTime ${1:now} = LocalDateTime.now();",
+    type: "snippet",
+    customImport: "import java.time.LocalDateTime;",
+  },
+  {
+    caption: "DateTimeFormatter",
+    snippet:
+      'DateTimeFormatter ${1:fmt} = DateTimeFormatter.ofPattern("${2:yyyy-MM-dd HH:mm:ss}");',
+    type: "snippet",
+    customImport: "import java.time.format.DateTimeFormatter;",
+  },
+  {
+    caption: "DurationBetween",
+    snippet: "Duration.between(${1:start}, ${2:end})",
+    type: "snippet",
+    customImport: "import java.time.Duration;",
+  },
+  {
+    caption: "PeriodBetween",
+    snippet: "Period.between(${1:startDate}, ${2:endDate})",
+    type: "snippet",
+    customImport: "import java.time.Period;",
+  },
+
+  // --- JDBC (Database) ---
+  {
+    caption: "Connection",
+    snippet:
+      'Connection ${1:conn} = DriverManager.getConnection("${2:url}", "${3:user}", "${4:pass}");',
+    type: "snippet",
+    customImport: "import java.sql.Connection;\nimport java.sql.DriverManager;",
+  },
+  {
+    caption: "PreparedStatement",
+    snippet:
+      'PreparedStatement ${1:pstmt} = ${2:conn}.prepareStatement("${3:sql}");',
+    type: "snippet",
+    customImport: "import java.sql.PreparedStatement;",
+  },
+  {
+    caption: "ResultSet",
+    snippet: "ResultSet ${1:rs} = ${2:stmt}.executeQuery();",
+    type: "snippet",
+    customImport: "import java.sql.ResultSet;",
+  },
+  {
+    caption: "whileResultSet",
+    snippet: "while (${1:rs}.next()) {\n    ${2}\n}",
+    type: "snippet",
+  },
+
+  // --- Modern Java Features (14+) ---
+  {
+    caption: "record",
+    snippet: "record ${1:Name}(${2:Type} ${3:field}) {}",
+    type: "snippet",
+  },
+  {
+    caption: "switchExpression",
+    snippet:
+      "var ${1:result} = switch (${2:input}) {\n    case ${3:label} -> ${4:value};\n    default -> ${5:defaultVal};\n};",
+    type: "snippet",
+  },
+  {
+    caption: "var",
+    snippet: "var ${1:variable} = ${2:value};",
+    type: "snippet",
+  },
+  {
+    caption: "instanceofPattern",
+    snippet: "if (${1:obj} instanceof ${2:Type} ${3:t}) {\n    ${4}\n}",
+    type: "snippet",
+  },
+
+  // --- Advanced Stream Collectors ---
+  {
+    caption: "groupingBy",
+    snippet: ".collect(Collectors.groupingBy(${1:func}))",
+    type: "snippet",
+    customImport: "import java.util.stream.Collectors;",
+  },
+  {
+    caption: "joining",
+    snippet: '.collect(Collectors.joining("${1:, }"))',
+    type: "snippet",
+    customImport: "import java.util.stream.Collectors;",
+  },
+  {
+    caption: "partitioningBy",
+    snippet: ".collect(Collectors.partitioningBy(${1:predicate}))",
+    type: "snippet",
+    customImport: "import java.util.stream.Collectors;",
+  },
+
+  // --- System / Utils ---
+  {
+    caption: "System.exit",
+    snippet: "System.exit(${1:0});",
+    type: "snippet",
+  },
+  {
+    caption: "System.getProperty",
+    snippet: 'System.getProperty("${1:user.dir}");',
+    type: "snippet",
+  },
+  {
+    caption: "ThreadLocal",
+    snippet:
+      "ThreadLocal<${1:Type}> ${2:tl} = ThreadLocal.withInitial(() -> ${3:initialValue});",
+    type: "snippet",
+  },
+];
+
+javaSnippets.push(...extraSnippets);
+
+// --- Advanced / Expert Snippets (Set 3) ---
+const expertSnippets = [
+  // --- Asynchronous Programming (CompletableFuture) ---
+  {
+    caption: "CompletableFuture.supplyAsync",
+    snippet:
+      "CompletableFuture.supplyAsync(() -> {\n    ${1:// return result}\n});",
+    type: "snippet",
+    customImport: "import java.util.concurrent.CompletableFuture;",
+  },
+  {
+    caption: "thenApply",
+    snippet: ".thenApply(${1:result} -> ${2:transform})",
+    type: "snippet",
+  },
+  {
+    caption: "thenAccept",
+    snippet: ".thenAccept(${1:result} -> ${2:consume})",
+    type: "snippet",
+  },
+  {
+    caption: "allOf",
+    snippet: "CompletableFuture.allOf(${1:futures}).join();",
+    type: "snippet",
+    customImport: "import java.util.concurrent.CompletableFuture;",
+  },
+
+  // --- Reflection API ---
+  {
+    caption: "Class.forName",
+    snippet: 'Class<?> ${1:clazz} = Class.forName("${2:com.example.MyClass}");',
+    type: "snippet",
+  },
+  {
+    caption: "getDeclaredMethods",
+    snippet: "Method[] ${1:methods} = ${2:clazz}.getDeclaredMethods();",
+    type: "snippet",
+    customImport: "import java.lang.reflect.Method;",
+  },
+  {
+    caption: "newInstance",
+    snippet: "${1:clazz}.getDeclaredConstructor().newInstance();",
+    type: "snippet",
+  },
+
+  // --- Networking ---
+  {
+    caption: "URL",
+    snippet: 'URL ${1:url} = new URL("${2:https://api.example.com}");',
+    type: "snippet",
+    customImport: "import java.net.URL;",
+  },
+  {
+    caption: "HttpURLConnection",
+    snippet:
+      'HttpURLConnection ${1:con} = (HttpURLConnection) ${2:url}.openConnection();\n${1:con}.setRequestMethod("GET");',
+    type: "snippet",
+    customImport: "import java.net.HttpURLConnection;",
+  },
+
+  // --- Regular Expressions ---
+  {
+    caption: "Pattern.compile",
+    snippet: 'Pattern ${1:pattern} = Pattern.compile("${2:regex}");',
+    type: "snippet",
+    customImport: "import java.util.regex.Pattern;",
+  },
+  {
+    caption: "Matcher",
+    snippet: "Matcher ${1:matcher} = ${2:pattern}.matcher(${3:input});",
+    type: "snippet",
+    customImport: "import java.util.regex.Matcher;",
+  },
+  {
+    caption: "matcher.find",
+    snippet:
+      "while (${1:matcher}.find()) {\n    System.out.println(${1:matcher}.group());\n}",
+    type: "snippet",
+  },
+
+  // --- Design Patterns (Quick Starters) ---
+  {
+    caption: "Singleton",
+    snippet:
+      "class ${1:Singleton} {\n    private static ${1:Singleton} instance;\n    private ${1:Singleton}() {}\n    public static ${1:Singleton} getInstance() {\n        if (instance == null) instance = new ${1:Singleton}();\n        return instance;\n    }\n}",
+    type: "snippet",
+  },
+  {
+    caption: "BuilderPattern",
+    snippet:
+      "public static class Builder {\n    private ${1:Type} ${2:field};\n    public Builder ${2:field}(${1:Type} ${2:field}) {\n        this.${2:field} = ${2:field};\n        return this;\n    }\n    public ${3:TargetClass} build() {\n        return new ${3:TargetClass}(this);\n    }\n}",
+    type: "snippet",
+  },
+
+  // --- Functional Interfaces (Complex) ---
+  {
+    caption: "BiFunction",
+    snippet:
+      "BiFunction<${1:T}, ${2:U}, ${3:R}> ${4:func} = (${5:t}, ${6:u}) -> ${7:result};",
+    type: "snippet",
+    customImport: "import java.util.function.BiFunction;",
+  },
+  {
+    caption: "UnaryOperator",
+    snippet: "UnaryOperator<${1:T}> ${2:op} = ${3:x} -> ${4:result};",
+    type: "snippet",
+    customImport: "import java.util.function.UnaryOperator;",
+  },
+];
+
+javaSnippets.push(...expertSnippets);
 
 export default javaSnippets;
