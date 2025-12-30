@@ -110,6 +110,7 @@ export const getExamConfig = (technology, examId) => {
 const EXAM_DURATIONS = {
   default: 30, // Minutes
   "java-exam1": 150,
+  "sql-exam1": 150,
 };
 
 export const getExamDuration = (technology, examId) => {
