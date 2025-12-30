@@ -2,6 +2,8 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 
 const SEO = ({ title, description, keywords }) => {
+  const canonicalUrl = `https://codepulse-r.com${window.location.pathname.toLowerCase()}`;
+
   return (
     <Helmet>
       <title>
@@ -23,6 +25,7 @@ const SEO = ({ title, description, keywords }) => {
           "coding, programming, java, python, sql, react, tutorial, learn coding, codepulse-r, online compiler, coding exam, programming quiz, tech classes, learn technology"
         }
       />
+      <link rel="canonical" href={canonicalUrl} />
     </Helmet>
   );
 };

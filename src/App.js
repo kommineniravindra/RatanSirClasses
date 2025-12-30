@@ -60,9 +60,12 @@ const App = () => {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Master />} />
+          <Route path="/:technology" element={<Master />} />
           <Route path="/teachingclasses" element={<TechClass />} />
+          <Route path="/teachingclasses/:technology" element={<TechClass />} />
           <Route path="/compiler" element={<Compiler />} />
           <Route path="/online-compiler" element={<OnlineCompiler />} />
+          <Route path="/online-compiler/:lang" element={<OnlineCompiler />} />
 
           <Route
             path="/account"
@@ -78,6 +81,7 @@ const App = () => {
           {/*  Protected Routes: Use the custom component */}
           <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
             <Route path="/learning" element={<Learning />} />
+            <Route path="/learning/course/:courseId" element={<Learning />} />
             <Route
               path="/dashboard"
               element={<ExamDashboard onLogout={handleLogout} />}

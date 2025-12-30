@@ -443,9 +443,7 @@ const Quiz = () => {
                 key={num}
                 className="btn btn-quiz-option"
                 onClick={() =>
-                  navigate(
-                    `/ratan-tutotrials/quiz/${selectedLanguage.toLowerCase()}/${num}`
-                  )
+                  navigate(`/quiz/${selectedLanguage.toLowerCase()}/${num}`)
                 }
               >
                 Quiz {num}

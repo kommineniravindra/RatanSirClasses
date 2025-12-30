@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   FaHome,
   FaChartLine,
@@ -38,14 +39,29 @@ import SEO from "./SEO";
 
 // ----------------- Component -----------------
 function StartLearning() {
+  const { courseId } = useParams();
+  const navigate = useNavigate();
+
   const [activeSection, setActiveSection] = useState(
     localStorage.getItem("activeSection") || "Dashboard"
   );
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState(
-    localStorage.getItem("selectedCourse") || null
-  );
+  // Derive selectedCourse from URL param if available
+  const [selectedCourse, setSelectedCourse] = useState(courseId || null);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Sync state with URL param
+  useEffect(() => {
+    if (courseId) {
+      setSelectedCourse(courseId);
+      setActiveSection("My Courses");
+    } else {
+      // If navigating back to root /learning, clear the specific course view
+      if (!localStorage.getItem("selectedCourse")) {
+        setSelectedCourse(null);
+      }
+    }
+  }, [courseId]);
 
   // Persist Navigation State
   useEffect(() => {
@@ -255,8 +271,8 @@ function StartLearning() {
   const handleCourseClick = (courseTitle) => {
     setIsLoading(true);
     setTimeout(() => {
-      setSelectedCourse(courseTitle);
-      setActiveSection("My Courses");
+      // Navigate to the specific course URL
+      navigate(`/learning/course/${courseTitle}`);
       setIsLoading(false);
     }, 1500);
   };
@@ -308,6 +324,7 @@ function StartLearning() {
             selectedCourse={selectedCourse}
             userProfile={userProfile}
             handleBackToDashboard={() => {
+              navigate("/learning");
               setSelectedCourse(null);
               setActiveSection("My Courses");
             }}

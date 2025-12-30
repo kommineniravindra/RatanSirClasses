@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import SEO from "./SEO";
 import "../css/TechClass.css";
 import {
@@ -527,7 +528,9 @@ const PaperDropdown = ({
 };
 
 function TechClass() {
-  const [technology, setTechnology] = useState("");
+  const { technology: paramTechnology } = useParams();
+  const navigate = useNavigate();
+  const [technology, setTechnology] = useState(paramTechnology || "");
   const [chapters, setChapters] = useState([]);
   const [selectedChapter, setSelectedChapter] = useState("");
   const [questions, setQuestions] = useState([]);
@@ -570,6 +573,13 @@ function TechClass() {
     "rest",
     "microservices",
   ];
+
+  // Sync state with URL param
+  useEffect(() => {
+    if (paramTechnology) {
+      setTechnology(paramTechnology);
+    }
+  }, [paramTechnology]);
 
   useEffect(() => {
     if (!technology) return;
@@ -786,8 +796,10 @@ function TechClass() {
         } Class`}
         description={`Learn ${
           technology || "technology"
-        } with our premium class notes and interactive whiteboard.`}
-        keywords={`${technology} class, learn ${technology}, programming notes, tech tutorials`}
+        } with our premium class notes and interactive whiteboard. Access free ${
+          technology || "coding"
+        } tutorials.`}
+        keywords={`${technology} class, learn ${technology}, ${technology} tutorial, programming notes, tech tutorials, ratan sir classes`}
       />
       <FullScreenToggle
         isFullScreen={isFullScreen}

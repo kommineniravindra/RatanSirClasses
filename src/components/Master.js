@@ -27,11 +27,13 @@ import { reactMenuData } from "../technologies/react/menuOptions";
 import { gitMenuData } from "../technologies/git/menuOptions";
 import { downloadsMenuData } from "../technologies/downloads/menuOptions";
 
-import { useLocation } from "react-router-dom"; // Add import
+import { useLocation, useParams, useNavigate } from "react-router-dom"; // Add import
 import OnlineCompiler from "./OnlineCompiler";
 
 const Master = () => {
   const location = useLocation(); // Hook to access URL params
+  const { technology } = useParams();
+  const navigate = useNavigate();
 
   // 1. RETRIEVE STATE FROM STORAGE OR URL (To remember where the user was or handle deep links)
   const [selectedPage, setSelectedPage] = useState(() => {
@@ -58,9 +60,68 @@ const Master = () => {
 
   const [compilerLanguage, setCompilerLanguage] = useState("");
 
-  const [selectedTechnology, setSelectedTechnology] = useState(() => {
-    return sessionStorage.getItem("selectedTechnology") || "";
-  });
+  const [selectedTechnology, setSelectedTechnology] = useState("");
+
+  useEffect(() => {
+    if (technology) {
+      // Validate if the technology exists in our map, otherwise maybe redirect or handle error?
+      // For now, assuming valid technology or handling it gracefully by defaulting or just showing it.
+      // We might want to capitalize it or map it to the key used in technologyMenuMap
+      // The keys are "Java", "Python", "JavaScript", "HTML", "CSS", "SQL", "Microservices", "RESTAPI", "React", "GIT", "Downloads"
+      // The URL param might be lower case "java", "html".
+
+      const techMap = {
+        java: "Java",
+        python: "Python",
+        javascript: "JavaScript",
+        html: "HTML",
+        css: "CSS",
+        sql: "SQL",
+        microservices: "Microservices",
+        restapi: "RESTAPI",
+        react: "React",
+        git: "GIT",
+        downloads: "Downloads",
+      };
+
+      const formattedTech = techMap[technology.toLowerCase()];
+
+      if (formattedTech) {
+        setSelectedTechnology(formattedTech);
+        setSelectedPage("Technology");
+      } else {
+        // If technology not found in map, maybe it's one of the other pages or invalid?
+        // For now, if we are at root /, selectedPage logic below handles it.
+        // But if we are at /invalid, we might want to stay on Home or show 404.
+        // Let's rely on the existing logic for non-tech pages if technology is undefined.
+        setSelectedTechnology("");
+        setSelectedPage("Home"); // Default to Home if invalid tech
+      }
+    } else {
+      // Root path "/"
+      const queryParams = new URLSearchParams(location.search);
+      const pageParam = queryParams.get("page");
+      if (
+        pageParam &&
+        [
+          "Home",
+          "Q&A",
+          "DSA",
+          "ContactUs",
+          "AboutUs",
+          "PrivacyPolicy",
+          "TermsOfService",
+          "Sitemap",
+          "Compiler",
+        ].includes(pageParam)
+      ) {
+        setSelectedPage(pageParam);
+      } else {
+        setSelectedPage(sessionStorage.getItem("selectedPage") || "Home");
+      }
+      setSelectedTechnology("");
+    }
+  }, [technology, location.search]);
 
   const [selectedItem, setSelectedItem] = useState(() => {
     return sessionStorage.getItem("selectedItem") || "";
@@ -141,10 +202,15 @@ const Master = () => {
       setSelectedPage(name);
       setSelectedTechnology("");
       setSelectedItem("");
+      navigate("/"); // Go to root for these pages
       return;
     }
-    setSelectedPage("Technology");
-    setSelectedTechnology(name);
+
+    // For technologies, navigate to the URL
+    // We need to map the name back to the URL friendly version?
+    // The names are "Java", "HTML" etc. specific case.
+    // Let's just use the lower case version for URL.
+    navigate(`/${name.toLowerCase()}`);
 
     const newMenuData = technologyMenuMap[name] || [];
     if (newMenuData.length > 0 && newMenuData[0].subItems?.length > 0) {
@@ -203,12 +269,20 @@ const Master = () => {
     );
   }
 
-  // Determine SEO title
+  // Determine SEO title, description, and keywords
   let pageTitle = "Home";
+  let pageDescription = "";
+  let pageKeywords = "";
+
   if (selectedPage === "Technology") {
     pageTitle = selectedTechnology;
+    pageDescription = `Learn ${selectedTechnology} from scratch. Comprehensive tutorials, interview questions, and examples for ${selectedTechnology}.`;
+    pageKeywords = `${selectedTechnology}, learn ${selectedTechnology}, ${selectedTechnology} tutorial, ${selectedTechnology} interview questions`;
+
     if (selectedItem) {
       pageTitle = `${selectedTechnology} - ${selectedItem}`;
+      pageDescription = `Learn about ${selectedItem} in ${selectedTechnology}. Detailed explanation and examples.`;
+      pageKeywords += `, ${selectedItem}`;
     }
   } else {
     pageTitle = selectedPage;
@@ -216,7 +290,11 @@ const Master = () => {
 
   return (
     <>
-      <SEO title={pageTitle} />
+      <SEO
+        title={pageTitle}
+        description={pageDescription}
+        keywords={pageKeywords}
+      />
 
       <NavBar
         onTechnologySelect={handleTechnologySelect}

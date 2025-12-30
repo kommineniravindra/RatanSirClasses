@@ -1277,6 +1277,25 @@ const Exam = () => {
 
   return (
     <>
+      <SEO
+        title={
+          showResult
+            ? `Results: ${
+                technology
+                  ? technology.charAt(0).toUpperCase() + technology.slice(1)
+                  : "Coding"
+              } Exam #${examNumber}`
+            : `${
+                technology
+                  ? technology.charAt(0).toUpperCase() + technology.slice(1)
+                  : "Coding"
+              } Exam #${examNumber} - CodePulse-R`
+        }
+        description={`Take the ${
+          technology || "coding"
+        } exam #${examNumber} to test your programming skills.`}
+        keywords={`${technology} exam, coding test, programming certification, codepulse-r`}
+      />
       {/* Start Exam Overlay */}
       {!isLoading && !showResult && !isExamStarted && (
         <div className="exam-start-overlay">

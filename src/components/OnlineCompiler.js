@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import AceEditor from "react-ace";
 import SEO from "./SEO";
 import ace from "ace-builds";
@@ -88,12 +89,18 @@ ace.config.set(
 );
 
 const OnlineCompiler = ({ initialLanguage }) => {
-  // Parsing query params strictly for direct URL access (e.g., new tab)
+  const { lang: paramLang } = useParams();
+  const navigate = useNavigate();
+
+  // Legacy support for ?lang= query param (redirect or use)
   const getUrlParam = (name) => {
     const searchParams = new URLSearchParams(window.location.search);
     return searchParams.get(name);
   };
-  const urlLang = getUrlParam("lang");
+  const queryLang = getUrlParam("lang");
+
+  // Effective language comes from URL param (preferred), query param, prop, or storage
+  const effectiveLang = paramLang || queryLang;
 
   const [code, setCode] = useState(() => {
     return (
@@ -106,7 +113,7 @@ const OnlineCompiler = ({ initialLanguage }) => {
     // Priority: Prop > URL Query > LocalStorage > Default
     return (
       initialLanguage ||
-      urlLang ||
+      effectiveLang ||
       localStorage.getItem("onlineCompiler_language") ||
       "java"
     );
@@ -120,12 +127,12 @@ const OnlineCompiler = ({ initialLanguage }) => {
       if (langObj) setMode(langObj.mode);
     }
     // Handle URL Params (Direct Access / New Tab)
-    else if (urlLang) {
-      setLanguage(urlLang);
-      const langObj = languages.find((l) => l.apiLang === urlLang);
+    else if (effectiveLang) {
+      setLanguage(effectiveLang);
+      const langObj = languages.find((l) => l.apiLang === effectiveLang);
       if (langObj) setMode(langObj.mode);
     }
-  }, [initialLanguage, urlLang]);
+  }, [initialLanguage, effectiveLang]);
   const [mode, setMode] = useState(() => {
     return localStorage.getItem("onlineCompiler_mode") || "java";
   });
@@ -378,6 +385,10 @@ const OnlineCompiler = ({ initialLanguage }) => {
 
   const handleLanguageChange = (langObj) => {
     const lang = langObj.apiLang;
+
+    // Navigate to the SEO-friendly URL
+    navigate(`/online-compiler/${lang}`);
+
     setLanguage(lang);
     setMode(langObj.mode);
 
@@ -785,13 +796,21 @@ const OnlineCompiler = ({ initialLanguage }) => {
   return (
     <div className="compiler-container" ref={containerRef}>
       <SEO
-        title={`Online Compiler - ${
+        title={`Online ${
           language
             ? language.charAt(0).toUpperCase() + language.slice(1)
             : "Code"
-        }`}
-        description="Run and test your code online with our powerful multi-language compiler."
-        keywords={`online compiler, ${language} compiler, run ${language} code, coding playground`}
+        } Compiler – Run ${
+          language
+            ? language.charAt(0).toUpperCase() + language.slice(1)
+            : "Code"
+        } Code Online`}
+        description={`Run ${
+          language
+            ? language.charAt(0).toUpperCase() + language.slice(1)
+            : "Code"
+        } programs online with our free ${language} compiler. Write, edit, and execute code instantly.`}
+        keywords={`online ${language} compiler, run ${language} code online, free ${language} ide, learn ${language} programming`}
       />
       {!isFullScreen && (
         <header className="compiler-header">
@@ -1047,8 +1066,7 @@ const OnlineCompiler = ({ initialLanguage }) => {
                 {isFullScreen ? <FaCompress /> : <FaExpand />}
               </button>
               <button
-             
-                className="btn-compiler btn-run1"
+                className="btn-compiler btn-run"
                 onClick={handleRun}
                 disabled={isLoading}
               >
@@ -1130,17 +1148,7 @@ const OnlineCompiler = ({ initialLanguage }) => {
                 >
                   -
                 </button>
-                <span
-                  style={{
-                    fontSize: "0.85rem",
-                    color: "#641e7c",
-                    minWidth: "35px",
-                    textAlign: "center",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {consoleFontSize}px
-                </span>
+                <span>{consoleFontSize}px</span>
                 <button
                   className="oc-btn-compiler"
                   onClick={() =>
