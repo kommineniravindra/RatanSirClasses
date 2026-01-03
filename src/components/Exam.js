@@ -216,11 +216,11 @@ const Exam = () => {
   );
 
   // Logic for SEO Title
-  const seoTitle = `${
-    technology
-      ? technology.charAt(0).toUpperCase() + technology.slice(1)
-      : "Tech"
-  } Exam ${examId}`;
+  // const seoTitle = `${
+  //   technology
+  //     ? technology.charAt(0).toUpperCase() + technology.slice(1)
+  //     : "Tech"
+  // } Exam ${examId}`;
   const navigate = useNavigate();
   const [selectedQuiz, setSelectedQuiz] = useState([]);
   const [selectedBlanks, setSelectedBlanks] = useState([]);

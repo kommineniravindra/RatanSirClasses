@@ -64,12 +64,6 @@ const Master = () => {
 
   useEffect(() => {
     if (technology) {
-      // Validate if the technology exists in our map, otherwise maybe redirect or handle error?
-      // For now, assuming valid technology or handling it gracefully by defaulting or just showing it.
-      // We might want to capitalize it or map it to the key used in technologyMenuMap
-      // The keys are "Java", "Python", "JavaScript", "HTML", "CSS", "SQL", "Microservices", "RESTAPI", "React", "GIT", "Downloads"
-      // The URL param might be lower case "java", "html".
-
       const techMap = {
         java: "Java",
         python: "Python",
@@ -90,12 +84,27 @@ const Master = () => {
         setSelectedTechnology(formattedTech);
         setSelectedPage("Technology");
       } else {
-        // If technology not found in map, maybe it's one of the other pages or invalid?
-        // For now, if we are at root /, selectedPage logic below handles it.
-        // But if we are at /invalid, we might want to stay on Home or show 404.
-        // Let's rely on the existing logic for non-tech pages if technology is undefined.
-        setSelectedTechnology("");
-        setSelectedPage("Home"); // Default to Home if invalid tech
+        // Check if it matches a valid page
+        const pageMap = {
+          home: "Home",
+          "q&a": "Q&A",
+          dsa: "DSA",
+          contactus: "ContactUs",
+          aboutus: "AboutUs",
+          privacypolicy: "PrivacyPolicy",
+          termsofservice: "TermsOfService",
+          sitemap: "Sitemap",
+          compiler: "Compiler",
+        };
+        const formattedPage = pageMap[technology.toLowerCase()];
+
+        if (formattedPage) {
+          setSelectedPage(formattedPage);
+          setSelectedTechnology("");
+        } else {
+          setSelectedTechnology("");
+          setSelectedPage("Home"); // Default to Home if invalid tech/page
+        }
       }
     } else {
       // Root path "/"
@@ -202,7 +211,7 @@ const Master = () => {
       setSelectedPage(name);
       setSelectedTechnology("");
       setSelectedItem("");
-      navigate("/"); // Go to root for these pages
+      navigate(`/${name.toLowerCase()}`); // Go to root with page param
       return;
     }
 

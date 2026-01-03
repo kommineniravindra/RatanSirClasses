@@ -3,7 +3,7 @@ import { chapterInfoByLang, learningContexts } from "./StartLearning1";
 import {
   FaChevronDown,
   FaChevronRight,
-  FaCode,
+  // FaCode,
   FaCopy,
   FaCheckCircle,
   FaDownload,
@@ -13,9 +13,19 @@ import { jsPDF } from "jspdf";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import {
   coy,
-  vscDarkPlus,
+  // vscDarkPlus,
 } from "react-syntax-highlighter/dist/esm/styles/prism";
 import "../css/Worksheets.css";
+
+// Map internal lowercase keys to backend-expected course names
+const COURSE_NAME_MAP = {
+  html: "HTML",
+  css: "CSS",
+  javascript: "JavaScript",
+  java: "Java",
+  python: "Python",
+  sql: "SQL",
+};
 
 const Worksheets = ({ userId }) => {
   const [selectedTech, setSelectedTech] = useState("java");
@@ -31,16 +41,6 @@ const Worksheets = ({ userId }) => {
   };
 
   const techData = chapterInfoByLang[selectedTech];
-
-  // Map internal lowercase keys to backend-expected course names
-  const COURSE_NAME_MAP = {
-    html: "HTML",
-    css: "CSS",
-    javascript: "JavaScript",
-    java: "Java",
-    python: "Python",
-    sql: "SQL",
-  };
 
   useEffect(() => {
     const fetchUserProgress = async () => {

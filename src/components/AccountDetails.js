@@ -11,7 +11,7 @@ import {
   FaJava,
   FaPython,
   FaJs,
-  FaReact,
+  // FaReact,
   FaHtml5,
   FaCss3Alt,
   FaDatabase,
@@ -220,7 +220,11 @@ const AccountDetails = ({ onLogin }) => {
   const renderLoginForm = () => (
     <>
       <form id="loginForm" onSubmit={handleLoginSubmit} className="login-form">
-        <h1> <FaUserCircle />Welcome bacK!</h1>
+        <h1>
+          {" "}
+          <FaUserCircle />
+          Welcome bacK!
+        </h1>
 
         <div className="input-box">
           <input
@@ -260,13 +264,13 @@ const AccountDetails = ({ onLogin }) => {
             />
             <label htmlFor="remember-me">Remember me</label>
           </div>
-          <a
-            href="#"
+          <button
+            type="button"
             onClick={() => setIsForgotPassword(true)}
             className="forgot-link"
           >
             Forgot Password?
-          </a>
+          </button>
         </div>
       </form>
 
@@ -445,15 +449,15 @@ const AccountDetails = ({ onLogin }) => {
       )}
 
       <h6 className="form-toggle-text">
-        <a
-          href="#"
+        <button
+          type="button"
           onClick={() => {
             setIsForgotPassword(false);
             setForgotPasswordStep(1);
           }}
         >
           Back to Login
-        </a>
+        </button>
       </h6>
     </div>
   );

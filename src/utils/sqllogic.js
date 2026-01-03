@@ -10,15 +10,7 @@ alasql.options.casesensitive = false;
 alasql.options.convention = "oracle";
 alasql.options.noundefined = true;
 
-// Helper to get current database object safely
-const fetchDb = (dbName) => {
-  const name = alasql.use();
-  return (
-    alasql.databases[name] ||
-    alasql.databases[dbName] ||
-    alasql.databases[dbName?.toLowerCase()]
-  );
-};
+
 
 // Robust NVL Polyfill
 const _robustNvlFn = (val, def) => {
@@ -845,14 +837,21 @@ export const populateDbFromHtml = (db, html) => {
   if (!html || !db) return;
 
   try {
+    // Pre-clean HTML (Replace &nbsp; with space)
+    const cleanHtml = html
+      .replace(/&nbsp;/g, " ")
+      .replace(/<br\s*\/?>/gi, "\n");
+
     // 1. Extract Table Name
-    // Pattern: <b>Table: TABLE_NAME</b> or just Table: TABLE_NAME
-    const tableNameMatch = html.match(/Table:\s*([A-Za-z0-9_]+)/i);
+    // Pattern: Table: [tags] TABLE_NAME
+    const tableNameMatch = cleanHtml.match(
+      /Table:\s*(?:<[^>]+>)*\s*([A-Za-z0-9_]+)/i
+    );
     if (!tableNameMatch) return;
     const tableName = tableNameMatch[1];
 
     // 2. Extract Headers
-    const headerMatch = html.match(/<tr[^>]*>(.*?)<\/tr>/is);
+    const headerMatch = cleanHtml.match(/<tr[^>]*>(.*?)<\/tr>/is);
     if (!headerMatch) return;
 
     const headerRow = headerMatch[1];
@@ -863,7 +862,7 @@ export const populateDbFromHtml = (db, html) => {
     if (columns.length === 0) return;
 
     // 4. Extract Data Rows First (to infer schema)
-    const rowMatches = [...html.matchAll(/<tr[^>]*>(.*?)<\/tr>/gis)];
+    const rowMatches = [...cleanHtml.matchAll(/<tr[^>]*>(.*?)<\/tr>/gis)];
 
     let startIndex = 0;
     if (rowMatches[0][1].includes("<th")) startIndex = 1;
@@ -939,15 +938,20 @@ export const verifySqlSolution = (
       answerCode
     );
 
-    if (error) {
-      console.error("Expected Code Error:", error);
-      return { pass: false, marks: 0 };
-    }
-
     // 3. Extract Tables
     const expectedTables = expectedMessages
       .filter((m) => m.type === "table" && m.data)
       .map((m) => m.data);
+
+    if (error && expectedTables.length === 0) {
+      console.error("Expected Code Error (Blocking):", error);
+      return { pass: false, marks: 0 };
+    } else if (error) {
+      console.warn(
+        "Expected Code Error (Non-Blocking - Partial Tables Found):",
+        error
+      );
+    }
 
     const userTables = userMessages
       .filter((m) => m.type === "table" && m.data)

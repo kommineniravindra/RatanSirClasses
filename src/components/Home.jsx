@@ -32,8 +32,8 @@ import { SiSpringboot } from "react-icons/si";
 import "../css/Home1.css";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import Globe from "../components/Globe";
-import CircularSlider from "../components/CircularSlider";
+// import Globe from "../components/Globe";
+// import CircularSlider from "../components/CircularSlider";
 import HomeUI1 from "../Home/HomeUI1";
 import LearningPaths from "../Home/LearningPaths";
 

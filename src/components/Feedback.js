@@ -1,13 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState} from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaStar, FaCheckCircle, FaSpinner } from "react-icons/fa";
 import "../css/Feedback.css";
 
-// Mock Profile Data
-const MOCK_USER = {
-  name: "Alex Johnson",
-  avatar: "https://i.pravatar.cc/150?img=12", // Mock avatar image
-};
+
 
 const MAX_CHARS = 300; // Character limit for the textarea
 

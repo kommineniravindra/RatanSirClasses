@@ -55,7 +55,7 @@ export const checkKeywords = (code, expectedKeywords = []) => {
     // Escape regex special characters
     const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     // Match whole word boundary to avoid partial matches (e.g. "int" matching "print")
-    const regex = new RegExp(`\\b${escapedKeyword}\\b`, "i"); // Case-insensitive? Maybe java is case sensitive, but let's be lenient for now or strict? Java is strict.
+    // const regex = new RegExp(`\\b${escapedKeyword}\\b`, "i"); // Case-insensitive? Maybe java is case sensitive, but let's be lenient for now or strict? Java is strict.
 
     // Using strict case for Java keywords usually, but for user ease maybe case insensitive?
     // Let's stick to case-insensitive for robustness unless strictly required.

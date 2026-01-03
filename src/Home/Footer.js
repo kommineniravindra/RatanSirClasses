@@ -4,11 +4,9 @@ import {
   FaFacebookF,
   FaLinkedinIn,
   FaInstagram,
-  FaYoutube,
   FaEnvelope,
   FaPaperPlane,
   FaMapMarkerAlt,
-  FaPhoneAlt,
 } from "react-icons/fa";
 import "../css/Footer.css";
 
@@ -27,18 +25,18 @@ const Footer = ({ onNavigate }) => {
             resources, real-world projects, and expert mentorship.
           </p>
           <div className="social-links">
-            <a href="#" className="social-link">
+            <button className="social-link" aria-label="Twitter">
               <FaTwitter />
-            </a>
-            <a href="#" className="social-link">
+            </button>
+            <button className="social-link" aria-label="Facebook">
               <FaFacebookF />
-            </a>
-            <a href="#" className="social-link">
+            </button>
+            <button className="social-link" aria-label="Instagram">
               <FaInstagram />
-            </a>
-            <a href="#" className="social-link">
+            </button>
+            <button className="social-link" aria-label="LinkedIn">
               <FaLinkedinIn />
-            </a>
+            </button>
           </div>
         </div>
 
@@ -48,7 +46,7 @@ const Footer = ({ onNavigate }) => {
           <ul className="footer-menu">
             <li>
               <a
-                href="/?page=Home"
+                href="/?Home"
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate("Home");
@@ -59,7 +57,7 @@ const Footer = ({ onNavigate }) => {
             </li>
             <li>
               <a
-                href="/?page=AboutUs"
+                href="/?AboutUs"
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate("AboutUs");
@@ -68,9 +66,9 @@ const Footer = ({ onNavigate }) => {
                 About Us
               </a>
             </li>
-            <li>
+            {/* <li>
               <a
-                href="/?page=DSA"
+                href="/?DSA"
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate("DSA");
@@ -78,10 +76,10 @@ const Footer = ({ onNavigate }) => {
               >
                 DSA Practice
               </a>
-            </li>
+            </li> */}
             <li>
               <a
-                href="/?page=ContactUs"
+                href="/?ContactUs"
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate("ContactUs");
@@ -99,7 +97,7 @@ const Footer = ({ onNavigate }) => {
           <ul className="footer-menu">
             <li>
               <a
-                href="/?page=PrivacyPolicy"
+                href="/?PrivacyPolicy"
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate("PrivacyPolicy");
@@ -110,9 +108,9 @@ const Footer = ({ onNavigate }) => {
             </li>
             <li>
               <a
-                href="/?page=TermsOfService"
+                href="/?TermsOfService"
                 onClick={(e) => {
-                  e.preventDefault(); 
+                  e.preventDefault();
                   onNavigate("TermsOfService");
                 }}
               >
@@ -120,10 +118,26 @@ const Footer = ({ onNavigate }) => {
               </a>
             </li>
             <li>
-              <a href="#">Cookie Policy</a>
+              <a
+                href="/?CookiePolicy"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigate("CookiePolicy");
+                }}
+              >
+                Cookie Policy
+              </a>
             </li>
             <li>
-              <a href="#">FAQ</a>
+              <a
+                href="/?FAQ"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigate("FAQ");
+                }}
+              >
+                FAQ
+              </a>
             </li>
           </ul>
         </div>
@@ -154,9 +168,17 @@ const Footer = ({ onNavigate }) => {
           © {new Date().getFullYear()} CodePulse-R. All Rights Reserved.
         </div>
         <div className="bottom-links">
-          <a href="#">Security</a>
           <a
-            href="/?page=Sitemap"
+            href="/?Security"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate("Security");
+            }}
+          >
+            Security
+          </a>
+          <a
+            href="/?Sitemap"
             onClick={(e) => {
               e.preventDefault();
               onNavigate("Sitemap");

@@ -1118,7 +1118,7 @@ const OnlineCompiler = ({ initialLanguage }) => {
 
         {/* Resizer */}
         <div
-          className="resizer"
+          className="oc-resizer"
           onMouseDown={handleMouseDown}
           title="Drag to resize"
         ></div>

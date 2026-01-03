@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 const sqlSnippets = [
   // --- DDL (Data Definition Language) ---
   {

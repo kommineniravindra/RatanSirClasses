@@ -88,48 +88,16 @@ const DrawingCanvas = forwardRef(
       context.scale(2, 2);
       context.lineCap = "round";
       context.lineJoin = "round";
-      context.strokeStyle = color;
-      context.lineWidth = brushSize || 5;
+      // Removed styling initialization from here as it's handled by the other useEffect
+      // context.strokeStyle = color;
+      // context.lineWidth = brushSize || 5;
       contextRef.current = context;
 
       // Save initial blank state
       saveHistory();
     }, []);
 
-    // Handle Undo/Redo Triggers
-    useEffect(() => {
-      if (undoTrigger > 0) undo();
-    }, [undoTrigger]);
-
-    useEffect(() => {
-      if (redoTrigger > 0) redo();
-    }, [redoTrigger]);
-
-    const saveHistory = () => {
-      if (!canvasRef.current) return;
-      // Remove any forward history if we were in middle of stack
-      if (historyStep.current < history.current.length - 1) {
-        history.current = history.current.slice(0, historyStep.current + 1);
-      }
-      history.current.push(canvasRef.current.toDataURL());
-      historyStep.current++;
-    };
-
-    const undo = () => {
-      if (historyStep.current > 0) {
-        historyStep.current--;
-        restoreHistory(history.current[historyStep.current]);
-      }
-    };
-
-    const redo = () => {
-      if (historyStep.current < history.current.length - 1) {
-        historyStep.current++;
-        restoreHistory(history.current[historyStep.current]);
-      }
-    };
-
-    const restoreHistory = (dataUrl) => {
+    const restoreHistory = React.useCallback((dataUrl) => {
       const img = new Image();
       img.src = dataUrl;
       img.onload = () => {
@@ -150,6 +118,39 @@ const DrawingCanvas = forwardRef(
           canvasRef.current.height / 2
         );
       };
+    }, []);
+
+    const undo = React.useCallback(() => {
+      if (historyStep.current > 0) {
+        historyStep.current--;
+        restoreHistory(history.current[historyStep.current]);
+      }
+    }, [restoreHistory]);
+
+    const redo = React.useCallback(() => {
+      if (historyStep.current < history.current.length - 1) {
+        historyStep.current++;
+        restoreHistory(history.current[historyStep.current]);
+      }
+    }, [restoreHistory]);
+
+    // Handle Undo/Redo Triggers
+    useEffect(() => {
+      if (undoTrigger > 0) undo();
+    }, [undoTrigger, undo]);
+
+    useEffect(() => {
+      if (redoTrigger > 0) redo();
+    }, [redoTrigger, redo]);
+
+    const saveHistory = () => {
+      if (!canvasRef.current) return;
+      // Remove any forward history if we were in middle of stack
+      if (historyStep.current < history.current.length - 1) {
+        history.current = history.current.slice(0, historyStep.current + 1);
+      }
+      history.current.push(canvasRef.current.toDataURL());
+      historyStep.current++;
     };
 
     useEffect(() => {
@@ -215,8 +216,21 @@ const DrawingCanvas = forwardRef(
       setIsDrawing(true);
       startPos.current = { x: offsetX, y: offsetY };
 
-    
-      if (["rectangle", "circle", "triangle", "line", "arrow", "diamond", "pentagon", "hexagon", "star", "cube", "check"].includes(activeTool)) {
+      if (
+        [
+          "rectangle",
+          "circle",
+          "triangle",
+          "line",
+          "arrow",
+          "diamond",
+          "pentagon",
+          "hexagon",
+          "star",
+          "cube",
+          "check",
+        ].includes(activeTool)
+      ) {
         snapshot.current = contextRef.current.getImageData(
           0,
           0,

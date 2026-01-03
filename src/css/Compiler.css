@@ -762,8 +762,8 @@
 }
 
 /* Resizer Handle */
-.resizer {
-    width: 3px;
+.oc-resizer {
+    width: 5px;
     background: #e2e8f0;
     cursor: col-resize;
     display: flex;
@@ -773,12 +773,12 @@
     z-index: 100;
 }
 
-.resizer:hover,
-.resizer:active {
+.oc-resizer:hover,
+.oc-resizer:active {
     background: gray;
 }
 
-.resizer::after {
+.oc-resizer::after {
     content: "||";
     color: #000000;
     font-size: 10px;
@@ -786,7 +786,7 @@
     letter-spacing: -1px;
 }
 
-.resizer:hover::after {
+.oc-resizer:hover::after {
     color: white;
 }
 

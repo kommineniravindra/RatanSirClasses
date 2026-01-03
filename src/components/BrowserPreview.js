@@ -36,13 +36,15 @@ export default function BrowserPreview({ htmlCode }) {
     const images = doc.images;
     if (images.length > 0) {
       let loadedCount = 0;
+      const onImageLoad = () => {
+        loadedCount++;
+        if (loadedCount === images.length) {
+          resizeIframe();
+        }
+      };
+
       for (let img of images) {
-        img.onload = img.onerror = () => {
-          loadedCount++;
-          if (loadedCount === images.length) {
-            resizeIframe();
-          }
-        };
+        img.onload = img.onerror = onImageLoad;
       }
     }
 

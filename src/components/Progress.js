@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { FaChartLine, FaCheckCircle, FaBook, FaCrown } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+// import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 

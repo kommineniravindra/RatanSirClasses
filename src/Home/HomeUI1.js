@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import "../css/HomeUI1.css";
 import {
   FaGraduationCap,
@@ -17,13 +17,12 @@ import {
   FaServer,
   FaLaptopCode,
   FaArrowRight,
-  FaTimes, // Import Close icon
 } from "react-icons/fa";
 import { SiMysql, SiSpringboot } from "react-icons/si";
 
 function HomeUI1({ onTechnologySelect }) {
   // Accept prop
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [showSyllabusModal, setShowSyllabusModal] = useState(false);
 
   const tickerItems = [

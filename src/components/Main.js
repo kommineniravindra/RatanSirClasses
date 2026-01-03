@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRef, useEffect, useMemo, useState } from "react";
+// import { useNavigate } from "react-router-dom";
 import { javaData } from "../technologies/java/javaData.js";
 import { pythonData } from "../technologies/python/pythonData.js";
 import { reactData } from "../technologies/react/reactData.js";
@@ -48,12 +48,12 @@ const Main = ({
   menuData,
   isClickTriggeredRef,
 }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const sectionRefs = useRef({});
   const mainBodyRef = useRef(null);
   const observerRef = useRef(null);
 
-  const [copiedKey, setCopiedKey] = useState(null);
+  // const [copiedKey, setCopiedKey] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [modalLink, setModalLink] = useState("");
@@ -207,8 +207,8 @@ const Main = ({
 
   const handleCopy = (code, key) => {
     navigator.clipboard.writeText(code);
-    setCopiedKey(key);
-    setTimeout(() => setCopiedKey(null), 2000);
+    // setCopiedKey(key);
+    // setTimeout(() => setCopiedKey(null), 2000);
   };
 
   const copyIcon = renderToStaticMarkup(<FiCopy />);
@@ -240,7 +240,7 @@ const Main = ({
           const cleanCode = rawCode
             .split(/\r?\n/)
             .map((line) => {
-              return line.replace(/^\s*\d+[\.\s]*/, "");
+              return line.replace(/^\s*\d+[.\s]*/, "");
             })
             .join("\n");
 
@@ -272,7 +272,14 @@ const Main = ({
         wrapper.appendChild(block);
       }
     });
-  }, [mainData, selectedItem, copyIcon, copiedIcon]);
+  }, [
+    mainData,
+    selectedItem,
+    copyIcon,
+    copiedIcon,
+    playIcon,
+    selectedTechnology,
+  ]);
 
   const quizNumberMap = useMemo(() => {
     let quizCount = 0;
