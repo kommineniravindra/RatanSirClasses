@@ -1,0 +1,424 @@
+/* Realistic 3D Doraemon Loader CSS */
+.rd-wrapper {
+    position: relative;
+    animation: rd-bounce 1.2s ease-in-out infinite;
+    transform-origin: center bottom;
+}
+
+@keyframes rd-bounce {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(2deg);
+    }
+}
+
+.rd-container {
+    position: relative;
+    width: 300px;
+    height: 320px;
+}
+
+/* --- HEAD (Realistic Gradient) --- */
+.rd-head {
+    position: relative;
+    width: 190px;
+    height: 170px;
+    background: radial-gradient(circle at 30% 30%, #39b5ff, #0077b6);
+    border: 2px solid #000;
+    border-radius: 50% 50% 45% 45%;
+    margin: 0 auto;
+    z-index: 10;
+    box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.3), 5px 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.rd-face {
+    position: absolute;
+    width: 160px;
+    height: 140px;
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 50% 50% 45% 45%;
+    bottom: 5px;
+    left: 13px;
+    box-shadow: inset 0px -5px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Eyes & Realistic Pupils */
+.rd-eyes-container {
+    position: absolute;
+    top: 15px;
+    left: 42px;
+    display: flex;
+}
+
+.rd-eye {
+    width: 38px;
+    height: 48px;
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+}
+
+.rd-pupil {
+    position: absolute;
+    width: 12px;
+    height: 14px;
+    background: #000;
+    border-radius: 50%;
+    left: 13px;
+    top: 22px;
+    animation: rd-blink 4s infinite;
+}
+
+/* Eye Shine */
+.rd-pupil::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+}
+
+@keyframes rd-blink {
+
+    0%,
+    94%,
+    100% {
+        transform: scaleY(1);
+    }
+
+    97% {
+        transform: scaleY(0.05);
+    }
+}
+
+/* Nose & Whiskers */
+.rd-nose {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: radial-gradient(circle at 30% 30%, #ff4d4d, #b30000);
+    border: 2px solid #000;
+    border-radius: 50%;
+    top: 55px;
+    left: 68px;
+    z-index: 15;
+}
+
+.rd-mouth-line {
+    position: absolute;
+    width: 2px;
+    height: 55px;
+    background: #000;
+    top: 77px;
+    left: 78px;
+}
+
+.rd-whiskers .rd-whisker {
+    position: absolute;
+    width: 45px;
+    height: 2px;
+    background: #333;
+    border-radius: 2px;
+}
+
+.rd-w1 {
+    left: 10px;
+    top: 80px;
+    transform: rotate(15deg);
+}
+
+.rd-w2 {
+    left: 5px;
+    top: 95px;
+}
+
+.rd-w3 {
+    left: 10px;
+    top: 110px;
+    transform: rotate(-15deg);
+}
+
+.rd-w4 {
+    right: 10px;
+    top: 80px;
+    transform: rotate(-15deg);
+}
+
+.rd-w5 {
+    right: 5px;
+    top: 95px;
+}
+
+.rd-w6 {
+    right: 10px;
+    top: 110px;
+    transform: rotate(15deg);
+}
+
+/* --- ARMS & SHAKING --- */
+.rd-arm {
+    position: absolute;
+    width: 60px;
+    height: 40px;
+    background: #0089d1;
+    border: 2px solid #000;
+    z-index: 4;
+    top: 175px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.rd-hand {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    background: radial-gradient(circle at 30% 30%, #fff, #e0e0e0);
+    border: 2px solid #000;
+    border-radius: 50%;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.rd-arm.left {
+    left: 50px;
+    transform-origin: right center;
+    border-radius: 20px 0 0 20px;
+    animation: rd-shakeLeft 0.6s ease-in-out infinite;
+}
+
+.rd-arm.left .rd-hand {
+    left: -35px;
+    top: -5px;
+}
+
+.rd-arm.right {
+    right: 50px;
+    transform-origin: left center;
+    border-radius: 0 20px 20px 0;
+    animation: rd-shakeRight 0.6s ease-in-out infinite;
+}
+
+.rd-arm.right .rd-hand {
+    right: -35px;
+    top: -5px;
+}
+
+@keyframes rd-shakeLeft {
+
+    0%,
+    100% {
+        transform: rotate(25deg);
+    }
+
+    50% {
+        transform: rotate(65deg);
+    }
+}
+
+@keyframes rd-shakeRight {
+
+    0%,
+    100% {
+        transform: rotate(-25deg);
+    }
+
+    50% {
+        transform: rotate(-65deg);
+    }
+}
+
+/* --- BODY & POCKET --- */
+.rd-body-section {
+    position: relative;
+    width: 150px;
+    height: 130px;
+    background: radial-gradient(circle at 50% 40%, #0096da, #005f8d);
+    border: 2px solid #000;
+    margin: -25px auto 0;
+    border-radius: 50px;
+    z-index: 5;
+    box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.rd-white-belly {
+    position: absolute;
+    width: 115px;
+    height: 95px;
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 50%;
+    top: 10px;
+    left: 16px;
+    box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.rd-pocket {
+    position: absolute;
+    width: 75px;
+    height: 38px;
+    border: 2px solid #000;
+    border-radius: 0 0 75px 75px;
+    top: 48px;
+    left: 19px;
+    background: #fff;
+}
+
+/* --- COLLAR & BELL --- */
+.rd-collar {
+    position: absolute;
+    width: 154px;
+    height: 16px;
+    background: linear-gradient(to bottom, #ff4d4d, #b30000);
+    border: 2px solid #000;
+    top: 155px;
+    left: 73px;
+    border-radius: 10px;
+    z-index: 11;
+}
+
+.rd-bell {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle at 30% 30%, #fffb85, #fbc02d);
+    border: 2px solid #000;
+    border-radius: 50%;
+    top: 165px;
+    left: 135px;
+    z-index: 12;
+    animation: rd-jingle 0.4s ease-in-out infinite;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.rd-bell::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 4px;
+    background: #333;
+    border-radius: 50%;
+    bottom: 6px;
+    left: 11px;
+}
+
+@keyframes rd-jingle {
+
+    0%,
+    100% {
+        transform: rotate(-15deg);
+    }
+
+    50% {
+        transform: rotate(15deg);
+    }
+}
+
+/* --- LEGS --- */
+.rd-legs {
+    display: flex;
+    justify-content: center;
+    margin-top: -12px;
+}
+
+.rd-foot {
+    width: 85px;
+    height: 40px;
+    background: radial-gradient(circle at 50% 20%, #fff, #d1d1d1);
+    border: 2px solid #000;
+    border-radius: 25px;
+    margin: 0 -2px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Realistic Shadow */
+.rd-floor-shadow {
+    width: 180px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+    margin: 2px auto;
+    filter: blur(5px);
+    animation: rd-shadowPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes rd-shadowPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.4;
+    }
+
+    50% {
+        transform: scale(0.8);
+        opacity: 0.2;
+    }
+}
+
+
+/* High-End Professional Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,900;1,900&family=Inter:wght@900&display=swap');
+
+.loading-text1 {
+    /* Font: "Bodoni Moda" provides a high-fashion, premium editorial look */
+    font-family: 'Bodoni Moda', serif;
+    font-size: 7.5rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    font-style: italic; /* Italics in high-end fonts add a sense of speed and luxury */
+
+    /* Professional "Black Chrome & Gold" Palette */
+background: linear-gradient(
+        90deg, 
+        #61afef 0%,   /* Function Blue */
+        #c678dd 25%,  /* Keyword Purple */
+        #98c379 50%,  /* String Green */
+        #e5c07b 75%,  /* Variable Yellow */
+        #61afef 100%  /* Back to Blue */
+        );
+    background-size: 200% auto;
+
+    /* Precision Clipping */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Subtle Reflection - No thick strokes */
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.2));
+
+    /* Animation: Slow, buttery smooth "Light Sweep" */
+    animation: premium-sweep 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+
+    text-align: center;
+    line-height: 1;
+    position: relative;
+    margin-top: -50px;
+}
+
+/* A sophisticated "Light Sweep" effect like a spotlight hitting metal */
+@keyframes premium-sweep {
+    0% {
+        background-position: 100% center;
+        opacity: 0.9;
+    }
+
+    50% {
+        background-position: 0% center;
+        opacity: 1;
+    }
+
+    100% {
+        background-position: -100% center;
+        opacity: 0.9;
+    }
+}

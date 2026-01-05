@@ -125,14 +125,22 @@
 /* =========================
    VIDEO OVERLAY STYLES
 ========================= */
+/* =========================
+   DORAEMON LOADER STYLES
+========================= */
+/* =========================
+   VIDEO INTRO STYLES
+========================= */
 .intro-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
+  background-color: #ffffff;
   z-index: 10000;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -140,7 +148,7 @@
 .intro-video {
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: cover;
 }
 
 .skip-btn {
@@ -149,19 +157,20 @@
   right: 30px;
   padding: 10px 20px;
   background-color: rgba(255, 255, 255, 0.2);
-  color: rgb(0, 0, 0);
-  border: 3px solid rgb(0, 0, 0);
+  color: #000;
+  border: 2px solid #000;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 16px;
+  font-weight: bold;
   backdrop-filter: blur(5px);
-  transition: background 0.3s;
   z-index: 10001;
+  transition: all 0.3s ease;
 }
 
 .skip-btn:hover {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: black;
+  background-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.05);
 }
 
 
@@ -169,8 +178,8 @@
    RESPONSIVE MASTER LAYOUT
    ========================================= */
 
-/* 1. Mobile (Portrait & Landscape: 320px - 767px) */
-@media screen and (max-width: 767px) {
+/* 1. Mobile (Portrait: 320px - 479px) */
+@media screen and (min-width: 320px) and (max-width: 479px) {
   .master-grid {
     display: flex;
     flex-direction: column;
@@ -179,67 +188,101 @@
     overflow-x: hidden;
   }
 
-  /* Hide Right Menu to save space */
-  .grid-right-menu {
-    display: none !important;
-  }
-
-  /* Sticky Left Menu */
   .grid-left-menu {
     width: 100%;
+    /* Keep it accessible at top, maybe as a sticky header or just top block */
     height: auto;
-    flex: none;
+    max-height: 200px;
+    /* Limit height if it's a list */
     position: sticky;
     top: 0;
     z-index: 100;
     background: white;
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px solid #eee;
+    overflow-y: auto;
   }
 
   .grid-main {
     width: 100%;
     height: auto;
-    flex: 1;
-    overflow: visible;
-  }
-
-  /* Reset internal containers */
-  .master-grid .left-menu,
-  .master-grid .main-container {
-    width: 100%;
-    height: auto;
-  }
-}
-
-/* 2. Tablet (768px - 1024px) */
-@media screen and (min-width: 768px) and (max-width: 1024px) {
-  .master-grid {
-    grid-template-columns: 25% 75% 0%;
-    /* Effectively hide right menu or resize */
+    min-height: 50vh;
+    padding: 10px;
   }
 
   .grid-right-menu {
-    display: none;
-    /* Optional: hide right menu on tablet if it's too cramped */
-  }
-
-  /* If hiding right menu, ensure columns add up to covers */
-  .master-grid {
-    grid-template-columns: 22% 78%;
+    display: none !important;
   }
 }
 
+/* 2. Mobile (Landscape: 481px - 767px) */
+@media screen and (min-width: 480px) and (max-width: 767px) {
+  .master-grid {
+    display: flex;
+    /* Still stack on landscape mobile usually best for reading */
+    flex-direction: column;
+    height: auto;
+  }
 
-/* 3. Laptop (1025px - 1280px) */
+  .grid-left-menu {
+    position: relative;
+    /* Scroll with page */
+    width: 100%;
+    height: auto;
+    max-height: 150px;
+    border-bottom: 2px solid #eee;
+  }
+
+  .grid-main {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .grid-right-menu {
+    display: none !important;
+  }
+}
+
+/* 3. Tablet (Portrait & Landscape: 768px - 1024px) */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .master-grid {
+    display: grid;
+    /* 2 Columns: Left Menu + Main Content */
+    grid-template-columns: 25% 75%;
+    grid-template-rows: 100%;
+    height: calc(100vh - 30px);
+  }
+
+  .grid-right-menu {
+    display: none !important;
+    /* Hide right menu to give space to content */
+  }
+
+  /* Ensure main container takes up the space */
+  .master-grid .grid-main {
+    width: 100%;
+  }
+}
+
+/* 4. Laptop/Desktop (1025px - 1280px) */
 @media screen and (min-width: 1025px) and (max-width: 1280px) {
   .master-grid {
+    display: grid;
+    /* 3 Columns but tighter sidebars */
     grid-template-columns: 20% 65% 15%;
+    height: calc(100vh - 30px);
+  }
+
+  .grid-right-menu {
+    display: block;
   }
 }
 
-/* 4. Desktop (1281px+) */
+/* 5. Desktop (1281px+) */
 @media screen and (min-width: 1281px) {
   .master-grid {
+    display: grid;
+    /* Optimal Widths */
     grid-template-columns: 18% 67% 15%;
+    height: calc(100vh - 30px);
   }
 }

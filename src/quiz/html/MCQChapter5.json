@@ -1,0 +1,202 @@
+[
+    {
+        "question": "What is the main purpose of the <form> tag in HTML?",
+        "options": [
+            "To display data in table format",
+            "To collect user input",
+            "To create hyperlinks",
+            "To display images"
+        ],
+        "answer": "To collect user input"
+    },
+    {
+        "question": "Which HTML tag is used to create an input field?",
+        "options": [
+            "<form>",
+            "<input>",
+            "<textarea>",
+            "<select>"
+        ],
+        "answer": "<input>"
+    },
+    {
+        "question": "Which attribute of the <form> tag specifies where the form data is sent?",
+        "options": [
+            "method",
+            "action",
+            "target",
+            "enctype"
+        ],
+        "answer": "action"
+    },
+    {
+        "question": "Form data submitted from an HTML form, can be processed at?",
+        "options": [
+            "Only in JavaScript",
+            "Only on the Server",
+            "Both JavaScript and Server-side",
+            "Only in the Database"
+        ],
+        "answer": "Both JavaScript and Server-side"
+    },
+    {
+        "question": "JavaScript reads form data using which attribute, and the server reads form data using which attribute?",
+        "options": [
+            "JavaScript → name, Server → id",
+            "JavaScript → id, Server → name",
+            "JavaScript → class, Server → id",
+            "JavaScript → id, Server → class"
+        ],
+        "answer": "JavaScript → id, Server → name"
+    },
+    {
+        "question": "Which of the following is NOT an attribute of the <form> tag?",
+        "options": [
+            "action",
+            "method",
+            "enctype",
+            "src"
+        ],
+        "answer": "src"
+    },
+    {
+        "question": "Which input type is used to hide typed characters?",
+        "options": [
+            "text",
+            "hidden",
+            "password",
+            "secure"
+        ],
+        "answer": "password"
+    },
+    {
+        "question": "Which tag can allow multiple selections when the multiple attribute is used?",
+        "options": [
+            "<input type=\"radio\">",
+            "<input type=\"checkbox\">",
+            "<select>",
+            "<option>"
+        ],
+        "answer": "<select>"
+    },
+    {
+        "question": "Which input type allows selecting multiple options?",
+        "options": [
+            "<input type=\"radio\">",
+            "<input type=\"text\">",
+            "<input type=\"checkbox\">",
+            "<select>"
+        ],
+        "answer": "<input type=\"checkbox\">"
+    },
+    {
+        "question": "Which tag is used to create a multi-line text input?",
+        "options": [
+            "<input>",
+            "<text>",
+            "<textarea>",
+            "<multiline>"
+        ],
+        "answer": "<textarea>"
+    },
+    {
+        "question": "Which tag is used to create a drop-down list?",
+        "options": [
+            "<list>",
+            "<dropdown>",
+            "<select>",
+            "<option>"
+        ],
+        "answer": "<select>"
+    },
+    {
+        "question": "What is the purpose of <input type=\"hidden\"> in a form?",
+        "options": [
+            "To display text to the user",
+            "To allow file upload",
+            "To store data that is not visible to the user",
+            "To create a password field"
+        ],
+        "answer": "To store data that is not visible to the user"
+    },
+    {
+        "question": "Which input type is used to upload documents or images in a form?",
+        "options": [
+            "<input type=\"text\">",
+            "<input type=\"file\">",
+            "<input type=\"submit\">",
+            "<input type=\"hidden\">"
+        ],
+        "answer": "<input type=\"file\">"
+    },
+    {
+        "question": "Which attribute gives a default value to an input field?",
+        "options": [
+            "placeholder",
+            "value",
+            "name",
+            "default"
+        ],
+        "answer": "value"
+    },
+    {
+        "question": "What is the purpose of the value attribute in the <option> tag?",
+        "options": [
+            "It displays the text inside the drop-down to the user",
+            "It sets the default selected option",
+            "It defines the custom data sent to the server when option is selected",
+            "It defines the selected data sent to the server when option is selected"
+        ],
+        "answer": "It defines the selected data sent to the server when option is selected"
+    },
+    {
+        "question": "Which input type is used to submit the form?",
+        "options": [
+            "button",
+            "reset",
+            "submit",
+            "send"
+        ],
+        "answer": "submit"
+    },
+    {
+        "question": "Which input type clears all form fields?",
+        "options": [
+            "clear",
+            "reset",
+            "submit",
+            "cancel"
+        ],
+        "answer": "reset"
+    },
+    {
+        "question": "What is the purpose of the <optgroup> tag in HTML?",
+        "options": [
+            "To create a drop-down list",
+            "To group related <option> elements inside a <select>",
+            "To set a default option in a drop-down",
+            "To create multiple select boxes"
+        ],
+        "answer": "To group related <option> elements inside a <select>"
+    },
+    {
+        "question": "Which tag groups related form elements together?",
+        "options": [
+            "<group>",
+            "<fieldset>",
+            "<legend>",
+            "<section>"
+        ],
+        "answer": "<fieldset>"
+    },
+    {
+        "question": "Which input type allows selecting both date and time?",
+        "options": [
+            "<input type=\"datetime\">",
+            "<input type=\"datetime-local\">",
+            "<input type=\"date\">",
+            "<input type=\"time\">"
+        ],
+        "answer": "<input type=\"datetime-local\">"
+    }
+]

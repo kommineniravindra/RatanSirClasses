@@ -1,95 +1,206 @@
 [
   {
-    "question": "What is the range of heading tags in HTML?",
+    "question": "What is the main purpose of the <table> tag in HTML?",
     "options": [
-      "<h1> to <h5>",
-      "<h1> to <h4>",
-      "<h1> to <h6>",
-      "<h1> to <h3>"
+      "To create a form",
+      "To display images",
+      "To display data in rows and columns",
+      "To create links"
     ],
-    "answer": "<h1> to <h6>"
+    "answer": "To display data in rows and columns"
   },
   {
-    "question": "In HTML, data inside a <p> tag are:",
+    "question": "What is the purpose of rowspan attribute in HTML tables?",
     "options": [
-      "Preserved exactly as typed",
-      "Ignored and collapsed into a single space",
-      "Converted into tabs",
-      "Converted into underscores"
+      "It merges multiple columns into one",
+      "It merges multiple rows into one",
+      "It increases row height",
+      "It aligns text vertically"
     ],
-    "answer": "Ignored and collapsed into a single space"
+    "answer": "It merges multiple rows into one"
   },
   {
-    "question": "Which of the following are Unpaired tags?",
+    "question": "What is the purpose of colspan attribute in HTML tables?",
     "options": [
-      "<hr>",
-      "<br>",
-      "<img>",
+      "It merges multiple rows into one",
+      "It sets column width",
+      "It merges multiple columns into one",
+      "It aligns text horizontally"
+    ],
+    "answer": "It merges multiple columns into one"
+  },
+  {
+    "question": "What are rows and columns in a table?",
+    "options": [
+      "Rows are vertical and columns are horizontal",
+      "Rows are horizontal and columns are vertical",
+      "Both rows and columns are horizontal",
+      "Both rows and columns are vertical"
+    ],
+    "answer": "Rows are horizontal and columns are vertical"
+  },
+  {
+    "question": "What is the first row of a table called?",
+    "options": [
+      "Table Body",
+      "Table Footer",
+      "Table Header",
+      "Table Caption"
+    ],
+    "answer": "Table Header"
+  },
+  {
+    "question": "Which tag defines the body of the table?",
+    "options": [
+      "<thead>",
+      "<tfoot>",
+      "<tbody>",
+      "<table>"
+    ],
+    "answer": "<tbody>"
+  },
+  {
+    "question": "Which tag is used to create a table row?",
+    "options": [
+      "<td>",
+      "<tr>",
+      "<table>",
+      "<th>"
+    ],
+    "answer": "<tr>"
+  },
+  {
+    "question": "Which tag is used to create a table?",
+    "options": [
+      "<td>",
+      "<tr>",
+      "<table>",
+      "<th>"
+    ],
+    "answer": "<table>"
+  },
+  {
+    "question": "Which tag is used for table header cells?",
+    "options": [
+      "<th>",
+      "<td>",
+      "<tr>",
+      "<thead>"
+    ],
+    "answer": "<th>"
+  },
+  {
+    "question": "Which tag defines a table data cell?",
+    "options": [
+      "<td>",
+      "<th>",
+      "<tr>",
+      "<table>"
+    ],
+    "answer": "<td>"
+  },
+  {
+    "question": "Which HTML tag is used to display the table title?",
+    "options": [
+      "<title>",
+      "<table title>",
+      "<caption>",
+      "<thead>"
+    ],
+    "answer": "<caption>"
+  },
+  {
+    "question": "Which HTML tags are used to group the header, body, and footer of a table?",
+    "options": [
+      "<tr>, <td>, <th>",
+      "<table>, <row>, <column>",
+      "<thead>, <tbody>, <tfoot>",
+      "<caption>, <thead>, <tfoot>"
+    ],
+    "answer": "<thead>, <tbody>, <tfoot>"
+  },
+  {
+    "question": "Which of the following is the correct syntax to display an image?",
+    "options": [
+      "<img src=\"image.jpg\">",
+      "<image src=\"image.jpg\">",
+      "<img href=\"image.jpg\">",
+      "<img link=\"image.jpg\">"
+    ],
+    "answer": "<img src=\"image.jpg\">"
+  },
+  {
+    "question": "Which is the correct syntax for a link to https://www.example.com?",
+    "options": [
+      "<a href=\"https://www.example.com\">Example</a>",
+      "<a src=\"https://www.example.com\">Example</a>",
+      "<link href=\"https://www.example.com\">Example</link>",
+      "<a link=\"https://www.example.com\">Example</a>"
+    ],
+    "answer": "<a href=\"https://www.example.com\">Example</a>"
+  },
+  {
+    "question": "Which attribute opens the linked document in a new tab?",
+    "options": [
+      "target = \"new\"",
+      "target=\"_blank\"",
+      "target=\"_new\"",
+      "window=\"_open\""
+    ],
+    "answer": "target=\"_blank\""
+  },
+  {
+    "question": "Which attribute is used to provide a tooltip when hovering over a link?",
+    "options": [
+      "title",
+      "alt",
+      "tooltip",
+      "hover"
+    ],
+    "answer": "title"
+  },
+  {
+    "question": "How can you make an image act as a hyperlink in HTML?",
+    "options": [
+      "<img href=\"page.html\" src=\"pic.jpg\">",
+      "<a src=\"page.html\"><img></a>",
+      "<a href=\"page.html\"><img src=\"pic.jpg\"></a>",
+      "<img link=\"page.html\">"
+    ],
+    "answer": "<a href=\"page.html\"><img src=\"pic.jpg\"></a>"
+  },
+  {
+    "question": "Which attribute of the <a> tag specifies the target page?",
+    "options": [
+      "src",
+      "alt",
+      "link",
+      "href"
+    ],
+    "answer": "href"
+  },
+  {
+    "question": "Which of the following are attributes of the <img> tag in HTML?",
+    "options": [
+      "src",
+      "width",
+      "height",
+      "alt",
+      "title",
       "All of the above"
     ],
     "answer": "All of the above"
   },
   {
-    "question": "In HTML, text inside the <pre> tag:",
+    "question": "Which of the following is NOT a table attribute?",
     "options": [
-      "Collapses multiple spaces into one",
-      "Preserves all spaces and line breaks exactly as typed",
-      "Converts all text to uppercase",
-      "Ignores spaces and line breaks"
+      "border",
+      "cellpadding",
+      "src",
+      "cellspacing",
+      "width",
+      "height"
     ],
-    "answer": "Preserves all spaces and line breaks exactly as typed"
-  },
-  {
-    "question": "Which of the following are inline HTML elements?",
-    "options": [
-      "<b>",
-      "<q>",
-      "<small>",
-      "<span>",
-      "All of the above"
-    ],
-    "answer": "All of the above"
-  },
-  {
-    "question": "Which statement is true about <span>?",
-    "options": [
-      "It displays text exactly as typed and preserves all spaces and line breaks",
-      "It represents a portion of text inside a paragraph.",
-      "It automatically creates a new paragraph",
-      "It is a block-level element that starts on a new line"
-    ],
-    "answer": "It represents a portion of text inside a paragraph."
-  },
-  {
-    "question": "Which of the following are block-level HTML elements?",
-    "options": [
-      "<p>",
-      "<pre>",
-      "<h1>",
-      "All of the above"
-    ],
-    "answer": "All of the above"
-  },
-  {
-    "question": "Which of the following are paired tags?",
-    "options": [
-      "<sup>",
-      "<i>",
-      "<mark>",
-      "All of the above"
-    ],
-    "answer": "All of the above"
-  },
-  {
-    "question": "Every HTML element contains which of the following?",
-    "options": [
-      "Start / Opening Tag – marks the beginning of an element",
-      "End / Closing Tag – marks the end of an element",
-      "Content – the text or data contained within the element",
-      "Attribute – provides extra information to the element",
-      "Value – the value assigned to the attribute",
-      "All of the above"
-    ],
-    "answer": "All of the above"
+    "answer": "src"
   }
 ]

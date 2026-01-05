@@ -1,0 +1,610 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* :root removed, variables replaced inline */
+
+.landing-wrapper {
+    width: 100%;
+    min-height: 90vh;
+    /* Reduced height further as requested */
+    background-color: transparent;
+    position: relative;
+    overflow: hidden;
+    /* Ensure 3D elements don't overflow */
+}
+
+/* =======================================
+ HERO SECTION
+======================================= */
+
+.hero-section-glassy {
+    min-height: 80vh;
+    /* Reduced from 80vh */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 2% 0;
+    gap: 2rem;
+    /* Reduced gap slightly to prevent excessive separation */
+    /* Adjusted padding */
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content-glassy {
+    max-width: 650px;
+    /* Slightly wider for new text */
+    z-index: 10;
+    animation: fadeUp 1s ease-out;
+    margin-top: -20px;
+}
+
+/* --- Badge Style --- */
+.badge-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid #00DDFF;
+    color: #00DDFF;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 2rem;
+    box-shadow: 0 0 15px rgba(0, 221, 255, 0.492);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: pulse-badge 1.5s infinite ease-in-out;
+}
+
+.hero-title-glassy {
+    font-size:3.1rem;
+    /* Larger as per design */
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    /* Ensuring sleek font */
+    letter-spacing: -1px;
+    text-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+}
+
+/* Cyan Text Gradient */
+.text-cyan {
+    color: #00E5FF;
+    background: linear-gradient(90deg, #00C6FF, #0072FF);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(0, 229, 255, 0.4);
+}
+
+/* Purple Text Gradient */
+.text-purple {
+    color: #D500F9;
+    font-weight: 600;
+    text-shadow: 0 0 15px rgba(213, 0, 249, 0.5);
+}
+
+/* Blinking Cursor - Styles updated for better visibility */
+.cursor-blink {
+    display: inline-block;
+    width: 5px;
+    height: 50px;
+    background-color: #00E5FF;
+    margin-left: 7px;
+    vertical-align: baseline;
+    /* Better alignment with text */
+    border-radius: 1px;
+    /* Slight rounding looks nicer */
+    box-shadow: 0 0 10px #00E5FF;
+    /* Glowing cursor */
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes pulse-badge {
+    0% {
+        box-shadow: 0 0 0 rgba(0, 221, 255, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(0, 221, 255, 0.7), inset 0 0 10px rgba(0, 221, 255, 0.2);
+    }
+
+    100% {
+        box-shadow: 0 0 0 rgba(0, 221, 255, 0.4);
+    }
+}
+
+.hero-subtitle-glassy {
+    color: #9CA3AF;
+    /* Muted grey */
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    margin-bottom: 3.5rem;
+    line-height: 1.6;
+    max-width: 100%;
+}
+
+.hero-buttons-glassy {
+    display: flex;
+    gap: 20px;
+}
+
+/* --- BUTTONS (3D Water Drop / Premium Glass Style) --- */
+
+.primary-btn-domed {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 40px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+
+    /* Cyan Gradient Background */
+    background: linear-gradient(90deg, #00C6FF 0%, #0072FF 100%);
+    color: #000;
+    /* Black text on bright button often looks premium/readable, or white if bold */
+    color: #000;
+
+    box-shadow:
+        0 0 20px rgba(0, 198, 255, 0.4),
+        0 10px 20px rgba(0, 0, 0, 0.2);
+
+    transition: all 0.3s ease;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.primary-btn-domed:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 40px rgba(0, 198, 255, 0.6);
+}
+
+.secondary-btn-soft {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.384);
+    color: #fff;
+    backdrop-filter: blur(10px);
+
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.secondary-btn-soft:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+}
+
+/* --- PREMIUM 3D SPHERE GRAPHIC (Crystal Glass) --- */
+
+.hero-graphic-sphere {
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+
+    /* Ultra Transparent Crystal Glass */
+    background: radial-gradient(circle at 30% 30%,
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0.02) 40%,
+            transparent 80%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    /* Stronger White Shine & Glow */
+    box-shadow:
+        inset 10px 10px 40px rgba(255, 255, 255, 0.5),
+        inset -5px -5px 20px rgba(255, 255, 255, 0.356),
+        0 0 60px rgba(255, 255, 255, 0.15),
+        0 0 120px rgba(79, 172, 254, 0.427);
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: float 8s ease-in-out infinite;
+    z-index: 5;
+}
+
+/* Sharp Specular Reflection (Glass Shine) */
+.hero-graphic-sphere::before {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 18%;
+    width: 25%;
+    height: 15%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 60%);
+    transform: rotate(-45deg);
+    filter: blur(3px);
+    opacity: 1;
+}
+
+/* Secondary Reflection / Rim Light */
+.hero-graphic-sphere::after {
+    content: '';
+    position: absolute;
+    bottom: 12%;
+    right: 12%;
+    width: 35%;
+    height: 35%;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    filter: blur(15px);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.sphere-icon {
+    font-size: 16rem;
+    /* Increased size */
+    color: #4facfe;
+    /* 3D Embossed look */
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.6));
+    z-index: 2;
+    transition: all 0.5s ease;
+    transform: perspective(1000px) rotateY(10deg);
+}
+
+
+/* --- PREMIUM 3D TICKER (Crystal Glass Style) --- */
+.ticker-wrap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    height: 6rem;
+    display: flex;
+    align-items: center;
+    margin-top: 0;
+    z-index: 10;
+
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.ticker-track {
+    display: flex;
+    gap: 3rem;
+    animation: scroll 40s linear infinite;
+    padding: 0 4rem;
+}
+
+.ticker-track:hover {
+    animation-play-state: paused;
+}
+
+.ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 0.7rem 2rem;
+    border-radius: 100px;
+    font-size: 1.2rem;
+    color: #ffffff;
+    font-weight: 600;
+
+    /* Transparent Glass Pill */
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.529);
+
+    /* Glassy Shine Shadows */
+    box-shadow:
+        0 0 25px rgba(79, 172, 254, 0.4),
+        inset 0 0 15px rgba(255, 255, 255, 0.2);
+
+    transition: all 0.3s ease;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.ticker-item:hover {
+    transform: translateY(-5px) scale(1.05);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #4facfe;
+    box-shadow:
+        0 0 25px rgba(79, 172, 254, 0.4),
+        inset 0 0 15px rgba(255, 255, 255, 0.2);
+    color: #fff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+/* Animations */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-25px);
+    }
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* =================================================
+   RESPONSIVE DESIGN BREAKPOINTS
+================================================= */
+/* 5. Large Desktop (1281px +) */
+@media (min-width: 1281px) {
+    .hero-section-glassy {
+        padding: 2rem 5% 0;
+    }
+}
+
+/* 4. Laptop/Desktop (1025px - 1280px) */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .hero-section-glassy {
+        padding: 2rem 5% 0;
+    }
+
+    .hero-title-glassy {
+        font-size: 3.8rem;
+    }
+
+    .hero-graphic-sphere {
+        width: 400px;
+        height: 400px;
+    }
+
+    .sphere-icon {
+        font-size: 12rem;
+    }
+}
+
+/* 3. Tablet Portrait & Landscape (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .hero-section-glassy {
+        flex-direction: column;
+        padding: 4rem 3rem;
+        text-align: center;
+    }
+
+    .hero-content-glassy {
+        max-width: 100%;
+        margin: 0 auto 3rem auto;
+    }
+
+    .hero-title-glassy {
+        font-size: 3.5rem;
+    }
+
+    .hero-buttons-glassy {
+        justify-content: center;
+    }
+
+    .hero-graphic-sphere {
+        width: 350px;
+        height: 350px;
+        margin: 0 auto;
+    }
+
+    .sphere-icon {
+        font-size: 10rem;
+    }
+}
+
+/* 1 & 2. Mobile (Below 768px) */
+@media (max-width: 767px) {
+    .landing-wrapper {
+        min-height: auto;
+    }
+
+    .hero-section-glassy {
+        flex-direction: column;
+        padding: 3rem 1.5rem;
+        text-align: center;
+    }
+
+    .hero-content-glassy {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    .hero-title-glassy {
+        font-size: 2.8rem;
+    }
+
+    .hero-subtitle-glassy {
+        font-size: 1rem;
+    }
+
+    .hero-buttons-glassy {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .primary-btn-domed,
+    .secondary-btn-soft {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .hero-graphic-sphere {
+        width: 280px;
+        height: 280px;
+        margin: 0 auto;
+    }
+
+    .sphere-icon {
+        font-size: 8rem;
+    }
+
+    .ticker-wrap {
+        height: 4.5rem;
+    }
+
+    .ticker-item {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Syllabus Modal Styles (Unchanged but ensuring functionality) */
+.syllabus-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    /* Darker overlay */
+    backdrop-filter: blur(15px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeUp 0.3s ease;
+}
+
+/* ... rest of modal styles as before ... */
+.syllabus-modal-content {
+    background: rgba(20, 20, 20, 0.95);
+    padding: 3rem;
+    border-radius: 30px;
+    width: 90%;
+    max-width: 900px;
+    position: relative;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 45px;
+    height: 45px;
+    border-radius: 50px;
+    background: #2a2a2a;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+}
+
+.modal-close-btn:hover {
+    background: #e74c3c;
+    border-color: #e74c3c;
+    transform: rotate(90deg);
+}
+
+.modal-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 3rem;
+    font-weight: 700;
+}
+
+.flow-diagram {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.flow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+.step-icon-wrapper {
+    width: 100px;
+    height: 100px;
+    border-radius: 25px;
+    background: #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+    font-size: 3rem;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.step-icon-wrapper:hover {
+    transform: translateY(-10px);
+    color: #4facfe;
+    box-shadow: 0 0 20px #4facfe;
+}
+
+.step-title {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.step-desc {
+    color: #aaa;
+    font-size: 0.9rem;
+    max-width: 150px;
+}
+
+.flow-arrow {
+    font-size: 2rem;
+    color: #4facfe;
+    opacity: 0.5;
+}

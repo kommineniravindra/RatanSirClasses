@@ -10,8 +10,6 @@ alasql.options.casesensitive = false;
 alasql.options.convention = "oracle";
 alasql.options.noundefined = true;
 
-
-
 // Robust NVL Polyfill
 const _robustNvlFn = (val, def) => {
   if (
@@ -165,9 +163,31 @@ export const runSqlCode = (db, code) => {
       .trim();
 
     const sanitizedCode = sanitizeSql(cleanCode);
-    const commands = sanitizedCode
-      .split(";")
-      .filter((c) => c.trim().length > 0);
+
+    // --- AUTO-DROP TABLE INJECTION ---
+    // Detect CREATE TABLE statements and inject DROP TABLE IF EXISTS before them
+    // This prevents "Table already exists" errors on re-runs
+    let finalCode = sanitizedCode;
+    const createTableRegex =
+      /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?([\w.]+)/gi;
+    let match;
+    const tablesToDrop = new Set();
+
+    // Reset regex state
+    createTableRegex.lastIndex = 0;
+
+    while ((match = createTableRegex.exec(sanitizedCode)) !== null) {
+      tablesToDrop.add(match[1]);
+    }
+
+    if (tablesToDrop.size > 0) {
+      const dropCommands = Array.from(tablesToDrop)
+        .map((t) => `DROP TABLE IF EXISTS ${t};`)
+        .join("\n");
+      finalCode = dropCommands + "\n" + sanitizedCode;
+    }
+
+    const commands = finalCode.split(";").filter((c) => c.trim().length > 0);
 
     for (let cmd of commands) {
       const trimmedCmd = cmd.trim();
@@ -980,21 +1000,23 @@ export const verifySqlSolution = (
     let accuracy = matchCount / expectedTables.length;
     let finalMarks = Math.floor(accuracy * maxMarks);
 
-    // Partial Scoring: Award marks if user successfully Created Table and Inserted Data
-    if (finalMarks === 0) {
-      const createdTable = userMessages.some(
-        (m) => m.text && m.text.includes("Table created successfully")
-      );
-      const insertedData = userMessages.some(
-        (m) => m.text && m.text.includes("Values inserted successfully")
-      );
+    // Partial Scoring: Award specific +1 marks for steps
+    let stepMarks = 0;
+    const createdTable = userMessages.some(
+      (m) => m.text && m.text.includes("Table created successfully")
+    );
+    const insertedData = userMessages.some(
+      (m) => m.text && m.text.includes("Values inserted successfully")
+    );
 
-      if (createdTable && insertedData) {
-        finalMarks = Math.max(1, Math.floor(maxMarks * 0.25)); // Baseline for logic (25%)
-      } else if (createdTable) {
-        finalMarks = Math.max(1, Math.floor(maxMarks * 0.125)); // Baseline for schema (12.5%)
-      }
-    }
+    if (createdTable) stepMarks += 1;
+    if (insertedData) stepMarks += 1;
+
+    // Final marks is the greater of full validation marks or partial step marks
+    finalMarks = Math.max(finalMarks, stepMarks);
+
+    // Ensure we don't exceed maxMarks (though unlikely with +1/+1 steps)
+    if (finalMarks > maxMarks) finalMarks = maxMarks;
 
     return {
       pass: matchCount === expectedTables.length,

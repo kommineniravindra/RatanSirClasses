@@ -1,0 +1,857 @@
+/* --- General & Utilities --- */
+.section-heading {
+  text-align: center;
+  font-family: 'Merriweather', serif;
+  font-size: 2.5rem;
+  /* margin-top: 1px; */
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #ffffff;
+  /* White text for dark mode */
+}
+
+/* Star Animation Layer Container - Wraps the whole page content */
+.home-container {
+  background-color: #000;
+  min-height: 100vh;
+  position: relative;
+  /* overflow-x: hidden; Removed to allow sticky positioning */
+  z-index: 0;
+}
+
+/* Creating stars with box-shadows - Fixed to viewport */
+/* Creating stars with box-shadows - Fixed to viewport */
+.home-container::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow:
+    10vw 10vh #fff, 20vw 80vh #fff, 30vw 30vh #fff, 40vw 50vh #fff,
+    50vw 90vh #fff, 60vw 20vh #fff, 70vw 70vh #fff, 80vw 40vh #fff,
+    90vw 10vh #fff, 95vw 95vh #fff, 5vw 50vh #fff, 15vw 25vh #fff,
+    25vw 75vh #fff, 35vw 15vh #fff, 45vw 85vh #fff, 55vw 35vh #fff,
+    65vw 65vh #fff, 75vw 5vh #fff, 85vw 55vh #fff, 30vw 60vh #fff,
+    12vw 12vh #FFF, 88vw 88vh #FFF, 44vw 44vh #FFF, 66vw 66vh #FFF,
+    10vw 90vh #fff, 20vw 10vh #fff, 60vw 80vh #fff, 90vw 50vh #fff;
+  opacity: 0.8;
+  animation: moveStars 60s linear infinite, twinkle 3s ease-in-out infinite alternate;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.home-container::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow:
+    5vw 85vh #fff, 15vw 15vh #fff, 25vw 65vh #fff, 35vw 95vh #fff,
+    45vw 25vh #fff, 55vw 75vh #fff, 65vw 5vh #fff, 75vw 55vh #fff,
+    85vw 35vh #fff, 95vw 80vh #fff, 10vw 40vh #fff, 50vw 10vh #fff,
+    20vw 60vh #fff, 80vw 20vh #fff, 50vw 50vh #fff, 70vw 90vh #fff;
+  opacity: 0.6;
+  animation: moveStars 100s linear infinite, twinkle 5s ease-in-out infinite alternate;
+  z-index: -1;
+  pointer-events: none;
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* Star Animation Layer Container - Now transparent to show body stars */
+.zig-home-container {
+  font-family: 'Outfit', sans-serif;
+  /* Removed global background gradient to allow star fix */
+  background: transparent !important;
+  color: #ffffff;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  /* overflow: hidden;  <-- REMOVED to fix sticky positioning */
+  z-index: 1;
+}
+
+/* Remove old local stars from zig-home-container if present */
+.zig-home-container::before,
+.zig-home-container::after {
+  display: none;
+}
+
+@keyframes moveStars {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-2000px);
+  }
+}
+
+/* --- Hero Section (Transparent for global background) --- */
+.hero-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
+  height: auto;
+  padding: clamp(1rem, 5vw, 2rem);
+  color: #ffffff;
+  overflow: hidden;
+  background: transparent !important;
+}
+
+/* Remove old video styles just in case */
+.hero-video,
+.hero-section::after {
+  display: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 900px;
+  text-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
+  /* Glow effect */
+  transform: translateY(0);
+  margin: 0 auto;
+}
+
+.hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: 1.9px;
+  color: #ffffff;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Lemonada:wght@300..700&display=swap');
+
+.hero-content p {
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(0.9rem, 2.5vw, 1.125rem);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+  color: #e0e0e0;
+}
+
+.hero-cta-btn {
+  background: linear-gradient(45deg, #00c6ff, #0072ff);
+  color: #fff;
+  border: none;
+  padding: 0.9rem 2rem;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(0, 198, 255, 0.4);
+  transition: all 0.3s ease-in-out;
+}
+
+.hero-cta-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 25px rgba(0, 198, 255, 0.7);
+  background: linear-gradient(45deg, #0072ff, #00c6ff);
+}
+
+/* --- Responsive Adjustments for Hero Section --- */
+@media (max-width: 1024px) {
+  .hero-section {
+    height: 85vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 70vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    height: 65vh;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&display=swap');
+
+/* Header */
+.zig-header-container {
+  max-width: 95%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.zig-header-container h1 {
+  text-align: left;
+  margin-bottom: 1.5rem;
+  color: #4facfe;
+  /* Replaced variable */
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+/* Section Wrapper */
+.zig-sections-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 95%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Individual Content Row */
+.zig-content-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 120px;
+  /* Offset to stack nicely */
+  background-color: rgba(20, 20, 20, 0.95);
+  /* Opaque to cover previous card */
+  backdrop-filter: blur(15px);
+  padding: 2rem 0;
+  /* Increased vertical padding */
+  border-radius: 20px;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+  /* Shadow on top to distinguish from previous */
+  margin-bottom: 2rem;
+}
+
+
+.zig-content-section.zig-reverse {
+  flex-direction: row-reverse;
+}
+
+/* Text Card */
+.zig-text-card {
+  flex: 1 1 300px;
+  text-align: left;
+  padding: 2rem;
+}
+
+.zig-text-card h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #4facfe;
+  /* Replaced variable */
+  line-height: 1.2;
+}
+
+.zig-accent-line {
+  width: 50px;
+  height: 4px;
+  background-color: #ed8936;
+  /* Replaced variable */
+  margin-bottom: 1rem;
+}
+
+.zig-text-card p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #e0e0e0;
+  /* Light text */
+}
+
+/* Image Card */
+.zig-image-card {
+  flex: 1 1 300px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+/* Polygon Logic */
+.zig-polygon-img {
+  width: 100%;
+  max-width: 650px;
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  /* Rounded corners for image */
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.3s ease;
+  filter: brightness(0.9);
+}
+
+/* Hover Effects */
+.zig-content-section:hover .zig-polygon-img {
+  transform: scale(1.05);
+  /* Slight zoom */
+  filter: brightness(1.1);
+  /* Brighten on hover */
+}
+
+.zig-content-section:hover .zig-text-card h2 {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(79, 172, 254, 0.6);
+  transform: translateX(5px);
+}
+
+.zig-content-section:hover .zig-accent-line {
+  width: 80px;
+  /* Expand line */
+  background-color: #4facfe;
+}
+
+.zig-text-card h2,
+.zig-accent-line {
+  transition: all 0.3s ease;
+}
+
+/* Cleaned up duplicate lines */
+/* .zig-polygon-img.left-arrow was here, but we are using rounded styles now */
+
+.zig-home-container * {
+  box-sizing: border-box;
+}
+
+/* --- Why Choose Us (Infinite Scroll) --- */
+.features-section {
+  text-align: center;
+  padding: clamp(2rem, 5vw, 4rem) 0;
+  background-color: transparent !important;
+  /* Removed white bg */
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.features-section .section-heading {
+  font-size: clamp(1.8rem, 5vw, 2rem);
+  margin-bottom: 1rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+}
+
+/* Scroll Wrapper */
+.scroll-wrapper {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  position: relative;
+  /* Mask edge fading */
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.scroll-track {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  animation: scrollRight 25s linear infinite;
+}
+
+.scroll-track.reverse-track {
+  animation: scrollLeft 25s linear infinite;
+}
+
+.scroll-track:hover {
+  animation-play-state: paused;
+}
+
+/* Feature Card adapted for Dark Mode */
+.feature-card-scroll {
+  background: rgba(25, 25, 25, 0.95);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.feature-card-scroll:hover {
+  transform: translateY(-8px) scale(1.04);
+  border-color: #00c6ff;
+  box-shadow: 0 0 20px rgba(0, 198, 255, 0.3);
+}
+
+.feature-icon {
+  height: 60px;
+  width: 60px;
+  margin: 0 auto 0.8rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: transform 0.4s ease;
+}
+
+.feature-card-scroll:hover .feature-icon {
+  transform: rotateY(360deg) scale(1.05);
+}
+
+.feature-card-scroll h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400..700&display=swap');
+
+.feature-card-scroll p {
+  font-family: "El Messiri", sans-serif;
+  font-size: 0.95rem;
+  color: #bbb;
+  line-height: 1.6;
+}
+
+/* Animations */
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scrollRight {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* --- Premium Courses (Clean Dark Theme) --- */
+.cards-container-section {
+  padding: clamp(3rem, 5vw, 5rem) 1rem;
+  background: transparent !important;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cards-container-section .section-heading {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  margin-bottom: 3rem;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.course-card {
+  background: rgba(30, 30, 30, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+.course-card:hover {
+  transform: translateY(-5px);
+  border-color: #4facfe;
+  box-shadow: 0 0 25px rgba(79, 172, 254, 0.3);
+}
+
+/* Hover shine effect */
+.course-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.course-card:hover::after {
+  transform: translateX(100%);
+}
+
+.course-card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #4facfe;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.course-card:hover .course-card-icon {
+  transform: scale(1.1) rotate(5deg);
+  color: #00f2fe;
+}
+
+.course-card h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.course-card p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #aaa;
+  line-height: 1.5;
+}
+
+/* --- Responsive Tweaks --- */
+@media (max-width: 1200px) {
+  .cards-container {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .course-card {
+    padding: 2rem;
+  }
+}
+
+/* --- Testimonials --- */
+.testimonials-section {
+  text-align: center;
+  padding: 1rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+.testimonials-section .section-heading {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #4facfe;
+}
+
+.testimonials-container {
+  position: relative;
+  height: 120px;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .testimonials-container {
+    height: 300px;
+  }
+}
+
+.testimonial-card {
+  position: absolute;
+  width: 100%;
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  /* background: rgba(255, 255, 255, 0.05); */
+  /* Subtle bubble */
+}
+
+.quote {
+  font-size: 1.2rem;
+  color: #e0e0e0;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.author {
+  font-weight: 700;
+  color: #ed8936;
+}
+
+.author span {
+  font-weight: 500;
+  color: #aaa;
+}
+
+/* --- Career Acceleration --- */
+.career-support-section {
+  background-color: transparent !important;
+  /* background-image: url('../assets/img10.jpg'); */
+  background-position: center;
+  padding-top: 3rem;
+  position: relative;
+  z-index: 1;
+  /* Ensure content sits above fixed stars */
+}
+
+.career-support-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1550px;
+  margin: 0 auto;
+  gap: 1rem;
+}
+
+.career-support-content {
+  flex: 1;
+  max-width: 550px;
+}
+
+.career-support-content .section-heading {
+  text-align: left;
+  margin-bottom: 2.5rem;
+  color: #fff;
+}
+
+.timeline-container {
+  position: relative;
+  padding-left: 90px;
+}
+
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  left: 65px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.timeline-icon-container {
+  position: absolute;
+  left: -21px;
+  top: 5px;
+}
+
+.timeline-icon {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #4facfe;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  background: #000;
+}
+
+.timeline-item:hover .timeline-icon {
+  background-color: #4facfe;
+  color: #fff;
+  transform: scale(1.2);
+  box-shadow: 0 0 15px #4facfe;
+}
+
+.timeline-text {
+  padding-left: 40px;
+}
+
+.timeline-text h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #8faaff;
+}
+
+.timeline-text p {
+  font-family: "Sriracha", cursive;
+  color: #ccc;
+  line-height: 2;
+}
+
+.contact-advisor-btn {
+  background: transparent;
+  color: #ff5f6d;
+  border: 2px solid #ff5f6d;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 50px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  margin-left: 65px;
+  transition: all 0.3s ease-in-out;
+}
+
+.contact-advisor-btn:hover {
+  background: #ff5f6d;
+  color: #fff;
+  box-shadow: 0 0 15px #ff5f6d;
+}
+
+.career-support-image {
+  flex: 2;
+  max-width: 550px;
+  text-align: center;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.career-support-image.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.career-support-image img {
+  max-width: 100%;
+  border-radius: 15px;
+  display: block;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Responsive Tweaks for Career section --- */
+@media (max-width: 1024px) {
+  .career-support-container {
+    flex-wrap: wrap;
+    padding: 2rem 1rem;
+  }
+
+  .career-support-content,
+  .career-support-image {
+    flex: 1 1 48%;
+    max-width: 48%;
+  }
+}
+
+@media (max-width: 768px) {
+  .career-support-container {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem 1rem;
+  }
+
+  .career-support-content,
+  .career-support-image {
+    max-width: 100%;
+  }
+
+  .timeline-container {
+    padding-left: 40px;
+  }
+
+  .timeline-container::before {
+    left: 20px;
+  }
+
+  .timeline-icon-container {
+    left: -35px;
+  }
+
+  .contact-advisor-btn {
+    margin: 20px auto;
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .features-container,
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-container {
+    padding-left: 25px;
+  }
+
+  .timeline-container::before {
+    left: 12px;
+  }
+
+  .timeline-icon-container {
+    left: -45px;
+  }
+
+  .timeline-icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .timeline-text h3 {
+    font-size: 1rem;
+  }
+
+  .timeline-text p {
+    font-size: 0.85rem;
+  }
+
+  .contact-advisor-btn {
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto;
+    font-size: 0.9rem;
+    padding: 0.7rem 1.5rem;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
+
+  .hero-cta-btn {
+    width: 80%;
+    max-width: 280px;
+  }
+}

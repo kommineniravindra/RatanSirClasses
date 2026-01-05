@@ -30,6 +30,21 @@
 
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
+         <!-- Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-2E02KBT7SP"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-2E02KBT7SP", {
+        page_path: window.location.pathname,
+      });
+    </script>
 
     <!-- <title>CodePulse-R</title> -->
     <title>CodePulse-R | Learn Java, SQL, React & Full Stack Development</title>

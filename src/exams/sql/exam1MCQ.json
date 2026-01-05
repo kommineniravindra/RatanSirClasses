@@ -185,7 +185,7 @@
     "options": [
       "ASC",
       "DESC",
-      "DESC",
+      "ORDER BY",
       "HIGH"
     ],
     "answer": "DESC"

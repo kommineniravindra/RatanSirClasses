@@ -1,5 +1,5 @@
 [
-  {
+{
     "question": "What is the range of heading tags in HTML?",
     "options": [
       "<h1> to <h5>",
@@ -20,16 +20,6 @@
     "answer": "Ignored and collapsed into a single space"
   },
   {
-    "question": "Which of the following are Unpaired tags?",
-    "options": [
-      "<hr>",
-      "<br>",
-      "<img>",
-      "All of the above"
-    ],
-    "answer": "All of the above"
-  },
-  {
     "question": "In HTML, text inside the <pre> tag:",
     "options": [
       "Collapses multiple spaces into one",
@@ -40,56 +30,175 @@
     "answer": "Preserves all spaces and line breaks exactly as typed"
   },
   {
-    "question": "Which of the following are inline HTML elements?",
+    "question": "Which of the following is Unpaired tags?",
     "options": [
       "<b>",
-      "<q>",
-      "<small>",
-      "<span>",
-      "All of the above"
+      "<br>",
+      "<p>",
+      "<h1>"
     ],
-    "answer": "All of the above"
+    "answer": "<br>"
   },
   {
-    "question": "Which statement is true about <span>?",
+    "question": "Which of the following is Paired tags?",
     "options": [
-      "It displays text exactly as typed and preserves all spaces and line breaks",
-      "It represents a portion of text inside a paragraph.",
-      "It automatically creates a new paragraph",
-      "It is a block-level element that starts on a new line"
+      "<img>",
+      "<br>",
+      "<hr>",
+      "<h1>"
     ],
-    "answer": "It represents a portion of text inside a paragraph."
+    "answer": "<h1>"
+  },
+  {
+    "question": "Which of the fallowing is correct for inline html element?",
+    "options": [
+      "<b>",
+      "<h1>",
+      "<p>",
+      "<pre>"
+    ],
+    "answer": "<b>"
   },
   {
     "question": "Which of the following are block-level HTML elements?",
     "options": [
-      "<p>",
-      "<pre>",
-      "<h1>",
-      "All of the above"
+      "<b>",
+      "<mark>",
+      "<h6>",
+      "<i>"
     ],
-    "answer": "All of the above"
+    "answer": "<h6>"
   },
   {
-    "question": "Which of the following are paired tags?",
+    "question": "Which statement is true about <span>?",
     "options": [
-      "<sup>",
-      "<i>",
-      "<mark>",
-      "All of the above"
+      "It displays text exactly as typed.",
+      "represent portion of text inside a paragraph.",
+      "It automatically creates a new paragraph",
+      "It is a block-level element that starts on a new line"
     ],
-    "answer": "All of the above"
+    "answer": "represent portion of text inside a paragraph."
   },
   {
     "question": "Every HTML element contains which of the following?",
     "options": [
-      "Start / Opening Tag – marks the beginning of an element",
-      "End / Closing Tag – marks the end of an element",
-      "Content – the text or data contained within the element",
-      "Attribute – provides extra information to the element",
-      "Value – the value assigned to the attribute",
+      "Opening  & Closing Tag",
+      "Content of the Tag",
+      "Attribute of the tag.",
+      "The value assigned to the attribute",
       "All of the above"
     ],
     "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following statements is correct about HTML attributes?",
+    "options": [
+      "Attributes are written inside the closing tag",
+      "Attributes are always written in upper case only",
+      "Attributes provide additional information about an element",
+      "Attributes are mandatory to html elements."
+    ],
+    "answer": "Attributes provide additional information about an element"
+  },
+  {
+    "question": "Which tag is used to display strikethrough text?",
+    "options": [
+      "<del>",
+      "<s>",
+      "<strike>",
+      "<u>"
+    ],
+    "answer": "<del>"
+  },
+  {
+    "question": "How can the formula of water be written in HTML?",
+    "options": [
+      "H<sub>2</sub>O",
+      "H<sup>2</sup>O",
+      "H2O",
+      "H<mark>2</mark>O"
+    ],
+    "answer": "H<sub>2</sub>O"
+  },
+  {
+    "question": "How can “square of 5” be written in HTML?",
+    "options": [
+      "5<sup>2</sup>",
+      "5<sub>2</sub>",
+      "<b>5^2</b>",
+      "5<mark>2</mark>"
+    ],
+    "answer": "5<sup>2</sup>"
+  },
+  {
+    "question": "Which tag is used to display the largest heading in HTML?",
+    "options": [
+      "<h1>",
+      "<h6>",
+      "<h3>",
+      "<b>"
+    ],
+    "answer": "<h1>"
+  },
+  {
+    "question": "Which of the following is the correct HTML syntax to define an abbreviation “W3C” with full form “World Wide Web Consortium”?",
+    "options": [
+      "<abbr title=\"World Wide Web Consortium\">W3C</abbr>",
+      "<abbr>W3C</abbr>",
+      "<acronym title=\"World Wide Web Consortium\">W3C</acronym>",
+      "<abbr title=\"W3C\">World Wide Web Consortium</abbr>",
+      "<acronym title=\"W3C\">World Wide Web Consortium</acronym>"
+    ],
+    "answer": "<abbr title=\"World Wide Web Consortium\">W3C</abbr>"
+  },
+  {
+    "question": "Which of the following is the correct syntax to create scrolling text “Hello World” in HTML?",
+    "options": [
+      "<marquee>Hello World</marquee>",
+      "<scroll>Hello World</scroll>",
+      "<scrolltext>Hello World</scrolltext>",
+      "<move>Hello World</move>"
+    ],
+    "answer": "<marquee>Hello World</marquee>"
+  },
+  {
+    "question": "Which of the following is the correct syntax to print the data reverse form?",
+    "options": [
+      "<bdo dir=\"rtl\">Hello World</bdo>",
+      "<bdo direction=\"rtl\">Hello World</bdo>",
+      "<bdo dir=\"ltr\">Hello World</bdo>",
+      "<bdo textdir=\"rtl\">Hello World</bdo>"
+    ],
+    "answer": "<bdo dir=\"rtl\">Hello World</bdo>"
+  },
+  {
+    "question": "Which tag is used to make text italic?",
+    "options": [
+      "<i>",
+      "<b>",
+      "<u>",
+      "<mar"
+    ],
+    "answer": "<i>"
+  },
+  {
+    "question": "Which tag is used to highlight text using like a marker?",
+    "options": [
+      "<mark>",
+      "<b>",
+      "<i>",
+      "<u>"
+    ],
+    "answer": "<mark>"
+  },
+  {
+    "question": "Which of the following correctly represents text as bold with semantic meaning in HTML?",
+    "options": [
+      "<p>Please read the <b>terms and conditions</b> carefully.</p>",
+      "<p>Please read the <strong>terms and conditions</strong> carefully.</p>",
+      "<p>Please read the <u>terms and conditions</u> carefully.</p>",
+      "<p>Please read the <mark>terms and conditions</mark> carefully.</p>"
+    ],
+    "answer": "<p>Please read the <strong>terms and conditions</strong> carefully.</p>"
   }
 ]

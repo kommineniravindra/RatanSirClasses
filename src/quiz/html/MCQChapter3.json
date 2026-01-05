@@ -1,95 +1,202 @@
 [
   {
-    "question": "What is the range of heading tags in HTML?",
+    "question": "What is the main purpose of lists in HTML?",
     "options": [
-      "<h1> to <h5>",
-      "<h1> to <h4>",
-      "<h1> to <h6>",
-      "<h1> to <h3>"
+      "To organize content in a structured way",
+      "To change font size",
+      "To add colors",
+      "To create hyperlinks"
     ],
-    "answer": "<h1> to <h6>"
+    "answer": "To organize content in a structured way"
   },
   {
-    "question": "In HTML, data inside a <p> tag are:",
+    "question": "How can an ordered list be displayed in reverse order?",
     "options": [
-      "Preserved exactly as typed",
-      "Ignored and collapsed into a single space",
-      "Converted into tabs",
-      "Converted into underscores"
+      "<ol reversed>",
+      "<ol reverse>",
+      "<ol type=\"R\">",
+      "<ol start=\"0\">"
     ],
-    "answer": "Ignored and collapsed into a single space"
+    "answer": "<ol reversed>"
   },
   {
-    "question": "Which of the following are Unpaired tags?",
+    "question": "Which attribute is used to start an ordered list from a specific number?",
     "options": [
-      "<hr>",
-      "<br>",
-      "<img>",
-      "All of the above"
+      "type",
+      "start",
+      "value",
+      "count"
     ],
-    "answer": "All of the above"
+    "answer": "start"
   },
   {
-    "question": "In HTML, text inside the <pre> tag:",
+    "question": "Which attribute is used to make a custom sequence like alphabet or Roman number format in an ordered list?",
     "options": [
-      "Collapses multiple spaces into one",
-      "Preserves all spaces and line breaks exactly as typed",
-      "Converts all text to uppercase",
-      "Ignores spaces and line breaks"
+      "type",
+      "start",
+      "value",
+      "count"
     ],
-    "answer": "Preserves all spaces and line breaks exactly as typed"
+    "answer": "type"
   },
   {
-    "question": "Which of the following are inline HTML elements?",
+    "question": "Which of the following is used to create a main category with subcategories in HTML?",
     "options": [
-      "<b>",
-      "<q>",
-      "<small>",
-      "<span>",
-      "All of the above"
+      "<ul> only",
+      "<ol> only",
+      "Nested list",
+      "<dl> only"
     ],
-    "answer": "All of the above"
+    "answer": "Nested list"
   },
   {
-    "question": "Which statement is true about <span>?",
+    "question": "Which of the following is used to create ordered list in HTML?",
     "options": [
-      "It displays text exactly as typed and preserves all spaces and line breaks",
-      "It represents a portion of text inside a paragraph.",
-      "It automatically creates a new paragraph",
-      "It is a block-level element that starts on a new line"
+      "<ol>",
+      "<ul>",
+      "<li>",
+      "<dl>"
     ],
-    "answer": "It represents a portion of text inside a paragraph."
+    "answer": "<ol>"
   },
   {
-    "question": "Which of the following are block-level HTML elements?",
+    "question": "Which of the following is used to create Unordered list in HTML?",
     "options": [
-      "<p>",
-      "<pre>",
-      "<h1>",
-      "All of the above"
+      "<ol>",
+      "<ul>",
+      "<li>",
+      "<dl>"
     ],
-    "answer": "All of the above"
+    "answer": "<ul>"
   },
   {
-    "question": "Which of the following are paired tags?",
+    "question": "Which of the following is used to create a definition list in HTML?",
     "options": [
-      "<sup>",
-      "<i>",
-      "<mark>",
-      "All of the above"
+      "<dl>",
+      "<ul>",
+      "<ol>",
+      "<li>"
     ],
-    "answer": "All of the above"
+    "answer": "<dl>"
   },
   {
-    "question": "Every HTML element contains which of the following?",
+    "question": "Which tag is used to define each item inside a list?",
     "options": [
-      "Start / Opening Tag – marks the beginning of an element",
-      "End / Closing Tag – marks the end of an element",
-      "Content – the text or data contained within the element",
-      "Attribute – provides extra information to the element",
-      "Value – the value assigned to the attribute",
-      "All of the above"
+      "<li>",
+      "<ol>",
+      "<ul>",
+      "<dl>"
     ],
-    "answer": "All of the above"
+    "answer": "<li>"
+  },
+  {
+    "question": "Which tag is not used in definition list?",
+    "options": [
+      "<dt>",
+      "<dd>",
+      "<li>",
+      "<dl>"
+    ],
+    "answer": "<li>"
+  },
+  {
+    "question": "Which of the following correctly creates a nested list in HTML?",
+    "options": [
+      "<ul><li>Fruits</li><ul><li>Apple</li></ul></ul>",
+      "<ul><ul>Fruits<li>Apple</li></ul></ul>",
+      "<ol>Fruits<ul>Apple</ul></ol>",
+      "<dl><dt>Fruits</dt><ul>Apple</ul></dl>"
+    ],
+    "answer": "<ul><li>Fruits</li><ul><li>Apple</li></ul></ul>"
+  },
+  {
+    "question": "Which of the following is the correct syntax for an HTML comment?",
+    "options": [
+      "<!-- This is a comment -->",
+      "/* This is a comment */",
+      "// This is a comment",
+      "** This is a comment **"
+    ],
+    "answer": "<!-- This is a comment -->"
+  },
+  {
+    "question": "Which of the following statements about HTML comments is true?",
+    "options": [
+      "Comments are visible on the webpage",
+      "Comments help developers explain code",
+      "Comments are executed by the browser",
+      "Comments replace the <p> tag"
+    ],
+    "answer": "Comments help developers explain code"
+  },
+  {
+    "question": "Are HTML tags case sensitive?",
+    "options": [
+      "Yes, <HTML> and <html> are different tags",
+      "No, HTML tags are not case sensitive",
+      "Only Some tags as case sensitive",
+      "All of the Above."
+    ],
+    "answer": "No, HTML tags are not case sensitive"
+  },
+  {
+    "question": "What is a nested tag in HTML?",
+    "options": [
+      "A tag that is written inside another tag",
+      "A tag that is self-closing",
+      "A tag that cannot contain text",
+      "A tag that starts with </>"
+    ],
+    "answer": "A tag that is written inside another tag"
+  },
+  {
+    "question": "What is the main purpose of HTML entities?",
+    "options": [
+      "To display special characters.",
+      "To make text bold",
+      "To create links",
+      "To add comments"
+    ],
+    "answer": "To display special characters."
+  },
+  {
+    "question": "Which of the following is the correct syntax for an HTML entity?",
+    "options": [
+      "&entity_name;",
+      "&entity_name",
+      "<entity_name>",
+      "#entity_name;"
+    ],
+    "answer": "&entity_name;"
+  },
+  {
+    "question": "Which of the following is a numeric HTML entity?",
+    "options": [
+      "&70;",
+      "&#60;",
+      "&#x30C;",
+      "&#copy;"
+    ],
+    "answer": "&#60;"
+  },
+  {
+    "question": "Which of the following is a hexadecimal HTML entity?",
+    "options": [
+      "&70;",
+      "&#60;",
+      "&#x30C;",
+      "&#copy;"
+    ],
+    "answer": "&#x30C;"
+  },
+  {
+    "question": "How many main types of HTML entities are there?",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "answer": "2"
   }
 ]

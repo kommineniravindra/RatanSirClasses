@@ -1,5 +1,5 @@
 .paths-root {
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     color: #ffffff;
     padding: 20px 0;
 }
@@ -36,7 +36,7 @@
     margin-top: 0.5px;
     font-weight: 700;
     letter-spacing: 2px;
-    color: #000000;
+    color: #ffffff;
     margin-bottom: 0.5rem;
 }
 
@@ -47,9 +47,9 @@
     height: 140px;
     display: flex;
     cursor: pointer;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.66);
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.392);
 }
 
 .path-card:hover {

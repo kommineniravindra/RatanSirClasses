@@ -1,20 +1,50 @@
 [
   {
+    "question": "Which language is commonly used for back-end development?",
+    "options": [
+      ".Net",
+      "Java",
+      "Python",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which languages are commonly used for front-end development?",
+    "options": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following is NOT a correct statement?",
+    "options": [
+      "HTML is used to create web pages",
+      "CSS is used to make styles",
+      "JavaScript is used to write the logic",
+      "Java, .NET, Python are used for front-end development"
+    ],
+    "answer": "Java, .NET, Python are used for front-end development"
+  },
+  {
     "question": "What does HTML stand for?",
     "options": [
-      "Hyperlinks and Text Markup Language",
       "Home Tool Markup Language",
       "Hyperlinking Text Management Language",
-      "HyperText Markup Language"
+      "HyperText Markup Language",
+      "Hyperlinks and Text Markup Language"
     ],
     "answer": "HyperText Markup Language"
   },
   {
     "question": "What is a markup language?",
     "options": [
-      "A programming language to perform calculations",
-      "A language that uses tags to define the structure of content",
       "A database language",
+      "A language that uses tags to define the structure of content",
+      "A programming language to perform calculations",
       "A styling language for web pages"
     ],
     "answer": "A language that uses tags to define the structure of content"
@@ -22,29 +52,50 @@
   {
     "question": "What does the term “HyperText” in HTML mean?",
     "options": [
-      "Text with images",
-      "Text with styles",
+      "Text with audio",
       "Text with clickable links",
-      "Text with audio"
+      "Text with styles",
+      "Text with images"
     ],
     "answer": "Text with clickable links"
   },
   {
-    "question": "Which of the following browsers execute HTML code?",
+    "question": "What does metadata refer to in HTML?",
     "options": [
-      "Google Chrome",
-      "Mozilla Firefox",
-      "Safari",
+      "CSS file linking",
+      "JavaScript file linking",
+      "Font & icons information",
       "All of the above"
     ],
     "answer": "All of the above"
   },
   {
+    "question": "What is the present version of HTML?",
+    "options": [
+      "HTML-3",
+      "HTML-2",
+      "HTML-4",
+      "HTML-5"
+    ],
+    "answer": "HTML-5"
+  },
+  {
+    "question": "Who created HTML?",
+    "options": [
+      "Dennis Ritchie",
+      "Charles Babbage",
+      "James Gosling",
+      "Tim Berners-Lee"
+    ],
+    "answer": "Tim Berners-Lee"
+  },
+  {
     "question": "Which of the following can a web page contain?",
     "options": [
-      "Forms like login.html and register.html",
       "Images and hyperlinks",
       "Headings and paragraphs",
+      "Forms like login and register",
+      "Audio and video files",
       "All of the above"
     ],
     "answer": "All of the above"
@@ -53,88 +104,38 @@
     "question": "Who maintains HTML standards?",
     "options": [
       "ISO (International Organization for Standardization)",
-      "W3C (World Wide Web Consortium)",
-      "IEEE",
-      "ECMA"
+      "ECMA (European Computer Manufacturers Association)",
+      "IEEE (Institute of Electrical and Electronics Engineers)",
+      "W3C (World Wide Web Consortium)"
     ],
     "answer": "W3C (World Wide Web Consortium)"
   },
   {
-    "question": "What is the present version of HTML?",
+    "question": "Which of the following execute HTML code?",
     "options": [
-      "HTML-2",
-      "HTML-3",
-      "HTML-4",
-      "HTML-5"
+      "Browsers",
+      "Compilers",
+      "JVM",
+      "Runtime Environment"
     ],
-    "answer": "HTML-5"
+    "answer": "Browsers"
   },
   {
-    "question": "Which section of the HTML document contains the visible content?",
+    "question": "What is the tag symbol used in HTML?",
     "options": [
-      "<head>",
-      "<body>",
-      "<html>",
-      "<!DOCTYPE>"
+      "Opening: < >  Closing: </>",
+      "Opening: ( )  Closing: {}",
+      "Closing: < >  Opening: </>",
+      "Closing: ()   Opening: (/)"
     ],
-    "answer": "<body>"
-  },
-  {
-    "question": "HTML is mainly used for developing?",
-    "options": [
-      "Database",
-      "Frontend (User Interface)",
-      "Backend (Business Logic)",
-      "Operating Systems"
-    ],
-    "answer": "Frontend (User Interface)"
-  },
-  {
-    "question": "Which language is used to create web pages?",
-    "options": [
-      "Java",
-      "C++",
-      "HTML",
-      "Python"
-    ],
-    "answer": "HTML"
-  },
-  {
-    "question": "Which tag defines the root element of an HTML document?",
-    "options": [
-      "<root>",
-      "<doc>",
-      "<html>",
-      "<head>"
-    ],
-    "answer": "<html>"
-  },
-  {
-    "question": "Who created HTML?",
-    "options": [
-      "James Gosling",
-      "Tim Berners-Lee",
-      "Dennis Ritchie",
-      "Bjarne Stroustrup"
-    ],
-    "answer": "Tim Berners-Lee"
-  },
-  {
-    "question": "Which language is commonly used for back-end development?",
-    "options": [
-      "Java",
-      ".Net",
-      "Python",
-      "All of the above"
-    ],
-    "answer": "All of the above"
+    "answer": "Opening: < >  Closing: </>"
   },
   {
     "question": "Which of the following are examples of HTML Editors?",
     "options": [
       "Notepad",
-      "Notepad++",
       "Editplus",
+      "Notepad++",
       "SublimeText",
       "All of the above"
     ],
@@ -144,10 +145,60 @@
     "question": "Which of the following are examples of IDEs used for web development?",
     "options": [
       "WebStorm",
-      "Visual Studio Code",
       "Dreamweaver",
+      "Visual Studio Code",
       "All of the above"
     ],
     "answer": "All of the above"
+  },
+  {
+    "question": "Which section of the HTML document contains the visible content?",
+    "options": [
+      "<html>",
+      "<body>",
+      "<head>",
+      "<!DOCTYPE>"
+    ],
+    "answer": "<body>"
+  },
+  {
+    "question": "Which section of the HTML document contains the meta data information?",
+    "options": [
+      "<html>",
+      "<body>",
+      "<head>",
+      "<!DOCTYPE>"
+    ],
+    "answer": "<head>"
+  },
+  {
+    "question": "Which tag defines the HTML version of the document?",
+    "options": [
+      "<html>",
+      "<head>",
+      "<body>",
+      "<!DOCTYPE>"
+    ],
+    "answer": "<!DOCTYPE>"
+  },
+  {
+    "question": "What is the root element of the document?",
+    "options": [
+      "<html>",
+      "<head>",
+      "<body>",
+      "<!DOCTYPE>"
+    ],
+    "answer": "<html>"
+  },
+  {
+    "question": "What is the tag used for title of web page?",
+    "options": [
+      "<h1>",
+      "<head>",
+      "<title>",
+      "<caption>"
+    ],
+    "answer": "<title>"
   }
 ]

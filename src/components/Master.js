@@ -14,6 +14,7 @@ import TermsOfService from "./TermsOfService";
 import Sitemap from "./Sitemap";
 import Footer from "../Home/Footer";
 import NavBar from "./NavBar";
+import DoraemonLoader from "./DoraemonLoader";
 import SEO from "./SEO";
 import { javaMenuData } from "../technologies/java/menuOptions";
 import { pythonMenuData } from "../technologies/python/menuOptions";
@@ -158,12 +159,12 @@ const Master = () => {
     sessionStorage.setItem("selectedItem", selectedItem);
   }, [selectedPage, selectedTechnology, selectedItem]);
 
-  // UseEffect to hide intro after 3 seconds
+  // UseEffect to hide intro after 3.5 seconds
   useEffect(() => {
     if (showIntro) {
       const timer = setTimeout(() => {
         setShowIntro(false);
-      }, 2500);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [showIntro]);
@@ -256,24 +257,12 @@ const Master = () => {
     setSelectedItem(itemName);
   };
 
-  // 4. RENDER VIDEO OVERLAY
+  // 4. RENDER LOADER OVERLAY
   if (showIntro) {
     return (
       <div className="intro-overlay">
-        <video
-          autoPlay
-          muted
-          className="intro-video"
-          onEnded={handleVideoComplete}
-        >
-          {/* UPDATED: Directly referencing the file in public folder */}
-          <source src="/v5.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-
-        <button className="skip-btn" onClick={handleVideoComplete}>
-          Skip Intro
-        </button>
+        <DoraemonLoader />
+        <h1 className="loading-text1">CodePulse-R</h1>
       </div>
     );
   }

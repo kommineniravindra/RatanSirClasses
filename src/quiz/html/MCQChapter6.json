@@ -1,0 +1,202 @@
+[
+    {
+        "question": "Which HTML tag is used to play audio files?",
+        "options": [
+            "<sound>",
+            "<music>",
+            "<audio>",
+            "<mp3>"
+        ],
+        "answer": "<audio>"
+    },
+    {
+        "question": "Which attribute of the <audio> tag specifies the location of the audio file?",
+        "options": [
+            "href",
+            "src",
+            "link",
+            "path"
+        ],
+        "answer": "src"
+    },
+    {
+        "question": "Which attribute is mandatory to show audio controls to the user?",
+        "options": [
+            "play",
+            "controls",
+            "control",
+            "loop"
+        ],
+        "answer": "controls"
+    },
+    {
+        "question": "Which attribute of the <audio> tag repeats the audio automatically?",
+        "options": [
+            "repeat",
+            "autoplay",
+            "loop",
+            "replay"
+        ],
+        "answer": "loop"
+    },
+    {
+        "question": "Which tag is used to embed video in HTML?",
+        "options": [
+            "<media>",
+            "<movie>",
+            "<video>",
+            "<embed>"
+        ],
+        "answer": "<video>"
+    },
+    {
+        "question": "Which tag is commonly used to embed YouTube videos?",
+        "options": [
+            "<video>",
+            "<iframe>",
+            "<object>",
+            "<embed>"
+        ],
+        "answer": "<iframe>"
+    },
+    {
+        "question": "Which tag is commonly used to embed Google Maps in a web page?",
+        "options": [
+            "<video>",
+            "<object>",
+            "<iframe>",
+            "<embed>"
+        ],
+        "answer": "<iframe>"
+    },
+    {
+        "question": "How can multiple websites be opened in a single frame on a web page?",
+        "options": [
+            "Make the anchor <a> tag target attribute equal to the frame name",
+            "Set the frame src attribute with the website name",
+            "Use multiple <iframe> tags",
+            "Use <div> tag"
+        ],
+        "answer": "Make the anchor <a> tag target attribute equal to the frame name"
+    },
+    {
+        "question": "Which HTML code is used to create a social media or web icon using Font Awesome?",
+        "options": [
+            "<icon class=\"fa fa-home\"></icon>",
+            "<i class=\"fa-solid fa-house\"></i>",
+            "<img src=\"fa-house.png\">",
+            "<span icon=\"fa-house\"></span>"
+        ],
+        "answer": "<i class=\"fa-solid fa-house\"></i>"
+    },
+    {
+        "question": "What is the full form of CDN?",
+        "options": [
+            "Content Data Network",
+            "Central Delivery Network",
+            "Content Delivery Network",
+            "Code Distribution Network"
+        ],
+        "answer": "Content Delivery Network"
+    },
+    {
+        "question": "Where should the CDN link (CSS/Font Awesome) be placed in an HTML document?",
+        "options": [
+            "Inside <body>",
+            "Inside <footer>",
+            "Inside <head>",
+            "Inside <title>"
+        ],
+        "answer": "Inside <head>"
+    },
+    {
+        "question": "The <div> tag is used for:",
+        "options": [
+            "Inline content",
+            "Grouping multiple elements",
+            "Creating forms",
+            "Playing media"
+        ],
+        "answer": "Grouping multiple elements"
+    },
+    {
+        "question": "The <div> tag is a:",
+        "options": [
+            "Inline element",
+            "Block-level element",
+            "Media element",
+            "Table element"
+        ],
+        "answer": "Block-level element"
+    },
+    {
+        "question": "What does DOM stand for?",
+        "options": [
+            "Data Object Model",
+            "Document Object Model",
+            "Digital Object Model",
+            "Dynamic Object Model"
+        ],
+        "answer": "Document Object Model"
+    },
+    {
+        "question": "Which object represents the entire HTML document in DOM?",
+        "options": [
+            "window",
+            "screen",
+            "document",
+            "html"
+        ],
+        "answer": "document"
+    },
+    {
+        "question": "DOM is created by the:",
+        "options": [
+            "Server",
+            "Browser",
+            "Database",
+            "Compiler"
+        ],
+        "answer": "Browser"
+    },
+    {
+        "question": "DOM is best described as:",
+        "options": [
+            "HTML Elements as a tree of objects",
+            "used to interact with css JS",
+            "Executes html programs",
+            "Designs web pages"
+        ],
+        "answer": "HTML Elements as a tree of objects"
+    },
+    {
+        "question": "How can a Font Awesome icon be made a hyperlink?",
+        "options": [
+            "<a href=\"home.html\"><li class=\"fa-solid fa-house\"></li></a>",
+            "<a href=\"index.html\"><i class=\"fa-solid fa-user\"></i></a>",
+            "<i class=\"fa-solid fa-user\" href=\"index.html\"></i>",
+            "<icon class=\"fa-user\" href=\"index.html\"></icon>"
+        ],
+        "answer": "<a href=\"index.html\"><i class=\"fa-solid fa-user\"></i></a>"
+    },
+    {
+        "question": "Which attribute is used to display audio controls?",
+        "options": [
+            "<audio src=\"song.mp3\" control></audio>",
+            "<audio src=\"song.mp3\" controls></audio>",
+            "<audio src=\"song.mp3\" show></audio>",
+            "<audio src=\"song.mp3\" visible></audio>"
+        ],
+        "answer": "<audio src=\"song.mp3\" controls></audio>"
+    },
+    {
+        "question": "Which attributes are used to set video size?",
+        "options": [
+            "<video src=\"movie.mp4\" width=\"600\" height=\"400\"></video>",
+            "<video src=\"movie.mp4\" size=\"600x400\"></video>",
+            "<video src=\"movie.mp4\" scale=\"600x400\"></video>",
+            "<video src=\"movie.mp4\" length=\"600\" height=\"400\"></video>"
+        ],
+        "answer": "<video src=\"movie.mp4\" width=\"600\" height=\"400\"></video>"
+    }
+]

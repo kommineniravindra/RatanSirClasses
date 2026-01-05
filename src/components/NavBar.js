@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import "../css/Navbar1.css";
-import "../css/Navbar1.css";
+import "../cssdark/Navbar1.css";
 import navbarItems from "../variables/NavbarItems";
 import {
   FaAngleDown,
