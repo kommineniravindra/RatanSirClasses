@@ -1,10 +1,13 @@
 /* Navbar5.css - Fully Responsive Premium Glass with Raleway */
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap');
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap */
 
 :root {
     /* --nav-bg: rgba(225, 245, 254, 0.35); */
-    --nav-bg: #e6e9f07e;
-    --nav-text: #1e293b;
+    /* --nav-bg: #ffffff7e; */
+    --nav-bg: #000000;
+    --nav-text: #ffffff;
+
+    /* --nav-text: #1e293b; */
     --nav-hover-bg: #ffffff;
     --nav-hover-text: #0284c7;
 }
@@ -39,12 +42,12 @@
     padding: 0;
 }
 
-/* @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@1,700&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Tangerine&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Wallpoet&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@1,700&display=swap */
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap */
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Tangerine&display=swap */
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Wallpoet&display=swap */
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap */
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap */
 
 .nb-navbar-item {
     margin: 0;
@@ -273,7 +276,7 @@
 /* 1. Mobile Portrait (320px - 479px) */
 @media (max-width: 479px) {
     .nb-navbar {
-        height: 55px;
+        height: 45px;
         padding: 0 1rem;
         justify-content: space-between;
     }
@@ -285,10 +288,10 @@
 
     .nb-navbar-links {
         position: fixed;
-        top: 55px;
+        top: 45px;
         left: 0;
         width: 85%;
-        height: calc(100vh - 55px);
+        height: calc(100vh - 45px);
         background: #ffffff;
         flex-direction: column;
         align-items: flex-start;
@@ -332,7 +335,7 @@
 /* 2. Mobile Landscape (480px - 767px) */
 @media (min-width: 480px) and (max-width: 767px) {
     .nb-navbar {
-        height: 60px;
+        height: 45px;
         padding: 0 1.5rem;
         justify-content: space-between;
     }
@@ -343,10 +346,10 @@
 
     .nb-navbar-links {
         position: fixed;
-        top: 60px;
+        top: 45px;
         left: 0;
         width: 300px;
-        height: calc(100vh - 60px);
+        height: calc(100vh - 45px);
         background: #ffffff;
         flex-direction: column;
         align-items: flex-start;
@@ -388,7 +391,7 @@
     .nb-navbar {
         justify-content: space-between;
         padding: 0 2rem;
-        height: 65px;
+        height: 50px;
     }
 
     .nb-menu-toggle {
@@ -398,10 +401,10 @@
 
     .nb-navbar-links {
         position: fixed;
-        top: 65px;
+        top: 50px;
         left: 0;
         width: 320px;
-        height: calc(100vh - 65px);
+        height: calc(100vh - 50px);
         background: #ffffff;
         flex-direction: column;
         align-items: flex-start;
@@ -445,7 +448,7 @@
     }
 
     .nb-navbar {
-        height: 60px;
+        height: 50px;
         padding: 0 2%;
         justify-content: space-between;
     }
@@ -469,7 +472,7 @@
     }
 
     .nb-navbar {
-        height: 65px;
+        height: 55px;
         padding: 0 5%;
         justify-content: space-between;
         /* Adjusted to spread out */
