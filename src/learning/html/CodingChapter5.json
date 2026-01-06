@@ -1,46 +1,34 @@
 [
   {
-    "question": "Create a simple HTML page with title 'Welcome', heading 'Welcome to Ratan sir classes', and a paragraph 'This is my first HTML document by Your Name.'",
-    "sampleInput": "Title          => Welcome\nHeading  => Welcome to Ratan sir classes\nPara         => This is my first HTML document by Your Name.",
-    "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Welcome</title>\n</head>\n<body>\n    <h1>Welcome to Ratan sir classes</h1>\n    <p>This is my first HTML document by Your Name.</p>\n</body>\n</html>",
-    "sampleOutput": "Welcome\nWelcome to Ratan sir classes\nThis is my first HTML document by Your Name.",
+    "question": "<b>Scenario:</b>\nYou are designing a login page for a website.\n<b>Create a webpage that displays:</b>\n<b>Title:</b> Login Page\n<b>Heading:</b> Login Page\n<b>Form Elements:</b>\n- Username: [Input Box]\n- Password: [Password Box]\n- Login Button\n<b>Requirements:</b>\n- Use <b>form</b> tag.\n- Use <b>input type=\"text\"</b> for Username details.\n- Use <b>input type=\"password\"</b> for Password.\n- Use <b>input type=\"submit\"</b> or <b>button</b> for Login.",
+    "sampleInput": "<b>Title =></b> Login Page\n<b>Heading =></b> Login Page\n<b>Form:</b>\n- Username: Enter User Name\n- Password: Enter User Password\n- Button: Login",
+    "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Login Page</title>\n</head>\n<body>\n    <h1>Login Page</h1>\n    <form>\n        Username: <input type=\"text\" placeholder=\"Enter User Name\"><br><br>\n        Password: <input type=\"password\" placeholder=\"Enter User Password\"><br><br>\n        <input type=\"submit\" value=\"Login\">\n    </form>\n</body>\n</html>",
+    "sampleOutput": "<h1>Login Page</h1><form>Username: <input type='text' placeholder='Enter User Name'><br><br>Password: <input type='password' placeholder='Enter User Password'><br><br><input type='submit' value='Login'></form>",
     "maxMarks": 10,
-     "description": "Description of the task to be performed."
+    "description": "Create a simple login form with text and password inputs."
   },
-
   {
-    "question": "Create an HTML document with a heading 'About Me' and two paragraphs describing yourself.",
-    "sampleInput": "Heading-> About Me\nPara1-> I am learning HTML.\nPara2-> I love coding.",
-    "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>About Me</title>\n</head>\n<body>\n    <h1>About Me</h1>\n    <p>I am learning HTML.</p>\n    <p>I love coding.</p>\n</body>\n</html>",
-    "sampleOutput": "About Me\nI am learning HTML.\nI love coding.",
+    "question": "<b>Scenario:</b>\nYou are designing a comprehensive Registration Form for a student portal.\n<b>Create a webpage that displays:</b>\n<b>Title:</b> Registration Form\n<b>Heading:</b> Student Registration\n<b>Form Fields:</b>\n- <b>Personal Information:</b> Username, Password, Email, Mobile\n- <b>Gender:</b> Male, Female (Radio)\n- <b>DOB:</b> Date Picker\n- <b>Astrology:</b> Lucky Time, Choose Color, Select Range\n- <b>Personal Interests:</b> Hobbies (Sleeping, Chatting, Eating, Roaming, Playing)\n- <b>Country:</b> Dropdown\n- <b>Course Selection:</b> Core java, Adv java, Spring (Checkboxes)\n- <b>Document Upload:</b> Resume, Photo\n- <b>Comments:</b> Textarea\n- <b>Buttons:</b> Register, Reset",
+    "sampleInput": "<b>Title =></b> Registration Form\n<b>Heading =></b> Student Registration\n<b>Fields:</b>\n- User, Pass, Email, Mobile\n- Gender: Male/Female\n- DOB, Time, Color, Range\n- Hobbies: Sleeping, Chatting...\n- Country: Select\n- Courses: Java, Spring...\n- Upload: Resume, Photo\n- Comments: Text area\n- Buttons: Register, Reset",
+    "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Registration Form</title>\n</head>\n<body>\n    <h1>Student Registration</h1>\n    <form>\n        <fieldset>\n            <legend>Personal Information</legend>\n            Username: <input type=\"text\"><br><br>\n            Password: <input type=\"password\"><br><br>\n            Email: <input type=\"email\"><br><br>\n            Mobile: <input type=\"number\"><br><br>\n\n            Gender: \n            <input type=\"radio\" name=\"gender\" value=\"male\"> Male\n            <input type=\"radio\" name=\"gender\" value=\"female\"> Female<br><br>\n\n            DOB: <input type=\"date\"><br><br>\n        </fieldset>\n\n        <fieldset>\n            <legend>Astrology</legend>\n            Lucky Time: <input type=\"time\"><br><br>\n            Choose Color: <input type=\"color\"><br><br>\n            Select Range: <input type=\"range\"><br><br>\n        </fieldset>\n\n        <fieldset>\n            <legend>Personal Interests</legend>\n            Your Hobbies: <br>\n            <input type=\"checkbox\"> Sleeping\n            <input type=\"checkbox\"> Chatting\n            <input type=\"checkbox\"> Eating\n            <input type=\"checkbox\"> Roaming\n            <input type=\"checkbox\"> Playing<br><br>\n\n            Country: \n            <select>\n                <option>Select</option>\n                <option>India</option>\n                <option>USA</option>\n            </select><br><br>\n\n            Course Selection: <br>\n            <input type=\"checkbox\"> Core java\n            <input type=\"checkbox\"> Adv java\n            <input type=\"checkbox\"> Spring<br><br>\n        </fieldset>\n\n        <fieldset>\n            <legend>Document Upload</legend>\n            Upload Resume: <input type=\"file\"><br><br>\n            Upload Photo: <input type=\"file\"><br><br>\n        </fieldset>\n\n        <fieldset>\n            <legend>Your Comments</legend>\n            Comments About Ratan sir: <br>\n            <textarea rows=\"4\" cols=\"30\"></textarea><br><br>\n        </fieldset>\n\n        <input type=\"submit\" value=\"Register\">\n        <input type=\"reset\" value=\"Reset\">\n    </form>\n</body>\n</html>",
+    "sampleOutput": "<h1>Student Registration</h1><form><fieldset><legend>Personal Information</legend>Username: <input type='text'><br>Password: <input type='password'><br>Email: <input type='email'><br>Mobile: <input type='number'><br>Gender: <input type='radio'> Male <input type='radio'> Female<br>DOB: <input type='date'><br></fieldset><fieldset><legend>Astrology</legend>Lucky Time: <input type='time'><br>Color: <input type='color'><br>Range: <input type='range'><br></fieldset><fieldset><legend>Personal Interests</legend>Hobbies: <input type='checkbox'> Sleeping...<br>Country: <select><option>Select</option></select><br>Courses: <input type='checkbox'> Core java...<br></fieldset><fieldset><legend>Document Upload</legend>Resume: <input type='file'><br>Photo: <input type='file'><br></fieldset><fieldset><legend>Your Comments</legend><textarea></textarea><br></fieldset><input type='submit' value='Register'> <input type='reset' value='Reset'></form>",
     "maxMarks": 10,
-     "description": "Description of the task to be performed."
+    "description": "Create a complex registration form with multiple input types."
   },
-
   {
-    "question": "Create an HTML page with title 'My Hobbies' and an unordered list containing three hobbies.",
-    "sampleInput": "Title-> My Hobbies\nHobby1-> Reading\nHobby2-> Coding\nHobby3-> Playing Cricket",
-    "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>My Hobbies</title>\n</head>\n<body>\n    <h1>My Hobbies</h1>\n    <ul>\n        <li>Reading</li>\n        <li>Coding</li>\n        <li>Playing Cricket</li>\n    </ul>\n</body>\n</html>",
-    "sampleOutput": "My Hobbies\n• Reading\n• Coding\n• Playing Cricket",
+    "question": "<b>Scenario:</b>\nYou are designing a shipping address form for an e-commerce website.\n<b>Create a webpage that displays:</b>\n<b>Title:</b> Address Form\n<b>Heading:</b> Fill the Address Details\n<b>Form Fields:</b>\n- Address Line 1, Address Line 2\n- City, State/Province/Region\n- Postal/Zip Code\n- Country (Dropdown)\n<b>Requirements:</b>\n- Use <b>form</b> tag.\n- Use <b>input type=\"text\"</b> for address lines, city, and state.\n- Use <b>input type=\"number\"</b> for Zip Code.\n- Use <b>select</b> tag for Country.",
+    "sampleInput": "<b>Title =></b> Address Form\n<b>Heading =></b> Fill the Address Details\n<b>Fields:</b>\n- Address Line 1: [Input]\n- Address Line 2: [Input]\n- City: [Input]\n- State: [Input]\n- Zip Code: [Input]\n- Country: [Select]",
+    "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Address Form</title>\n</head>\n<body>\n    <h1>Fill the Address Details</h1>\n    <form>\n        Address Line 1: <input type=\"text\"><br><br>\n        Address Line 2: <input type=\"text\"><br><br>\n        City: <input type=\"text\"><br><br>\n        State/Province/Region: <input type=\"text\"><br><br>\n        Postal/Zip Code: <input type=\"number\"><br><br>\n        Country: \n        <select>\n            <option value=\"\">Select Country</option>\n            <option value=\"India\">India</option>\n            <option value=\"USA\">USA</option>\n            <option value=\"UK\">UK</option>\n            <option value=\"Australia\">Australia</option>\n        </select><br><br>\n        <input type=\"submit\" value=\"Submit\">\n    </form>\n</body>\n</html>",
+    "sampleOutput": "<h1>Fill the Address Details</h1><form>Address Line 1: <input type='text'><br><br>Address Line 2: <input type='text'><br><br>City: <input type='text'><br><br>State/Province/Region: <input type='text'><br><br>Postal/Zip Code: <input type='number'><br><br>Country: <select><option value=''>Select Country</option></select><br><br><input type='submit' value='Submit'></form>",
     "maxMarks": 10,
-      "description": "Description of the task to be performed."
+    "description": "Create an address form with inputs and select dropdown."
   },
-
   {
-    "question": "Create an HTML page with a title 'Contact Info' and a table showing Name and Phone number.",
-    "sampleInput": "Title-> Contact Info\nName-> Ratan\nPhone-> 98XXXXXX10",
-    "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Contact Info</title>\n</head>\n<body>\n    <h1>Contact Info</h1>\n    <table border='1'>\n        <tr>\n            <th>Name</th>\n            <th>Phone</th>\n        </tr>\n        <tr>\n            <td>Ratan</td>\n            <td>98XXXXXX10</td>\n        </tr>\n    </table>\n</body>\n</html>",
-    "sampleOutput": "Contact Info\nName | Phone\nRatan | 98XXXXXX10",
+    "question": "<b>Scenario:</b>\nYou are designing a form for booking doctor appointments that requires precise scheduling.\n<b>Create a webpage that displays:</b>\n<b>Title:</b> Doctor Appointment Form\n<b>Heading:</b> Doctor Appointment Form\n<b>Form Fields:</b>\n- Doctor Appointment Date and Time\n- Month of Birth\n- Week of Birth\n- Time of Birth\n<b>Requirements:</b>\n- Use <b>form</b> tag.\n- Use <b>input type=\"datetime-local\"</b> for Appointment Date and Time.\n- Use <b>input type=\"month\"</b> for Month of Birth.\n- Use <b>input type=\"week\"</b> for Week of Birth.\n- Use <b>input type=\"time\"</b> for Time of Birth.\n- Button with value 'Book Appointment'.",
+    "sampleInput": "<b>Title =></b> Doctor Appointment Form\n<b>Heading =></b> Doctor Appointment Form\n<b>Fields:</b>\n- Appointment: [DateTime Local]\n- Month of Birth: [Month]\n- Week of Birth: [Week]\n- Time of Birth: [Time]\n- Button: [Book Appointment]",
+    "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Doctor Appointment Form</title>\n</head>\n<body>\n    <h1>Doctor Appointment Form</h1>\n    <form>\n        Doctor Appointment Date and Time: <input type=\"datetime-local\"><br><br>\n        Month of Birth: <input type=\"month\"><br><br>\n        Week of Birth: <input type=\"week\"><br><br>\n        Time of Birth: <input type=\"time\"><br><br>\n        <input type=\"submit\" value=\"Book Appointment\">\n    </form>\n</body>\n</html>",
+    "sampleOutput": "<h1>Doctor Appointment Form</h1><form>Doctor Appointment Date and Time: <input type='datetime-local'><br><br>Month of Birth: <input type='month'><br><br>Week of Birth: <input type='week'><br><br>Time of Birth: <input type='time'><br><br><input type='submit' value='Book Appointment'></form>",
     "maxMarks": 10,
-    "description": "Description of the task to be performed."
-  },
-
-  {
-    "question": "Create an HTML page with title 'My Image' and display an image from source 'mypic.jpg' with width 200px.",
-    "sampleInput": "Title-> My Image\nImage-> mypic.jpg\nWidth-> 200px",
-    "answer": "<!DOCTYPE html>\n<html>\n<head>\n    <title>My Image</title>\n</head>\n<body>\n    <h1>My Image</h1>\n    <img src='mypic.jpg' width='200px' />\n</body>\n</html>",
-    "sampleOutput": "My Image\n[Image displayed with width 200px]",
-    "maxMarks": 10,
-    "description": "create image tag with given source and width."
+    "description": "Create a form using datetime-local, month, week, and time inputs."
   }
 ]

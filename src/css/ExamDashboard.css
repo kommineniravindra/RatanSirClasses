@@ -1,9 +1,9 @@
 /* --- 1. DESIGN SYSTEM & FONT --- */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap */
 @import "@fontsource/ibm-plex-sans/index.css";
-@import url('https://fonts.cdnfonts.com/css/avenir-next');
-@import url('https://fonts.cdnfonts.com/css/gt-walsheim');
-@import url('https://fonts.cdnfonts.com/css/ff-din');
+/* Removed blocking import: https://fonts.cdnfonts.com/css/avenir-next */
+/* Removed blocking import: https://fonts.cdnfonts.com/css/gt-walsheim */
+/* Removed blocking import: https://fonts.cdnfonts.com/css/ff-din */
 
 :root {
   --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -602,7 +602,7 @@
   box-shadow: 0 2px 6px rgba(63, 58, 102, 0.08);
 } */
 
-@import url('https://fonts.googleapis.com/css2?family=Iceland&display=swap');
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Iceland&display=swap */
 
 .ed-quiz-title {
   font-family: "Iceland", sans-serif;
@@ -779,7 +779,7 @@
 
 
 /* Import Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap");
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap */
 
 /* --- HISTORY HEADER --- */
 .history-header h2 {
@@ -992,15 +992,17 @@
   animation: fadeInModal 0.3s forwards;
 }
 
-.modal-content {
+.modal-content1 {
   background: white;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 12px;
-  max-width: 500px;
+  max-width: 800px;
   width: 90%;
   outline: none;
   position: relative;
   animation: popIn 0.3s forwards;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .modal-header {
@@ -1008,8 +1010,8 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .modal-header h3 {
@@ -1366,4 +1368,114 @@
     /* Ensures minimum width is large enough on very small screens to prevent crowding */
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   }
+}
+
+/* --- QUIZ MODAL --- */
+
+
+
+.quiz-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.quiz-card-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  transition: all 0.2s ease;
+}
+
+.quiz-card-item:hover {
+  border-color: var(--accent-primary);
+  box-shadow: var(--shadow-sm);
+  transform: translateX(2px);
+  background-color: #f8fafc;
+}
+
+.quiz-info {
+  display: flex;
+  flex-direction: row;
+  /* Horizontal layout */
+  align-items: center;
+  gap: 1px;
+  /* Space between Quiz # and Topic */
+  font-family: 'Inter', sans-serif;
+}
+
+.quiz-list-icon {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+}
+
+.quiz-number {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  min-width: 80px;
+  /* Align topics neatly */
+}
+
+.quiz-topic {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.quiz-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.quiz-score {
+  font-weight: bold;
+  color: var(--success-color);
+  font-size: 1.2rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-style: italic;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.quiz-action-btn {
+  padding: 8px 20px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+  min-width: 120px;
+  /* Uniform button width */
+  text-align: center;
+}
+
+.quiz-action-btn.start {
+  background-color: var(--accent-primary);
+  color: white;
+}
+
+.quiz-action-btn.start:hover {
+  background-color: #2563eb;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+}
+
+.quiz-action-btn.retake {
+  background-color: white;
+  border: 1px solid var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+.quiz-action-btn.retake:hover {
+  background-color: var(--accent-primary-light);
 }

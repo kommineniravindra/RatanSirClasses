@@ -42,6 +42,7 @@ import javaTopics from "../learning/java/javaTopics";
 import pythonTopics from "../learning/python/pythonTopics";
 import sqlTopics from "../learning/sql/sqlTopics";
 import javaSnippets from "../utils/javaSnippets";
+import { htmlSnippets } from "../utils/htmlSnippets";
 import {
   sqlSnippets,
   runSqlCode,
@@ -119,17 +120,40 @@ export const validateHtmlStructure = (expectedHtml, userHtml) => {
     const tag = expEl.tagName.toLowerCase();
     const text = normalize(expEl.textContent);
 
-    // Find candidates
-    const candidates = Array.from(userDoc.body.getElementsByTagName(tag));
+    // 2. Normalization for Semantic Tags
+    const EQUIVALENTS = {
+      b: "strong",
+      strong: "b",
+      i: "em",
+      em: "i",
+    };
+
+    // Find candidates including equivalents (search entire doc)
+    const tagEquiv = EQUIVALENTS[tag];
+    let candidates = [...Array.from(userDoc.body.getElementsByTagName(tag))];
+    if (tagEquiv) {
+      candidates = [
+        ...candidates,
+        ...Array.from(userDoc.body.getElementsByTagName(tagEquiv)),
+      ];
+    }
 
     const match = candidates.find((cand) => {
       const candText = normalize(cand.textContent);
+      const isTagMatch =
+        cand.tagName.toLowerCase() === tag ||
+        cand.tagName.toLowerCase() === tagEquiv;
+
+      if (!isTagMatch) return false;
       if (text && !candText.includes(text)) return false;
-      if (
-        expEl.hasAttribute("type") &&
-        expEl.getAttribute("type") !== cand.getAttribute("type")
-      )
-        return false;
+
+      // Attribute checks with case-insensitivity for values
+      if (expEl.hasAttribute("type")) {
+        const expAttr = (expEl.getAttribute("type") || "").toLowerCase();
+        const candAttr = (cand.getAttribute("type") || "").toLowerCase();
+        if (expAttr !== candAttr) return false;
+      }
+
       if (
         expEl.hasAttribute("src") &&
         !cand.getAttribute("src")?.includes(expEl.getAttribute("src"))
@@ -140,6 +164,7 @@ export const validateHtmlStructure = (expectedHtml, userHtml) => {
         !cand.getAttribute("href")?.includes(expEl.getAttribute("href"))
       )
         return false;
+
       return true;
     });
 
@@ -177,11 +202,26 @@ export const evaluateOutputs = (
         score: maxMarks,
         reason: "Good match! (Minor differences ignored)",
       };
+
+    // Fallback: Check pure text content similarity if structure check was strict
+    // This catches cases where DOM parsing might be too rigid but content is correct.
+    const textScore = calculatePartialMarks(expected, actual, 100); // Get percentage
+    if (textScore >= 90) {
+      return {
+        score: maxMarks,
+        reason: "Content matches perfectly! (Structure accepted)",
+      };
+    }
+
     if (similarity >= 50)
       return {
         score: Math.round(maxMarks * 0.5),
         reason: "Partial structural match.",
       };
+    return {
+      score: Math.floor((similarity / 100) * maxMarks),
+      reason: `Structure mismatch (${similarity}% match). Check tags and attributes.`,
+    };
   }
 
   const normalizeRelaxed = (str) =>
@@ -344,6 +384,9 @@ const StartLearning1 = ({
   const [showGenerateDropdown, setShowGenerateDropdown] = useState(false);
   const generateDropdownRef = useRef(null);
   const editorRef = useRef(null);
+  /* Iframe Refs for Resizing */
+  const expectedOutputIframeRef = useRef(null);
+  const actualOutputIframeRef = useRef(null);
 
   // --- Dynamic Fixed Positioning State ---
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
@@ -516,26 +559,29 @@ const StartLearning1 = ({
     // 2. Define Custom Completer with Import Logic
     const customCompleter = {
       getCompletions: function (editor, session, pos, prefix, callback) {
-        // Only for Java or SQL
+        // Only for Java or SQL or HTML
         const mode = session.getMode().$id;
         let snippetsToUse = [];
 
-        if (mode && mode.endsWith("/java")) {
+        if (mode && (mode.endsWith("/java") || mode === "java")) {
           snippetsToUse = javaSnippets;
-        } else if (mode && mode.endsWith("/sql")) {
+        } else if (mode && (mode.endsWith("/sql") || mode === "sql")) {
           snippetsToUse = sqlSnippets;
+        } else if (mode && (mode.endsWith("/html") || mode === "html")) {
+          snippetsToUse = htmlSnippets;
         } else {
           callback(null, []);
           return;
         }
 
-        // --- Context Aware Logic for Dot (.) ---
+        // --- Context Aware Logic for Dot (.) and Bang (!) ---
         const line = session.getLine(pos.row);
         const lineUpToCursor = line.slice(0, pos.column);
         const isDotTrigger = lineUpToCursor.trimEnd().endsWith(".");
+        const isBangTrigger = lineUpToCursor.trim().endsWith("!");
 
-        // If trigger is dot, ignore prefix length check, OR if regular typing check prefix
-        if (!isDotTrigger && prefix.length === 0) {
+        // If trigger is dot or bang, ignore prefix length check, OR if regular typing check prefix
+        if (!isDotTrigger && !isBangTrigger && prefix.length === 0) {
           callback(null, []);
           return;
         }
@@ -547,6 +593,9 @@ const StartLearning1 = ({
           filteredSnippets = snippetsToUse.filter((s) =>
             s.snippet.startsWith(".")
           );
+        } else if (isBangTrigger) {
+          // If triggered by !, only show the ! snippet
+          filteredSnippets = snippetsToUse.filter((s) => s.caption === "!");
         }
 
         // Return our snippets with high score
@@ -629,6 +678,43 @@ const StartLearning1 = ({
     // or just prepend. Ace iterates and aggregates.
     editor.completers = [customCompleter, ...editor.completers];
   };
+
+  // Dynamic Iframe Resizer Helper
+  const performResize = (iframe) => {
+    if (!iframe) return;
+    try {
+      const innerDoc = iframe.contentDocument || iframe.contentWindow?.document;
+      if (innerDoc && innerDoc.body) {
+        // Reset height to allow shrinking
+        iframe.style.height = "100px";
+        const scrollHeight =
+          innerDoc.documentElement.scrollHeight || innerDoc.body.scrollHeight;
+        // Set new height based on content
+        iframe.style.height = `${scrollHeight + 30}px`;
+      }
+    } catch (err) {
+      console.error("Iframe resize error:", err);
+    }
+  };
+
+  const resizeIframe = (e) => {
+    if (e?.target) performResize(e.target);
+  };
+
+  // Effect to resize Expected Output when data changes
+  useEffect(() => {
+    if (expectedOutputIframeRef.current) {
+      // Small delay to allow render
+      setTimeout(() => performResize(expectedOutputIframeRef.current), 100);
+    }
+  }, [questionData, selectedExample]);
+
+  // Effect to resize Actual Output when output changes
+  useEffect(() => {
+    if (actualOutputIframeRef.current && showOutput) {
+      setTimeout(() => performResize(actualOutputIframeRef.current), 100);
+    }
+  }, [output, showOutput]);
 
   // Load counts and scores
   useEffect(() => {
@@ -1397,7 +1483,9 @@ const StartLearning1 = ({
               questionData.sampleInput.trim().includes("<") ? (
                 <div
                   className="sample-code-box"
-                  dangerouslySetInnerHTML={{ __html: questionData.sampleInput }}
+                  dangerouslySetInnerHTML={{
+                    __html: questionData.sampleInput.replace(/\n/g, "<br/>"),
+                  }}
                 />
               ) : (
                 <pre>{questionData.sampleInput || "N/A"}</pre>
@@ -1406,8 +1494,11 @@ const StartLearning1 = ({
               {["html", "css"].includes(langType) ? (
                 <div className="preview-box">
                   <iframe
+                    ref={expectedOutputIframeRef}
                     title="Exp"
                     className="preview-iframe"
+                    scrolling="no"
+                    onLoad={resizeIframe}
                     srcDoc={
                       langType === "css"
                         ? `<!DOCTYPE html><html><head><style>${questionData.sampleOutput}</style></head><body><h1>CSS Preview</h1><p>Expected CSS.</p></body></html>`
@@ -1717,9 +1808,12 @@ const StartLearning1 = ({
                   ) : /* Existing Output Logic */
                   isCodepad ? (
                     <iframe
+                      ref={actualOutputIframeRef}
                       title="Preview"
                       srcDoc={output}
                       className="output-preview-iframe"
+                      scrolling="no"
+                      onLoad={resizeIframe}
                     />
                   ) : Array.isArray(output) ? (
                     <div className="sql-result-container">

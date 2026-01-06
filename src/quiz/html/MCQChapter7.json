@@ -1,0 +1,202 @@
+[
+    {
+        "question": "What is the purpose of semantic elements in HTML?",
+        "options": [
+            "Elements that define the appearance of content",
+            "Elements that describe the meaning of content",
+            "Elements used only for styling",
+            "Elements that are deprecated"
+        ],
+        "answer": "Elements that describe the meaning of content"
+    },
+    {
+        "question": "Why are semantic elements important?",
+        "options": [
+            "They improve page loading speed",
+            "They help browsers and developers understand content structure",
+            "They replace CSS",
+            "They reduce JavaScript usage"
+        ],
+        "answer": "They help browsers and developers understand content structure"
+    },
+    {
+        "question": "What is the purpose of the <header> element?",
+        "options": [
+            "To define the bottom of a page",
+            "To contain metadata",
+            "To contain Company header content or navigation",
+            "To group form controls"
+        ],
+        "answer": "To contain Company header content or navigation"
+    },
+    {
+        "question": "What is the purpose of the <aside> element?",
+        "options": [
+            "To display the main content",
+            "To contain content indirectly related to the main content",
+            "To define navigation links",
+            "To group form controls"
+        ],
+        "answer": "To contain content indirectly related to the main content"
+    },
+    {
+        "question": "What is the purpose of the <main> element?",
+        "options": [
+            "To define navigation links",
+            "To contain the main content of the document",
+            "To display side content",
+            "To contain metadata"
+        ],
+        "answer": "To contain the main content of the document"
+    },
+    {
+        "question": "What is the purpose of the <section> element?",
+        "options": [
+            "To group related content with a common theme or purpose",
+            "To display footer content",
+            "To contain metadata",
+            "To define navigation links"
+        ],
+        "answer": "To group related content with a common theme or purpose"
+    },
+    {
+        "question": "What is the purpose of the <article> element?",
+        "options": [
+            "To display advertisements",
+            "To contain independent, self-contained content",
+            "To define navigation links",
+            "To group form elements"
+        ],
+        "answer": "To contain independent, self-contained content"
+    },
+    {
+        "question": "What is the purpose of the <details> element?",
+        "options": [
+            "To display hidden content that can be toggled",
+            "To define metadata",
+            "To group navigation links",
+            "To display main content"
+        ],
+        "answer": "To display hidden content that can be toggled"
+    },
+    {
+        "question": "What is the purpose of the <summary> element?",
+        "options": [
+            "To define footer content",
+            "To provide a visible heading for hidden content.",
+            "To group form controls",
+            "To define navigation links"
+        ],
+        "answer": "To provide a visible heading for hidden content."
+    },
+    {
+        "question": "Which of the following is not a semantic HTML element?",
+        "options": [
+            "<div>",
+            "<header>",
+            "<footer>",
+            "<aside>"
+        ],
+        "answer": "<div>"
+    },
+    {
+        "question": "Which element is used to define navigation links?",
+        "options": [
+            "<nav>",
+            "<menu>",
+            "<ul>",
+            "<links>"
+        ],
+        "answer": "<nav>"
+    },
+    {
+        "question": "Which element represents the footer of a document or section?",
+        "options": [
+            "<bottom>",
+            "<end>",
+            "<footer>",
+            "<section>"
+        ],
+        "answer": "<footer>"
+    },
+    {
+        "question": "What is the purpose of the <meter> element?",
+        "options": [
+            "To display task progress",
+            "To represent a scalar measurement within a known range",
+            "To show loading status",
+            "To display numerical input"
+        ],
+        "answer": "To represent a scalar measurement within a known range"
+    },
+    {
+        "question": "What is the purpose of the <progress> element?",
+        "options": [
+            "To represent a measurement within a fixed range",
+            "To display code snippets",
+            "To show the completion progress of a task",
+            "To group related images"
+        ],
+        "answer": "To show the completion progress of a task"
+    },
+    {
+        "question": "Which HTML tag is used to display computer code in a webpage?",
+        "options": [
+            "<progress>",
+            "<kbd>",
+            "<code>",
+            "<pre>"
+        ],
+        "answer": "<code>"
+    },
+    {
+        "question": "Which HTML tag is used to group self-contained content like images or diagrams?",
+        "options": [
+            "<section>",
+            "<article>",
+            "<figure>",
+            "<aside>"
+        ],
+        "answer": "<figure>"
+    },
+    {
+        "question": "Which HTML tag is used to provide a caption for the <figure> element?",
+        "options": [
+            "<caption>",
+            "<label>",
+            "<summary>",
+            "<figcaption>"
+        ],
+        "answer": "<figcaption>"
+    },
+    {
+        "question": "Which semantic element is used to provide contact information of the author?",
+        "options": [
+            "<footer>",
+            "<address>",
+            "<contact>",
+            "<info>"
+        ],
+        "answer": "<address>"
+    },
+    {
+        "question": "Which element is used to display the result of a calculation?",
+        "options": [
+            "<result>",
+            "<output>",
+            "<meter>",
+            "<progress>"
+        ],
+        "answer": "<output>"
+    },
+    {
+        "question": "Which HTML element is used to define important text semantically?",
+        "options": [
+            "<b>",
+            "<i>",
+            "<strong>",
+            "<span>"
+        ],
+        "answer": "<strong>"
+    }
+]

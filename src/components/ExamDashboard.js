@@ -32,6 +32,26 @@ import {
   FaCheckCircle,
 } from "react-icons/fa";
 
+import cssTopics from "../quiz/css/cssTopics";
+import htmlTopics from "../quiz/html/htmlTopics";
+import javaTopics from "../quiz/java/javaTopics";
+import javascriptTopics from "../quiz/javascript/javascriptTopics";
+import microservicesTopics from "../quiz/microservices/microservicesTopics";
+import pythonTopics from "../quiz/python/pythonTopics";
+import reactTopics from "../quiz/react/reactTopics";
+import restapiTopics from "../quiz/restapi/restapiTopics";
+import sqlTopics from "../quiz/sql/sqlTopics";
+
+import cssExamTopics from "../exams/css/cssTopics";
+import htmlExamTopics from "../exams/html/htmlTopics";
+import javaExamTopics from "../exams/java/javaTopics";
+import javascriptExamTopics from "../exams/javascript/javascriptTopics";
+import microservicesExamTopics from "../exams/microservices/microservicesTopics";
+import pythonExamTopics from "../exams/python/pythonTopics";
+import reactExamTopics from "../exams/react/reactTopics";
+import restapiExamTopics from "../exams/restapi/restapiTopics";
+import sqlExamTopics from "../exams/sql/sqlTopics";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -47,7 +67,7 @@ const Modal = ({ show, title, onClose, children }) => {
   if (!show) return null;
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-content1" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h3>{title}</h3>
           <button className="modal-close-btn" onClick={onClose}>
@@ -128,54 +148,72 @@ const technologies = [
     name: "HTML",
     icon: <FaHtml5 />,
     quizChapters: dynamicChapters["html"] || [],
+    topics: htmlTopics,
+    examTopics: htmlExamTopics,
   },
-  // {
-  //   key: "css",
-  //   name: "CSS",
-  //   icon: <FaCss3Alt />,
-  //   quizChapters: dynamicChapters["css"] || [],
-  // },
-  // {
-  //   key: "javascript",
-  //   name: "JavaScript",
-  //   icon: <FaJs />,
-  //   quizChapters: dynamicChapters["javascript"] || [],
-  // },
+  {
+    key: "css",
+    name: "CSS",
+    icon: <FaCss3Alt />,
+    quizChapters: dynamicChapters["css"] || [],
+    topics: cssTopics,
+    examTopics: cssExamTopics,
+  },
+  {
+    key: "javascript",
+    name: "JavaScript",
+    icon: <FaJs />,
+    quizChapters: dynamicChapters["javascript"] || [],
+    topics: javascriptTopics,
+    examTopics: javascriptExamTopics,
+  },
   {
     key: "react",
     name: "React",
     icon: <FaReact />,
     quizChapters: dynamicChapters["react"] || [],
+    topics: reactTopics,
+    examTopics: reactExamTopics,
   },
   {
     key: "java",
     name: "Java",
     icon: <FaJava />,
     quizChapters: dynamicChapters["java"] || [],
+    topics: javaTopics,
+    examTopics: javaExamTopics,
   },
-  // {
-  //   key: "python",
-  //   name: "Python",
-  //   icon: <FaPython />,
-  //   quizChapters: dynamicChapters["python"] || [],
-  // },
-  // {
-  //   key: "restapi",
-  //   name: "Spring Boot",
-  //   icon: <FaServer />,
-  //   quizChapters: dynamicChapters["restapi"] || [],
-  // },
-  // {
-  //   key: "microservices",
-  //   name: "Microservices",
-  //   icon: <FaServer />,
-  //   quizChapters: dynamicChapters["microservices"] || [],
-  // },
+  {
+    key: "python",
+    name: "Python",
+    icon: <FaPython />,
+    quizChapters: dynamicChapters["python"] || [],
+    topics: pythonTopics,
+    examTopics: pythonExamTopics,
+  },
+  {
+    key: "restapi",
+    name: "Spring Boot",
+    icon: <FaServer />,
+    quizChapters: dynamicChapters["restapi"] || [],
+    topics: restapiTopics,
+    examTopics: restapiExamTopics,
+  },
+  {
+    key: "microservices",
+    name: "Microservices",
+    icon: <FaServer />,
+    quizChapters: dynamicChapters["microservices"] || [],
+    topics: microservicesTopics,
+    examTopics: microservicesExamTopics,
+  },
   {
     key: "sql",
     name: "SQL",
     icon: <FaDatabase />,
     quizChapters: dynamicChapters["sql"] || [],
+    topics: sqlTopics,
+    examTopics: sqlExamTopics,
   },
 ];
 
@@ -286,139 +324,179 @@ const ExamDashboard = ({ onLogout }) => {
     fileInputRef.current.click();
   };
 
-  const startExamModal = (tech, examNumber) => {
-    setModalTitle(`Start ${tech.name} - Exam ${examNumber}?`);
-    setModalBody(
-      <div className="start-exam-body">
-        <h4>Instructions:</h4>
-        <ul>
-          <li>Timer starts immediately.</li>
-          <li>
-            Duration: <strong>30 minutes</strong>.
-          </li>
-          <li>Switching tabs will auto-submit the test.</li>
-        </ul>
-        <div className="button-group">
-          <button
-            className="confirm-btn"
-            onClick={() => {
-              navigate(`/exam/${tech.key}/exam${examNumber}`);
-              setModalOpen(false);
-            }}
-          >
-            Yes, start exam!
-          </button>
-          <button className="cancel-btn" onClick={() => setModalOpen(false)}>
-            Cancel
-          </button>
-        </div>
-      </div>
-    );
-    setModalOpen(true);
-  };
   const handleExamTechSelect = (tech) => {
     const techExamKeys = Object.keys(examAccessCodes).filter(
       (key) => key.split("-")[0] === tech.key
     );
 
+    const examButtons = techExamKeys.map((key, index) => {
+      const examNumber = index + 1;
+      const correctCode = examAccessCodes[key];
+
+      // Retrieve Topic Name
+      const topicName =
+        tech.examTopics && tech.examTopics[index]
+          ? tech.examTopics[index]
+          : `Exam ${examNumber}`;
+
+      // Check History
+      const examAttempt = examHistory.find(
+        (r) => r.examCode === key || r.examCode === correctCode
+      );
+      const isCompleted = !!examAttempt;
+
+      let scoreDisplay = null;
+      if (isCompleted) {
+        const obtained = examAttempt.grandTotal || 0;
+        const total = examAttempt.totalMarksPossible || 0;
+        scoreDisplay = (
+          <span className="quiz-score">
+            {obtained}/{total}
+          </span>
+        );
+      }
+
+      return (
+        <div key={key} className="quiz-card-item">
+          <div className="quiz-info">
+            <span className="quiz-list-icon">{tech.icon}</span>
+            <span className="quiz-number">Exam {examNumber}</span>
+            <span className="quiz-topic">{topicName}</span>
+          </div>
+          <div className="quiz-actions-right">
+            {scoreDisplay}
+            <button
+              className={`quiz-action-btn ${isCompleted ? "retake" : "start"}`}
+              onClick={() => {
+                setModalOpen(false);
+                setModalTitle(`Enter Access Code`);
+                setModalBody(
+                  <div className="enter-code-body">
+                    <p>
+                      For{" "}
+                      <strong>
+                        {tech.name} Exam {examNumber}
+                      </strong>
+                    </p>
+                    <input
+                      type="text"
+                      placeholder="Enter the exam code"
+                      onChange={(e) =>
+                        (enteredCodeRef.current = e.target.value)
+                      }
+                    />
+                    <div className="button-group">
+                      <button
+                        className="confirm-btn"
+                        onClick={() => {
+                          if (
+                            enteredCodeRef.current.trim().toUpperCase() ===
+                            correctCode
+                          ) {
+                            setModalOpen(false);
+                            window.open(
+                              `/exam/${tech.key}/exam${examNumber}`,
+                              "_blank"
+                            );
+                          } else {
+                            setModalTitle("Incorrect Code");
+                            setModalBody(
+                              <div className="feedback-message error">
+                                <p>The access code is invalid.</p>
+                              </div>
+                            );
+                            setModalOpen(true);
+                          }
+                        }}
+                      >
+                        Verify & Start
+                      </button>
+                      <button
+                        className="cancel-btn"
+                        onClick={() => setModalOpen(false)}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                );
+                setModalOpen(true);
+              }}
+            >
+              {isCompleted ? "Retake Exam" : "Start Exam"}
+            </button>
+          </div>
+        </div>
+      );
+    });
+
     setModalTitle(`Select an Exam for ${tech.name}`);
     setModalBody(
-      <div className="select-exam-body">
+      <div className="select-quiz-body">
         <p>Choose an exam to start.</p>
-        <div className="activity-buttons-container">
-          {techExamKeys.map((key, index) => {
-            const examNumber = index + 1;
-            const correctCode = examAccessCodes[key];
-            return (
-              <button
-                key={key}
-                className="exam-selection-btn"
-                onClick={() => {
-                  setModalOpen(false);
-                  setModalTitle(`Enter Access Code`);
-                  setModalBody(
-                    <div className="enter-code-body">
-                      <p>
-                        For{" "}
-                        <strong>
-                          {tech.name} Exam {examNumber}
-                        </strong>
-                      </p>
-                      <input
-                        type="text"
-                        placeholder="Enter the exam code"
-                        onChange={(e) =>
-                          (enteredCodeRef.current = e.target.value)
-                        }
-                      />
-                      <div className="button-group">
-                        <button
-                          className="confirm-btn"
-                          onClick={() => {
-                            if (
-                              enteredCodeRef.current.trim().toUpperCase() ===
-                              correctCode
-                            ) {
-                              setModalOpen(false);
-                              // startExamModal(tech, examNumber); // logic skipped
-                              window.open(
-                                `/exam/${tech.key}/exam${examNumber}`,
-                                "_blank"
-                              );
-                            } else {
-                              setModalTitle("Incorrect Code");
-                              setModalBody(
-                                <div className="feedback-message error">
-                                  <p>The access code is invalid.</p>
-                                </div>
-                              );
-                              setModalOpen(true);
-                            }
-                          }}
-                        >
-                          Verify & Start
-                        </button>
-                        <button
-                          className="cancel-btn"
-                          onClick={() => setModalOpen(false)}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  );
-                  setModalOpen(true);
-                }}
-              >
-                <FaFileAlt className="exam-icon" /> Exam {examNumber}
-              </button>
-            );
-          })}
-        </div>
+        <div className="quiz-list-container">{examButtons}</div>
       </div>
     );
     setModalOpen(true);
   };
 
   const handleQuizTechSelect = (tech) => {
-    const quizButtons = (tech.quizChapters || []).map((num) => (
-      <button
-        key={num}
-        className="quiz-selection-btn"
-        onClick={() => {
-          setModalOpen(false);
-          navigate(`/quiz/${tech.key}/${num}`);
-        }}
-      >
-        <i className="bx bx-edit"></i>
-        Quiz {num}
-      </button>
-    ));
+    const quizButtons = (tech.quizChapters || []).map((num) => {
+      const topicName =
+        tech.topics && tech.topics[num - 1]
+          ? tech.topics[num - 1]
+          : `Topic ${num}`;
+
+      // Check if this quiz is completed in history
+      const quizAttempt = quizHistory.find(
+        (q) =>
+          q.quizCode === `${tech.key}-quiz${num}` ||
+          q.quizCode === `${tech.key}-${num}`
+      );
+
+      const isCompleted = !!quizAttempt;
+      let scoreDisplay = null;
+
+      if (isCompleted) {
+        const obtained =
+          (quizAttempt.mcqMarks || 0) +
+          (quizAttempt.fillMarks || 0) +
+          (quizAttempt.codingMarks || 0);
+        const total = quizAttempt.totalMarksPossible || 0;
+        scoreDisplay = (
+          <span className="quiz-score">
+            {obtained}/{total}
+          </span>
+        );
+      }
+
+      return (
+        <div key={num} className="quiz-card-item">
+          <div className="quiz-info">
+            <span className="quiz-list-icon">{tech.icon}</span>
+            <span className="quiz-number">Quiz {num}</span>
+            <span className="quiz-topic">{topicName}</span>
+          </div>
+          <div className="quiz-actions-right">
+            {scoreDisplay}
+            <button
+              className={`quiz-action-btn ${isCompleted ? "retake" : "start"}`}
+              onClick={() => {
+                setModalOpen(false);
+                navigate(`/quiz/${tech.key}/${num}`);
+              }}
+            >
+              {isCompleted ? "Retake Quiz" : "Start Quiz"}
+            </button>
+          </div>
+        </div>
+      );
+    });
     setModalTitle(`Select a Quiz for ${tech.name}`);
     setModalBody(
       <div className="select-quiz-body">
         <p>Choose a quiz to start.</p>
-        <div className="activity-buttons-container">{quizButtons}</div>
+        <div className="quiz-list-container">{quizButtons}</div>
       </div>
     );
     setModalOpen(true);
@@ -706,7 +784,7 @@ const ExamDashboard = ({ onLogout }) => {
                         </p>
                         <p>
                           <FaCalendarAlt /> <strong>Completed:</strong>{" "}
-                          {new Date(result.createdAt).toLocaleDateString()}
+                          {new Date(result.updatedAt).toLocaleDateString()}
                         </p>
                       </div>
                     </div>
@@ -813,7 +891,7 @@ const ExamDashboard = ({ onLogout }) => {
                       </p>
                       <p>
                         <FaCalendarAlt /> <strong>Completed:</strong>{" "}
-                        {new Date(result.createdAt).toLocaleDateString()}
+                        {new Date(result.updatedAt).toLocaleDateString()}
                       </p>
                     </div>
                   </div>

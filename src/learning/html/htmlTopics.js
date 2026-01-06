@@ -1,17 +1,14 @@
-// Remove React and the function component wrapper.
-// Just export the array of strings.
-
 const htmlTopics = [
-  "Introduction to HTML",
-  "HTML Document Structure",
-  "Headings and Paragraphs",
+  "First HTML Program",
+  "Using Multiple HTML Headings",
+  "Ordered, Unordered, Definition Lists",
+  "Tables in HTML",
+  "Forms and Input Elements",
   "HTML Links (Anchor Tags)",
-  "Images, Audio, and Video",
-  "HTML Lists (Ordered, Unordered, Description)",
   "Tables in HTML",
   "Forms and Input Elements",
   "Semantic HTML Tags",
-  "HTML5 New Features and APIs"
+  "HTML5 New Features and APIs",
 ];
 
 export default htmlTopics;

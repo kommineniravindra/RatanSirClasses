@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import AceEditor from "react-ace";
 import ace from "ace-builds";
+// import axios from "axios";
 import {
   FaPlay,
   FaExpand,
@@ -14,6 +15,8 @@ import {
   FaMoon,
   FaSun,
   FaCog,
+  // FaBold,
+  // FaItalic,
   FaDownload,
   FaFileCode,
   FaEquals,
@@ -21,6 +24,7 @@ import {
 import "../css/Compiler.css";
 import BrowserPreview from "./BrowserPreview";
 import javaSnippets from "../utils/javaSnippets";
+import { htmlSnippets } from "../utils/htmlSnippets";
 import { executeSqlCommands, sqlSnippets } from "../utils/sqllogic";
 import { generateJavaCode } from "../utils/javaCodeGenerator";
 import { availableThemes } from "../utils/editorThemes";
@@ -48,7 +52,6 @@ ace.config.set(
   "https://cdn.jsdelivr.net/npm/ace-builds@1.35.0/src-noconflict/"
 );
 
-
 const Compiler = () => {
   /* =========================================
      1. STATE MANAGEMENT
@@ -72,7 +75,6 @@ const Compiler = () => {
   const [editorWidth, setEditorWidth] = useState(50);
   const [fontSize, setFontSize] = useState(16);
   const [editorTheme, setEditorTheme] = useState("monokai");
-  const [showGenerateDropdown, setShowGenerateDropdown] = useState(false);
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -393,26 +395,29 @@ const Compiler = () => {
     // Define Custom Completer with Import Logic
     const customCompleter = {
       getCompletions: function (editor, session, pos, prefix, callback) {
-        // Only for Java or SQL
+        // Only for Java or SQL or HTML
         const mode = session.getMode().$id;
         let snippetsToUse = [];
 
-        if (mode && mode.endsWith("/java")) {
+        if (mode && (mode.endsWith("/java") || mode === "java")) {
           snippetsToUse = javaSnippets;
-        } else if (mode && mode.endsWith("/sql")) {
+        } else if (mode && (mode.endsWith("/sql") || mode === "sql")) {
           snippetsToUse = sqlSnippets;
+        } else if (mode && (mode.endsWith("/html") || mode === "html")) {
+          snippetsToUse = htmlSnippets;
         } else {
           callback(null, []);
           return;
         }
 
-        // --- Context Aware Logic for Dot (.) ---
+        // --- Context Aware Logic for Dot (.) and Bang (!) ---
         const line = session.getLine(pos.row);
         const lineUpToCursor = line.slice(0, pos.column);
         const isDotTrigger = lineUpToCursor.trimEnd().endsWith(".");
+        const isBangTrigger = lineUpToCursor.trim().endsWith("!");
 
-        // If trigger is dot, ignore prefix length check, OR if regular typing check prefix
-        if (!isDotTrigger && prefix.length === 0) {
+        // If trigger is dot or bang, ignore prefix length check, OR if regular typing check prefix
+        if (!isDotTrigger && !isBangTrigger && prefix.length === 0) {
           callback(null, []);
           return;
         }
@@ -424,6 +429,9 @@ const Compiler = () => {
           filteredSnippets = snippetsToUse.filter((s) =>
             s.snippet.startsWith(".")
           );
+        } else if (isBangTrigger) {
+          // If triggered by !, only show the ! snippet
+          filteredSnippets = snippetsToUse.filter((s) => s.caption === "!");
         }
 
         // Return our snippets with high score
@@ -501,7 +509,7 @@ const Compiler = () => {
   };
 
   const generateCode = (type) => {
-    setShowGenerateDropdown(false);
+    // setShowGenerateDropdown(false); removed unused
 
     let cursorIndex = -1;
     if (editorRef.current) {
@@ -733,7 +741,7 @@ const Compiler = () => {
                 {isFullScreen ? <FaCompress /> : <FaExpand />}
               </button>
               <button
-                className="btn-compiler btn-run1"
+                className="btn-compiler btn-run"
                 onClick={handleRun}
                 disabled={isLoading}
               >
