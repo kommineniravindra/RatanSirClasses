@@ -463,7 +463,7 @@ const AccountDetails = ({ onLogin }) => {
   );
 
   return (
-    <div className="component-wrapper">
+    <main className="component-wrapper">
       {/* LEFT SIDE FLOATING ICONS */}
       <div className="float-left-side">
         <FaHtml5 className="ac-float-icon ac-f3" />
@@ -497,7 +497,7 @@ const AccountDetails = ({ onLogin }) => {
           renderLoginForm()
         )}
       </div>
-    </div>
+    </main>
   );
 };
 

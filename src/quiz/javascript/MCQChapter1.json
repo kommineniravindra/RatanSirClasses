@@ -1,52 +1,205 @@
 [
   {
-    "question": "Which keyword is used to declare a variable in JavaScript?",
-    "options": ["var", "let", "const", "All of the above"],
-    "answer": "All of the above"
+    "question": "What is the main purpose of JavaScript?",
+    "options": [
+      "To create web pages",
+      "To make web pages interactive and dynamic and Alive",
+      "To make webpages are stylish.",
+      "To create server applications"
+    ],
+    "answer": "To make web pages interactive and dynamic and Alive"
+  },
+  {
+    "question": "JavaScript converts a ______ website into a ______ website.",
+    "options": [
+      "Dynamic → Static",
+      "Static → Dynamic",
+      "Secure → Insecure",
+      "Server → Client"
+    ],
+    "answer": "Static → Dynamic"
+  },
+  {
+    "question": "Which of the following is NOT a real-time use case of JavaScript?",
+    "options": [
+      "Form validations",
+      "Popup alerts",
+      "Event handling",
+      "Database table creation",
+      "Get Realtime Updates"
+    ],
+    "answer": "Database table creation"
+  },
+  {
+    "question": "Form data can be submitted to:",
+    "options": [
+      "Only JavaScript",
+      "Only Server",
+      "JavaScript and Server",
+      "Browser only"
+    ],
+    "answer": "JavaScript and Server"
+  },
+  {
+    "question": "What is the full form of ECMA?",
+    "options": [
+      "European Computer Manufacturers Association",
+      "Electronic Computer Management Association",
+      "European Council Modern Applications",
+      "Enterprise Computing Manufacturers Alliance"
+    ],
+    "answer": "European Computer Manufacturers Association"
+  },
+  {
+    "question": "JavaScript validations come under:",
+    "options": [
+      "Server-side validation",
+      "Client-side validation",
+      "Database validation",
+      "Network validation"
+    ],
+    "answer": "Client-side validation"
+  },
+  {
+    "question": "Which organization originally developed JavaScript?",
+    "options": [
+      "W3C",
+      "ECMA",
+      "Netscape Communications",
+      "Microsoft"
+    ],
+    "answer": "Netscape Communications"
+  },
+  {
+    "question": "Where should internal JavaScript be written?",
+    "options": [
+      "Inside <body> without tag",
+      "Under the head section using script tag in HTML file",
+      "Under the section using head tag in HTML file",
+      "Inside <style> tag."
+    ],
+    "answer": "Under the head section using script tag in HTML file"
+  },
+  {
+    "question": "External JavaScript files are saved with which extension?",
+    "options": [
+      ".html",
+      ".css",
+      ".js",
+      ".java"
+    ],
+    "answer": ".js"
+  },
+  {
+    "question": "What is the role of <script src=\"myscript.js\"></script>?",
+    "options": [
+      "Creates internal script",
+      "Links external JavaScript file",
+      "Compiles JavaScript",
+      "Executes CSS"
+    ],
+    "answer": "Links external JavaScript file"
   },
   {
     "question": "Which of the following is NOT a JavaScript data type?",
-    "options": ["String", "Number", "Boolean", "Character"],
+    "options": [
+      "Number",
+      "String",
+      "Character",
+      "Boolean",
+      "Bigint"
+    ],
     "answer": "Character"
   },
   {
-    "question": "How do you write 'Hello World' in an alert box?",
-    "options": ["msg('Hello World')", "alert('Hello World')", "prompt('Hello World')", "alertBox('Hello World')"],
-    "answer": "alert('Hello World')"
+    "question": "What should a you focus on to get a job in Full Stack development easily?",
+    "options": [
+      "Frontend technologies like HTML, CSS, JS, ReactJS(React as main library)",
+      "Backend technologies like Java, .NET, Python(REST APIs as main focus)",
+      "Database technologies like Oracle, MySQL",
+      "Code should be on GitHub and at least one live project",
+      "All of the above"
+    ],
+    "answer": "All of the above"
   },
   {
-    "question": "Which symbol is used for single-line comments in JavaScript?",
-    "options": ["//", "/* */", "#", "<!-- -->"],
-    "answer": "//"
+    "question": "Which statement is TRUE about JavaScript variables?",
+    "options": [
+      "Data type must be declared",
+      "Data type is decided at runtime",
+      "Only numbers are allowed",
+      "Variables cannot change type"
+    ],
+    "answer": "Data type is decided at runtime"
   },
   {
-    "question": "Which operator is used to assign a value to a variable?",
-    "options": ["*", "=", "==", "==="],
-    "answer": "="
+    "question": "Which statement is TRUE about JavaScript variables? (Type II)",
+    "options": [
+      "Data type must be declared statically typed.",
+      "Data type is decided at runtime dynamically types.",
+      "Depends on requirement decide the data type declaration.",
+      "Variables cannot change type of the data."
+    ],
+    "answer": "Data type is decided at runtime dynamically types."
   },
   {
-    "question": "What is the correct way to check equality without type conversion in JavaScript?",
-    "options": ["=", "==", "===", "!="],
-    "answer": "==="
+    "question": "What is the purpose of the typeof operator?",
+    "options": [
+      "To convert data",
+      "To check value exists",
+      "To check data type",
+      "To compare values"
+    ],
+    "answer": "To check data type"
   },
   {
-    "question": "Which function is used to parse a string to integer in JavaScript?",
-    "options": ["parse()", "parseInt()", "int()", "toInt()"],
-    "answer": "parseInt()"
+    "question": "Analyze the code: let empId = 1001; console.log(typeof empId); What will be the output?",
+    "options": [
+      "string",
+      "number",
+      "bigint",
+      "int"
+    ],
+    "answer": "number"
   },
   {
-    "question": "Which company developed JavaScript?",
-    "options": ["Microsoft", "Netscape", "Google", "Oracle"],
-    "answer": "Netscape"
+    "question": "What is the purpose of a data type in programming?",
+    "options": [
+      "To store multiple values in one variable",
+      "To define the type of data a variable can hold.",
+      "To execute conditional statements",
+      "To display output on the screen"
+    ],
+    "answer": "To define the type of data a variable can hold."
   },
   {
-    "question": "How do you declare a constant in JavaScript?",
-    "options": ["var x;", "let x;", "const x;", "constant x;"],
-    "answer": "const x;"
+    "question": "What is validation in web development?",
+    "options": [
+      "Styling the web page using CSS",
+      "Checking and verifying user input before processing or storing it",
+      "Sending data to the server",
+      "Displaying output on the web page"
+    ],
+    "answer": "Checking and verifying user input before processing or storing it"
   },
   {
-    "question": "What is the output of: console.log(typeof null)?",
-    "options": ["null", "undefined", "object", "boolean"],
-    "answer": "object"
+    "question": "Who invented JavaScript?",
+    "options": [
+      "Tim Berners-Lee",
+      "Brendan Eich",
+      "Dennis Ritchie",
+      "James Gosling"
+    ],
+    "answer": "Brendan Eich"
+  },
+  {
+    "question": "What is the latest official standard version of JavaScript (ECMAScript) as of 2026?",
+    "options": [
+      "ES2024",
+      "ES2025",
+      "ES2026",
+      "ES6"
+    ],
+    "answer": "ES2026"
   }
 ]

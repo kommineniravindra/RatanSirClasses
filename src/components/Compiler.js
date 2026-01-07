@@ -528,7 +528,7 @@ const Compiler = () => {
   const isWebLanguage = language === "html" || language === "css";
 
   return (
-    <div className="compiler-container" ref={containerRef}>
+    <main className="compiler-container" ref={containerRef}>
       {/* =========================================
           5. MAIN RENDER
           ========================================= */}
@@ -909,7 +909,7 @@ const Compiler = () => {
         output={output}
         userName={localStorage.getItem("userName") || "Guest"}
       />
-    </div>
+    </main>
   );
 };
 

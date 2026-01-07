@@ -801,7 +801,7 @@ const OnlineCompiler = ({ initialLanguage }) => {
   const isWebLanguage = language === "html" || language === "css";
 
   return (
-    <div className="compiler-container" ref={containerRef}>
+    <main className="compiler-container" ref={containerRef}>
       <SEO
         title={`Online ${
           language
@@ -1364,7 +1364,7 @@ const OnlineCompiler = ({ initialLanguage }) => {
         output={output}
         userName={localStorage.getItem("userName") || "Guest"}
       />
-    </div>
+    </main>
   );
 };
 

@@ -95,34 +95,184 @@ const calculateAccuracyMarks = (
   // 1. Output Accuracy
   let outputScore = 0;
   if (expectedOutput && actualOutput) {
-    // Case 1: Direct "Loose" Match (Squash all whitespace)
-    const s1 = expectedOutput.trim().replace(/\s+/g, " ").toLowerCase();
-    const s2 = actualOutput.trim().replace(/\s+/g, " ").toLowerCase();
+    try {
+      // --- DOM-BASED NORMALIZATION ---
+      const getNormalizedBody = (html) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html || "", "text/html");
 
-    if (s1 === s2) {
-      // If output matches perfectly (ignoring case/space), FULL MARKS
-      return maxMarks;
-    }
+        const normalizeNode = (node) => {
+          // Bottom-up traversal
+          Array.from(node.childNodes).forEach(normalizeNode);
 
-    // Case 2: Line-Order Independent Match
-    // FIX: Split original strings by newline, THEN normalize each line.
-    // This prevents "squashing" newlines before splitting.
-    const getNormalizedLines = (text) =>
-      text
-        .trim()
-        .toLowerCase()
-        .split(/\r?\n/)
-        .map((l) => l.trim().replace(/\s+/g, " ")) // Normalize spaces within line
-        .filter((l) => l) // Remove empty lines
-        .sort();
+          if (node.nodeType === Node.TEXT_NODE) {
+            const text = node.textContent.replace(/\s+/g, " ").trim();
+            if (text) node.textContent = text;
+            else node.remove(); // Remove empty text nodes
+          } else if (node.nodeType === Node.COMMENT_NODE) {
+            node.remove();
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            let tagName = node.tagName.toLowerCase();
 
-    const lines1 = getNormalizedLines(expectedOutput);
-    const lines2 = getNormalizedLines(actualOutput);
+            // Remove purely visual/spacing tags to flatten structure (fixes <br> vs <div> layout diffs)
+            if (tagName === "br" || tagName === "hr") {
+              node.remove();
+              return;
+            }
 
-    if (JSON.stringify(lines1) === JSON.stringify(lines2)) {
-      return maxMarks;
-    } else {
-      // Levenshtein Distance (on squashed strings for simplicity/fallback)
+            // Unwrap cosmetic/layout containers to ignore layout implementation details
+            // Note: We keep <p> because some questions explicitly ask for paragraphs.
+            const containersToUnwrap = [
+              "div",
+              "span",
+              "center",
+              "section",
+              "article",
+              "main",
+              "header",
+              "footer",
+            ];
+            if (containersToUnwrap.includes(tagName)) {
+              while (node.firstChild) {
+                node.parentNode.insertBefore(node.firstChild, node);
+              }
+              node.remove();
+              return;
+            }
+
+            // Unwrap <label>: strict checks usually don't care about labels in this context
+            if (tagName === "label") {
+              while (node.firstChild) {
+                node.parentNode.insertBefore(node.firstChild, node);
+              }
+              node.remove();
+              return;
+            }
+
+            // Normalize <strong> -> <b>, <em> -> <i>
+            if (tagName === "strong" || tagName === "em") {
+              const newTag = document.createElement(
+                tagName === "strong" ? "b" : "i"
+              );
+              while (node.firstChild) newTag.appendChild(node.firstChild);
+              Array.from(node.attributes).forEach((a) =>
+                newTag.setAttribute(a.name, a.value)
+              );
+              node.parentNode.replaceChild(newTag, node);
+              node = newTag;
+              tagName = node.tagName.toLowerCase();
+            }
+
+            // Normalize <input type="submit"|"reset"|"button"> -> <button>
+            const inputType = node.getAttribute("type");
+            if (
+              tagName === "input" &&
+              ["submit", "reset", "button"].includes(inputType)
+            ) {
+              const btn = document.createElement("button");
+              // specific value or fallback to capitalized type
+              const defaultText =
+                inputType.charAt(0).toUpperCase() + inputType.slice(1);
+              btn.textContent = node.getAttribute("value") || defaultText;
+
+              // Keep type for reset/button, strip for submit (default)
+              if (inputType !== "submit") {
+                btn.setAttribute("type", inputType);
+              }
+
+              node.parentNode.replaceChild(btn, node);
+              node = btn;
+              tagName = "button";
+            }
+            // Normalize <button>: Strip type="submit" (default) to match converted inputs
+            if (
+              tagName === "button" &&
+              node.getAttribute("type") === "submit"
+            ) {
+              node.removeAttribute("type");
+            }
+
+            // Normalize <option value>
+
+            if (tagName === "option" && !node.hasAttribute("value")) {
+              node.setAttribute("value", node.textContent.trim());
+            }
+
+            // Strip non-visual & validation attributes
+            const attrsToRemove = [
+              "id",
+              "name",
+              "class",
+              "style",
+              "title",
+              "alt",
+              "placeholder",
+              "action",
+              "method",
+              "enctype",
+              "target",
+              "rel",
+              "for",
+              "autocomplete",
+              "autofocus",
+              "rows",
+              "cols",
+              "spellcheck",
+              "tabindex",
+              "role",
+              "required",
+              "checked",
+              "selected",
+              "disabled",
+              "readonly",
+              "multiple",
+              "min",
+              "max",
+              "step",
+              "pattern",
+              "list",
+              "size",
+              "maxlength",
+              "minlength",
+            ];
+            attrsToRemove.forEach((attr) => node.removeAttribute(attr));
+
+            // Default input type="text"
+            if (tagName === "input" && !node.hasAttribute("type")) {
+              node.setAttribute("type", "text");
+            }
+
+            // Remove empty 'value' attributes and standardizing
+            if (node.hasAttribute("value") && !node.getAttribute("value")) {
+              node.removeAttribute("value");
+            }
+          }
+        };
+
+        normalizeNode(doc.body);
+        return doc.body;
+      };
+
+      const expectedBody = getNormalizedBody(expectedOutput);
+      const actualBody = getNormalizedBody(actualOutput);
+
+      // 1. Exact Structural Match (Attributes order ignored by isEqualNode)
+      if (expectedBody && actualBody && expectedBody.isEqualNode(actualBody)) {
+        return maxMarks;
+      }
+
+      // 2. Fallback: Normalized String Comparison
+      // We use the normalized HTML string from the DOM
+      const s1 = expectedBody ? expectedBody.innerHTML : expectedOutput;
+      const s2 = actualBody ? actualBody.innerHTML : actualOutput;
+
+      // Remove all whitespaces for a very loose check if structure failed
+      const cleanS1 = s1.replace(/\s+/g, "").toLowerCase();
+      const cleanS2 = s2.replace(/\s+/g, "").toLowerCase();
+
+      if (cleanS1 === cleanS2) return maxMarks;
+
+      // Levenshtein Distance
       const levenshteinDistance = (a, b) => {
         const matrix = Array(b.length + 1)
           .fill(null)
@@ -141,11 +291,22 @@ const calculateAccuracyMarks = (
         }
         return matrix[b.length][a.length];
       };
-      const maxLength = Math.max(s1.length, s2.length);
-      const distance = levenshteinDistance(s1, s2);
+
+      const maxLength = Math.max(cleanS1.length, cleanS2.length);
+      const distance = levenshteinDistance(cleanS1, cleanS2);
       const similarity =
         maxLength === 0 ? 1 : (maxLength - distance) / maxLength;
+
+      // High similarity threshold
+      if (similarity > 0.9) return maxMarks;
+
       outputScore = Math.max(0, similarity);
+    } catch (e) {
+      console.error("Scoring Error:", e);
+      // Fallback to original simple string match if DOM fails
+      const s1 = expectedOutput.replace(/\s+/g, "").toLowerCase();
+      const s2 = actualOutput.replace(/\s+/g, "").toLowerCase();
+      if (s1 === s2) return maxMarks;
     }
   }
 
@@ -1241,6 +1402,12 @@ const Exam = () => {
       ...prev,
       [index]: { marks, evaluated: true },
     }));
+
+    // Scroll to preview
+    setTimeout(() => {
+      const el = document.getElementById(`preview-container-${index}`);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
   };
 
   const createPreviewContent = (code, type) => {
@@ -2059,36 +2226,186 @@ const Exam = () => {
                           )} */}
 
                             {techConfig.type === "codepad" && (
-                              <>
-                                <div className="codepad-container">
-                                  <div className="codepad-editor">
-                                    {/* Ace Editor for Codepad */}
-                                    <AceEditor
-                                      mode={techConfig.aceMode || "html"}
-                                      theme="monokai"
-                                      name={`codepad-editor-${i}`}
-                                      onLoad={(editor) =>
-                                        handleEditorLoad(editor, i)
-                                      }
-                                      onChange={(val) =>
-                                        handleChange(`code-${i}`, val)
-                                      }
-                                      value={
-                                        answers[`code-${i}`] ||
-                                        techConfig.boilerplate
-                                      }
-                                      fontSize={14}
-                                      width="100%"
-                                      height="300px"
-                                      showPrintMargin={false}
-                                      setOptions={{
-                                        enableBasicAutocompletion: true,
-                                        enableLiveAutocompletion: true,
-                                        enableSnippets: true,
-                                      }}
-                                    />
+                              <div
+                                className="html-css-workspace"
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  minHeight: "100%", // Allow growth for scrolling
+                                  gap: "0px",
+                                }}
+                              >
+                                {/* Editor Section with Toolbar */}
+                                <div
+                                  className="exam-editor-wrapper html-css-editor"
+                                  style={{
+                                    flex: 1,
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    minHeight: "400px",
+                                  }}
+                                >
+                                  <div className="exam-editor-toolbar">
+                                    <div className="exam-toolbar-left">
+                                      <div className="exam-lang-badge">
+                                        <FaMagic size={12} />
+                                        {technology.toUpperCase()}
+                                      </div>
+                                    </div>
+                                    <div className="exam-toolbar-right">
+                                      <button
+                                        className="exam-action-btn"
+                                        onClick={() =>
+                                          setEditorTheme(
+                                            editorTheme === "monokai"
+                                              ? "github"
+                                              : "monokai"
+                                          )
+                                        }
+                                        title="Toggle Theme"
+                                      >
+                                        {editorTheme === "monokai" ? (
+                                          <FaSun />
+                                        ) : (
+                                          <FaMoon />
+                                        )}
+                                      </button>
+                                      <button
+                                        className="exam-action-btn"
+                                        onClick={() =>
+                                          setFontSize((p) =>
+                                            Math.max(12, p - 2)
+                                          )
+                                        }
+                                        title="Decrease Font Size"
+                                      >
+                                        <FaMinus size={12} />
+                                      </button>
+                                      <span
+                                        style={{
+                                          fontSize: "0.85rem",
+                                          fontWeight: "600",
+                                          color: "#64748b",
+                                        }}
+                                      >
+                                        {fontSize}px
+                                      </span>
+                                      <button
+                                        className="exam-action-btn"
+                                        onClick={() =>
+                                          setFontSize((p) =>
+                                            Math.min(24, p + 2)
+                                          )
+                                        }
+                                        title="Increase Font Size"
+                                      >
+                                        <FaPlus size={12} />
+                                      </button>
+                                      <button
+                                        className="exam-run-btn coding-run-btn-toolbar"
+                                        onClick={() =>
+                                          handleEvaluateCodePad(
+                                            i,
+                                            answers[`code-${i}`]
+                                          )
+                                        }
+                                      >
+                                        <FaPlay size={10} /> Run
+                                      </button>
+                                    </div>
                                   </div>
-                                  <div className="codepad-preview">
+
+                                  <AceEditor
+                                    mode={techConfig.aceMode || "html"}
+                                    theme={editorTheme}
+                                    name={`codepad-editor-${i}`}
+                                    onLoad={(editor) =>
+                                      handleEditorLoad(editor, i)
+                                    }
+                                    onChange={(val) =>
+                                      handleChange(`code-${i}`, val)
+                                    }
+                                    value={
+                                      answers[`code-${i}`] ||
+                                      techConfig.boilerplate
+                                    }
+                                    fontSize={fontSize}
+                                    width="100%"
+                                    height="100%"
+                                    style={{ flex: 1 }}
+                                    showPrintMargin={false}
+                                    setOptions={{
+                                      enableBasicAutocompletion: true,
+                                      enableLiveAutocompletion: true,
+                                      enableSnippets: true,
+                                    }}
+                                  />
+                                </div>
+
+                                {/* Preview Section */}
+                                <div
+                                  id={`preview-container-${i}`}
+                                  className="html-css-preview"
+                                  style={{
+                                    flex: 1,
+                                    border: "1px solid #e2e8f0",
+                                    borderRadius: "8px",
+                                    overflow: "hidden",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      padding: "8px 12px",
+                                      background: "#f8fafc",
+                                      borderBottom: "1px solid #e2e8f0",
+                                      fontWeight: "bold",
+                                      color: "#64748b",
+                                      fontSize: "1rem",
+                                      display: "flex",
+                                      justifyContent: "flex-start", // Changed from space-between
+                                      alignItems: "center",
+                                      gap: "15px", // Added gap
+                                    }}
+                                  >
+                                    <span>Browser Preview</span>
+                                    {codeResults[i]?.evaluated && (
+                                      <span
+                                        style={{
+                                          color:
+                                            codeResults[i].marks > 0
+                                              ? "#15803d" // Darker green text
+                                              : "#b91c1c", // Darker red text
+                                          backgroundColor:
+                                            codeResults[i].marks > 0
+                                              ? "#dcfce7" // Light green bg
+                                              : "#fee2e2", // Light red bg
+                                          border:
+                                            codeResults[i].marks > 0
+                                              ? "1px solid #86efac"
+                                              : "1px solid #fca5a5",
+                                          padding: "2px 8px",
+                                          borderRadius: "12px",
+                                          fontSize: "0.80rem",
+                                          fontWeight: "bold",
+                                          display: "inline-flex",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        Marks: {codeResults[i].marks} /{" "}
+                                        {q.maxMarks || "0"}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div
+                                    style={{
+                                      flex: 1,
+                                      position: "relative",
+                                      minHeight: "300px",
+                                      overflow: "auto", // Enable scrolling
+                                    }}
+                                  >
                                     <BrowserPreview
                                       htmlCode={createPreviewContent(
                                         answers[`code-${i}`] ||
@@ -2098,32 +2415,7 @@ const Exam = () => {
                                     />
                                   </div>
                                 </div>
-
-                                <span>Note: To Get Marks Run & Evaluate</span>
-                                <br></br>
-                                <button
-                                  className="run-button"
-                                  onClick={() =>
-                                    handleEvaluateCodePad(
-                                      i,
-                                      answers[`code-${i}`]
-                                    )
-                                  }
-                                >
-                                  Run & Evaluate
-                                </button>
-
-                                {codeResults[i]?.evaluated && (
-                                  <div className="testcases">
-                                    <div className="output-success">
-                                      <p className="marks-display">
-                                        Marks: {codeResults[i].marks} /{" "}
-                                        {q.maxMarks}
-                                      </p>
-                                    </div>
-                                  </div>
-                                )}
-                              </>
+                              </div>
                             )}
                           </div>
                         </div>

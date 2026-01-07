@@ -388,7 +388,7 @@ const SecretCodeModal = ({ onUnlock }) => {
   };
 
   return (
-    <div className="modal-overlay">
+    <main className="modal-overlay">
       <div className="modal-content">
         <h2>🔒 Access Required</h2>
         <p>Please enter the secret code to view the class materials.</p>
@@ -406,7 +406,7 @@ const SecretCodeModal = ({ onUnlock }) => {
         </form>
         {error && <p className="error-message">Incorrect code. Try again.</p>}
       </div>
-    </div>
+    </main>
   );
 };
 
@@ -783,7 +783,7 @@ function TechClass() {
     hasStarted && questions.length > 0 && showCount === questions.length;
 
   return (
-    <div
+    <main
       className={`tech-class-container ${
         isFullScreen ? "fullscreen-mode" : ""
       }`}
@@ -1045,7 +1045,7 @@ function TechClass() {
           )}
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

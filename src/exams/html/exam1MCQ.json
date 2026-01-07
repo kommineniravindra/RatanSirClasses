@@ -2,245 +2,252 @@
   {
     "question": "What does HTML stand for?",
     "options": [
+      "Hyper Text Markup Language",
+      "High Text Machine Language",
       "Hyperlinks and Text Markup Language",
-      "Home Tool Markup Language",
-      "Hyperlinking Text Management Language",
-      "HyperText Markup Language"
+      "Home Tool Markup Language"
     ],
-    "answer": "HyperText Markup Language"
+    "answer": "Hyper Text Markup Language"
   },
   {
-    "question": "What is a markup language?",
+    "question": "HTML is called a markup language because:",
     "options": [
-      "A programming language to perform calculations",
-      "A language that uses tags to define the structure of content",
-      "A database language",
-      "A styling language for web pages"
+      "It contains loops and conditions",
+      "It marks content using tags",
+      "It compiles into machine code",
+      "It runs on the server"
     ],
-    "answer": "A language that uses tags to define the structure of content"
+    "answer": "It marks content using tags"
   },
   {
-    "question": "What does the term “HyperText” in HTML mean?",
+    "question": "What is the main purpose of HTML?",
     "options": [
-      "Text with images",
-      "Text with styles",
-      "Text with clickable links",
-      "Text with audio"
+      "To style web pages",
+      "To create and structure web page content",
+      "To perform Validatios.",
+      "To execute server-side logic"
     ],
-    "answer": "Text with clickable links"
+    "answer": "To create and structure web page content"
   },
   {
-    "question": "Which of the following browsers execute HTML code?",
+    "question": "What is the main difference between p tag and pre tags in HTML?",
     "options": [
-      "Google Chrome",
-      "Mozilla Firefox",
-      "Safari",
-      "All of the above"
+      "<p> preserves spaces, <pre> removes them",
+      "<p> collapses extra spaces and line breaks, <pre> preserves them exactly",
+      "<p> is semantic, <pre> is non-semantic",
+      "<p> is inline, <pre> is block-level"
     ],
-    "answer": "All of the above"
+    "answer": "<p> collapses extra spaces and line breaks, <pre> preserves them exactly"
   },
   {
-    "question": "Which of the following can a web page contain?",
+    "question": "When should an ordered list be used?",
     "options": [
-      "Forms like login.html and register.html",
-      "Images and hyperlinks",
-      "Headings and paragraphs",
-      "All of the above"
+      "When order does not matter",
+      "When sequence is important",
+      "When data is tabular",
+      "When adding links"
     ],
-    "answer": "All of the above"
+    "answer": "When sequence is important"
   },
   {
-    "question": "Who maintains HTML standards?",
+    "question": "When should an unordered list be used?",
     "options": [
-      "ISO (International Organization for Standardization)",
-      "W3C (World Wide Web Consortium)",
-      "IEEE",
-      "ECMA"
+      "When order does not matter",
+      "When sequence is important",
+      "When data is tabular",
+      "When adding links"
     ],
-    "answer": "W3C (World Wide Web Consortium)"
+    "answer": "When order does not matter"
   },
   {
-    "question": "What is the present version of HTML?",
+    "question": "What is the main purpose of lists in HTML?",
     "options": [
-      "HTML-2",
-      "HTML-3",
-      "HTML-4",
-      "HTML-5"
+      "Styling content",
+      "Organizing related information",
+      "Creating tables",
+      "Adding images"
     ],
-    "answer": "HTML-5"
+    "answer": "Organizing related information"
   },
   {
-    "question": "Which section of the HTML document contains the visible content?",
+    "question": "Why are tables used in HTML?",
     "options": [
-      "<head>",
-      "<body>",
-      "<html>",
-      "<!DOCTYPE>"
+      "To design page layout",
+      "To display structured data in rows and columns",
+      "To style content",
+      "To create forms"
     ],
-    "answer": "<body>"
+    "answer": "To display structured data in rows and columns"
   },
   {
-    "question": "HTML is mainly used for developing?",
+    "question": "Consider a table with 5 rows and 4 columns. How many  td tags are needed if no cell merges are used?",
     "options": [
-      "Database",
-      "Frontend (User Interface)",
-      "Backend (Business Logic)",
-      "Operating Systems"
+      "5",
+      "4",
+      "20",
+      "19"
     ],
-    "answer": "Frontend (User Interface)"
+    "answer": "20"
   },
   {
-    "question": "Which language is used to create web pages?",
+    "question": "Which character encoding supports multiple languages, symbols, and emojis?",
     "options": [
-      "Java",
-      "C++",
-      "HTML",
-      "Python"
+      "ASCII",
+      "ISO-8859-1",
+      "UTF-8",
+      "ANSI"
     ],
-    "answer": "HTML"
+    "answer": "UTF-8"
   },
   {
-    "question": "Which tag defines the root element of an HTML document?",
+    "question": "If we need to get the details of a single employee, what should we select?",
     "options": [
-      "<root>",
-      "<doc>",
-      "<html>",
-      "<head>"
+      "Table Data",
+      "Column Data",
+      "Row Data",
+      "Cell Data"
     ],
-    "answer": "<html>"
+    "answer": "Row Data"
   },
   {
-    "question": "Who created HTML?",
+    "question": "Which statement is correct about rowspan in an HTML table?",
     "options": [
-      "James Gosling",
-      "Tim Berners-Lee",
-      "Dennis Ritchie",
-      "Bjarne Stroustrup"
+      "It is used to merge multiple columns",
+      "It is used to merge multiple rows",
+      "It defines table headers",
+      "It increases table width"
     ],
-    "answer": "Tim Berners-Lee"
+    "answer": "It is used to merge multiple rows"
   },
   {
-    "question": "Which language is commonly used for back-end development?",
+    "question": "What is the purpose of HTML forms?",
     "options": [
-      "Java",
-      ".Net",
-      "Python",
-      "All of the above"
+      "To display images",
+      "To collect user input",
+      "To format text",
+      "To play videos"
     ],
-    "answer": "All of the above"
+    "answer": "To collect user input"
   },
   {
-    "question": "Which of the following are examples of HTML Editors?",
+    "question": "Which input type allows selecting only ONE option from multiple choices?",
     "options": [
-      "Notepad",
-      "Notepad++",
-      "Editplus",
-      "SublimeText",
-      "All of the above"
+      "checkbox",
+      "textbox",
+      "Radio Button",
+      "List"
     ],
-    "answer": "All of the above"
+    "answer": "Radio Button"
   },
   {
-    "question": "Which of the following are examples of IDEs used for web development?",
+    "question": "Which button submits the form by default?",
     "options": [
-      "WebStorm",
-      "Visual Studio Code",
-      "Dreamweaver",
-      "All of the above"
+      "<button type=\"button\">",
+      "<button type=\"submit\">",
+      "<input type=\"reset\">",
+      "<input type=\"text\">"
     ],
-    "answer": "All of the above"
-  },
-   {
-    "question": "What is the range of heading tags in HTML?",
-    "options": [
-      "<h1> to <h5>",
-      "<h1> to <h4>",
-      "<h1> to <h6>",
-      "<h1> to <h3>"
-    ],
-    "answer": "<h1> to <h6>"
+    "answer": "<button type=\"submit\">"
   },
   {
-    "question": "In HTML, data inside a <p> tag are:",
+    "question": "Multiple checkboxes share the same name. What happens?",
     "options": [
-      "Preserved exactly as typed",
-      "Ignored and collapsed into a single space",
-      "Converted into tabs",
-      "Converted into underscores"
+      "Only one value is sent",
+      "Last value is sent",
+      "All selected values are sent as a list",
+      "Form fails"
     ],
-    "answer": "Ignored and collapsed into a single space"
+    "answer": "All selected values are sent as a list"
   },
   {
-    "question": "Which of the following are Unpaired tags?",
+    "question": "What does the reset button do?",
     "options": [
-      "<hr>",
-      "<br>",
-      "<img>",
-      "All of the above"
+      "Submits data",
+      "Reloads page",
+      "Clears all form inputs to default values",
+      "Deletes form"
     ],
-    "answer": "All of the above"
+    "answer": "Clears all form inputs to default values"
   },
   {
-    "question": "In HTML, text inside the <pre> tag:",
+    "question": "Why are semantic elements important in HTML?",
     "options": [
-      "Collapses multiple spaces into one",
-      "Preserves all spaces and line breaks exactly as typed",
-      "Converts all text to uppercase",
-      "Ignores spaces and line breaks"
+      "They reduce page size",
+      "They improve code readability, accessibility, and SEO",
+      "They replace CSS",
+      "They execute JavaScript"
     ],
-    "answer": "Preserves all spaces and line breaks exactly as typed"
+    "answer": "They improve code readability, accessibility, and SEO"
   },
   {
-    "question": "Which of the following are inline HTML elements?",
+    "question": "What is the main purpose of the anchor (a) tag in HTML?",
     "options": [
-      "<b>",
-      "<q>",
-      "<small>",
-      "<span>",
-      "All of the above"
+      "To display images",
+      "To create hyperlinks for navigation between pages",
+      "To format text",
+      "To group elements"
     ],
-    "answer": "All of the above"
+    "answer": "To create hyperlinks for navigation between pages"
   },
   {
-    "question": "Which statement is true about <span>?",
+    "question": "What is the main purpose of HTML Entities?",
     "options": [
-      "It displays text exactly as typed and preserves all spaces and line breaks",
-      "It represents a portion of text inside a paragraph.",
-      "It automatically creates a new paragraph",
-      "It is a block-level element that starts on a new line"
+      "To style HTML elements",
+      "To represent reserved or special characters in HTML",
+      "To create hyperlinks",
+      "To group HTML elements"
     ],
-    "answer": "It represents a portion of text inside a paragraph."
+    "answer": "To represent reserved or special characters in HTML"
   },
   {
-    "question": "Which of the following are block-level HTML elements?",
+    "question": "What is the Not correct about div tag in HTML?",
     "options": [
-      "<p>",
-      "<pre>",
-      "<h1>",
-      "All of the above"
+      "The main div can have sub divisions.",
+      "To create Multiple hyperlinks.",
+      "To group elements for layout and styling purposes.",
+      "It is a Block level Element."
     ],
-    "answer": "All of the above"
+    "answer": "To create Multiple hyperlinks."
   },
   {
-    "question": "Which of the following are paired tags?",
+    "question": "What is the not correct about DOM?",
     "options": [
-      "<sup>",
-      "<i>",
-      "<mark>",
-      "All of the above"
+      "DOM stands for Document Object Model",
+      "Tree of objects of HTML elements",
+      "DOM created by Browser when the page loaded",
+      "Used to load load images"
     ],
-    "answer": "All of the above"
+    "answer": "Used to load load images"
   },
   {
-    "question": "Every HTML element contains which of the following?",
+    "question": "Which of the following is NOT a semantic element in HTML?",
     "options": [
-      "Start / Opening Tag – marks the beginning of an element",
-      "End / Closing Tag – marks the end of an element",
-      "Content – the text or data contained within the element",
-      "Attribute – provides extra information to the element",
-      "Value – the value assigned to the attribute",
-      "All of the above"
+      "<main>",
+      "<article>",
+      "<details>",
+      "<summary>",
+      "<div>"
     ],
-    "answer": "All of the above"
+    "answer": "<div>"
+  },
+  {
+    "question": "Which of the following is NOT true about comments in HTML?",
+    "options": [
+      "Comments are not displayed in the browser.",
+      "Comments help developers understand the code.",
+      "Comments can contain HTML tags that get executed by the browser.",
+      "Comments are ignored by the browser."
+    ],
+    "answer": "Comments can contain HTML tags that get executed by the browser."
+  },
+  {
+    "question": "Which HTML element should appear only once per page?",
+    "options": [
+      "<section>",
+      "<article>",
+      "<main>",
+      "<aside>"
+    ],
+    "answer": "<main>"
   }
 ]

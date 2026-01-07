@@ -151,14 +151,14 @@ const technologies = [
     topics: htmlTopics,
     examTopics: htmlExamTopics,
   },
-  {
-    key: "css",
-    name: "CSS",
-    icon: <FaCss3Alt />,
-    quizChapters: dynamicChapters["css"] || [],
-    topics: cssTopics,
-    examTopics: cssExamTopics,
-  },
+  // {
+  //   key: "css",
+  //   name: "CSS",
+  //   icon: <FaCss3Alt />,
+  //   quizChapters: dynamicChapters["css"] || [],
+  //   topics: cssTopics,
+  //   examTopics: cssExamTopics,
+  // },
   {
     key: "javascript",
     name: "JavaScript",
@@ -167,14 +167,14 @@ const technologies = [
     topics: javascriptTopics,
     examTopics: javascriptExamTopics,
   },
-  {
-    key: "react",
-    name: "React",
-    icon: <FaReact />,
-    quizChapters: dynamicChapters["react"] || [],
-    topics: reactTopics,
-    examTopics: reactExamTopics,
-  },
+  // {
+  //   key: "react",
+  //   name: "React",
+  //   icon: <FaReact />,
+  //   quizChapters: dynamicChapters["react"] || [],
+  //   topics: reactTopics,
+  //   examTopics: reactExamTopics,
+  // },
   {
     key: "java",
     name: "Java",
@@ -183,30 +183,30 @@ const technologies = [
     topics: javaTopics,
     examTopics: javaExamTopics,
   },
-  {
-    key: "python",
-    name: "Python",
-    icon: <FaPython />,
-    quizChapters: dynamicChapters["python"] || [],
-    topics: pythonTopics,
-    examTopics: pythonExamTopics,
-  },
-  {
-    key: "restapi",
-    name: "Spring Boot",
-    icon: <FaServer />,
-    quizChapters: dynamicChapters["restapi"] || [],
-    topics: restapiTopics,
-    examTopics: restapiExamTopics,
-  },
-  {
-    key: "microservices",
-    name: "Microservices",
-    icon: <FaServer />,
-    quizChapters: dynamicChapters["microservices"] || [],
-    topics: microservicesTopics,
-    examTopics: microservicesExamTopics,
-  },
+  // {
+  //   key: "python",
+  //   name: "Python",
+  //   icon: <FaPython />,
+  //   quizChapters: dynamicChapters["python"] || [],
+  //   topics: pythonTopics,
+  //   examTopics: pythonExamTopics,
+  // },
+  // {
+  //   key: "restapi",
+  //   name: "Spring Boot",
+  //   icon: <FaServer />,
+  //   quizChapters: dynamicChapters["restapi"] || [],
+  //   topics: restapiTopics,
+  //   examTopics: restapiExamTopics,
+  // },
+  // {
+  //   key: "microservices",
+  //   name: "Microservices",
+  //   icon: <FaServer />,
+  //   quizChapters: dynamicChapters["microservices"] || [],
+  //   topics: microservicesTopics,
+  //   examTopics: microservicesExamTopics,
+  // },
   {
     key: "sql",
     name: "SQL",
@@ -433,7 +433,6 @@ const ExamDashboard = ({ onLogout }) => {
     setModalTitle(`Select an Exam for ${tech.name}`);
     setModalBody(
       <div className="select-quiz-body">
-        <p>Choose an exam to start.</p>
         <div className="quiz-list-container">{examButtons}</div>
       </div>
     );
@@ -495,7 +494,6 @@ const ExamDashboard = ({ onLogout }) => {
     setModalTitle(`Select a Quiz for ${tech.name}`);
     setModalBody(
       <div className="select-quiz-body">
-        <p>Choose a quiz to start.</p>
         <div className="quiz-list-container">{quizButtons}</div>
       </div>
     );

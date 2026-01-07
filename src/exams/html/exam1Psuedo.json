@@ -1,0 +1,153 @@
+[
+    {
+        "question": "Analyze the code\n<ol type=\"i\" start=\"2\">\n  <li>Java</li>\n  <li>HTML</li>\n</ol>\n  What is the numbering of HTML?",
+        "options": [
+            "i",
+            "ii",
+            "iii",
+            "iv",
+            "v"
+        ],
+        "answer": "iii"
+    },
+    {
+        "question": "Analyze the code\n<p>Learning <span>HTML </span> is <b>easy</b> <small> Ratan sir </small> </p>\n  Which option correctly identifies the portion of text that can be styled as you required.",
+        "options": [
+            "Learning",
+            "HTML",
+            "easy",
+            "Ratan sir"
+        ],
+        "answer": "HTML"
+    },
+    {
+        "question": "Analyze the code\n<ul>\n  <li>Frontend\n\t<ul>\n\t  <li>HTML</li>\n\t  <li>CSS</li>\n\t</ul>\n  </li>\n</ul>\nWhat type of list structure is this?",
+        "options": [
+            "Definition list",
+            "Ordered list",
+            "Nested list",
+            "UnOrdered list"
+        ],
+        "answer": "Nested list"
+    },
+    {
+        "question": "Analyze the code\n<input type=\"radio\" name=\"gender\" value=\"M\">\n<input type=\"radio\" name=\"gender\" value=\"F\">\nWhat is the result?",
+        "options": [
+            "Both can be selected",
+            "Only one can be selected",
+            "None can be selected",
+            "Form will not submit"
+        ],
+        "answer": "Only one can be selected"
+    },
+    {
+        "question": "Analyze the code\n<a href=\"home.html\">Home</a>\nWhat happens when the link is clicked?",
+        "options": [
+            "Opens in same tab",
+            "Opens in new tab",
+            "Downloads the file",
+            "Refreshes page"
+        ],
+        "answer": "Opens in same tab"
+    },
+    {
+        "question": "Analyze the code\n<input type=\"checkbox\" name=\"skill\" value=\"HTML\">\n<input type=\"checkbox\" name=\"skill\" value=\"CSS\">\n<input type=\"checkbox\" name=\"skill\" value=\"JS\">\n What happens on form submit if both are checked?",
+        "options": [
+            "Only one value sent",
+            "Last value sent",
+            "All values sent",
+            "Form fails"
+        ],
+        "answer": "All values sent"
+    },
+    {
+        "question": "Analyze the code\n<table border=\"1\">\n  <tr>\n\t<th colspan=\"3\">Employee Details</th>\n\t<th> SNO </th>\n  </tr>\n  <tr>\n\t<td colspan=\"2\">Ratan</td>\n\t<td colspan=\"2\">Developer</td>\n  </tr>\n</table>\nHow many columns does this table actually contain?",
+        "options": [
+            "3",
+            "4",
+            "2",
+            "Depends on browser."
+        ],
+        "answer": "4"
+    },
+    {
+        "question": "Analyze the code\n<input type=\"checkbox\" name=\"skill1\" value=\"HTML\">\n<input type=\"checkbox\" name=\"skill2\" value=\"CSS\">\n<input type=\"checkbox\" name=\"skill3\" value=\"JS\">\nWhat happens when the form is submitted and all checkboxes are checked?",
+        "options": [
+            "Only one value is sent",
+            "Only the last value is sent",
+            "Each selected checkbox value is sent separately with its own name",
+            "Form submission fails"
+        ],
+        "answer": "Each selected checkbox value is sent separately with its own name"
+    },
+    {
+        "question": "Analyze the code\n<video src=\"movie.mp4\" controls autoplay muted></video>\nWhich statement is true?",
+        "options": [
+            "Video plays with sound",
+            "Video plays automatically without sound",
+            "Video does not play",
+            "Controls are hidden"
+        ],
+        "answer": "Video plays automatically without sound"
+    },
+    {
+        "question": "Analyze the code\n<a href=\"#veg\">Veg</a>\n\nWhat does clicking the link do?",
+        "options": [
+            "Opens new page",
+            "Scrolls page",
+            "Reloads page",
+            "Downloads file"
+        ],
+        "answer": "Scrolls page"
+    },
+    {
+        "question": "Analyze the code\n<form action=\"save.jsp\" method=\"get\">\n  <input type=\"text\" name=\"user\" value=\"Ratan\">\n  <input type=\"submit\">\n</form>\nWhen the form is submitted, to which resource will the form data be sent?",
+        "options": [
+            "user=Ratan",
+            "save.jsp",
+            "Ratan",
+            "Server"
+        ],
+        "answer": "save.jsp"
+    },
+    {
+        "question": "Analyze the code\n<form action=\"save.jsp\" method=\"get\">\n  <input type=\"text\" name=\"user\" value=\"Ratan\">\n  <input type=\"submit\">\n</form>\nWhat is the logical name of the text field used by server to read the form Data?",
+        "options": [
+            "user=Ratan",
+            "save.jsp",
+            "submit",
+            "get"
+        ],
+        "answer": "user=Ratan"
+    },
+    {
+        "question": "Analyze the code\n<head>\n  <meta charset=\"UTF-8\">\n</head>\n\nWhat is the purpose of this meta tag?",
+        "options": [
+            "Defines page title",
+            "Specifies character encoding",
+            "Improves page speed",
+            "Links external CSS"
+        ],
+        "answer": "Specifies character encoding"
+    },
+    {
+        "question": "Analyze the code\n<head>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n</head>\nWhat is the main effect of this meta tag?",
+        "options": [
+            "Loads the page faster",
+            "Makes the page responsive on mobile devices",
+            "Sets page language",
+            "Improves SEO ranking"
+        ],
+        "answer": "Makes the page responsive on mobile devices"
+    },
+    {
+        "question": "Analyze the code\n<head>\n  <meta name=\"keywords\" content=\"HTML, CSS, JavaScript\">\n</head>\nWhat is the purpose of this meta tag?",
+        "options": [
+            "Controls browser caching",
+            "Helps search engines understand page topics",
+            "Defines document encoding",
+            "Displays keywords on webpage"
+        ],
+        "answer": "Helps search engines understand page topics"
+    }
+]

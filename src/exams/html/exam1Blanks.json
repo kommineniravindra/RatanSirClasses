@@ -1,83 +1,82 @@
 [
   {
-    "question": "The html code executed by ________",
-    "answer": "browser"
-  },
-  {
-    "question": "HTML files are saved with which extension _______",
-    "answer": ".html"
-  },
-  {
-    "question": "Write the closing tag in HTML _______",
-    "answer": "</html>"
-  },
-  {
-    "question": "The root element of an HTML document is the ___________ tag.",
+    "question": "The root element of an HTML document is __________ tag.",
     "answer": "<html>"
   },
   {
-    "question": "The section that contains meta-information about the document ______",
-    "answer": "<head>"
-  },
-  {
-    "question": "Write the opening tag in HTML _______",
-    "answer": "<html>"
-  },
-  {
-    "question": "Content that is visible on the web page is written inside the ___________.",
+    "question": "The visible content of a webpage is written inside the __________ tag.",
     "answer": "<body>"
   },
   {
-    "id": "html_b_8",
-    "question": "What is the tag used to represent the HTML version ____________",
-    "answer": "<!DOCTYPE>"
+    "question": "The Metadata content of a webpage is written inside the __________ tag.",
+    "answer": "<head>"
   },
   {
-    "question": "What is the tag display the title of the web page ____________",
-    "answer": "<title>"
+    "question": "To display the text preserve spaces and line breaks use __________ tag.",
+    "answer": "<pre>"
   },
   {
-    "question": "The collection of web pages __________",
-    "answer": "website"
-  },
-    {
-    "question": "Write the tag code display ratan bold text format __________",
-    "answer": "<b>ratan</b>"
+    "question": "collapses extra spaces and line breaks into a single space use_______tag.",
+    "answer": "<p>"
   },
   {
-    "question": "Write the tag code display ratan italic text format __________",
-    "answer": "<i>ratan</i>"
+    "question": "Bold text with semantic meaning is displayed using ______ tag.",
+    "answer": "<strong>"
   },
   {
-    "question": "Write the tag code display hyderabad underlined text format __________",
-    "answer": "<u>hyderabad</u>"
+    "question": "The ______ tag used to take the list items.",
+    "answer": "<li>"
   },
   {
-    "question": "Write the tag code display sleeping deleted text format __________",
-    "answer": "<del>sleeping</del>"
+    "question": "The ______ tag used to represent the definition list.",
+    "answer": "<dl>"
   },
   {
-    "question": "Write the tag code formula of water can be written as H__________  O",
-    "answer": "H<sub>2</sub>O"
+    "question": "To display the audio file in your webpage use __________ tag.",
+    "answer": "<audio>"
   },
   {
-    "question": "Write the tag code square of 5 can be written as 5__________",
-    "answer": "5<sup>2</sup>"
+    "question": "To embed the google maps into your website use __________ tag.",
+    "answer": "<iframe>"
   },
   {
-    "question": "Write the tag code to mark highlight apple text is __________",
-    "answer": "<mark>apple</mark>"
+    "question": "The tag used to create an HTML form is _________",
+    "answer": "<form>"
   },
   {
-    "question": "Which tag how to represent portion of text inside a paragraph ______",
-    "answer": "<span>"
+    "question": "The attribute used to specify where form data is sent is ______",
+    "answer": "action"
   },
   {
-    "question": "Which tag is used to display the largest heading in HTML _______",
-    "answer": "<h1>"
+    "question": "The attribute used to specify what type of the request form generating ________.",
+    "answer": "method"
   },
   {
-    "question": "The tag used to display smaller text size is __________ ",
-    "answer": "<small>"
+    "question": "Which attribute defines the destination of a hyperlink _________.",
+    "answer": "href"
+  },
+  {
+    "question": "Which semantic element _______ tag is used to represent the navigation bar.",
+    "answer": "<nav>"
+  },
+  {
+    "question": "Using _______ attribute the Image location can be specified in img tag.",
+    "answer": "src"
+  },
+  {
+    "question": "Using _______ attribute the Javascript will read the form Data.",
+    "answer": "id"
+  },
+  {
+    "question": "Using _______ attribute the server will read the form Data.",
+    "answer": "name"
+  },
+  {
+    "question": "Which semantic element _______ tag represents independent, self-contained content.",
+    "answer": "<article>"
+  },
+  {
+    "question": "Which semantic element _______ tag is best suited for side content like ads or related links.",
+    "answer": "<aside>"
   }
 ]

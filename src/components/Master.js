@@ -164,7 +164,7 @@ const Master = () => {
     if (showIntro) {
       const timer = setTimeout(() => {
         setShowIntro(false);
-      }, 3000);
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [showIntro]);
@@ -262,7 +262,7 @@ const Master = () => {
     return (
       <div className="intro-overlay">
         <DoraemonLoader />
-        <h1 className="loading-text1">CodePulse-R</h1>
+        {/* <h1 className="loading-text1">CodePulse-R</h1> */}
       </div>
     );
   }
@@ -299,23 +299,48 @@ const Master = () => {
         selectedTechnology={selectedTechnology}
         selectedPage={selectedPage}
       />
+      <main>
+        {selectedPage === "Home" && (
+          <Home
+            onTechnologySelect={handleTechnologySelect}
+            onCompilerSelect={handleCompilerEntry}
+          />
+        )}
+        {selectedPage === "Compiler" && (
+          <OnlineCompiler initialLanguage={compilerLanguage} />
+        )}
+        {selectedPage === "Q&A" && <QnAComponent />}
+        {selectedPage === "DSA" && <DSA />}
+        {selectedPage === "ContactUs" && <ContactUs />}
+        {selectedPage === "AboutUs" && <AboutUs />}
+        {selectedPage === "PrivacyPolicy" && <PrivacyPolicy />}
+        {selectedPage === "TermsOfService" && <TermsOfService />}
+        {selectedPage === "Sitemap" && <Sitemap />}
 
-      {selectedPage === "Home" && (
-        <Home
-          onTechnologySelect={handleTechnologySelect}
-          onCompilerSelect={handleCompilerEntry}
-        />
-      )}
-      {selectedPage === "Compiler" && (
-        <OnlineCompiler initialLanguage={compilerLanguage} />
-      )}
-      {selectedPage === "Q&A" && <QnAComponent />}
-      {selectedPage === "DSA" && <DSA />}
-      {selectedPage === "ContactUs" && <ContactUs />}
-      {selectedPage === "AboutUs" && <AboutUs />}
-      {selectedPage === "PrivacyPolicy" && <PrivacyPolicy />}
-      {selectedPage === "TermsOfService" && <TermsOfService />}
-      {selectedPage === "Sitemap" && <Sitemap />}
+        {selectedPage === "Technology" && (
+          <div className="master-grid">
+            <div className="grid-left-menu">
+              <LeftMenu
+                selectedItem={selectedItem}
+                menuData={menuData}
+                onItemClick={handleItemClick}
+              />
+            </div>
+            <div className="grid-main">
+              <Main
+                selectedItem={selectedItem}
+                selectedTechnology={selectedTechnology}
+                setSelectedItem={setSelectedItem}
+                menuData={menuData}
+                isClickTriggeredRef={isClickTriggeredRef}
+              />
+            </div>
+            <div className="grid-right-menu">
+              <RightMenu />
+            </div>
+          </div>
+        )}
+      </main>
 
       {[
         "Home",
@@ -326,30 +351,6 @@ const Master = () => {
         "Sitemap",
       ].includes(selectedPage) && (
         <Footer onNavigate={handleTechnologySelect} />
-      )}
-
-      {selectedPage === "Technology" && (
-        <div className="master-grid">
-          <div className="grid-left-menu">
-            <LeftMenu
-              selectedItem={selectedItem}
-              menuData={menuData}
-              onItemClick={handleItemClick}
-            />
-          </div>
-          <div className="grid-main">
-            <Main
-              selectedItem={selectedItem}
-              selectedTechnology={selectedTechnology}
-              setSelectedItem={setSelectedItem}
-              menuData={menuData}
-              isClickTriggeredRef={isClickTriggeredRef}
-            />
-          </div>
-          <div className="grid-right-menu">
-            <RightMenu />
-          </div>
-        </div>
       )}
     </>
   );

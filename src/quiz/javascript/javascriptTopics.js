@@ -1,3 +1,3 @@
-const javascriptTopics = ["JavaScript Basics", "Advanced JavaScript"];
+const javascriptTopics = ["JavaScript Basics"];
 
 export default javascriptTopics;

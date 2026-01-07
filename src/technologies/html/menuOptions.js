@@ -62,46 +62,46 @@ name: 'Text Formatting Tags',
     ],
   },
 
-  // {
-  //   name: 'Audio & Video',
-  //   subItems: [
-  //     { name: 'Youtube Video', url: 'html-doctype', icon: 'images/html.png' },
-  //     { name: 'Google Maps', url: 'html-head-body', icon: 'images/html.png' },
-  //     { name: 'Audio File', url: 'html-meta', icon: 'images/html.png' },
-  //     { name: 'Video File', url: 'html-link-css', icon: 'images/html.png' },
-  //     { name: 'Multiple Websites', url: 'html-add-js', icon: 'images/html.png' },
-  //   ],
-  // },
+  {
+    name: 'Audio & Video',
+    subItems: [
+      { name: 'Youtube Video', url: 'html-doctype', icon: 'images/html.png' },
+      { name: 'Google Maps', url: 'html-head-body', icon: 'images/html.png' },
+      { name: 'Audio File', url: 'html-meta', icon: 'images/html.png' },
+      { name: 'Video File', url: 'html-link-css', icon: 'images/html.png' },
+      { name: 'Multiple Websites', url: 'html-add-js', icon: 'images/html.png' },
+    ],
+  },
 
-  // {
-  //   name: 'DOM Div',
-  //   subItems: [
-  //     { name: 'DOM Object', url: 'html-header', icon: 'images/html.png' },
-  //     { name: 'Div Tag', url: 'html-nav', icon: 'images/html.png' },
-  //     { name: 'Social Media Icons', url: 'html-article', icon: 'images/html.png' },
-  //   ],
-  // },
+  {
+    name: 'DOM Div',
+    subItems: [
+      { name: 'DOM Object', url: 'html-header', icon: 'images/html.png' },
+      { name: 'Div Tag', url: 'html-nav', icon: 'images/html.png' },
+      { name: 'Social Media Icons', url: 'html-article', icon: 'images/html.png' },
+    ],
+  },
   
-  // {
-  //   name: 'Semantic Elements',
-  //   subItems: [
-  //     { name: 'Introduction', url: 'html-entities', icon: 'images/html.png' },
-  //     { name: 'Header Section', url: 'html-symbols', icon: 'images/html.png' },
-  //     { name: 'Footer Section', url: 'html-emojis', icon: 'images/html.png' },
-  //     { name: 'Aside Section', url: 'html-code-pre', icon: 'images/html.png' },
-  //     { name: 'Main Section', url: 'html-mark', icon: 'images/html.png' },
-  //     { name: 'Other Elements', url: 'html-sub-sup', icon: 'images/html.png' },
-  //   ],
-  // },
-  // {
-  //   name: 'Navigations',
-  //   subItems: [
-  //     { name: 'Navigation', url: 'html-canvas', icon: 'images/html.png' },
-  //     { name: 'Title Image', url: 'html-svg', icon: 'images/html.png' },
-  //     { name: 'Tooltip Text', url: 'html-inline-svg', icon: 'images/html.png' },
-  //     { name: 'Google Fonts', url: 'html-shapes', icon: 'images/html.png' },
-  //   ],
-  // },
+  {
+    name: 'Semantic Elements',
+    subItems: [
+      { name: 'Introduction', url: 'html-entities', icon: 'images/html.png' },
+      { name: 'Header Section', url: 'html-symbols', icon: 'images/html.png' },
+      { name: 'Footer Section', url: 'html-emojis', icon: 'images/html.png' },
+      { name: 'Aside Section', url: 'html-code-pre', icon: 'images/html.png' },
+      { name: 'Main Section', url: 'html-mark', icon: 'images/html.png' },
+      { name: 'Other Elements', url: 'html-sub-sup', icon: 'images/html.png' },
+    ],
+  },
+  {
+    name: 'Navigations',
+    subItems: [
+      { name: 'Navigation', url: 'html-canvas', icon: 'images/html.png' },
+      { name: 'Title Image', url: 'html-svg', icon: 'images/html.png' },
+      { name: 'Tooltip Text', url: 'html-inline-svg', icon: 'images/html.png' },
+      { name: 'Google Fonts', url: 'html-shapes', icon: 'images/html.png' },
+    ],
+  },
   // {
   //   name: 'APIs',
   //   subItems: [

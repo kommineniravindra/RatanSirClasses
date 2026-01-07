@@ -46,7 +46,7 @@ const Footer = ({ onNavigate }) => {
           <ul className="footer-menu">
             <li>
               <a
-                href="/?Home"
+                href="/Home"
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate("Home");
@@ -57,7 +57,7 @@ const Footer = ({ onNavigate }) => {
             </li>
             <li>
               <a
-                href="/?AboutUs"
+                href="/AboutUs"
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate("AboutUs");
@@ -66,9 +66,9 @@ const Footer = ({ onNavigate }) => {
                 About Us
               </a>
             </li>
-            {/* <li>
+            <li>
               <a
-                href="/?DSA"
+                href="/DSA"
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate("DSA");
@@ -76,10 +76,10 @@ const Footer = ({ onNavigate }) => {
               >
                 DSA Practice
               </a>
-            </li> */}
+            </li>
             <li>
               <a
-                href="/?ContactUs"
+                href="/ContactUs"
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate("ContactUs");
@@ -97,7 +97,7 @@ const Footer = ({ onNavigate }) => {
           <ul className="footer-menu">
             <li>
               <a
-                href="/?PrivacyPolicy"
+                href="/PrivacyPolicy"
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate("PrivacyPolicy");
@@ -108,7 +108,7 @@ const Footer = ({ onNavigate }) => {
             </li>
             <li>
               <a
-                href="/?TermsOfService"
+                href="/TermsOfService"
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate("TermsOfService");
@@ -119,7 +119,7 @@ const Footer = ({ onNavigate }) => {
             </li>
             <li>
               <a
-                href="/?CookiePolicy"
+                href="/CookiePolicy"
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate("CookiePolicy");
@@ -130,7 +130,7 @@ const Footer = ({ onNavigate }) => {
             </li>
             <li>
               <a
-                href="/?FAQ"
+                href="/FAQ"
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate("FAQ");
@@ -148,7 +148,7 @@ const Footer = ({ onNavigate }) => {
           <p>Get the latest updates and resources delivered to your inbox.</p>
           <div className="newsletter-box">
             <input type="email" placeholder="Enter your email" />
-            <button>
+            <button aria-label="Subscribe">
               <FaPaperPlane />
             </button>
           </div>
@@ -169,7 +169,7 @@ const Footer = ({ onNavigate }) => {
         </div>
         <div className="bottom-links">
           <a
-            href="/?Security"
+            href="/Security"
             onClick={(e) => {
               e.preventDefault();
               onNavigate("Security");
@@ -178,7 +178,7 @@ const Footer = ({ onNavigate }) => {
             Security
           </a>
           <a
-            href="/?Sitemap"
+            href="/Sitemap"
             onClick={(e) => {
               e.preventDefault();
               onNavigate("Sitemap");
