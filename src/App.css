@@ -29,7 +29,7 @@ html, body {
   overflow-x: hidden;    
 }
 
-section,  main {
+section{
   max-width: 100vw;      
   overflow-x: hidden;    
 }

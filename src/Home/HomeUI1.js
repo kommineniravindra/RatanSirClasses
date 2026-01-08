@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-import "../css/HomeUI1.css";
+// import "../css/HomeUI1.css";
+import "../cssdark/HomeUIDark.css";
+
 import {
   FaGraduationCap,
   FaAngleRight,
+  FaRocket,
   FaReact,
   FaHtml5,
   FaCss3Alt,
@@ -22,7 +24,6 @@ import { SiMysql, SiSpringboot } from "react-icons/si";
 
 function HomeUI1({ onTechnologySelect }) {
   // Accept prop
-  // const navigate = useNavigate();
   const [showSyllabusModal, setShowSyllabusModal] = useState(false);
 
   const tickerItems = [
@@ -63,10 +64,9 @@ function HomeUI1({ onTechnologySelect }) {
 
   const CurrentIcon = icons[currentIconIndex].component;
 
-const handleEnrollClick = () => {
-  window.open("/account", "_blank", "noopener,noreferrer");
-};
-
+  const handleEnrollClick = () => {
+    window.open("/account", "_blank", "noopener,noreferrer");
+  };
 
   const handleViewSyllabusClick = () => {
     setShowSyllabusModal(true);
@@ -88,24 +88,32 @@ const handleEnrollClick = () => {
     <div className="landing-wrapper">
       <header className="hero-section-glassy">
         <div className="hero-content-glassy">
+          <div className="badge-live">
+            <FaRocket /> v2.0 Live
+          </div>
+
           <h1 className="hero-title-glassy">
-            Future of Tech
-            <span className="text-light-blue-accent">Begins Here</span>
+           Future of Tech  <span className="text-cyan">Begins Here</span> <br />
+          Unlock your <span className="text-cyan1">coding potential</span> <br />
+           <span className="text-cyan">CodePulse-R</span>
+            <span className="cursor-blink"></span>
           </h1>
 
           <p className="hero-subtitle-glassy">
-            Unlock structured learning paths, hands-on projects, and
-            personalized support that take your skills to the next level.
+            Unlock structured learning paths{" "}
+            <span className="text-purple">hands-on projects</span>, and{" "}
+            <span className="text-purple">personalized support</span> that take
+            your skills to the next level.
           </p>
           <div className="hero-buttons-glassy">
             <button className="primary-btn-domed" onClick={handleEnrollClick}>
-              <FaGraduationCap /> Enroll Now
+              Explore Library
             </button>
             <button
               className="secondary-btn-soft"
               onClick={handleViewSyllabusClick}
             >
-              View Syllabus <FaAngleRight />
+              View Templates
             </button>
           </div>
         </div>

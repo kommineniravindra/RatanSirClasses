@@ -1,0 +1,246 @@
+[
+  {
+    "question": "What does HTML stand for?",
+    "options": [
+      "Hyperlinks and Text Markup Language",
+      "Home Tool Markup Language",
+      "Hyperlinking Text Management Language",
+      "HyperText Markup Language"
+    ],
+    "answer": "HyperText Markup Language"
+  },
+  {
+    "question": "What is a markup language?",
+    "options": [
+      "A programming language to perform calculations",
+      "A language that uses tags to define the structure of content",
+      "A database language",
+      "A styling language for web pages"
+    ],
+    "answer": "A language that uses tags to define the structure of content"
+  },
+  {
+    "question": "What does the term “HyperText” in HTML mean?",
+    "options": [
+      "Text with images",
+      "Text with styles",
+      "Text with clickable links",
+      "Text with audio"
+    ],
+    "answer": "Text with clickable links"
+  },
+  {
+    "question": "Which of the following browsers execute HTML code?",
+    "options": [
+      "Google Chrome",
+      "Mozilla Firefox",
+      "Safari",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following can a web page contain?",
+    "options": [
+      "Forms like login.html and register.html",
+      "Images and hyperlinks",
+      "Headings and paragraphs",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Who maintains HTML standards?",
+    "options": [
+      "ISO (International Organization for Standardization)",
+      "W3C (World Wide Web Consortium)",
+      "IEEE",
+      "ECMA"
+    ],
+    "answer": "W3C (World Wide Web Consortium)"
+  },
+  {
+    "question": "What is the present version of HTML?",
+    "options": [
+      "HTML-2",
+      "HTML-3",
+      "HTML-4",
+      "HTML-5"
+    ],
+    "answer": "HTML-5"
+  },
+  {
+    "question": "Which section of the HTML document contains the visible content?",
+    "options": [
+      "<head>",
+      "<body>",
+      "<html>",
+      "<!DOCTYPE>"
+    ],
+    "answer": "<body>"
+  },
+  {
+    "question": "HTML is mainly used for developing?",
+    "options": [
+      "Database",
+      "Frontend (User Interface)",
+      "Backend (Business Logic)",
+      "Operating Systems"
+    ],
+    "answer": "Frontend (User Interface)"
+  },
+  {
+    "question": "Which language is used to create web pages?",
+    "options": [
+      "Java",
+      "C++",
+      "HTML",
+      "Python"
+    ],
+    "answer": "HTML"
+  },
+  {
+    "question": "Which tag defines the root element of an HTML document?",
+    "options": [
+      "<root>",
+      "<doc>",
+      "<html>",
+      "<head>"
+    ],
+    "answer": "<html>"
+  },
+  {
+    "question": "Who created HTML?",
+    "options": [
+      "James Gosling",
+      "Tim Berners-Lee",
+      "Dennis Ritchie",
+      "Bjarne Stroustrup"
+    ],
+    "answer": "Tim Berners-Lee"
+  },
+  {
+    "question": "Which language is commonly used for back-end development?",
+    "options": [
+      "Java",
+      ".Net",
+      "Python",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following are examples of HTML Editors?",
+    "options": [
+      "Notepad",
+      "Notepad++",
+      "Editplus",
+      "SublimeText",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following are examples of IDEs used for web development?",
+    "options": [
+      "WebStorm",
+      "Visual Studio Code",
+      "Dreamweaver",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+   {
+    "question": "What is the range of heading tags in HTML?",
+    "options": [
+      "<h1> to <h5>",
+      "<h1> to <h4>",
+      "<h1> to <h6>",
+      "<h1> to <h3>"
+    ],
+    "answer": "<h1> to <h6>"
+  },
+  {
+    "question": "In HTML, data inside a <p> tag are:",
+    "options": [
+      "Preserved exactly as typed",
+      "Ignored and collapsed into a single space",
+      "Converted into tabs",
+      "Converted into underscores"
+    ],
+    "answer": "Ignored and collapsed into a single space"
+  },
+  {
+    "question": "Which of the following are Unpaired tags?",
+    "options": [
+      "<hr>",
+      "<br>",
+      "<img>",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "In HTML, text inside the <pre> tag:",
+    "options": [
+      "Collapses multiple spaces into one",
+      "Preserves all spaces and line breaks exactly as typed",
+      "Converts all text to uppercase",
+      "Ignores spaces and line breaks"
+    ],
+    "answer": "Preserves all spaces and line breaks exactly as typed"
+  },
+  {
+    "question": "Which of the following are inline HTML elements?",
+    "options": [
+      "<b>",
+      "<q>",
+      "<small>",
+      "<span>",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which statement is true about <span>?",
+    "options": [
+      "It displays text exactly as typed and preserves all spaces and line breaks",
+      "It represents a portion of text inside a paragraph.",
+      "It automatically creates a new paragraph",
+      "It is a block-level element that starts on a new line"
+    ],
+    "answer": "It represents a portion of text inside a paragraph."
+  },
+  {
+    "question": "Which of the following are block-level HTML elements?",
+    "options": [
+      "<p>",
+      "<pre>",
+      "<h1>",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following are paired tags?",
+    "options": [
+      "<sup>",
+      "<i>",
+      "<mark>",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Every HTML element contains which of the following?",
+    "options": [
+      "Start / Opening Tag – marks the beginning of an element",
+      "End / Closing Tag – marks the end of an element",
+      "Content – the text or data contained within the element",
+      "Attribute – provides extra information to the element",
+      "Value – the value assigned to the attribute",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  }
+]

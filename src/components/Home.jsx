@@ -35,7 +35,7 @@ import "../cssdark/HomeDark.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 // import Globe from "../components/Globe";
 // import CircularSlider from "../components/CircularSlider";
-import HomeUI1 from "../HomeDarkThemes/HomeUI1";
+import HomeUI1 from "../Home/HomeUI1";
 import LearningPaths from "../Home/LearningPaths";
 
 Modal.setAppElement("#root");
@@ -441,7 +441,7 @@ const Home = ({ onTechnologySelect, onCompilerSelect }) => {
               viewport={{ once: false }}
               transition={{ duration: 0.3, delay: 0.7 }}
             >
-              <img src="/img12.jpg" alt="Global Opportunities" />
+              <img src="/img12.webp" alt="Global Opportunities" />
             </motion.div>
           </motion.div>
         </section>

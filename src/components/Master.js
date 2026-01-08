@@ -164,7 +164,7 @@ const Master = () => {
     if (showIntro) {
       const timer = setTimeout(() => {
         setShowIntro(false);
-      }, 2000);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [showIntro]);
@@ -257,16 +257,6 @@ const Master = () => {
     setSelectedItem(itemName);
   };
 
-  // 4. RENDER LOADER OVERLAY
-  if (showIntro) {
-    return (
-      <div className="intro-overlay">
-        <DoraemonLoader />
-        {/* <h1 className="loading-text1">CodePulse-R</h1> */}
-      </div>
-    );
-  }
-
   // Determine SEO title, description, and keywords
   let pageTitle = "Home";
   let pageDescription = "";
@@ -293,6 +283,27 @@ const Master = () => {
         description={pageDescription}
         keywords={pageKeywords}
       />
+      {/* 4. RENDER LOADER OVERLAY (Now non-blocking, positioned on top) */}
+      {showIntro && (
+        <div
+          className="intro-overlay"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: 9999,
+            backgroundColor: "#fff", // Ensure opaque background
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <DoraemonLoader />
+        </div>
+      )}
 
       <NavBar
         onTechnologySelect={handleTechnologySelect}

@@ -76,7 +76,7 @@ const pathsData = [
     title: "Node.js",
     description: "JavaScript runtime for server-side apps.",
     icon: "/icons/nodejs.png",
-    bg: "/bg/node.jpg",
+    bg: "/bg/node.webp",
     techKey: "JavaScript", // Mapped to JavaScript
   },
   {

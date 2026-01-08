@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap */
 
 /* :root removed, variables replaced inline */
 
@@ -80,7 +80,11 @@
     -webkit-text-fill-color: transparent;
     text-shadow: 0 0 30px rgba(0, 229, 255, 0.4);
 }
-
+.text-cyan1 {
+    font-size: 2.5rem;
+    color: #00E5FF;
+    text-shadow: 0 0 30px rgba(0, 229, 255, 0.4);
+}
 /* Purple Text Gradient */
 .text-purple {
     color: #D500F9;
@@ -311,7 +315,7 @@
     align-items: center;
     gap: 1.2rem;
     padding: 0.7rem 2rem;
-    border-radius: 100px;
+    border-radius: 100px;   
     font-size: 1.2rem;
     color: #ffffff;
     font-weight: 600;

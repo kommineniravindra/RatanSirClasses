@@ -60,7 +60,7 @@ export const examCodeMap = {
   "react-exam1": "REACT101",
   "react-exam2": "REACT202",
   "html-exam1": "HTML101",
-  "html-exam2": "HTML202",
+  // "html-exam2": "HTML202",
   "css-exam1": "CSS101",
   "css-exam2": "CSS202",
   "sql-exam1": "SQL101",

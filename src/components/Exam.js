@@ -999,16 +999,16 @@ const Exam = () => {
     ]
   );
 
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.hidden && !showResult && timerActive && isExamStarted) {
-        submitExam(true, true);
-      }
-    };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () =>
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, [showResult, timerActive, submitExam, isExamStarted]);
+  // useEffect(() => {
+  //   const handleVisibilityChange = () => {
+  //     if (document.hidden && !showResult && timerActive && isExamStarted) {
+  //       submitExam(true, true);
+  //     }
+  //   };
+  //   document.addEventListener("visibilitychange", handleVisibilityChange);
+  //   return () =>
+  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
+  // }, [showResult, timerActive, submitExam, isExamStarted]);
 
   // --- HELPER FUNCTION: Run code using Piston API (Refactored) ---
   const executeCode = async (userCode, customInput, language) => {
@@ -1272,7 +1272,7 @@ const Exam = () => {
 
       // Fallback: Generic Input Check
       if (checkForInput(code, techConfig.language)) {
-        setDetectedPrompts([]); // No specific prompts found
+        setDetectedPrompts(["Input:"]); // Generic prompt to trigger UI
         setIsWaitingForInput(true);
         setRunningQuestionId(i);
         // setOutput("Program requires input. Please enter values..."); // Maybe logic handled in UI?
@@ -1319,7 +1319,8 @@ const Exam = () => {
       }));
 
       // Update Marks Calculation for Immediate Feedback (Only if using Sample Input)
-      if (inputToUse === selectedCoding[i].sampleInput) {
+      const originalSample = selectedCoding[i].sampleInput || "";
+      if (inputToUse === originalSample) {
         let marks = 0;
         if (!compileError) {
           // Special Grading Logic for SQL
@@ -1789,7 +1790,10 @@ const Exam = () => {
                             {/* --- PISTON / JUDGE0 EDITOR WITH NEW STYLING --- */}
                             {(techConfig.type === "judge0" ||
                               techConfig.type === "piston") && (
-                              <div className="exam-editor-wrapper coding-editor-wrapper">
+                              <div
+                                className="exam-editor-wrapper coding-editor-wrapper"
+                                style={{ minHeight: "450px" }}
+                              >
                                 {/* TOOLBAR */}
                                 <div className="exam-editor-toolbar">
                                   <div className="exam-toolbar-left">
@@ -1989,7 +1993,40 @@ const Exam = () => {
                               </div>
                             )}
 
-                            {/* Display Run Results (Debug) OR Input Wizard */}
+                            {/* --- MARKS DISPLAY (Between Editor and Output) --- */}
+                            {codeResults[i]?.evaluated && (
+                              <div
+                                style={{
+                                  marginTop: "1px",
+                                  marginBottom: "1px",
+                                  padding: "8px 10px",
+                                  backgroundColor:
+                                    codeResults[i].marks > 0
+                                      ? "#dcfce7"
+                                      : "#fee2e2",
+                                  border:
+                                    codeResults[i].marks > 0
+                                      ? "1px solid #86efac"
+                                      : "1px solid #fca5a5",
+                                  borderRadius: "6px",
+                                  color:
+                                    codeResults[i].marks > 0
+                                      ? "#15803d"
+                                      : "#b91c1c",
+                                  fontWeight: "bold",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "5px",
+                                }}
+                              >
+                                <span>Evaluation Result:</span>
+                                <span style={{ fontSize: "1.1rem" }}>
+                                  {codeResults[i].marks} /{" "}
+                                  {selectedCoding[i].maxMarks} Marks
+                                </span>
+                              </div>
+                            )}
+
                             {/* Display Run Results (Debug) OR Input Wizard */}
                             <div className="exam-output-section coding-output-section">
                               {runningQuestionId === i && isWaitingForInput ? (
@@ -2001,7 +2038,7 @@ const Exam = () => {
                                     color: "#000",
                                     border: "1px solid #ccc",
                                     borderRadius: "5px",
-                                    marginBottom: "15px",
+                                    marginBottom: "5px",
                                     fontFamily: "monospace",
                                     fontWeight: "bold", // Bold
                                     fontSize: "18px", // 18px
@@ -2010,7 +2047,7 @@ const Exam = () => {
                                   <h4
                                     style={{
                                       color: "#000",
-                                      marginBottom: "10px",
+                                      marginBottom: "1px",
                                     }}
                                   >
                                     Interactive Input:
@@ -2128,28 +2165,9 @@ const Exam = () => {
                                       {techConfig.language !== "sql" && (
                                         <div
                                           className="exam-terminal-output"
-                                          style={{ marginTop: "15px" }}
+                                          // style={{ marginTop: "1px" }}
                                         >
-                                          <h4>
-                                            Console Output:
-                                            {codeResults[i]?.evaluated && (
-                                              <span
-                                                style={{
-                                                  marginLeft: "15px",
-                                                  fontWeight: "bold",
-                                                  color:
-                                                    codeResults[i].marks > 0
-                                                      ? "#28a745"
-                                                      : "#dc3545",
-                                                  fontSize: "1rem",
-                                                }}
-                                              >
-                                                [Marks Scored:{" "}
-                                                {codeResults[i].marks} /{" "}
-                                                {selectedCoding[i].maxMarks}]
-                                              </span>
-                                            )}
-                                          </h4>
+                                          <h4>Console Output:</h4>
                                           {runResults[i].compileError ? (
                                             <pre className="error-text">
                                               {runResults[i].compileError}
@@ -2169,7 +2187,7 @@ const Exam = () => {
                                           <div className="sql-preview-container">
                                             <div className="sql-preview-header">
                                               📄 Output/Preview:
-                                              {codeResults[i]?.evaluated && (
+                                              {/* {codeResults[i]?.evaluated && (
                                                 <span
                                                   style={{
                                                     marginLeft: "15px",
@@ -2185,7 +2203,7 @@ const Exam = () => {
                                                   {codeResults[i].marks} /{" "}
                                                   {selectedCoding[i].maxMarks}
                                                 </span>
-                                              )}
+                                              )} */}
                                             </div>
                                             <div
                                               dangerouslySetInnerHTML={{
@@ -2203,27 +2221,6 @@ const Exam = () => {
                             </div>
 
                             {/* Display Evaluation Results (Grading) */}
-                            {/* {codeResults[i] && (
-                            <div className="testcases">
-                              {codeResults[i].compileError ? (
-                                <div className="output-error">
-                                  <h4>Error</h4>
-                                  <pre>{codeResults[i].compileError}</pre>
-                                </div>
-                              ) : (
-                                <div className="output-success">
-                                  <h4>Evaluation Output:</h4>
-                                  <pre>
-                                    {codeResults[i].output || "(no output)"}
-                                  </pre>
-                                  <p className="marks-display">
-                                    Marks: {codeResults[i].marks} /{" "}
-                                    {q.maxMarks || ExamConfig.codingMarks}
-                                  </p>
-                                </div>
-                              )}
-                            </div>
-                          )} */}
 
                             {techConfig.type === "codepad" && (
                               <div
@@ -2233,6 +2230,7 @@ const Exam = () => {
                                   flexDirection: "column",
                                   minHeight: "100%", // Allow growth for scrolling
                                   gap: "0px",
+                                  marginTop: "-10px",
                                 }}
                               >
                                 {/* Editor Section with Toolbar */}
