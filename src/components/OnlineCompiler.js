@@ -57,6 +57,20 @@ import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { downloadCompilerPdf, PdfPrintLayout } from "../utils/pdfUtils";
 
+// Language Logic Imports
+import {
+  checkForJavaInput,
+  runJavaCode,
+  analyzeJavaPrompts,
+} from "../utils/javalogic";
+import { checkForPythonInput, runPythonCode } from "../utils/pythonlogic";
+import {
+  checkForJavascriptInput,
+  runJavascriptCode,
+} from "../utils/javascriptlogic";
+import { runHtmlCode } from "../utils/htmllogic";
+import { runCssCode } from "../utils/csslogic";
+
 import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/mode-css";
 import "ace-builds/src-noconflict/mode-javascript";
@@ -439,15 +453,12 @@ const OnlineCompiler = ({ initialLanguage }) => {
   const checkForInput = (code, lang) => {
     if (!code) return false;
     if (lang === "java") {
-      const { checkForJavaInput } = require("../utils/javalogic");
       return checkForJavaInput(code);
     }
     if (lang === "python") {
-      const { checkForPythonInput } = require("../utils/pythonlogic");
       return checkForPythonInput(code);
     }
     if (lang === "javascript") {
-      const { checkForJavascriptInput } = require("../utils/javascriptlogic");
       return checkForJavascriptInput(code);
     }
     // Legacy/Fallback Checks
@@ -469,10 +480,8 @@ const OnlineCompiler = ({ initialLanguage }) => {
     if (language === "html" || language === "css") {
       let content = code;
       if (language === "html") {
-        const { runHtmlCode } = require("../utils/htmllogic");
         content = runHtmlCode(code).output;
       } else {
-        const { runCssCode } = require("../utils/csslogic");
         content = runCssCode(code).output;
       }
       setOutput(content);
@@ -508,13 +517,10 @@ const OnlineCompiler = ({ initialLanguage }) => {
         let result = { output: "", isError: false };
 
         if (apiLanguage === "java") {
-          const { runJavaCode } = require("../utils/javalogic");
           result = await runJavaCode(code, stdinValue);
         } else if (apiLanguage === "python") {
-          const { runPythonCode } = require("../utils/pythonlogic");
           result = await runPythonCode(code, stdinValue);
         } else if (apiLanguage === "javascript") {
-          const { runJavascriptCode } = require("../utils/javascriptlogic");
           result = await runJavascriptCode(code, stdinValue);
         }
 
@@ -570,7 +576,6 @@ const OnlineCompiler = ({ initialLanguage }) => {
   const analyzeInputPrompts = (code) => {
     if (!code) return [];
     if (language === "java") {
-      const { analyzeJavaPrompts } = require("../utils/javalogic");
       return analyzeJavaPrompts(code);
     }
     return [];

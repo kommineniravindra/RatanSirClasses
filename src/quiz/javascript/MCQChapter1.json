@@ -112,7 +112,7 @@
     "answer": "Character"
   },
   {
-    "question": "What should a you focus on to get a job in Full Stack development easily?",
+    "question": "What should you focus on to get a job in Full Stack development easily?",
     "options": [
       "Frontend technologies like HTML, CSS, JS, ReactJS(React as main library)",
       "Backend technologies like Java, .NET, Python(REST APIs as main focus)",
@@ -124,16 +124,6 @@
   },
   {
     "question": "Which statement is TRUE about JavaScript variables?",
-    "options": [
-      "Data type must be declared",
-      "Data type is decided at runtime",
-      "Only numbers are allowed",
-      "Variables cannot change type"
-    ],
-    "answer": "Data type is decided at runtime"
-  },
-  {
-    "question": "Which statement is TRUE about JavaScript variables? (Type II)",
     "options": [
       "Data type must be declared statically typed.",
       "Data type is decided at runtime dynamically types.",
@@ -192,14 +182,27 @@
     ],
     "answer": "Brendan Eich"
   },
+  [
   {
-    "question": "What is the latest official standard version of JavaScript (ECMAScript) as of 2026?",
+    "question": "JavaScript code is executed by?",
     "options": [
-      "ES2024",
-      "ES2025",
-      "ES2026",
-      "ES6"
+      "Compiler",
+      "Interpreter",
+      "Browser",
+      "Java Virtual Machine (JVM)"
     ],
-    "answer": "ES2026"
+    "answer": "Interpreter"
+  },
+  {
+    "question": "What is the main difference between a static website and a dynamic website?",
+    "options": [
+      "Static websites use databases, while dynamic websites do not",
+      "Static websites show the same content to all users, while dynamic websites show content based on user interaction or data",
+      "Static websites require server-side scripting, while dynamic websites do not",
+      "Static websites change content automatically, while dynamic websites never change"
+    ],
+    "answer": "Static websites show the same content to all users, while dynamic websites show content based on user interaction or data"
   }
+]
+
 ]

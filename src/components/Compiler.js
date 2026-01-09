@@ -33,6 +33,13 @@ import { downloadCompilerPdf, PdfPrintLayout } from "../utils/pdfUtils";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// Language Logic Imports
+import { runJavaCode } from "../utils/javalogic";
+import { runPythonCode } from "../utils/pythonlogic";
+import { runJavascriptCode } from "../utils/javascriptlogic";
+import { runHtmlCode } from "../utils/htmllogic";
+import { runCssCode } from "../utils/csslogic";
+
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/mode-css";
@@ -269,10 +276,8 @@ const Compiler = () => {
     if (language === "html" || language === "css") {
       let content = code;
       if (language === "html") {
-        const { runHtmlCode } = require("../utils/htmllogic");
         content = runHtmlCode(code).output;
       } else {
-        const { runCssCode } = require("../utils/csslogic");
         content = runCssCode(code).output;
       }
       setOutput(content);
@@ -298,13 +303,10 @@ const Compiler = () => {
       let result;
 
       if (language === "java") {
-        const { runJavaCode } = require("../utils/javalogic");
         result = await runJavaCode(code, paramsInput);
       } else if (language === "python") {
-        const { runPythonCode } = require("../utils/pythonlogic");
         result = await runPythonCode(code, paramsInput);
       } else if (language === "javascript") {
-        const { runJavascriptCode } = require("../utils/javascriptlogic");
         result = await runJavascriptCode(code, paramsInput);
       } else {
         // Fallback for others if any

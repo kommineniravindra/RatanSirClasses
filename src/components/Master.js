@@ -141,6 +141,9 @@ const Master = () => {
   // Only set showIntro to true if the saved page is "Home" (or if it's the very first visit)
   // AND if we are not deep linking to another page
   const [showIntro, setShowIntro] = useState(() => {
+    // Prevent intro from showing again if already shown during this session
+    if (sessionStorage.getItem("introShown")) return false;
+
     const queryParams = new URLSearchParams(location.search);
     const pageParam = queryParams.get("page");
     if (pageParam && pageParam !== "Home") return false; // Skip intro for deep links
@@ -162,6 +165,9 @@ const Master = () => {
   // UseEffect to hide intro after 3.5 seconds
   useEffect(() => {
     if (showIntro) {
+      // Mark as shown immediately so subsequent navigations don't show it
+      sessionStorage.setItem("introShown", "true");
+
       const timer = setTimeout(() => {
         setShowIntro(false);
       }, 3000);
@@ -335,6 +341,7 @@ const Master = () => {
                 selectedItem={selectedItem}
                 menuData={menuData}
                 onItemClick={handleItemClick}
+                selectedTechnology={selectedTechnology}
               />
             </div>
             <div className="grid-main">

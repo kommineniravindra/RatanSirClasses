@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 // Analysis: Checking for backend save logic
 import AceEditor from "react-ace";
 import axios from "axios";
+import alasql from "alasql"; // Added explicit import
 
 import {
   FaCheck,
@@ -291,20 +292,24 @@ export const createPreviewContent = (code, language) => {
 
 // ----------------- learning contexts (bundled JSON files) -----------------
 export const learningContexts = {
-  html: require.context("../learning/html", false, /CodingChapter\d+\.json$/),
-  css: require.context("../learning/css", false, /CodingChapter\d+\.json$/),
-  javascript: require.context(
-    "../learning/javascript",
-    false,
-    /CodingChapter\d+\.json$/
-  ),
-  java: require.context("../learning/java", false, /CodingChapter\d+\.json$/),
-  python: require.context(
-    "../learning/python",
-    false,
-    /CodingChapter\d+\.json$/
-  ),
-  sql: require.context("../learning/sql", false, /CodingChapter\d+\.json$/),
+  html: import.meta.glob("../learning/html/CodingChapter*.json", {
+    eager: true,
+  }),
+  css: import.meta.glob("../learning/css/CodingChapter*.json", {
+    eager: true,
+  }),
+  javascript: import.meta.glob("../learning/javascript/CodingChapter*.json", {
+    eager: true,
+  }),
+  java: import.meta.glob("../learning/java/CodingChapter*.json", {
+    eager: true,
+  }),
+  python: import.meta.glob("../learning/python/CodingChapter*.json", {
+    eager: true,
+  }),
+  sql: import.meta.glob("../learning/sql/CodingChapter*.json", {
+    eager: true,
+  }),
 };
 
 const TOPIC_LIST_MAP = {
@@ -317,16 +322,29 @@ const TOPIC_LIST_MAP = {
 };
 
 export const getChapterInfo = (context, lang) => {
-  const keys = context
-    .keys()
-    .filter((key) => key.match(/CodingChapter\d+\.json$/));
+  // context is now the object returned by import.meta.glob { path: module, ... }
+  const keys = Object.keys(context);
   const chapterKeys = keys
-    .map((key) => Number(key.match(/CodingChapter(\d+)\.json$/)[1]))
+    .map((key) => {
+      const match = key.match(/CodingChapter(\d+)\.json$/);
+      return match ? Number(match[1]) : null;
+    })
+    .filter((n) => n !== null)
     .sort((a, b) => a - b);
+
   const currentTopicList = TOPIC_LIST_MAP[lang.toLowerCase()] || [];
   const chapters = chapterKeys.map((keyNum, index) => {
     try {
-      const data = context(`./CodingChapter${keyNum}.json`);
+      // Reconstruct key to find module in context
+      const keyPattern = new RegExp(`CodingChapter${keyNum}\\.json$`);
+      const fullKey = keys.find((k) => keyPattern.test(k));
+
+      if (!fullKey) throw new Error("Key not found");
+
+      const module = context[fullKey];
+      // ESM module default export check
+      const data = Array.isArray(module) ? module : module.default || [];
+
       let chapterTitle = `Chapter ${keyNum}`;
       if (currentTopicList.length > 0 && index < currentTopicList.length) {
         chapterTitle = `Chapter ${keyNum}: ${"\u00A0"} ${
@@ -340,6 +358,7 @@ export const getChapterInfo = (context, lang) => {
       return { num: keyNum, title: `Chapter ${keyNum}` };
     }
   });
+
   return { count: keys.length, keys, chapterKeys, chapters };
 };
 
@@ -730,10 +749,20 @@ const StartLearning1 = ({
   useEffect(() => {
     if (selectedCourse && expandedChapter) {
       try {
-        const key = `./CodingChapter${expandedChapter}.json`;
+        const keyPattern = new RegExp(
+          `CodingChapter${expandedChapter}\\.json$`
+        );
         const context = learningContexts[selectedCourse.toLowerCase()];
-        const data = context(key);
-        setCurrentChapterData(Array.isArray(data) ? data : []);
+        const keys = Object.keys(context);
+        const fullKey = keys.find((k) => keyPattern.test(k));
+
+        if (fullKey) {
+          const module = context[fullKey];
+          const data = Array.isArray(module) ? module : module.default || [];
+          setCurrentChapterData(data);
+        } else {
+          setCurrentChapterData([]);
+        }
       } catch (err) {
         console.error("Error loading chapter data:", err);
         setCurrentChapterData([]);
@@ -788,12 +817,21 @@ const StartLearning1 = ({
     const info = chapterInfoByLang[lang];
     const counts = {};
     if (!info) return setChapterExampleCounts({});
+
     info.chapterKeys.forEach((chapterNum) => {
       try {
-        const key = `./CodingChapter${chapterNum}.json`;
+        const keyPattern = new RegExp(`CodingChapter${chapterNum}\\.json$`);
         const context = learningContexts[lang];
-        const data = context(key);
-        counts[chapterNum] = Array.isArray(data) ? data.length : 0;
+        const keys = Object.keys(context);
+        const fullKey = keys.find((k) => keyPattern.test(k));
+
+        if (fullKey) {
+          const module = context[fullKey];
+          const data = Array.isArray(module) ? module : module.default || [];
+          counts[chapterNum] = data.length;
+        } else {
+          counts[chapterNum] = 0;
+        }
       } catch (err) {
         counts[chapterNum] = 0;
       }
@@ -938,7 +976,7 @@ const StartLearning1 = ({
           }
 
           if (!isSelection || !sqlDbRef.current) {
-            const alasql = require("alasql");
+            // const alasql = require("alasql"); // Removed
             try {
               alasql("DROP DATABASE IF EXISTS myDB");
             } catch (e) {}
@@ -997,7 +1035,7 @@ const StartLearning1 = ({
           );
 
           // 3. Expected Result Check (for grading)
-          const alasql = require("alasql");
+          // const alasql = require("alasql"); // Removed
           const expectedDb = new alasql.Database(); // Fresh DB for expected
           let expectedResultData = null;
           let expectedTables = [];

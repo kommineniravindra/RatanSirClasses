@@ -1,0 +1,202 @@
+[
+    {
+        "question": "Which SET operator removes duplicate rows?",
+        "options": [
+            "UNION ALL",
+            "UNION",
+            "INTERSECT",
+            "MINUS"
+        ],
+        "answer": "UNION"
+    },
+    {
+        "question": "Which SET operator returns all rows including duplicates?",
+        "options": [
+            "UNION",
+            "INTERSECT",
+            "UNION ALL",
+            "MINUS"
+        ],
+        "answer": "UNION ALL"
+    },
+    {
+        "question": "Which SET operator returns common rows between two queries?",
+        "options": [
+            "UNION",
+            "MINUS",
+            "UNION ALL",
+            "INTERSECT"
+        ],
+        "answer": "INTERSECT"
+    },
+    {
+        "question": "Which SET operator returns rows from first query that are not in second query?",
+        "options": [
+            "INTERSECT",
+            "UNION",
+            "MINUS",
+            "UNION ALL"
+        ],
+        "answer": "MINUS"
+    },
+    {
+        "question": "Which operator is used to concatenate strings in Oracle?",
+        "options": [
+            "+",
+            "**",
+            "||",
+            "OR"
+        ],
+        "answer": "||"
+    },
+    {
+        "question": "What happens if one value is NULL in string concatenation: SELECT 'Hello' || NULL FROM dual;",
+        "options": [
+            "HelloNULL",
+            "NULL",
+            "Hello",
+            "0"
+        ],
+        "answer": "Hello"
+    },
+    {
+        "question": "What is the purpose of NVL?",
+        "options": [
+            "To remove duplicates from table",
+            "To replace NULL values with a default value",
+            "To compare values with null values",
+            "To replace the original value with null value"
+        ],
+        "answer": "To replace NULL values with a default value"
+    },
+    {
+        "question": "What is the output of NVL(salary, 'NO Data') if salary is NULL?",
+        "options": [
+            "It will replace it with 'NO Data'",
+            "It will replace it with 'NO Data' if salary is NOT NULL",
+            "It will generate an error",
+            "It will return 0"
+        ],
+        "answer": "It will replace it with 'NO Data'"
+    },
+    {
+        "question": "What is the purpose of NVL2?",
+        "options": [
+            "Only NULL value",
+            "Only NOT NULL value",
+            "One value if NULL, another if NOT NULL",
+            "Always NULL"
+        ],
+        "answer": "One value if NULL, another if NOT NULL"
+    },
+    {
+        "question": "What is the output of NVL2(email, 'Yes', 'No') if email is NULL?",
+        "options": [
+            "Yes",
+            "No",
+            "NULL",
+            "Error"
+        ],
+        "answer": "No"
+    },
+    {
+        "question": "What does COALESCE do?",
+        "options": [
+            "Adds multiple columns",
+            "Replaces NULL with 0",
+            "Returns first non-NULL value",
+            "Returns last non-NULL value"
+        ],
+        "answer": "Returns first non-NULL value"
+    },
+    {
+        "question": "What is the result of COALESCE(NULL, NULL, 5000, 0)?",
+        "options": [
+            "NULL",
+            "0",
+            "5000",
+            "Error"
+        ],
+        "answer": "5000"
+    },
+    {
+        "question": "Which condition checks NULL correctly on salary column?",
+        "options": [
+            "salary = NULL",
+            "salary != NULL",
+            "salary IS NULL",
+            "salary = 0"
+        ],
+        "answer": "salary IS NULL"
+    },
+    {
+        "question": "Which query returns employees whose email is NOT NULL?",
+        "options": [
+            "email != NULL",
+            "email IS NOT NULL",
+            "email <> NULL",
+            "email = NOT NULL"
+        ],
+        "answer": "email IS NOT NULL"
+    },
+    {
+        "question": "What does NULL represent in Oracle?",
+        "options": [
+            "Zero value",
+            "Empty string",
+            "Unknown or missing value",
+            "Blank space"
+        ],
+        "answer": "Unknown or missing value"
+    },
+    {
+        "question": "When does a column in an Oracle table get a NULL value?",
+        "options": [
+            "When no value is provided during INSERT",
+            "When the column is defined as NOT NULL",
+            "When you insert 0",
+            "When you insert a blank space ' '"
+        ],
+        "answer": "When no value is provided during INSERT"
+    },
+    {
+        "question": "Which of the following is TRUE about NULL?",
+        "options": [
+            "NULL = NULL evaluates to TRUE",
+            "NULL <> NULL evaluates to FALSE",
+            "Any arithmetic with NULL gives NULL",
+            "NULL is equal to 0"
+        ],
+        "answer": "Any arithmetic with NULL gives NULL"
+    },
+    {
+        "question": "Which of the following can be used to replace NULL values in Oracle?",
+        "options": [
+            "NVL",
+            "NVL2",
+            "COALESCE",
+            "All of the above"
+        ],
+        "answer": "All of the above"
+    },
+    {
+        "question": "Which operators are used to check for NULL in Oracle?",
+        "options": [
+            "= and !=",
+            "IS NULL and IS NOT NULL",
+            "<>",
+            "IN and NOT IN"
+        ],
+        "answer": "IS NULL and IS NOT NULL"
+    },
+    {
+        "question": "What is the result of SELECT 1 + NULL FROM dual?",
+        "options": [
+            "1",
+            "0",
+            "NULL",
+            "Error"
+        ],
+        "answer": "NULL"
+    }
+]

@@ -1,14 +1,15 @@
-/* Navbar1.css - Fully Responsive Premium Dark Glass */
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 :root {
     --nav-bg: rgb(0, 0, 0);
-    --nav-text: #ffffff;
+    /* Solid Black */
+    --nav-text: #e0e0e0;
     --nav-hover-text: #4facfe;
     --nav-active-text: #4facfe;
-    --nav-dropdown-bg: #111111;
-    --nav-dropdown-border: rgba(255, 255, 255, 0.1);
+    --nav-dropdown-bg: #0a0a0a;
+    --nav-dropdown-border: rgba(255, 255, 255, 0.08);
+    /* Softer border */
 }
 
 .nb-navbar {
@@ -18,20 +19,25 @@
     justify-content: space-between !important;
     padding: 0;
     margin: 0;
-    height: 50px;
-    /* Slight increase for better touch targets */
+    height: 48px;
+    /* Decreased to 48px */
 
-    /* Dynamic Background */
+    /* Premium Glass Effect */
     background: var(--nav-bg);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    /* border-bottom: 1px solid rgba(255, 255, 255, 0.08); */
 
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    /* Premium Tech Font */
     position: sticky;
     top: 0;
     z-index: 1000;
-    transition: all 0.5s ease;
+    top: 0;
+    z-index: 1000;
+    transition: background-color 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+        color 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+        backdrop-filter 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .nb-navbar-links {
@@ -44,23 +50,25 @@
 
 .nb-navbar-item {
     margin: 0;
-    padding: 8px 16px;
+    padding: 6px 16px;
     color: var(--nav-text);
-    font-family: 'Courier New', monospace;
-    /* Kept as per previous file */
-    font-weight: 600;
-    font-size: 1.15rem;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    font-weight: 625;
+    font-size: 0.95rem;
+    /* Clean, modern size */
     display: flex;
     align-items: center;
     cursor: pointer;
     position: relative;
     transition: all 0.3s ease;
-    border-radius: 6px;
+    border-radius: 4px;
+    /* Sharper corners for tech feel */
     z-index: 1;
+    letter-spacing: 0.3px;
 }
 
 /* ================================
-   4-Corner Bracket Hover Effect
+   4-Corner Bracket Hover Effect (Main Items)
 ================================ */
 
 .nb-navbar-item::before {
@@ -86,6 +94,7 @@
         linear-gradient(to top, #4facfe 2px, transparent 2px) 100% 100%;
     background-repeat: no-repeat;
     background-size: 8px 8px;
+    /* Size of the bracket corners */
 }
 
 .nb-navbar-item:hover::before {
@@ -94,7 +103,8 @@
 
 .nb-navbar-item:hover {
     color: var(--nav-hover-text);
-    text-shadow: 0 0 10px rgba(79, 172, 254, 0.4);
+    text-shadow: 0 0 15px rgba(79, 172, 254, 0.5);
+    /* Enhanced glow */
     transform: translateY(-1px);
 }
 
@@ -104,29 +114,14 @@
 
 .nb-navbar-item.active {
     color: var(--nav-active-text);
-    font-weight: 700;
+    font-weight: 600;
     text-shadow: 0 0 15px rgba(79, 172, 254, 0.6);
 }
 
-/* Ensure active items don't show the hover brackets if unwanted, 
-   but previously it was set to display:none. I'll keep it consistent. */
+/* Ensure active items brackets visibility preserved */
 .nb-navbar-item.active::before {
     display: block;
-    /* Let's show it for active too for emphasis? User said "selected use different colour". */
     opacity: 1;
-    /* Or keep brackets visible for active */
-}
-
-/* Update brackets color for active item to maybe orange? 
-   User asked "selected use different colour". 
-   Let's make active text Orange-ish or Cyan, and hover Blue.
-*/
-.nb-navbar-item.active {
-    color: #00f2fe;
-    /* Cyan/Bright Blue for active */
-}
-
-.nb-navbar-item.active::before {
     background:
         linear-gradient(to right, #00f2fe 2px, transparent 2px) 0 0,
         linear-gradient(to bottom, #00f2fe 2px, transparent 2px) 0 0,
@@ -142,27 +137,32 @@
 
 
 #nav-header-content {
-    font-family: 'Raleway', sans-serif;
-    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
     font-size: 1.3rem;
     background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     cursor: default;
     white-space: nowrap;
-    filter: drop-shadow(0 2px 4px rgba(2, 132, 199, 0.3));
+    filter: drop-shadow(0 0 8px rgba(79, 172, 254, 0.4));
+    /* Premium Glow */
+    letter-spacing: -0.5px;
 }
 
 .nb-navbar-content {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
 .nb-navbar-content svg,
 .nb-navbar-content img {
-    width: 14px;
-    height: 14px;
+    width: 20px;
+    /* Balanced size */
+    height: 20px;
+    filter: drop-shadow(0 0 4px rgba(79, 172, 254, 0.2));
 }
 
 .nb-navbar-item-dropdown {
@@ -171,23 +171,38 @@
 
 /* Redesigned Dropdown - Dark Theme */
 .nb-dropdown-menu {
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Inter', sans-serif;
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 12px);
     left: 50%;
     transform: translateX(-50%);
-    min-width: 180px;
+    min-width: 200px;
     list-style: none;
-    padding: 8px;
+    padding: 6px;
     margin: 0;
 
     background: var(--nav-dropdown-bg) !important;
+    backdrop-filter: blur(10px);
     border: 1px solid var(--nav-dropdown-border);
-    box-shadow: 0 10px 40px -5px rgba(0, 0, 0, 0.5);
-    border-radius: 12px;
+    box-shadow: 0 10px 40px -5px rgba(0, 0, 0, 0.8), 0 0 20px rgba(79, 172, 254, 0.1);
+    border-radius: 8px;
+    /* Slightly sharper */
 
     z-index: 1200;
-    animation: dropdownPop 0.2s ease-out forwards;
+    animation: dropdownPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    /* Spring-like pop */
+}
+
+/* Pseudo-element to bridge the gap prevents flickered closing on hover */
+.nb-dropdown-menu::before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    /* Covers the 12px gap + buffer */
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: transparent;
 }
 
 @keyframes dropdownPop {
@@ -203,35 +218,90 @@
 }
 
 .nb-dropdown-item1 {
-    font-family: 'Courier New', monospace;
-    color: #e0e0e0;
-    padding: 10px 12px;
-    font-size: 1rem;
-    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    color: #cccccc;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    font-weight: 500;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     cursor: pointer;
     transition: all 0.2s ease;
-    border-radius: 8px;
+    border-radius: 4px;
     position: relative;
+    /* Needed for the bracket effect */
+    margin-bottom: 2px;
+}
+
+/* ================================
+   4-Corner Bracket Hover Effect (Dropdown Items)
+================================ */
+
+.nb-dropdown-item1::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+
+    /* Smaller bracket size for dropdowns if needed, but 8px usually fine */
+    background:
+        linear-gradient(to right, #4facfe 2px, transparent 2px) 0 0,
+        linear-gradient(to bottom, #4facfe 2px, transparent 2px) 0 0,
+        linear-gradient(to left, #4facfe 2px, transparent 2px) 100% 0,
+        linear-gradient(to bottom, #4facfe 2px, transparent 2px) 100% 0,
+        linear-gradient(to right, #4facfe 2px, transparent 2px) 0 100%,
+        linear-gradient(to top, #4facfe 2px, transparent 2px) 0 100%,
+        linear-gradient(to left, #4facfe 2px, transparent 2px) 100% 100%,
+        linear-gradient(to top, #4facfe 2px, transparent 2px) 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 6px 6px;
+    /* Slightly smaller brackets for dropdown list */
 }
 
 /* Dropdown Hover */
 .nb-dropdown-item1:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: #4facfe;
-    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.03);
+    /* Very subtle fill */
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(79, 172, 254, 0.5);
+    transform: translateX(4px);
+}
+
+.nb-dropdown-item1:hover::before {
+    opacity: 1;
+    /* Show brackets on hover */
 }
 
 .nb-dropdown-item1.active {
     color: #00f2fe;
-    background: rgba(0, 242, 254, 0.1);
+    background: rgba(0, 242, 254, 0.05);
+    text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+}
+
+.nb-dropdown-item1.active::before {
+    opacity: 1;
+    background:
+        linear-gradient(to right, #00f2fe 2px, transparent 2px) 0 0,
+        linear-gradient(to bottom, #00f2fe 2px, transparent 2px) 0 0,
+        linear-gradient(to left, #00f2fe 2px, transparent 2px) 100% 0,
+        linear-gradient(to bottom, #00f2fe 2px, transparent 2px) 100% 0,
+        linear-gradient(to right, #00f2fe 2px, transparent 2px) 0 100%,
+        linear-gradient(to top, #00f2fe 2px, transparent 2px) 0 100%,
+        linear-gradient(to left, #00f2fe 2px, transparent 2px) 100% 100%,
+        linear-gradient(to top, #00f2fe 2px, transparent 2px) 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 6px 6px;
 }
 
 .nb-dropdown-arrow {
     margin-left: 4px;
-    transition: transform 0.2s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nb-dropdown-arrow.open {
@@ -249,6 +319,7 @@
 
 .nb-menu-toggle:hover {
     color: #4facfe;
+    filter: drop-shadow(0 0 5px rgba(79, 172, 254, 0.5));
 }
 
 
@@ -259,23 +330,23 @@
 /* 1. Mobile Portrait (320px - 479px) */
 @media (max-width: 479px) {
     .nb-navbar {
-        height: 45px;
+        height: 48px;
         padding: 0 1rem;
     }
 
     .nb-menu-toggle {
         display: block;
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 
     .nb-navbar-links {
         position: fixed;
-        top: 45px;
+        top: 48px;
         left: 0;
         width: 85%;
-        height: calc(100vh - 45px);
-        background: #0a0a0a;
-        /* Dark background */
+        height: calc(100vh - 48px);
+        background: #000000;
+        /* Solid black */
         flex-direction: column;
         align-items: flex-start;
         padding: 1.5rem;
@@ -284,9 +355,9 @@
         opacity: 0;
         pointer-events: none;
         transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 5px 0 20px rgba(0, 0, 0, 0.5);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8);
         overflow-y: auto;
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .nb-navbar-links.open {
@@ -298,9 +369,14 @@
     .nb-navbar-item {
         width: 100%;
         padding: 12px;
-        font-size: 1.15rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        font-size: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         justify-content: flex-start;
+    }
+
+    /* On mobile, maybe simpler hover effects or standard list */
+    .nb-navbar-item::before {
+        display: none;
     }
 
     .nb-dropdown-menu {
@@ -312,13 +388,20 @@
         transform: none;
         padding-left: 20px;
         animation: none;
+        border-radius: 0;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nb-dropdown-item1 {
+        font-size: 0.95rem;
+        padding: 10px;
     }
 }
 
 /* 2. Mobile Landscape (480px - 767px) */
 @media (min-width: 480px) and (max-width: 767px) {
     .nb-navbar {
-        height: 45px;
+        height: 48px;
         padding: 0 1.5rem;
     }
 
@@ -328,11 +411,11 @@
 
     .nb-navbar-links {
         position: fixed;
-        top: 45px;
+        top: 48px;
         left: 0;
         width: 300px;
-        height: calc(100vh - 45px);
-        background: #0a0a0a;
+        height: calc(100vh - 48px);
+        background: #000000;
         flex-direction: column;
         align-items: flex-start;
         padding: 20px;
@@ -341,9 +424,9 @@
         opacity: 0;
         pointer-events: none;
         transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 5px 0 20px rgba(0, 0, 0, 0.5);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8);
         overflow-y: auto;
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .nb-navbar-links.open {
@@ -354,8 +437,9 @@
 
     .nb-navbar-item {
         width: 100%;
-        font-size: 1.2rem;
+        font-size: 1rem;
         justify-content: flex-start;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
     }
 
     .nb-dropdown-menu {
@@ -372,22 +456,22 @@
 /* 3. Tablet Portrait & Landscape (768px - 1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
     .nb-navbar {
-        height: 50px;
+        height: 52px;
         padding: 0 2rem;
     }
 
     .nb-menu-toggle {
         display: block;
-        font-size: 1.9rem;
+        font-size: 1.6rem;
     }
 
     .nb-navbar-links {
         position: fixed;
-        top: 50px;
+        top: 52px;
         left: 0;
-        width: 320px;
-        height: calc(100vh - 50px);
-        background: #0a0a0a;
+        width: 340px;
+        height: calc(100vh - 52px);
+        background: #000000;
         flex-direction: column;
         align-items: flex-start;
         padding: 2rem;
@@ -396,8 +480,8 @@
         opacity: 0;
         pointer-events: none;
         transition: 0.3s ease;
-        box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8);
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .nb-navbar-links.open {
@@ -408,7 +492,7 @@
 
     .nb-navbar-item {
         width: 100%;
-        font-size: 1.25rem;
+        font-size: 1.1rem;
         justify-content: flex-start;
     }
 
@@ -430,7 +514,7 @@
     }
 
     .nb-navbar {
-        height: 50px;
+        height: 48px;
         padding: 0 2%;
     }
 
@@ -441,8 +525,8 @@
     }
 
     .nb-navbar-item {
-        padding: 6px 12px;
-        font-size: 1.1rem;
+        padding: 4px 12px;
+        font-size: 0.9rem;
     }
 }
 
@@ -453,7 +537,8 @@
     }
 
     .nb-navbar {
-        height: 55px;
+        height: 52px;
+        /* Slightly taller on large screens */
         padding: 0 5%;
     }
 
@@ -464,7 +549,77 @@
     }
 
     .nb-navbar-item {
-        padding: 8px 15px;
-        font-size: 1.2rem;
+        padding: 6px 16px;
+        font-size: 0.95rem;
     }
+}
+
+/* --- Alternate Theme Override (for non-Home pages) --- */
+.nb-navbar.nb-navbar-alternate {
+    /* Glassy Light Blue */
+    --nav-bg: #f7f9fc;
+    /* Sky-50 */
+    --nav-text: #0f172a;
+    /* Slate-900 */
+    --nav-hover-text: #007bff;
+    /* Sky-600 */
+    --nav-active-text: #0369a1;
+    /* Sky-700 */
+    --nav-dropdown-bg: #ffffff;
+    /* White */
+    --nav-dropdown-border: rgba(14, 61, 233, 0.2);
+
+    background-color: var(--nav-bg);
+    backdrop-filter: blur(15px);
+}
+
+/* Ensure hover text is colored/darker */
+.nb-navbar.nb-navbar-alternate .nb-navbar-item:hover {
+    color: var(--nav-hover-text);
+    text-shadow: none;
+}
+
+/* Override dropdown items for alternate theme */
+.nb-navbar.nb-navbar-alternate .nb-dropdown-item1 {
+    color: #334155;
+    /* Slate-700 */
+    font-weight: 500;
+}
+
+.nb-navbar.nb-navbar-alternate .nb-dropdown-item1:hover,
+.nb-navbar.nb-navbar-alternate .nb-dropdown-item1.active {
+    color: #007bff;
+}
+
+/* Active Item in Alternate Theme - Blue Brackets */
+.nb-navbar.nb-navbar-alternate .nb-navbar-item.active {
+    background: transparent;
+    color: #007bff;
+    box-shadow: none;
+    font-weight: 600;
+}
+
+.nb-navbar.nb-navbar-alternate .nb-navbar-item.active::before {
+    display: block;
+    opacity: 1;
+    background:
+        linear-gradient(to right, #007bff 2px, transparent 2px) 0 0,
+        linear-gradient(to bottom, #007bff 2px, transparent 2px) 0 0,
+        linear-gradient(to left, #007bff 2px, transparent 2px) 100% 0,
+        linear-gradient(to bottom, #007bff 2px, transparent 2px) 100% 0,
+        linear-gradient(to right, #007bff 2px, transparent 2px) 0 100%,
+        linear-gradient(to top, #007bff 2px, transparent 2px) 0 100%,
+        linear-gradient(to left, #007bff 2px, transparent 2px) 100% 100%,
+        linear-gradient(to top, #007bff 2px, transparent 2px) 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 8px 8px;
+}
+
+.nb-navbar.nb-navbar-alternate .nb-menu-toggle {
+    color: #0f172a;
+}
+
+.nb-navbar.nb-navbar-alternate .nb-menu-toggle:hover {
+    color: #007bff;
+    filter: none;
 }

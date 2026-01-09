@@ -9,7 +9,14 @@
 /* Removed blocking import: https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,900&display=swap */
 /* Removed blocking import: https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap */
 /* Removed blocking import: https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400..700&display=swap */
-
+@import url("https://fonts.googleapis.com/css2?family=Courgette&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Baskervville:ital,wght@0,400..700;1,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Libertinus+Serif:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=FF+Tisa+Web+Pro:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap");
 /* =========================================
    2. MAIN LAYOUT & CONTAINER
    ========================================= */
@@ -169,13 +176,11 @@
   letter-spacing: 0.5px;
 }
 
-/* Removed blocking import: https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap */
-/* Removed blocking import: https://fonts.googleapis.com/css2?family=Rubik+Gemstones&display=swap */
-/* Removed blocking import: https://fonts.googleapis.com/css2?family=Jersey+10&display=swap */
-
+/* @import url("https://fonts.googleapis.com/css2?family=Jersey+10&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Jersey+10&display=swap");
 .upgraded-catalog-header {
-  /* font-family: 'DM Serif Text', serif; */
-  font-family: "Jersey 10", sans-serif;
+  font-family: 'DM Serif Text', serif;
+  /* font-family: "Jersey 10", sans-serif; */
   font-weight: 400;
   font-style: normal;
   font-size: 3rem;
@@ -186,6 +191,7 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: #1e3c72;
+  /* color: #f80404; */
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: inline-block;
   margin-left: 25px;
@@ -453,7 +459,7 @@
 }
 
 /* Removed blocking import: https://fonts.googleapis.com/css2?family=Iceland&display=swap */
-
+@import url("https://fonts.googleapis.com/css2?family=Iceland&display=swap");
 .chapter-accordion-header h4 {
   margin: 0;
   font-size: 1.6rem;
@@ -578,7 +584,7 @@
 
 
 /* Removed blocking import: https://fonts.googleapis.com/css2?family=Yatra+One&display=swap */
-
+@import url("https://fonts.googleapis.com/css2?family=Yatra+One&display=swap");
 .exercise-title {
   font-family: "Yatra One", serif;
   font-weight: 400;
@@ -1092,7 +1098,7 @@
 }
 
 /* Removed blocking import: https://fonts.googleapis.com/css2?family=Gugi&display=swap */
-
+@import url("https://fonts.googleapis.com/css2?family=Gugi&display=swap");
 /* Text Styling */
 .btn-text1 {
   font-family: "Gugi", sans-serif;

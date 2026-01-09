@@ -29,6 +29,7 @@ import QuestionPalette from "./QuestionPalette";
 
 // Utilities
 import javaSnippets from "../utils/javaSnippets";
+import alasql from "alasql"; // Added Alasql
 import {
   sqlSnippets,
   runSqlCode,
@@ -36,6 +37,9 @@ import {
   verifySqlSolution,
 } from "../utils/sqllogic";
 import { generateJavaCode } from "../utils/javaCodeGenerator";
+import { runJavaCode } from "../utils/javalogic"; // Added
+import { runPythonCode } from "../utils/pythonlogic"; // Added
+import { runJavascriptCode } from "../utils/javascriptlogic"; // Added
 import {
   analyzeInputPrompts,
   checkForInput,
@@ -70,7 +74,7 @@ ace.config.set(
   "https://cdn.jsdelivr.net/npm/ace-builds@1.35.0/src-noconflict/"
 );
 
-const examsContext = require.context("../exams", true, /\.json$/);
+const examsFiles = import.meta.glob("../exams/**/*.json", { eager: true });
 
 // Define Toast Mixin
 const Toast = Swal.mixin({
@@ -84,6 +88,7 @@ const Toast = Swal.mixin({
     toast.onmouseleave = Swal.resumeTimer;
   },
 });
+
 // --- HELPER FUNCTION: Calculate marks based on Levenshtein distance & Keyword Analysis ---
 const calculateAccuracyMarks = (
   expectedOutput,
@@ -610,25 +615,31 @@ const Exam = () => {
         setIsLoading(true);
         setError(null);
 
-        const availableFiles = examsContext.keys();
+        // --- UPDATED: Retrieve from import.meta.glob (examsFiles) ---
         const loadSafe = (fileSuffix) => {
-          const fileName = `./${technology}/${examId}${fileSuffix}.json`;
-          return availableFiles.includes(fileName)
-            ? examsContext(fileName)
-            : [];
+          // Construct the path key to look up in the glob object
+          // Note relative path logic used in glob: ../exams/**/*.json
+          // We need: ../exams/${technology}/${examId}${fileSuffix}.json
+          const key = `../exams/${technology}/${examId}${fileSuffix}.json`;
+          return examsFiles[key] ? examsFiles[key] : []; // If file module exists, return it (assuming it exports array directly, or check default)
+        };
+
+        // Helper to extract data from module (Vite glob imports return module object)
+        const getData = (module) => {
+          if (Array.isArray(module)) return module;
+          if (module && Array.isArray(module.default)) return module.default;
+          // If 'eager: true' used, examsFiles[key] is the module itself
+          return [];
         };
 
         // Load MCQ
-        const quizModule = loadSafe("MCQ");
-        let shuffledMCQ = shuffleArray(quizModule).slice(
-          0,
-          ExamConfig.mcqCount
-        );
+        const quizData = getData(loadSafe("MCQ"));
+        let shuffledMCQ = shuffleArray(quizData).slice(0, ExamConfig.mcqCount);
         shuffledMCQ = shuffleAnswers(shuffledMCQ);
 
         // Load Blanks
-        const blanksModule = loadSafe("Blanks");
-        const shuffledBlanks = shuffleArray(blanksModule).slice(
+        const blanksData = getData(loadSafe("Blanks"));
+        const shuffledBlanks = shuffleArray(blanksData).slice(
           0,
           ExamConfig.blankCount
         );
@@ -636,16 +647,16 @@ const Exam = () => {
         // Load Coding
         let shuffledCoding = [];
         if (isCodingRoundAvailable) {
-          const codingModule = loadSafe("Coding");
-          shuffledCoding = shuffleArray(codingModule).slice(
+          const codingData = getData(loadSafe("Coding"));
+          shuffledCoding = shuffleArray(codingData).slice(
             0,
             ExamConfig.codingCount
           );
         }
 
         // Load Pseudo
-        const pseudoModule = loadSafe("Psuedo");
-        let shuffledPseudo = shuffleArray(pseudoModule).slice(
+        const pseudoData = getData(loadSafe("Psuedo"));
+        let shuffledPseudo = shuffleArray(pseudoData).slice(
           0,
           ExamConfig.pseudoCount
         );
@@ -999,16 +1010,16 @@ const Exam = () => {
     ]
   );
 
-  // useEffect(() => {
-  //   const handleVisibilityChange = () => {
-  //     if (document.hidden && !showResult && timerActive && isExamStarted) {
-  //       submitExam(true, true);
-  //     }
-  //   };
-  //   document.addEventListener("visibilitychange", handleVisibilityChange);
-  //   return () =>
-  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
-  // }, [showResult, timerActive, submitExam, isExamStarted]);
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden && !showResult && timerActive && isExamStarted) {
+        submitExam(true, true);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, [showResult, timerActive, submitExam, isExamStarted]);
 
   // --- HELPER FUNCTION: Run code using Piston API (Refactored) ---
   const executeCode = async (userCode, customInput, language) => {
@@ -1024,10 +1035,15 @@ const Exam = () => {
       try {
         // Initialize DB locally for Exam session if not exists
         if (!sqlDbRef.current) {
-          const alasql = require("alasql");
+          // const alasql = require("alasql"); // Removed
           sqlDbRef.current = new alasql.Database();
           sqlDbRef.current.exec("CREATE DATABASE IF NOT EXISTS myDB; USE myDB");
         }
+
+        // --- Auto-Populate Logic ---
+        // ... (lines skipped are identical, I will focus on the replacement block efficiency)
+        // Actually, strict replacement requires matching context.
+        // I will target the specific blocks to be safe.
 
         // --- Auto-Populate Logic ---
         // If user code does NOT contain CREATE or INSERT, try to populate from Sample Input (HTML)
@@ -1121,24 +1137,21 @@ const Exam = () => {
 
     const apiLang = langMap[language] || language;
 
-    // 1. Extracted Logic (Java, Python, JS)
+    // 1. Check for Extracted Logic (Java, Python, JS)
     if (["java", "python", "javascript"].includes(apiLang)) {
       let result = { output: "", compileError: null, isError: false };
 
       if (apiLang === "java") {
-        const { runJavaCode } = require("../utils/javalogic");
         const r = await runJavaCode(userCode, customInput);
         result.output = r.output;
         result.isError = r.isError;
         if (r.isError) result.compileError = r.error;
       } else if (apiLang === "python") {
-        const { runPythonCode } = require("../utils/pythonlogic");
         const r = await runPythonCode(userCode, customInput);
         result.output = r.output;
         result.isError = r.isError;
         if (r.isError) result.compileError = r.error;
       } else if (apiLang === "javascript") {
-        const { runJavascriptCode } = require("../utils/javascriptlogic");
         const r = await runJavascriptCode(userCode, customInput);
         result.output = r.output;
         result.isError = r.isError;
@@ -1734,521 +1747,153 @@ const Exam = () => {
                     })}
 
                   {/* --- SECTION 4: CODING QUESTIONS --- */}
-                  {isCodingRoundAvailable &&
-                    currentPage === 4 &&
-                    selectedCoding.map((q, i) => {
-                      return (
-                        <div
-                          key={`code-${i}`}
-                          id={`question-${i}`}
-                          className="question-block coding-block coding-split-container"
-                        >
-                          {/* LEFT PANEL */}
-                          <div className="coding-left-panel">
-                            <p
-                              className="question-title2 coding-question-title"
-                              dangerouslySetInnerHTML={{
-                                __html: `<strong>${i + 1}.</strong> ${
-                                  q.question
-                                }`,
-                              }}
-                            />
+                  {isCodingRoundAvailable && currentPage === 4 && (
+                    <>
+                      {selectedCoding.map((q, i) => {
+                        return (
+                          <div
+                            key={`code-${i}`}
+                            id={`question-${i}`}
+                            className="question-block coding-block coding-split-container"
+                            data-task-label={`Task - ${i + 1}`}
+                          >
+                            {/* LEFT PANEL */}
+                            <div className="coding-left-panel">
+                              <p
+                                className="question-title2 coding-question-title"
+                                dangerouslySetInnerHTML={{
+                                  __html: `<strong>${i + 1}.</strong> ${
+                                    q.question
+                                  }`,
+                                }}
+                              />
 
-                            <div className="sample-box coding-sample-box">
-                              <div className="coding-sample-input">
-                                <p className="coding-sample-label">
-                                  <strong>Sample Input:</strong>
-                                </p>
-                                <pre
-                                  dangerouslySetInnerHTML={{
-                                    __html: q.sampleInput || "N/A",
-                                  }}
-                                />
-                              </div>
-                              <div className="coding-sample-output">
-                                <p className="coding-sample-label">
-                                  <strong>Expected Output:</strong>
-                                </p>
-                                {techConfig.type === "codepad" ? (
-                                  <div className="expected-preview">
-                                    <BrowserPreview
-                                      htmlCode={q.sampleOutput || ""}
-                                    />
-                                  </div>
-                                ) : (
+                              <div className="sample-box coding-sample-box">
+                                <div className="coding-sample-input">
+                                  <p className="coding-sample-label">
+                                    <strong>Sample Input:</strong>
+                                  </p>
                                   <pre
                                     dangerouslySetInnerHTML={{
-                                      __html: q.sampleOutput || "N/A",
+                                      __html: q.sampleInput || "N/A",
                                     }}
                                   />
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                          {/* RIGHT PANEL */}
-                          <div className="coding-right-panel">
-                            {/* --- PISTON / JUDGE0 EDITOR WITH NEW STYLING --- */}
-                            {(techConfig.type === "judge0" ||
-                              techConfig.type === "piston") && (
-                              <div
-                                className="exam-editor-wrapper coding-editor-wrapper"
-                                style={{ minHeight: "450px" }}
-                              >
-                                {/* TOOLBAR */}
-                                <div className="exam-editor-toolbar">
-                                  <div className="exam-toolbar-left">
-                                    <div className="exam-lang-badge">
-                                      <FaMagic size={12} />
-                                      {technology.toUpperCase()}
-                                    </div>
-                                    {techConfig.language === "java" && (
-                                      <div
-                                        className="exam-dropdown-container"
-                                        ref={
-                                          openDropdownIndex === i
-                                            ? generateDropdownRef
-                                            : null
-                                        }
-                                      >
-                                        <button
-                                          className="exam-action-btn"
-                                          style={{
-                                            width: "auto",
-                                            padding: "0 10px",
-                                            fontSize: "0.85rem",
-                                            gap: "6px",
-                                          }}
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            setOpenDropdownIndex(
-                                              openDropdownIndex === i ? null : i
-                                            );
-                                          }}
-                                        >
-                                          Generate <FaChevronDown size={10} />
-                                        </button>
-                                        {openDropdownIndex === i && (
-                                          <div className="exam-dropdown-menu">
-                                            {[
-                                              {
-                                                id: "all",
-                                                label: "Generate All ✨",
-                                              },
-                                              {
-                                                id: "constructor",
-                                                label: "Constructor",
-                                              },
-                                              {
-                                                id: "getters",
-                                                label: "Getters",
-                                              },
-                                              {
-                                                id: "setters",
-                                                label: "Setters",
-                                              },
-                                              {
-                                                id: "tostring",
-                                                label: "toString()",
-                                              },
-                                              {
-                                                id: "hashcode-equals",
-                                                label: "HashCode & Equals",
-                                              },
-                                              {
-                                                id: "scanner",
-                                                label: "Add Scanner Input",
-                                              },
-                                            ].map((item) => (
-                                              <button
-                                                key={item.id}
-                                                className="exam-dropdown-item"
-                                                onClick={(e) => {
-                                                  e.stopPropagation();
-                                                  handleGenerateCode(
-                                                    item.id,
-                                                    i
-                                                  );
-                                                  setOpenDropdownIndex(null);
-                                                }}
-                                              >
-                                                {item.label}
-                                              </button>
-                                            ))}
-                                          </div>
-                                        )}
-                                      </div>
-                                    )}
-                                  </div>
-                                  <div className="exam-toolbar-right">
-                                    <button
-                                      className="exam-action-btn"
-                                      onClick={() =>
-                                        setEditorTheme(
-                                          editorTheme === "monokai"
-                                            ? "github"
-                                            : "monokai"
-                                        )
-                                      }
-                                      title="Toggle Theme"
-                                    >
-                                      {editorTheme === "monokai" ? (
-                                        <FaSun />
-                                      ) : (
-                                        <FaMoon />
-                                      )}
-                                    </button>
-                                    <button
-                                      className="exam-action-btn"
-                                      onClick={() =>
-                                        setFontSize((p) => Math.max(12, p - 2))
-                                      }
-                                      title="Decrease Font Size"
-                                    >
-                                      <FaMinus size={12} />
-                                    </button>
-                                    <span
-                                      style={{
-                                        fontSize: "0.85rem",
-                                        fontWeight: "600",
-                                        color: "#64748b",
-                                      }}
-                                    >
-                                      {fontSize}px
-                                    </span>
-                                    <button
-                                      className="exam-action-btn"
-                                      onClick={() =>
-                                        setFontSize((p) => Math.min(24, p + 2))
-                                      }
-                                      title="Increase Font Size"
-                                    >
-                                      <FaPlus size={12} />
-                                    </button>
-                                    <button
-                                      className="exam-action-btn"
-                                      onClick={() =>
-                                        handleChange(
-                                          `code-${i}`,
-                                          techConfig.boilerplate
-                                        )
-                                      }
-                                      title="Reset Code"
-                                    >
-                                      <FaRedo size={12} />
-                                    </button>
-
-                                    {/* MOVED RUN BUTTON TO TOOLBAR */}
-                                    <button
-                                      className="exam-run-btn coding-run-btn-toolbar"
-                                      onClick={() =>
-                                        handleRunCode(
-                                          i,
-                                          answers[`code-${i}`],
-                                          "run"
-                                        )
-                                      }
-                                      disabled={runningQuestionId === i}
-                                    >
-                                      {runningQuestionId === i ? (
-                                        "..."
-                                      ) : (
-                                        <>
-                                          <FaPlay size={10} /> Run
-                                        </>
-                                      )}
-                                    </button>
-                                  </div>
                                 </div>
-
-                                {/* EDITOR */}
-                                <AceEditor
-                                  mode={techConfig.aceMode || "text"}
-                                  theme={editorTheme}
-                                  name={`exam-editor-${i}`}
-                                  onLoad={(editor) =>
-                                    handleEditorLoad(editor, i)
-                                  }
-                                  onChange={(val) =>
-                                    handleChange(`code-${i}`, val)
-                                  }
-                                  value={
-                                    answers[`code-${i}`] ||
-                                    techConfig.boilerplate
-                                  }
-                                  fontSize={fontSize}
-                                  width="100%"
-                                  height="100%"
-                                  style={{ flex: 1 }}
-                                  showPrintMargin={false}
-                                  showGutter={true}
-                                  highlightActiveLine={true}
-                                  setOptions={{
-                                    enableBasicAutocompletion: true,
-                                    enableLiveAutocompletion: true,
-                                    enableSnippets: true,
-                                    showLineNumbers: true,
-                                    tabSize: 4,
-                                  }}
-                                />
-                              </div>
-                            )}
-
-                            {/* --- MARKS DISPLAY (Between Editor and Output) --- */}
-                            {codeResults[i]?.evaluated && (
-                              <div
-                                style={{
-                                  marginTop: "1px",
-                                  marginBottom: "1px",
-                                  padding: "8px 10px",
-                                  backgroundColor:
-                                    codeResults[i].marks > 0
-                                      ? "#dcfce7"
-                                      : "#fee2e2",
-                                  border:
-                                    codeResults[i].marks > 0
-                                      ? "1px solid #86efac"
-                                      : "1px solid #fca5a5",
-                                  borderRadius: "6px",
-                                  color:
-                                    codeResults[i].marks > 0
-                                      ? "#15803d"
-                                      : "#b91c1c",
-                                  fontWeight: "bold",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: "5px",
-                                }}
-                              >
-                                <span>Evaluation Result:</span>
-                                <span style={{ fontSize: "1.1rem" }}>
-                                  {codeResults[i].marks} /{" "}
-                                  {selectedCoding[i].maxMarks} Marks
-                                </span>
-                              </div>
-                            )}
-
-                            {/* Display Run Results (Debug) OR Input Wizard */}
-                            <div className="exam-output-section coding-output-section">
-                              {runningQuestionId === i && isWaitingForInput ? (
-                                <div
-                                  className="console-input-overlay"
-                                  style={{
-                                    padding: "15px",
-                                    backgroundColor: "#fff",
-                                    color: "#000",
-                                    border: "1px solid #ccc",
-                                    borderRadius: "5px",
-                                    marginBottom: "5px",
-                                    fontFamily: "monospace",
-                                    fontWeight: "bold", // Bold
-                                    fontSize: "18px", // 18px
-                                  }}
-                                >
-                                  <h4
-                                    style={{
-                                      color: "#000",
-                                      marginBottom: "1px",
-                                    }}
-                                  >
-                                    Interactive Input:
-                                  </h4>
-
-                                  {/* History */}
-                                  {detectedPrompts.map((prompt, idx) => {
-                                    if (idx < currentPromptIndex) {
-                                      return (
-                                        <div
-                                          key={idx}
-                                          style={{
-                                            marginBottom: "5px",
-                                            opacity: 0.7,
-                                          }}
-                                        >
-                                          <span>{prompt} </span>
-                                          <strong>{promptValues[idx]}</strong>
-                                        </div>
-                                      );
-                                    }
-                                    return null;
-                                  })}
-
-                                  {/* Active Input */}
-                                  {currentPromptIndex <
-                                    detectedPrompts.length && (
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                      }}
-                                    >
-                                      <span>
-                                        {detectedPrompts[currentPromptIndex]}{" "}
-                                      </span>
-                                      <input
-                                        autoFocus
-                                        type="text"
-                                        style={{
-                                          flex: 1,
-                                          marginLeft: "10px",
-                                          border: "none",
-                                          borderBottom: "1px solid #000",
-                                          outline: "none",
-                                          fontFamily: "monospace",
-                                          fontSize: "18px",
-                                          fontWeight: "bold",
-                                          color: "#000",
-                                        }}
-                                        value={
-                                          promptValues[currentPromptIndex] || ""
-                                        }
-                                        onChange={(e) =>
-                                          setPromptValues({
-                                            ...promptValues,
-                                            [currentPromptIndex]:
-                                              e.target.value,
-                                          })
-                                        }
-                                        onKeyDown={(e) => {
-                                          if (e.key === "Enter") {
-                                            const nextIndex =
-                                              currentPromptIndex + 1;
-                                            if (
-                                              nextIndex < detectedPrompts.length
-                                            ) {
-                                              setCurrentPromptIndex(nextIndex);
-                                            } else {
-                                              // Execute
-                                              const inputs =
-                                                detectedPrompts.map(
-                                                  (_, k) =>
-                                                    promptValues[k] || ""
-                                                );
-                                              // Capture last value explicitly
-                                              inputs[currentPromptIndex] =
-                                                e.target.value;
-
-                                              handleRunCode(
-                                                i,
-                                                answers[`code-${i}`],
-                                                "run",
-                                                inputs.join("\n")
-                                              );
-                                            }
-                                          }
-                                        }}
+                                <div className="coding-sample-output">
+                                  <p className="coding-sample-label">
+                                    <strong>Expected Output:</strong>
+                                  </p>
+                                  {techConfig.type === "codepad" ? (
+                                    <div className="expected-preview">
+                                      <BrowserPreview
+                                        htmlCode={q.sampleOutput || ""}
                                       />
                                     </div>
+                                  ) : (
+                                    <pre
+                                      dangerouslySetInnerHTML={{
+                                        __html: q.sampleOutput || "N/A",
+                                      }}
+                                    />
                                   )}
                                 </div>
-                              ) : (
-                                <>
-                                  {/* Loading Indicator */}
-                                  <div
-                                    style={{
-                                      marginTop: "15px",
-                                      color: "#0000FF", // Blue
-                                      fontWeight: "bold",
-                                      fontFamily: "monospace",
-                                      display:
-                                        runningQuestionId === i
-                                          ? "block"
-                                          : "none",
-                                    }}
-                                  >
-                                    Codepulse-R generating Output.......
-                                  </div>
-
-                                  {/* Run Output (Console) */}
-                                  {runResults[i] && !isWaitingForInput && (
-                                    <>
-                                      {/* Console Output (Hidden for SQL) */}
-                                      {techConfig.language !== "sql" && (
-                                        <div
-                                          className="exam-terminal-output"
-                                          // style={{ marginTop: "1px" }}
-                                        >
-                                          <h4>Console Output:</h4>
-                                          {runResults[i].compileError ? (
-                                            <pre className="error-text">
-                                              {runResults[i].compileError}
-                                            </pre>
-                                          ) : (
-                                            <pre>
-                                              {runResults[i].output ||
-                                                "(No output)"}
-                                            </pre>
-                                          )}
-                                        </div>
-                                      )}
-
-                                      {/* SQL Preview Section (Visible for SQL) */}
-                                      {techConfig.language === "sql" &&
-                                        runResults[i]?.htmlOutput && (
-                                          <div className="sql-preview-container">
-                                            <div className="sql-preview-header">
-                                              📄 Output/Preview:
-                                              {/* {codeResults[i]?.evaluated && (
-                                                <span
-                                                  style={{
-                                                    marginLeft: "15px",
-                                                    fontWeight: "bold",
-                                                    color:
-                                                      codeResults[i].marks > 0
-                                                        ? "#28a745"
-                                                        : "#dc3545",
-                                                    fontSize: "0.9rem",
-                                                  }}
-                                                >
-                                                  MARK SCORED:{" "}
-                                                  {codeResults[i].marks} /{" "}
-                                                  {selectedCoding[i].maxMarks}
-                                                </span>
-                                              )} */}
-                                            </div>
-                                            <div
-                                              dangerouslySetInnerHTML={{
-                                                __html:
-                                                  runResults[i].htmlOutput,
-                                              }}
-                                              style={{ overflowX: "auto" }}
-                                            />
-                                          </div>
-                                        )}
-                                    </>
-                                  )}
-                                </>
-                              )}
+                              </div>
                             </div>
-
-                            {/* Display Evaluation Results (Grading) */}
-
-                            {techConfig.type === "codepad" && (
-                              <div
-                                className="html-css-workspace"
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  minHeight: "100%", // Allow growth for scrolling
-                                  gap: "0px",
-                                  marginTop: "-10px",
-                                }}
-                              >
-                                {/* Editor Section with Toolbar */}
+                            {/* RIGHT PANEL */}
+                            <div className="coding-right-panel">
+                              {/* --- PISTON / JUDGE0 EDITOR WITH NEW STYLING --- */}
+                              {(techConfig.type === "judge0" ||
+                                techConfig.type === "piston") && (
                                 <div
-                                  className="exam-editor-wrapper html-css-editor"
-                                  style={{
-                                    flex: 1,
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    minHeight: "400px",
-                                  }}
+                                  className="exam-editor-wrapper coding-editor-wrapper"
+                                  style={{ minHeight: "450px" }}
                                 >
+                                  {/* TOOLBAR */}
                                   <div className="exam-editor-toolbar">
                                     <div className="exam-toolbar-left">
                                       <div className="exam-lang-badge">
                                         <FaMagic size={12} />
                                         {technology.toUpperCase()}
                                       </div>
+                                      {techConfig.language === "java" && (
+                                        <div
+                                          className="exam-dropdown-container"
+                                          ref={
+                                            openDropdownIndex === i
+                                              ? generateDropdownRef
+                                              : null
+                                          }
+                                        >
+                                          <button
+                                            className="exam-action-btn"
+                                            style={{
+                                              width: "auto",
+                                              padding: "0 10px",
+                                              fontSize: "0.85rem",
+                                              gap: "6px",
+                                            }}
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              setOpenDropdownIndex(
+                                                openDropdownIndex === i
+                                                  ? null
+                                                  : i
+                                              );
+                                            }}
+                                          >
+                                            Generate <FaChevronDown size={10} />
+                                          </button>
+                                          {openDropdownIndex === i && (
+                                            <div className="exam-dropdown-menu">
+                                              {[
+                                                {
+                                                  id: "all",
+                                                  label: "Generate All ✨",
+                                                },
+                                                {
+                                                  id: "constructor",
+                                                  label: "Constructor",
+                                                },
+                                                {
+                                                  id: "getters",
+                                                  label: "Getters",
+                                                },
+                                                {
+                                                  id: "setters",
+                                                  label: "Setters",
+                                                },
+                                                {
+                                                  id: "tostring",
+                                                  label: "toString()",
+                                                },
+                                                {
+                                                  id: "hashcode-equals",
+                                                  label: "HashCode & Equals",
+                                                },
+                                                {
+                                                  id: "scanner",
+                                                  label: "Add Scanner Input",
+                                                },
+                                              ].map((item) => (
+                                                <button
+                                                  key={item.id}
+                                                  className="exam-dropdown-item"
+                                                  onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleGenerateCode(
+                                                      item.id,
+                                                      i
+                                                    );
+                                                    setOpenDropdownIndex(null);
+                                                  }}
+                                                >
+                                                  {item.label}
+                                                </button>
+                                              ))}
+                                            </div>
+                                          )}
+                                        </div>
+                                      )}
                                     </div>
                                     <div className="exam-toolbar-right">
                                       <button
@@ -2300,23 +1945,46 @@ const Exam = () => {
                                         <FaPlus size={12} />
                                       </button>
                                       <button
-                                        className="exam-run-btn coding-run-btn-toolbar"
+                                        className="exam-action-btn"
                                         onClick={() =>
-                                          handleEvaluateCodePad(
-                                            i,
-                                            answers[`code-${i}`]
+                                          handleChange(
+                                            `code-${i}`,
+                                            techConfig.boilerplate
                                           )
                                         }
+                                        title="Reset Code"
                                       >
-                                        <FaPlay size={10} /> Run
+                                        <FaRedo size={12} />
+                                      </button>
+
+                                      {/* MOVED RUN BUTTON TO TOOLBAR */}
+                                      <button
+                                        className="exam-run-btn coding-run-btn-toolbar"
+                                        onClick={() =>
+                                          handleRunCode(
+                                            i,
+                                            answers[`code-${i}`],
+                                            "run"
+                                          )
+                                        }
+                                        disabled={runningQuestionId === i}
+                                      >
+                                        {runningQuestionId === i ? (
+                                          "..."
+                                        ) : (
+                                          <>
+                                            <FaPlay size={10} /> Run
+                                          </>
+                                        )}
                                       </button>
                                     </div>
                                   </div>
 
+                                  {/* EDITOR */}
                                   <AceEditor
-                                    mode={techConfig.aceMode || "html"}
+                                    mode={techConfig.aceMode || "text"}
                                     theme={editorTheme}
-                                    name={`codepad-editor-${i}`}
+                                    name={`exam-editor-${i}`}
                                     onLoad={(editor) =>
                                       handleEditorLoad(editor, i)
                                     }
@@ -2332,93 +2000,452 @@ const Exam = () => {
                                     height="100%"
                                     style={{ flex: 1 }}
                                     showPrintMargin={false}
+                                    showGutter={true}
+                                    highlightActiveLine={true}
                                     setOptions={{
                                       enableBasicAutocompletion: true,
                                       enableLiveAutocompletion: true,
                                       enableSnippets: true,
+                                      showLineNumbers: true,
+                                      tabSize: 4,
                                     }}
                                   />
                                 </div>
+                              )}
 
-                                {/* Preview Section */}
+                              {/* --- MARKS DISPLAY (Between Editor and Output) --- */}
+                              {codeResults[i]?.evaluated && (
                                 <div
-                                  id={`preview-container-${i}`}
-                                  className="html-css-preview"
                                   style={{
-                                    flex: 1,
-                                    border: "1px solid #e2e8f0",
-                                    borderRadius: "8px",
-                                    overflow: "hidden",
+                                    // marginTop: "1px",
+                                    // marginBottom: "1px",
+                                    padding: "5px 5px",
+                                    backgroundColor:
+                                      codeResults[i].marks > 0
+                                        ? "#dcfce7"
+                                        : "#fee2e2",
+                                    border:
+                                      codeResults[i].marks > 0
+                                        ? "1px solid #86efac"
+                                        : "1px solid #fca5a5",
+                                    borderRadius: "6px",
+                                    color:
+                                      codeResults[i].marks > 0
+                                        ? "#15803d"
+                                        : "#b91c1c",
+                                    fontWeight: "bold",
                                     display: "flex",
-                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    gap: "5px",
                                   }}
                                 >
+                                  <span>Evaluation Result:</span>
+                                  <span style={{ fontSize: "1.1rem" }}>
+                                    {codeResults[i].marks} /{" "}
+                                    {selectedCoding[i].maxMarks} Marks
+                                  </span>
+                                </div>
+                              )}
+
+                              {/* Display Run Results (Debug) OR Input Wizard */}
+                              <div className=" coding-output-section">
+                                {runningQuestionId === i &&
+                                isWaitingForInput ? (
                                   <div
+                                    className="console-input-overlay"
                                     style={{
-                                      padding: "8px 12px",
-                                      background: "#f8fafc",
-                                      borderBottom: "1px solid #e2e8f0",
-                                      fontWeight: "bold",
-                                      color: "#64748b",
-                                      fontSize: "1rem",
-                                      display: "flex",
-                                      justifyContent: "flex-start", // Changed from space-between
-                                      alignItems: "center",
-                                      gap: "15px", // Added gap
+                                      padding: "15px",
+                                      backgroundColor: "#fff",
+                                      color: "#ff0000ff",
+                                      border: "1px solid #ccc",
+                                      borderRadius: "5px",
+                                      marginBottom: "5px",
+                                      fontFamily: "monospace",
+                                      fontWeight: "bold", // Bold
+                                      fontSize: "18px", // 18px
                                     }}
                                   >
-                                    <span>Browser Preview</span>
-                                    {codeResults[i]?.evaluated && (
-                                      <span
+                                    <h4
+                                      style={{
+                                        color: "#000",
+                                        marginBottom: "1px",
+                                      }}
+                                    >
+                                      Interactive Input:
+                                    </h4>
+
+                                    {/* History */}
+                                    {detectedPrompts.map((prompt, idx) => {
+                                      if (idx < currentPromptIndex) {
+                                        return (
+                                          <div
+                                            key={idx}
+                                            style={{
+                                              marginBottom: "5px",
+                                              opacity: 0.7,
+                                            }}
+                                          >
+                                            <span>{prompt} </span>
+                                            <strong>{promptValues[idx]}</strong>
+                                          </div>
+                                        );
+                                      }
+                                      return null;
+                                    })}
+
+                                    {/* Active Input */}
+                                    {currentPromptIndex <
+                                      detectedPrompts.length && (
+                                      <div
                                         style={{
-                                          color:
-                                            codeResults[i].marks > 0
-                                              ? "#15803d" // Darker green text
-                                              : "#b91c1c", // Darker red text
-                                          backgroundColor:
-                                            codeResults[i].marks > 0
-                                              ? "#dcfce7" // Light green bg
-                                              : "#fee2e2", // Light red bg
-                                          border:
-                                            codeResults[i].marks > 0
-                                              ? "1px solid #86efac"
-                                              : "1px solid #fca5a5",
-                                          padding: "2px 8px",
-                                          borderRadius: "12px",
-                                          fontSize: "0.80rem",
-                                          fontWeight: "bold",
-                                          display: "inline-flex",
+                                          display: "flex",
                                           alignItems: "center",
                                         }}
                                       >
-                                        Marks: {codeResults[i].marks} /{" "}
-                                        {q.maxMarks || "0"}
-                                      </span>
+                                        <span>
+                                          {detectedPrompts[currentPromptIndex]}{" "}
+                                        </span>
+                                        <input
+                                          autoFocus
+                                          type="text"
+                                          style={{
+                                            flex: 1,
+                                            marginLeft: "10px",
+                                            border: "none",
+                                            borderBottom: "1px solid #000",
+                                            outline: "none",
+                                            fontFamily: "monospace",
+                                            fontSize: "18px",
+                                            fontWeight: "bold",
+                                            color: "#000",
+                                          }}
+                                          value={
+                                            promptValues[currentPromptIndex] ||
+                                            ""
+                                          }
+                                          onChange={(e) =>
+                                            setPromptValues({
+                                              ...promptValues,
+                                              [currentPromptIndex]:
+                                                e.target.value,
+                                            })
+                                          }
+                                          onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                              const nextIndex =
+                                                currentPromptIndex + 1;
+                                              if (
+                                                nextIndex <
+                                                detectedPrompts.length
+                                              ) {
+                                                setCurrentPromptIndex(
+                                                  nextIndex
+                                                );
+                                              } else {
+                                                // Execute
+                                                const inputs =
+                                                  detectedPrompts.map(
+                                                    (_, k) =>
+                                                      promptValues[k] || ""
+                                                  );
+                                                // Capture last value explicitly
+                                                inputs[currentPromptIndex] =
+                                                  e.target.value;
+
+                                                handleRunCode(
+                                                  i,
+                                                  answers[`code-${i}`],
+                                                  "run",
+                                                  inputs.join("\n")
+                                                );
+                                              }
+                                            }
+                                          }}
+                                        />
+                                      </div>
                                     )}
                                   </div>
+                                ) : (
+                                  <>
+                                    {/* Loading Indicator */}
+                                    <div
+                                      style={{
+                                        marginTop: "15px",
+                                        color: "#0000FF", // Blue
+                                        fontWeight: "bold",
+                                        fontFamily: "monospace",
+                                        display:
+                                          runningQuestionId === i
+                                            ? "block"
+                                            : "none",
+                                      }}
+                                    >
+                                      Codepulse-R generating Output.......
+                                    </div>
+
+                                    {/* Run Output (Console) */}
+                                    {runResults[i] && !isWaitingForInput && (
+                                      <>
+                                        {/* Console Output (Hidden for SQL) */}
+                                        {techConfig.language !== "sql" && (
+                                          <div
+                                            className="exam-terminal-output"
+                                            // style={{ marginTop: "1px" }}
+                                          >
+                                            <h4>Console Output:</h4>
+                                            {runResults[i].compileError ? (
+                                              <pre className="error-text">
+                                                {runResults[i].compileError}
+                                              </pre>
+                                            ) : (
+                                              <pre>
+                                                {runResults[i].output ||
+                                                  "(No output)"}
+                                              </pre>
+                                            )}
+                                          </div>
+                                        )}
+
+                                        {/* SQL Preview Section (Visible for SQL) */}
+                                        {techConfig.language === "sql" &&
+                                          runResults[i]?.htmlOutput && (
+                                            <div className="sql-preview-container">
+                                              <div className="sql-preview-header">
+                                                📄 Output/Preview:
+                                                {/* {codeResults[i]?.evaluated && (
+                                                <span
+                                                  style={{
+                                                    marginLeft: "15px",
+                                                    fontWeight: "bold",
+                                                    color:
+                                                      codeResults[i].marks > 0
+                                                        ? "#28a745"
+                                                        : "#dc3545",
+                                                    fontSize: "0.9rem",
+                                                  }}
+                                                >
+                                                  MARK SCORED:{" "}
+                                                  {codeResults[i].marks} /{" "}
+                                                  {selectedCoding[i].maxMarks}
+                                                </span>
+                                              )} */}
+                                              </div>
+                                              <div
+                                                dangerouslySetInnerHTML={{
+                                                  __html:
+                                                    runResults[i].htmlOutput,
+                                                }}
+                                                style={{ overflowX: "auto" }}
+                                              />
+                                            </div>
+                                          )}
+                                      </>
+                                    )}
+                                  </>
+                                )}
+                              </div>
+
+                              {/* Display Evaluation Results (Grading) */}
+
+                              {techConfig.type === "codepad" && (
+                                <div
+                                  className="html-css-workspace"
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    minHeight: "100%", // Allow growth for scrolling
+                                    gap: "0px",
+                                    // marginTop: "0px",
+                                  }}
+                                >
+                                  {/* Editor Section with Toolbar */}
                                   <div
+                                    className="html-css-editor"
                                     style={{
                                       flex: 1,
-                                      position: "relative",
-                                      minHeight: "300px",
-                                      overflow: "auto", // Enable scrolling
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      minHeight: "400px",
                                     }}
                                   >
-                                    <BrowserPreview
-                                      htmlCode={createPreviewContent(
+                                    <div className="exam-editor-toolbar">
+                                      <div className="exam-toolbar-left">
+                                        <div className="exam-lang-badge">
+                                          <FaMagic size={12} />
+                                          {technology.toUpperCase()}
+                                        </div>
+                                      </div>
+                                      <div className="exam-toolbar-right">
+                                        <button
+                                          className="exam-action-btn"
+                                          onClick={() =>
+                                            setEditorTheme(
+                                              editorTheme === "monokai"
+                                                ? "github"
+                                                : "monokai"
+                                            )
+                                          }
+                                          title="Toggle Theme"
+                                        >
+                                          {editorTheme === "monokai" ? (
+                                            <FaSun />
+                                          ) : (
+                                            <FaMoon />
+                                          )}
+                                        </button>
+                                        <button
+                                          className="exam-action-btn"
+                                          onClick={() =>
+                                            setFontSize((p) =>
+                                              Math.max(12, p - 2)
+                                            )
+                                          }
+                                          title="Decrease Font Size"
+                                        >
+                                          <FaMinus size={12} />
+                                        </button>
+                                        <span
+                                          style={{
+                                            fontSize: "0.85rem",
+                                            fontWeight: "600",
+                                            color: "#64748b",
+                                          }}
+                                        >
+                                          {fontSize}px
+                                        </span>
+                                        <button
+                                          className="exam-action-btn"
+                                          onClick={() =>
+                                            setFontSize((p) =>
+                                              Math.min(24, p + 2)
+                                            )
+                                          }
+                                          title="Increase Font Size"
+                                        >
+                                          <FaPlus size={12} />
+                                        </button>
+                                        <button
+                                          className="exam-run-btn coding-run-btn-toolbar"
+                                          onClick={() =>
+                                            handleEvaluateCodePad(
+                                              i,
+                                              answers[`code-${i}`]
+                                            )
+                                          }
+                                        >
+                                          <FaPlay size={10} /> Run
+                                        </button>
+                                      </div>
+                                    </div>
+
+                                    <AceEditor
+                                      mode={techConfig.aceMode || "html"}
+                                      theme={editorTheme}
+                                      name={`codepad-editor-${i}`}
+                                      onLoad={(editor) =>
+                                        handleEditorLoad(editor, i)
+                                      }
+                                      onChange={(val) =>
+                                        handleChange(`code-${i}`, val)
+                                      }
+                                      value={
                                         answers[`code-${i}`] ||
-                                          techConfig.boilerplate,
-                                        techConfig.language
-                                      )}
+                                        techConfig.boilerplate
+                                      }
+                                      fontSize={fontSize}
+                                      width="100%"
+                                      height="100%"
+                                      style={{ flex: 1 }}
+                                      showPrintMargin={false}
+                                      setOptions={{
+                                        enableBasicAutocompletion: true,
+                                        enableLiveAutocompletion: true,
+                                        enableSnippets: true,
+                                      }}
                                     />
                                   </div>
+
+                                  {/* Preview Section */}
+                                  <div
+                                    id={`preview-container-${i}`}
+                                    className="html-css-preview"
+                                    style={{
+                                      flex: 1,
+                                      border: "1px solid #e2e8f0",
+                                      borderRadius: "8px",
+                                      overflow: "hidden",
+                                      display: "flex",
+                                      flexDirection: "column",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        padding: "8px 12px",
+                                        background: "#f8fafc",
+                                        borderBottom: "1px solid #e2e8f0",
+                                        fontWeight: "bold",
+                                        color: "#64748b",
+                                        fontSize: "1rem",
+                                        display: "flex",
+                                        justifyContent: "flex-start", // Changed from space-between
+                                        alignItems: "center",
+                                        gap: "15px", // Added gap
+                                      }}
+                                    >
+                                      <span>Browser Preview</span>
+                                      {codeResults[i]?.evaluated && (
+                                        <span
+                                          style={{
+                                            color:
+                                              codeResults[i].marks > 0
+                                                ? "#15803d" // Darker green text
+                                                : "#b91c1c", // Darker red text
+                                            backgroundColor:
+                                              codeResults[i].marks > 0
+                                                ? "#dcfce7" // Light green bg
+                                                : "#fee2e2", // Light red bg
+                                            border:
+                                              codeResults[i].marks > 0
+                                                ? "1px solid #86efac"
+                                                : "1px solid #fca5a5",
+                                            padding: "2px 8px",
+                                            borderRadius: "12px",
+                                            fontSize: "0.80rem",
+                                            fontWeight: "bold",
+                                            display: "inline-flex",
+                                            alignItems: "center",
+                                          }}
+                                        >
+                                          Marks: {codeResults[i].marks} /{" "}
+                                          {q.maxMarks || "0"}
+                                        </span>
+                                      )}
+                                    </div>
+                                    <div
+                                      style={{
+                                        flex: 1,
+                                        position: "relative",
+                                        minHeight: "300px",
+                                        overflow: "auto", // Enable scrolling
+                                      }}
+                                    >
+                                      <BrowserPreview
+                                        htmlCode={createPreviewContent(
+                                          answers[`code-${i}`] ||
+                                            techConfig.boilerplate,
+                                          techConfig.language
+                                        )}
+                                      />
+                                    </div>
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </>
+                  )}
                 </div>
               </div>
             </>

@@ -4,11 +4,17 @@ import {
   FaLongArrowAltRight,
   FaBars,
   FaTimes,
+  FaBook,
 } from "react-icons/fa";
 
 import "../css/LeftMenu.css";
 
-const LeftMenu = ({ selectedItem, menuData, onItemClick }) => {
+const LeftMenu = ({
+  selectedItem,
+  menuData,
+  onItemClick,
+  selectedTechnology,
+}) => {
   // find parent group for a selected subitem
   const findParentGroup = (itemName) => {
     if (!itemName) return null;
@@ -87,6 +93,11 @@ const LeftMenu = ({ selectedItem, menuData, onItemClick }) => {
           {isMobileMenuOpen ? "Close Menu" : "Select Topic"}
         </span>
         {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+      </div>
+
+      <div className="left-menu-header">
+        <span style={{ color: "#000000ff" }}>🕮</span> {selectedTechnology}{" "}
+        Tutorial <span style={{ color: "#000000ff" }}>🕮</span>
       </div>
 
       <ul

@@ -107,7 +107,7 @@
     "maxMarks": 8,
     "description": "Handling NULL values using IS NULL and IS NOT NULL."
   },
-    {
+  {
     "question": "<b>Scenario:</b><br>A company maintains employee records including employee ID, name, age, department, gender, and salary.<br>HR wants to analyze employee data by sorting it based on salary, age, or department while applying different filter conditions.<br><br><b>Table Details:</b><br>Table Name: EMPLOYEES<br>Column Name: emp_id, emp_name, age, department, gender, salary<br><br><b>Task Requirements:</b><br>1. Create a table named <b>EMPLOYEES</b> with appropriate columns and data types.<br>2. Insert the sample records.<br>3. Display all employees sorted by salary in ascending order.<br>4. Display all employees sorted by salary in Descending order.<br>5. Display employees whose salary is between 45000 and 60000 and sort them by age ascending.<br>6. Display employees who belong to IT or HR department and sort them by salary descending.<br>7. Display employees whose department is HR AND salary > 50000 and sort them by age descending.<br>8. Display employees whose age is between 28 and 35 OR salary > 65000 and sort them by salary ascending.",
     "answer": "SELECT * FROM EMPLOYEES;\nSELECT * FROM EMPLOYEES ORDER BY salary ASC;\nSELECT * FROM EMPLOYEES ORDER BY salary DESC;\nSELECT * FROM EMPLOYEES WHERE salary BETWEEN 45000 AND 60000 ORDER BY age ASC;\nSELECT * FROM EMPLOYEES WHERE department IN ('IT', 'HR') ORDER BY salary DESC;\nSELECT * FROM EMPLOYEES WHERE department = 'HR' AND salary > 50000 ORDER BY age DESC;\nSELECT * FROM EMPLOYEES WHERE (age BETWEEN 28 AND 35) OR salary > 65000 ORDER BY salary ASC;",
     "sampleInput": "Table: <b>EMPLOYEES</b><br>Columns: emp_id, emp_name, age, department, gender, salary<br><table border='1' style='border-collapse: collapse; width: 100%;'><tr><th>emp_id</th><th>emp_name</th><th>age</th><th>department</th><th>gender</th><th>salary</th></tr><tr><td>1</td><td>Rahul</td><td>29</td><td>IT</td><td>Male</td><td>55000</td></tr><tr><td>2</td><td>Sneha</td><td>34</td><td>HR</td><td>Female</td><td>60000</td></tr><tr><td>3</td><td>Amit</td><td>24</td><td>Ops</td><td>Male</td><td>40000</td></tr><tr><td>4</td><td>Priya</td><td>31</td><td>HR</td><td>Female</td><td>52000</td></tr><tr><td>5</td><td>Varun</td><td>40</td><td>Finance</td><td>Male</td><td>70000</td></tr></table>",
@@ -206,5 +206,4 @@
     "maxMarks": 8,
     "description": "Aggregate Functions Using WHERE, GROUP BY, HAVING & ORDER BY"
   }
-
 ]

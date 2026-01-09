@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+// import "../css/Navbar1.css";
 // import "../css/Navbar1.css";
 import "../cssdark/Navbar1.css";
 import navbarItems from "../variables/NavbarItems";
@@ -15,54 +16,6 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
   const [scrolled, setScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  // Theme Rotation Logic
-  // useEffect(() => {
-  //   const themes = [
-  //     {
-  //       bg: "rgba(225, 245, 254, 0.35)", // Sky Blue Glass (Default)
-  //       text: "#ca8b0cff",
-  //     },
-  //     {
-  //       bg: "rgba(240, 253, 244, 0.45)", // Mint Green Glass
-  //       text: "#064e3b",
-  //     },
-  //     {
-  //       bg: "rgba(255, 247, 237, 0.45)", // Warm Orange Glass
-  //       text: "#7c2d12",
-  //     },
-  //     {
-  //       bg: "rgba(238, 242, 255, 0.45)", // Indigo Glass
-  //       text: "#312e81",
-  //     },
-  //     {
-  //       bg: "rgba(250, 245, 255, 0.45)", // Purple Glass
-  //       text: "#581c87",
-  //     },
-  //   ];
-
-  //   let currentThemeIndex = 0;
-
-  //   const applyTheme = (index) => {
-  //     const theme = themes[index];
-  //     const navbar = document.querySelector(".navbar");
-  //     if (navbar) {
-  //       navbar.style.setProperty("--nav-bg", theme.bg);
-  //       navbar.style.setProperty("--nav-text", theme.text);
-  //     }
-  //   };
-
-  //   // Initial Apply
-  //   applyTheme(0);
-
-  //   const intervalId = setInterval(() => {
-  //     currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-  //     applyTheme(currentThemeIndex);
-  //   }, 2 * 60 * 1000); // 5 Minutes
-
-  //   return () => clearInterval(intervalId);
-  // }, []);
-
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
@@ -88,8 +41,27 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
   const handleStartLearning = () => window.open("/learning", "_blank");
   const handleCompiler = () => window.open("/online-compiler", "_blank");
 
+  const timeoutRef = useRef(null);
+
+  const handleMouseEnter = (name) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setOpenDropdown(name);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 300); // 300ms delay to prevent flickering
+  };
+
   return (
-    <nav className={`nb-navbar ${scrolled ? "scrolled" : ""}`}>
+    <nav
+      className={`nb-navbar ${scrolled ? "scrolled" : ""} ${
+        selectedPage !== "Home" ? "nb-navbar-alternate" : ""
+      }`}
+    >
       <div className="nb-menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
       </div>
@@ -101,6 +73,16 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
             className={
               item.type === "dropdown" ? "nb-navbar-item-dropdown" : ""
             }
+            onMouseEnter={() => {
+              if (item.type === "dropdown") {
+                handleMouseEnter(item.name);
+              }
+            }}
+            onMouseLeave={() => {
+              if (item.type === "dropdown") {
+                handleMouseLeave();
+              }
+            }}
           >
             <div
               className={`nb-navbar-item ${
@@ -120,7 +102,10 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
               }
             >
               <div className="nb-navbar-content">
-                {item.icon}
+                {item.type === "dropdown"
+                  ? item.subItems.find((sub) => sub.name === selectedTechnology)
+                      ?.icon || item.icon
+                  : item.icon}
                 <span>
                   {item.type === "dropdown"
                     ? item.subItems.find(
@@ -146,7 +131,10 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
                     className={`nb-dropdown-item1 ${
                       selectedTechnology === subItem.name ? "active" : ""
                     }`}
-                    onClick={() => handleSelection(subItem.name)}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent bubbling causing issues
+                      handleSelection(subItem.name);
+                    }}
                   >
                     {subItem.icon}
                     <span>{subItem.name}</span>

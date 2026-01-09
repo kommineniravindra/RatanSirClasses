@@ -1,12 +1,11 @@
-/* src/css/Exam.css
+/* src/css/Exam.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Libertinus+Serif:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&display=swap');
 @import "@fontsource/ibm-plex-sans/index.css";
 @import url('https://fonts.cdnfonts.com/css/avenir-next');
 @import url('https://fonts.cdnfonts.com/css/gt-walsheim');
-@import url('https://fonts.cdnfonts.com/css/ff-din'); */
-@import "@fontsource/ibm-plex-sans/index.css";
+@import url('https://fonts.cdnfonts.com/css/ff-din');
 
 
 /* --- CSS Variables for a new vibrant theme --- */
@@ -1142,7 +1141,7 @@ details summary:hover {
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 1px;
+  /* margin-bottom: 1px; */
   border-bottom: 1px solid #334155;
 }
 
@@ -1312,18 +1311,38 @@ details summary:hover {
 
 /* --- Coding Round Split Layout --- */
 .coding-split-container {
+  position: relative;
+  /* Required for pseudo-element */
   display: flex;
-  flex-direction: column;
   flex-direction: row;
-  height: auto;
-  /* Allow full page scroll */
   min-height: 90vh;
   gap: 5px;
   align-items: flex-start;
   margin-bottom: 30px;
-  padding-bottom: 30px;
-  border-bottom: 5px solid blueviolet;
+  padding-top: 40px;
+  /* Space for top label */
+  border-top: 5px solid blueviolet;
 }
+
+/* Task name label on TOP border */
+.coding-split-container::before {
+  content: attr(data-task-label);
+  /* Dynamic task name */
+  position: absolute;
+  top: -35px;
+  /* Adjust to overlap border */
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  /* Match page background */
+  padding: 4px 14px;
+  font-size: 2rem;
+  font-weight: 600;
+  color: blueviolet;
+  white-space: nowrap;
+}
+
+
 
 .coding-left-panel {
   flex: 1;
@@ -1477,15 +1496,3 @@ details summary:hover {
   color: #000000;
   /* border: 1px solid #ccc; */
 }
-
-/* .exam-terminal-output {
-  background: #ffffff !important;
-  color: #000000 !important;
-  box-shadow: none !important;
-}
-
-.exam-terminal-output h4 {
-  color: #000000 !important;
-  font-size: medium !important;
-  border-bottom: 1px solid #eee !important;
-} */

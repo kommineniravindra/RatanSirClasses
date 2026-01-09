@@ -219,9 +219,9 @@ const Main = ({
     const pres = mainBodyRef.current?.querySelectorAll("pre");
     pres?.forEach((block, idx) => {
       const uniqueKey = `${selectedItem}-${idx}`;
-      if (!block.parentNode.classList.contains("main-code-block-wrapper")) {
+      if (!block.parentNode.classList.contains("code-pulse-wrapper")) {
         const wrapper = document.createElement("div");
-        wrapper.className = "main-code-block-wrapper";
+        wrapper.className = "code-pulse-wrapper";
 
         // Create Toolbar Container
         const toolbar = document.createElement("div");
@@ -338,7 +338,7 @@ const Main = ({
         if (quizNum || examNum) {
           setModalType(quizNum ? "quiz" : "exam");
           const link = quizNum
-            ? `/quiz/${selectedTechnology}/${quizNum}`
+            ? `/quiz/${selectedTechnology.toLowerCase()}/${quizNum}`
             : `/exam/${selectedTechnology.toLowerCase()}/exam${examNum}`;
           setModalLink(link);
           setShowModal(true);
@@ -372,7 +372,7 @@ const Main = ({
     const examNum = examNumberMap[activeGroup.name];
 
     if (quizNum) {
-      window.open(`/quiz/${selectedTechnology}/${quizNum}`, "_blank");
+      window.open(`/quiz/${selectedTechnology.toLowerCase()}/${quizNum}`, "_blank");
     } else if (examNum) {
       window.open(
         `/exam/${selectedTechnology.toLowerCase()}/exam${examNum}`,

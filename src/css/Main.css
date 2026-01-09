@@ -1,17 +1,17 @@
 /* =================================================
   1. FONT IMPORTS
 ================================================= */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=PT+Serif:wght@700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Fira+Code&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap */
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap */
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=PT+Serif:wght@700&display=swap */
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Fredoka:wght@400&display=swap */
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Fira+Code&display=swap */
+/* Removed blocking import: https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap */
 /* Note: @import "@fontsource/ibm-plex-sans/index.css" is a build-time import and may not work in a raw CSS file import */
-@import url("https://fonts.cdnfonts.com/css/avenir-next");
-@import url("https://fonts.cdnfonts.com/css/gt-walsheim");
-@import url("https://fonts.cdnfonts.com/css/ff-din");
-@import url("https://fonts.cdnfonts.com/css/bebas-neue");
+/* Removed blocking import: https://fonts.cdnfonts.com/css/avenir-next */
+/* Removed blocking import: https://fonts.cdnfonts.com/css/gt-walsheim */
+/* Removed blocking import: https://fonts.cdnfonts.com/css/ff-din */
+/* Removed blocking import: https://fonts.cdnfonts.com/css/bebas-neue */
 
 /* =================================================
   2. MAIN CONTENT AREA & SCROLLBAR HIDING
@@ -24,7 +24,7 @@
     overflow-x: hidden;
     position: relative;
     background-color: #ffffff;
-    color: #333333;
+    /* color: #000000; */
     padding: 1rem;
 }
 
@@ -48,11 +48,12 @@
 }
 
 .main-content-group-container {
+    color: #000000;
     /* margin-bottom: 3rem; */
 }
 
 .main-content-section {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     scroll-margin-top: 1rem;
     padding: 0px;
     border-radius: 12px;
@@ -82,7 +83,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
-
 .main-content-section h4 {
     color: rgb(2, 7, 23);
     margin-top: 0.5rem;
@@ -257,52 +257,83 @@ tr:last-child td {
    CLEAN BRIGHT UI BUTTON STYLES
    =============================== */
 
-/* Base Button */
+/* Premium Gradient Glass Button Styles */
 .main-nav-btn1,
 .main-action-btn {
-
-    font-family: 'Merriweather', sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
     margin-top: 25px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.45rem 1.3rem;
-    font-family: "Poppins", sans-serif;
-    font-size: 1.2rem !important;
-    font-weight: 500;
-    line-height: 1;
-    border-radius: 0px 20px;
+    padding: 6px 20px;
+    font-size: 1.1rem !important;
+    font-weight: 700;
+    line-height: 1.5;
+    border-radius: 50px;
     cursor: pointer;
     user-select: none;
-    /* Bright light color */
-    background-color: #d6e7ff;
-    /* light sky blue */
-    color: #1f3a5f;
-    border: 1.5px solid #6da3ff;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        transform 0.2s ease;
+
+    /* Double Background Trick for Gradient Border with Transparent Center */
+    /* First layer: White background (padding-box) acts as the 'transparent' center */
+    /* Second layer: Gradient (border-box) visible only at the border area */
+    background:
+        linear-gradient(#fff, #fff) padding-box,
+        linear-gradient(135deg, #007aff 0%, #00d4ff 100%) border-box;
+
+    /* Transparent border to show the gradient behind */
+    border: 3px solid transparent;
+
+    /* Text Gradient */
+    background-clip: padding-box, border-box;
+    color: #333;
+    color: #007aff;
+
+    /* Soft 3D Shadow */
+    box-shadow: 0 4px 15px rgba(0, 122, 255, 0.15);
+
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-/* Hover */
+/* Hover - Fill with Gradient */
 .main-nav-btn1:hover,
 .main-action-btn:hover {
-    background-color: #dce9ff;
-    border-color: #6ea4ff;
-    transform: translateY(-1px);
-    border-radius: 20px 0px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
+    /* On hover, we fill it. 
+       We change the first layer to transparent so the second layer (gradient) shows through? 
+       Actually easier to just replace background. */
+    background: linear-gradient(135deg, #007aff 0%, #00d4ff 100%) padding-box,
+        linear-gradient(135deg, #007aff 0%, #00d4ff 100%) border-box;
+
+    color: white;
+    border-color: transparent;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 122, 255, 0.35);
 }
 
-/* Active / Click */
+/* Active - Pressed */
 .main-nav-btn1:active,
 .main-action-btn:active {
-    background-color: #cfdfff;
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(0, 122, 255, 0.15);
+}
+
+/* Focus */
+.main-nav-btn1:focus-visible,
+.main-action-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.3);
+}
+
+/* Disabled */
+.main-nav-btn1:disabled,
+.main-action-btn:disabled {
+    background: #f2f2f2;
+    border: 3px solid #e0e0e0;
+    color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
 }
 
 /* Focus (keyboard accessibility) */
@@ -326,15 +357,28 @@ tr:last-child td {
 
 
 /* === Code Block Wrapper === */
-.main-code-block-wrapper {
+.code-pulse-wrapper {
     position: relative;
-    margin: 1rem 0;
+    margin: 0.5rem 0;
 }
 
-.main-code-block-wrapper pre {
+.code-pulse-wrapper pre {
     border-radius: 18px;
-    padding-top: 40px !important;
-    line-height: 1.5;
+    font-size: 20px !important;
+    font-weight: 500 !important;
+    font-style: italic !important;
+    cursor: pointer !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-all !important;
+}
+
+.code-pulse-wrapper pre code {
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-all !important;
 }
 
 /* === Copy Button === */
@@ -455,27 +499,56 @@ tr:last-child td {
 
 .main-modal-proceed-btn,
 .main-modal-skip-btn {
-    padding: 10px 18px;
+    padding: 12px 32px;
     border: none;
-    border-radius: 6px;
+    border-radius: 50px;
     cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-    min-width: 100px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .main-modal-proceed-btn {
-    background-color: #007bff;
-    color: white;
+    /* Gradient Border Style */
+    background:
+        linear-gradient(#fff, #fff) padding-box,
+        linear-gradient(135deg, #007aff 0%, #00d4ff 100%) border-box;
+    border: 3px solid transparent;
+    color: #007aff;
+    box-shadow: 0 4px 15px rgba(0, 122, 255, 0.15);
 }
 
 .main-modal-proceed-btn:hover {
-    background-color: #0056b3;
+    /* Fill on hover */
+    background: linear-gradient(135deg, #007aff 0%, #00d4ff 100%) padding-box,
+        linear-gradient(135deg, #007aff 0%, #00d4ff 100%) border-box;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 122, 255, 0.35);
 }
 
 .main-modal-skip-btn {
-    background-color: #f0f0f0;
-    color: #333;
+    /* Subtle Gray Gradient Border */
+    background:
+        linear-gradient(#fff, #fff) padding-box,
+        linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%) border-box;
+    border: 3px solid transparent;
+    color: #64748b;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.main-modal-skip-btn:hover {
+    background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%) padding-box,
+        linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%) border-box;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 

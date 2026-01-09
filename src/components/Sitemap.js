@@ -21,22 +21,22 @@ const Sitemap = () => {
           <h2>General</h2>
           <ul>
             <li>
-              <a href="/?page=Home">Home</a>
+              <a href="/Home">Home</a>
             </li>
             <li>
-              <a href="/?page=AboutUs">About Us</a>
+              <a href="/AboutUs">About Us</a>
             </li>
             <li>
-              <a href="/?page=ContactUs">Contact Us</a>
+              <a href="/ContactUs">Contact Us</a>
             </li>
             <li>
               <a href="/account">My Account</a>
             </li>
             <li>
-              <a href="/?page=PrivacyPolicy">Privacy Policy</a>
+              <a href="/PrivacyPolicy">Privacy Policy</a>
             </li>
             <li>
-              <a href="/?page=TermsOfService">Terms of Service</a>
+              <a href="/TermsOfService">Terms of Service</a>
             </li>
           </ul>
         </div>
@@ -63,34 +63,34 @@ const Sitemap = () => {
           <h2>Technologies</h2>
           <ul>
             <li>
-              <a href="/?page=Technology&name=Java">Java</a>
+              <a href="/Java">Java</a>
             </li>
             <li>
-              <a href="/?page=Technology&name=Python">Python</a>
+              <a href="/Python">Python</a>
             </li>
             <li>
-              <a href="/?page=Technology&name=JavaScript">JavaScript</a>
+              <a href="/JavaScript">JavaScript</a>
             </li>
             <li>
-              <a href="/?page=Technology&name=React">React</a>
+              <a href="/React">React</a>
             </li>
             <li>
-              <a href="/?page=Technology&name=SQL">SQL</a>
+              <a href="/SQL">SQL</a>
             </li>
             <li>
-              <a href="/?page=Technology&name=HTML">HTML</a>
+              <a href="/HTML">HTML</a>
             </li>
             <li>
-              <a href="/?page=Technology&name=CSS">CSS</a>
+              <a href="/CSS">CSS</a>
             </li>
             <li>
-              <a href="/?page=Technology&name=GIT">Git</a>
+              <a href="/GIT">Git</a>
             </li>
             <li>
-              <a href="/?page=Technology&name=Microservices">Microservices</a>
+              <a href="/Microservices">Microservices</a>
             </li>
             <li>
-              <a href="/?page=Technology&name=RESTAPI">REST API</a>
+              <a href="/RESTAPI">REST API</a>
             </li>
           </ul>
         </div>
@@ -99,16 +99,16 @@ const Sitemap = () => {
           <h2>Resources</h2>
           <ul>
             <li>
-              <a href="/?page=DSA">DSA Practice</a>
+              <a href="/DSA">DSA Practice</a>
             </li>
             <li>
               <a href="/teachingclasses">Live Classes</a>
             </li>
             <li>
-              <a href="/?page=Q&A">Q&A</a>
+              <a href="/Q&A">Q&A</a>
             </li>
             <li>
-              <a href="/?page=Technology&name=Downloads">Downloads</a>
+              <a href="/Downloads">Downloads</a>
             </li>
           </ul>
         </div>
@@ -116,26 +116,26 @@ const Sitemap = () => {
         <div className="sitemap-section">
           <h2>Online Compilers</h2>
           <ul className="compiler-links-grid">
-            <li><a href="/online-compiler?lang=java">Java Compiler</a></li>
-            <li><a href="/online-compiler?lang=python">Python Compiler</a></li>
-            <li><a href="/online-compiler?lang=javascript">JavaScript Compiler</a></li>
-            <li><a href="/online-compiler?lang=html">HTML Compiler</a></li>
-            <li><a href="/online-compiler?lang=css">CSS Compiler</a></li>
-            <li><a href="/online-compiler?lang=sql">SQL Compiler</a></li>
-            <li><a href="/online-compiler?lang=cpp">C++ Compiler</a></li>
-            <li><a href="/online-compiler?lang=c">C Compiler</a></li>
-            <li><a href="/online-compiler?lang=csharp">C# Compiler</a></li>
-            <li><a href="/online-compiler?lang=go">Go Compiler</a></li>
-            <li><a href="/online-compiler?lang=php">PHP Compiler</a></li>
-            <li><a href="/online-compiler?lang=ruby">Ruby Compiler</a></li>
-            <li><a href="/online-compiler?lang=swift">Swift Compiler</a></li>
-            <li><a href="/online-compiler?lang=kotlin">Kotlin Compiler</a></li>
-            <li><a href="/online-compiler?lang=rust">Rust Compiler</a></li>
-            <li><a href="/online-compiler?lang=typescript">TypeScript Compiler</a></li>
-            <li><a href="/online-compiler?lang=scala">Scala Compiler</a></li>
-            <li><a href="/online-compiler?lang=dart">Dart Compiler</a></li>
-            <li><a href="/online-compiler?lang=bash">Bash Compiler</a></li>
-            <li><a href="/online-compiler?lang=r">R Compiler</a></li>
+            <li><a href="/online-compiler/java">Java Compiler</a></li>
+            <li><a href="/online-compiler/python">Python Compiler</a></li>
+            <li><a href="/online-compiler/javascript">JavaScript Compiler</a></li>
+            <li><a href="/online-compiler/html">HTML Compiler</a></li>
+            <li><a href="/online-compiler/css">CSS Compiler</a></li>
+            <li><a href="/online-compiler/sql">SQL Compiler</a></li>
+            <li><a href="/online-compiler/cpp">C++ Compiler</a></li>
+            <li><a href="/online-compiler/c">C Compiler</a></li>
+            <li><a href="/online-compiler/csharp">C# Compiler</a></li>
+            <li><a href="/online-compiler/go">Go Compiler</a></li>
+            <li><a href="/online-compiler/php">PHP Compiler</a></li>
+            <li><a href="/online-compiler/ruby">Ruby Compiler</a></li>
+            <li><a href="/online-compiler/swift">Swift Compiler</a></li>
+            <li><a href="/online-compiler/kotlin">Kotlin Compiler</a></li>
+            <li><a href="/online-compiler/rust">Rust Compiler</a></li>
+            <li><a href="/online-compiler/typescript">TypeScript Compiler</a></li>
+            <li><a href="/online-compiler/scala">Scala Compiler</a></li>
+            <li><a href="/online-compiler/dart">Dart Compiler</a></li>
+            <li><a href="/online-compiler/bash">Bash Compiler</a></li>
+            <li><a href="/online-compiler/r">R Compiler</a></li>
           </ul>
         </div>
       </div>

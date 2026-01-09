@@ -8,7 +8,7 @@ export { sqlSnippets };
    ========================================= */
 alasql.options.casesensitive = false;
 alasql.options.convention = "oracle";
-alasql.options.noundefined = true;
+// alasql.options.noundefined = true; // Disabled to prevent NULL issues
 
 // Robust NVL Polyfill
 const _robustNvlFn = (val, def) => {
@@ -725,6 +725,43 @@ export const runSqlCode = (db, code) => {
               query: trimmedCmd,
             });
         }
+
+        // --- POST-EXECUTION: FIX "NULL" STRINGS ---
+        // Some inserts invoke "NULL" as a string in certain envs. We force sanitize matched tables.
+        if (modifiedTables.size > 0) {
+          try {
+            // Access the current DB
+            let currentDb = db;
+            if (!currentDb && alasql.databases) {
+              currentDb =
+                alasql.databases[alasql.use()] || alasql.databases["CODEPULSE"];
+            }
+
+            if (currentDb && currentDb.tables) {
+              modifiedTables.forEach((tableName) => {
+                const t =
+                  currentDb.tables[tableName] ||
+                  currentDb.tables[tableName.toUpperCase()] ||
+                  currentDb.tables[tableName.toLowerCase()];
+                if (t && t.data) {
+                  t.data.forEach((row) => {
+                    Object.keys(row).forEach((k) => {
+                      const val = row[k];
+                      if (
+                        typeof val === "string" &&
+                        val.toUpperCase() === "NULL"
+                      ) {
+                        row[k] = undefined; // Force true NULL (undefined in AlaSQL)
+                      }
+                    });
+                  });
+                }
+              });
+            }
+          } catch (e) {
+            console.warn("NULL Sanitizer Warning:", e);
+          }
+        }
       } catch (e) {
         let errorMsg = e.message;
         // Fix for "Cannot read properties of undefined (reading 'toJS')" crash
@@ -941,7 +978,7 @@ export const verifySqlSolution = (
   maxMarks = 10
 ) => {
   try {
-    const alasql = require("alasql");
+    // const alasql = require("alasql"); // Removed: Already imported
     const expectedDb = new alasql.Database();
 
     // 1. Setup Expected DB

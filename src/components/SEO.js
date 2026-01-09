@@ -22,7 +22,7 @@ const SEO = ({ title, description, keywords }) => {
         name="keywords"
         content={
           keywords ||
-          "coding, programming, java, python, sql, react, tutorial, learn coding, codepulse-r, online compiler, coding exam, programming quiz, tech classes, learn technology"
+          "coding, programming, java, python, sql, react, tutorial, learn coding, codepulse-r, online compiler, onlinecompiler, coding exam, programming quiz, tech classes, learn technology"
         }
       />
       <link rel="canonical" href={canonicalUrl} />

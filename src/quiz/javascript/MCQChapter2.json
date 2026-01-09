@@ -1,1 +1,202 @@
-[]
+[
+    {
+        "question": "What is String Interpolation in JavaScript?",
+        "options": [
+            "Concatenating strings using +",
+            "Embedding variables and expressions inside a string",
+            "Printing strings using console.log",
+            "Declaring variables inside strings"
+        ],
+        "answer": "Embedding variables and expressions inside a string"
+    },
+    {
+        "question": "Which symbol is used for String Interpolation in JavaScript?",
+        "options": [
+            "@{ }",
+            "#{ }",
+            "${ }",
+            "{ }"
+        ],
+        "answer": "${ }"
+    },
+    {
+        "question": "Which quotes must be used for String Interpolation?",
+        "options": [
+            "Single quotes ' '",
+            "Double quotes \" \"",
+            "Backticks ` `",
+            "Angle brackets < >"
+        ],
+        "answer": "Backticks ` `"
+    },
+    {
+        "question": "Which symbol is used for single-line comments in JavaScript?",
+        "options": [
+            "/* */",
+            "<!-- -->",
+            "//",
+            "#"
+        ],
+        "answer": "//"
+    },
+    {
+        "question": "Which of the following statements are true about comments in JavaScript?",
+        "options": [
+            "Comments are used to write the description about application logic",
+            "Comments are used to disable the code temporarily",
+            "Comments are non-executable code.",
+            "All of the above."
+        ],
+        "answer": "All of the above."
+    },
+    {
+        "question": "Escape sequence characters are used to?",
+        "options": [
+            "Declare variables",
+            "Format string output",
+            "Perform calculations",
+            "Add comments"
+        ],
+        "answer": "Format string output"
+    },
+    {
+        "question": "What are tokens in JavaScript?",
+        "options": [
+            "Errors in code",
+            "Smallest individual elements of a program",
+            "Only variables",
+            "Only keywords"
+        ],
+        "answer": "Smallest individual elements of a program"
+    },
+    {
+        "question": "What is the main role of let in JavaScript?",
+        "options": [
+            "Declares a variable with global scope",
+            "Declares a block-scoped variable whose value can be changed",
+            "Declares a constant value",
+            "Declares a function"
+        ],
+        "answer": "Declares a block-scoped variable whose value can be changed"
+    },
+    {
+        "question": "What is the role of const in JavaScript?",
+        "options": [
+            "Declares a block-scoped variable whose value can be changed",
+            "Declares a variable usable in all blocks",
+            "Declares a block-scoped variable whose value cannot be changed",
+            "Declares a global variable only"
+        ],
+        "answer": "Declares a block-scoped variable whose value cannot be changed"
+    },
+    {
+        "question": "What is the role of var in JavaScript?",
+        "options": [
+            "Declares a block-scoped variable whose value can be changed",
+            "Declares a variable usable in all blocks",
+            "Declares a block-scoped variable whose value cannot be changed",
+            "Declares a variable usable in all blocks but can not changed."
+        ],
+        "answer": "Declares a variable usable in all blocks"
+    },
+    {
+        "question": "What is an identifier in JavaScript?",
+        "options": [
+            "A predefined keyword",
+            "A name given to variables, functions, or objects",
+            "A numeric value",
+            "A JavaScript operator"
+        ],
+        "answer": "A name given to variables, functions, or objects"
+    },
+    {
+        "question": "Which of the following is an invalid identifier in JavaScript?",
+        "options": [
+            "employeeName",
+            "total_Amount",
+            "total$salary",
+            "total-amount"
+        ],
+        "answer": "total-amount"
+    },
+    {
+        "question": "What is a keyword in JavaScript?",
+        "options": [
+            "A user-defined variable name",
+            "A predefined word with a fixed meaning in JavaScript",
+            "A numeric value",
+            "A string literal"
+        ],
+        "answer": "A predefined word with a fixed meaning in JavaScript"
+    },
+    {
+        "question": "console.log(typeof undefined);",
+        "options": [
+            "Number",
+            "Infinity",
+            "Undefined",
+            "NaN"
+        ],
+        "answer": "Undefined"
+    },
+    {
+        "question": "Which of the following statements is TRUE about identifiers in JavaScript?",
+        "options": [
+            "An identifier can start with a number",
+            "An identifier can contain spaces",
+            "An identifier can start with a letter, underscore (_), or dollar sign ($)",
+            "An identifier can be a JavaScript keyword"
+        ],
+        "answer": "An identifier can start with a letter, underscore (_), or dollar sign ($)"
+    },
+    {
+        "question": "What is the output when a variable is declared but not assigned any value in JavaScript? let x; console.log(x);",
+        "options": [
+            "null",
+            "0",
+            "undefined",
+            "Error"
+        ],
+        "answer": "undefined"
+    },
+    {
+        "question": "What will be the result when we divide a number by zero in JavaScript?",
+        "options": [
+            "0",
+            "undefined",
+            "Infinity",
+            "ArithmeticException"
+        ],
+        "answer": "Infinity"
+    },
+    {
+        "question": "The program made up of?",
+        "options": [
+            "Keywords & Operators",
+            "Identifiers & Separators",
+            "Constants & Literals",
+            "All of the above."
+        ],
+        "answer": "All of the above."
+    },
+    {
+        "question": "In which of the following cases will JavaScript return NaN?",
+        "options": [
+            "Invalid numeric operations.",
+            "Division By zero operation.",
+            "Division By zero with negative operation.",
+            "if the value is not assiged to variable."
+        ],
+        "answer": "Invalid numeric operations."
+    },
+    {
+        "question": "console.log(typeof Infinity);",
+        "options": [
+            "Number",
+            "Infinity",
+            "Undefined",
+            "NaN"
+        ],
+        "answer": "Number"
+    }
+]

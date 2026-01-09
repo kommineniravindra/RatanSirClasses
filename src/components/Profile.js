@@ -222,6 +222,11 @@ const Profile = ({ userProfile }) => {
     return { avgScore, totalMarksObtained };
   }, [courseProgress]);
 
+  // Time Range State
+  const [timeRange, setTimeRange] = useState("7"); // "7", "30", "ALL", "CUSTOM"
+  const [customStartDate, setCustomStartDate] = useState("");
+  const [customEndDate, setCustomEndDate] = useState("");
+
   // --- Process Data for Stock-like Chart ---
   const performanceData = useMemo(() => {
     if (allContests.length === 0) return { labels: [], datasets: [] };
@@ -232,7 +237,7 @@ const Profile = ({ userProfile }) => {
     );
 
     // 2. Extract unique Dates
-    const uniqueDates = [
+    let uniqueDates = [
       ...new Set(
         sortedHistory.map((item) =>
           new Date(item.createdAt).toLocaleDateString()
@@ -240,6 +245,24 @@ const Profile = ({ userProfile }) => {
       ),
     ];
     uniqueDates.sort((a, b) => new Date(a) - new Date(b));
+
+    // FILTER DATES BASED ON RANGE
+    if (timeRange === "7") {
+      uniqueDates = uniqueDates.slice(-7);
+    } else if (timeRange === "30") {
+      uniqueDates = uniqueDates.slice(-30);
+    } else if (timeRange === "CUSTOM" && customStartDate && customEndDate) {
+      const start = new Date(customStartDate);
+      const end = new Date(customEndDate);
+      // Include end date by setting time to end of day
+      end.setHours(23, 59, 59, 999);
+
+      uniqueDates = uniqueDates.filter((d) => {
+        const dateObj = new Date(d);
+        return dateObj >= start && dateObj <= end;
+      });
+    }
+    // "ALL" keeps it as is
 
     // 3. Calculate Category Max Marks for Percentage Scale
     const catMaxMarks = { Frontend: 0, Backend: 0, Database: 0 };
@@ -263,7 +286,19 @@ const Profile = ({ userProfile }) => {
       Database: [],
     };
 
-    uniqueDates.forEach((date) => {
+
+    // Re-calculating uniqueDatesFull for calculation
+    const allUniqueDates = [
+      ...new Set(
+        sortedHistory.map((item) =>
+          new Date(item.createdAt).toLocaleDateString()
+        )
+      ),
+    ].sort((a, b) => new Date(a) - new Date(b));
+
+    const dateToTotalsMap = {};
+
+    allUniqueDates.forEach((date) => {
       const daysContests = sortedHistory.filter(
         (c) => new Date(c.createdAt).toLocaleDateString() === date
       );
@@ -276,24 +311,55 @@ const Profile = ({ userProfile }) => {
         }
       });
 
-      // Store PERCENTAGE (Clamped to 100 just in case)
-      fullHistory.Frontend.push(
-        Math.min(100, (currentTotals.Frontend / catMaxMarks.Frontend) * 100)
-      );
-      fullHistory.Backend.push(
-        Math.min(100, (currentTotals.Backend / catMaxMarks.Backend) * 100)
-      );
-      fullHistory.Database.push(
-        Math.min(100, (currentTotals.Database / catMaxMarks.Database) * 100)
-      );
+      // Save snapshot for this date
+      dateToTotalsMap[date] = {
+        Frontend: Math.min(
+          100,
+          (currentTotals.Frontend / catMaxMarks.Frontend) * 100
+        ),
+        Backend: Math.min(
+          100,
+          (currentTotals.Backend / catMaxMarks.Backend) * 100
+        ),
+        Database: Math.min(
+          100,
+          (currentTotals.Database / catMaxMarks.Database) * 100
+        ),
+      };
     });
 
+    // Now decide which dates to show
+    let displayDates = [...allUniqueDates];
+    if (timeRange === "7") {
+      displayDates = displayDates.slice(-7);
+    } else if (timeRange === "30") {
+      displayDates = displayDates.slice(-30);
+    } else if (timeRange === "CUSTOM" && customStartDate && customEndDate) {
+      const start = new Date(customStartDate);
+      const end = new Date(customEndDate);
+      end.setHours(23, 59, 59, 999);
+
+      displayDates = displayDates.filter((d) => {
+        const dateObj = new Date(d);
+        return dateObj >= start && dateObj <= end;
+      });
+    }
+
+    // Build the final arrays from the map
+    const displayFrontend = displayDates.map(
+      (d) => dateToTotalsMap[d].Frontend
+    );
+    const displayBackend = displayDates.map((d) => dateToTotalsMap[d].Backend);
+    const displayDatabase = displayDates.map(
+      (d) => dateToTotalsMap[d].Database
+    );
+
     return {
-      labels: uniqueDates.length > 0 ? uniqueDates : ["Start"],
+      labels: displayDates.length > 0 ? displayDates : ["Start"],
       datasets: [
         {
           label: "Frontend",
-          data: uniqueDates.length > 0 ? fullHistory.Frontend : [0],
+          data: displayDates.length > 0 ? displayFrontend : [0],
           borderColor: "#2965F1", // Blue
           backgroundColor: (context) => {
             const ctx = context.chart.ctx;
@@ -310,7 +376,7 @@ const Profile = ({ userProfile }) => {
         },
         {
           label: "Backend",
-          data: uniqueDates.length > 0 ? fullHistory.Backend : [0],
+          data: displayDates.length > 0 ? displayBackend : [0],
           borderColor: "#E44D26", // Red/Orange
           backgroundColor: (context) => {
             const ctx = context.chart.ctx;
@@ -327,7 +393,7 @@ const Profile = ({ userProfile }) => {
         },
         {
           label: "Database",
-          data: uniqueDates.length > 0 ? fullHistory.Database : [0],
+          data: displayDates.length > 0 ? displayDatabase : [0],
           borderColor: "#00B8D9", // Cyan
           backgroundColor: (context) => {
             const ctx = context.chart.ctx;
@@ -344,7 +410,13 @@ const Profile = ({ userProfile }) => {
         },
       ],
     };
-  }, [allContests, allCourseMaxMarks]);
+  }, [
+    allContests,
+    allCourseMaxMarks,
+    timeRange,
+    customStartDate,
+    customEndDate,
+  ]);
 
   const chartOptions = {
     responsive: true,
@@ -464,7 +536,7 @@ const Profile = ({ userProfile }) => {
           {/* CENTRE: Big Decorative Name & Title & Contact */}
           <div className="business-card-content">
             <h1 className="bc-name">
-              <span className="welcome-text"><span style={{fontStyle:"italic"}}>Welcome</span>,&nbsp;</span>
+              <span className="welcome-text">Welcome,&nbsp;</span>
               {profile.studentName
                 ? profile.studentName.toUpperCase()
                 : "Student"}
@@ -556,6 +628,35 @@ const Profile = ({ userProfile }) => {
                   <FaChartLine /> Tech Performance Growth
                 </h3>
                 <p>Tracking your cumulative proficiency % over time.</p>
+              </div>
+              <div className="chart-actions">
+                {timeRange === "CUSTOM" && (
+                  <>
+                    <input
+                      type="date"
+                      className="chart-date-input"
+                      value={customStartDate}
+                      onChange={(e) => setCustomStartDate(e.target.value)}
+                    />
+                    <span className="date-sep">-</span>
+                    <input
+                      type="date"
+                      className="chart-date-input"
+                      value={customEndDate}
+                      onChange={(e) => setCustomEndDate(e.target.value)}
+                    />
+                  </>
+                )}
+                <select
+                  className="chart-filter-select"
+                  value={timeRange}
+                  onChange={(e) => setTimeRange(e.target.value)}
+                >
+                  <option value="7">Last 7 Days</option>
+                  <option value="30">Last 30 Days</option>
+                  <option value="ALL">All Time</option>
+                  <option value="CUSTOM">Custom Range</option>
+                </select>
               </div>
             </div>
 

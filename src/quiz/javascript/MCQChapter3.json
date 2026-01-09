@@ -1,0 +1,202 @@
+[
+    {
+        "question": "What is the purpose of Arithmetic Operators in JavaScript?",
+        "options": [
+            "To compare values",
+            "To perform mathematical calculations",
+            "To assign values",
+            "To combine the multiple conditions."
+        ],
+        "answer": "To perform mathematical calculations"
+    },
+    {
+        "question": "What is the main purpose of Relational Operators?",
+        "options": [
+            "To combine the multiple conditions.",
+            "To perform arithmetic operations",
+            "To compare two values and return Boolean.",
+            "To repeat statements"
+        ],
+        "answer": "To compare two values and return Boolean."
+    },
+    {
+        "question": "What is the purpose of Logical Operators in JavaScript?",
+        "options": [
+            "To compare values",
+            "To perform mathematical operations",
+            "To combine multiple conditions",
+            "To assign values"
+        ],
+        "answer": "To combine multiple conditions"
+    },
+    {
+        "question": "What is the purpose of Assignment Operators?",
+        "options": [
+            "To compare values",
+            "To assign values to variables",
+            "To check conditions",
+            "To combine multiple conditions"
+        ],
+        "answer": "To assign values to variables"
+    },
+    {
+        "question": "What is the purpose of the Ternary Operator (?:)?",
+        "options": [
+            "To combine the multiple conditions.",
+            "To store the value in variables.",
+            "To write multiple conditions",
+            "To make decisions in a single line."
+        ],
+        "answer": "To make decisions in a single line."
+    },
+    {
+        "question": "Which is the correct syntax of ternary operator?",
+        "options": [
+            "condition : exp1 ? exp2",
+            "condition ? exp1 : exp2",
+            "if ? else : condition",
+            "condition ?? exp1 : exp2"
+        ],
+        "answer": "condition ? exp1 : exp2"
+    },
+    {
+        "question": "User can login only if username AND password are correct.Which operator should be used?",
+        "options": [
+            "||",
+            "==",
+            "&&",
+            "="
+        ],
+        "answer": "&&"
+    },
+    {
+        "question": "User can login using email OR mobile number.Which operator is suitable?",
+        "options": [
+            "&&",
+            "||",
+            "!=",
+            ">="
+        ],
+        "answer": "||"
+    },
+    {
+        "question": "New password should not be equal to old password. Which operator is required?",
+        "options": [
+            "==",
+            "=",
+            "!=",
+            "&&"
+        ],
+        "answer": "!="
+    },
+    {
+        "question": "To calculate total bill amount by adding item price to total price repeatedly.Which operator is best?",
+        "options": [
+            "+",
+            "+=",
+            "*",
+            "++"
+        ],
+        "answer": "+="
+    },
+    {
+        "question": "To display “Eligible” or “Not Eligible” based on age in one line, which operator is best?",
+        "options": [
+            "&&",
+            "||",
+            "?:",
+            "=="
+        ],
+        "answer": "?:"
+    },
+    {
+        "question": "What is the purpose of a Compound / Complex Assignment operator in JavaScript?",
+        "options": [
+            "Directly assign a value to a variable",
+            "Assign the result of an expression to a variable",
+            "Compare two values",
+            "Increase the value by 1"
+        ],
+        "answer": "Assign the result of an expression to a variable"
+    },
+    {
+        "question": "Which of the following demonstrates Not a real requirement of addition?",
+        "options": [
+            "let sum = 100 + 200;",
+            "let totalMarks = maths + science + social;",
+            "let totalSalary = basic + hra + allowance;",
+            "let netAmount = totalAmount + taxAmount + deliveryFee;"
+        ],
+        "answer": "let sum = 100 + 200;"
+    },
+    {
+        "question": "What is the correct order of operator precedence in JavaScript from highest to lowest?",
+        "options": [
+            "() → * / % → + - → =",
+            "* / % → () → + - → =",
+            "() → + - → * / % → =",
+            "+ - → * / % → () → ="
+        ],
+        "answer": "() → * / % → + - → ="
+    },
+    {
+        "question": "What is the output of the following expression? 6 + 6 * (6 + 6) / 6 - 6 % 6",
+        "options": [
+            "12",
+            "18",
+            "24",
+            "36"
+        ],
+        "answer": "18"
+    },
+    {
+        "question": "Which operator is used to combine or concatenate strings in JavaScript?",
+        "options": [
+            "*",
+            "+",
+            "**",
+            "%"
+        ],
+        "answer": "+"
+    },
+    {
+        "question": "What will be the output of the following code? let name = \"Ratan\"; console.log(\"Hi\" + 10 + 5 + name + (20 + 30));",
+        "options": [
+            "\"Hi105Ratan50\"",
+            "\"Hi15Ratan50\"",
+            "\"Hi105Ratan2030\"",
+            "\"Hi105Ratan20+30\""
+        ],
+        "answer": "\"Hi105Ratan50\""
+    },
+    {
+        "question": "What is the operator used to calculate power exponentiation in JavaScript?",
+        "options": [
+            "*",
+            "^",
+            "**",
+            "%"
+        ],
+        "answer": "**"
+    },
+    {
+        "question": "In which situation will the second condition of && be executed?",
+        "options": [
+            "When the first condition is false",
+            "When both conditions are false",
+            "When the first condition is true",
+            "Always second condition executed."
+        ],
+        "answer": "When the first condition is true"
+    },
+    {
+        "question": "In which situation will the second condition of || be executed?",
+        "options": [
+            "When the first condition is false",
+            "When both conditions are false",
+            "When the first condition is true",
+            "Always second condition executed."
+        ],
+        "answer": "When the first condition is false"
+    }
+]

@@ -17,8 +17,13 @@ const Footer = ({ onNavigate }) => {
         {/* Brand Column */}
         <div className="footer-col brand-col">
           <div className="brand-logo">
+            <img
+              src="/brand.jpeg"
+              alt="CodePulse-R Logo"
+              className="footer-brand-img"
+            />
             <h2>CodePulse-R</h2>
-            <div className="brand-line"></div>
+            {/* <div className="brand-line"></div> */}
           </div>
           <p className="footer-desc">
             Empowering the next generation of developers with cutting-edge

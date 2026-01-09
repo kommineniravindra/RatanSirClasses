@@ -1,17 +1,22 @@
-/* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
 
 .global-footer {
     /* Deep Modern Tech Gradient */
-    background: linear-gradient(135deg, #1a1c2e 0%, #302b63 50%, #24243e 100%);
+    /* Background Image with Black Shade Overlay */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.852), rgba(0, 0, 0, 0.852)), url('../assets/footer.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    /* Optional: Parallax effect for premium feel */
     color: #fff;
-    font-family: 'Inter', sans-serif;
-    padding: 10px;
+    font-family: 'Poppins', sans-serif;
+    padding: 30px 20px 10px;
     /* Reduced top/bottom padding */
     position: relative;
     overflow: hidden;
     margin-top: auto;
-    border-top: 4px solid #7f00ff;
+    border-top: none;
     /* Neon Purple Top Border */
 }
 
@@ -65,14 +70,35 @@
 }
 
 /* --- Brand Column --- */
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.footer-brand-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #87CEFA;
+    /* Light Sky Blue */
+    box-shadow: 0 0 15px rgba(135, 206, 250, 0.4);
+}
+
 .brand-logo h2 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 2.2rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    color: #fff;
-    margin-bottom: 5px;
-    letter-spacing: -1px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #ffffff;
+    margin: 0;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #ffffff, #87CEFA);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 /* .brand-line {
@@ -85,10 +111,12 @@
 } */
 
 .footer-desc {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: #b8b8d9;
-    margin-bottom: 20px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #e0f7fa;
+    /* Very light blue/white */
+    margin-bottom: 10px;
+    font-weight: 300;
     /* Reduced desc margin */
 }
 
@@ -122,13 +150,26 @@
 
 /* --- Navigation Columns --- */
 .footer-col h3 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: 700;
     color: #fff;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.2px;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.footer-col h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 30px;
+    height: 3px;
+    background: #87CEFA;
+    border-radius: 2px;
 }
 
 .footer-menu {
@@ -142,18 +183,18 @@
 
 .footer-menu a {
     text-decoration: none;
-    color: #b8b8d9;
-    font-weight: 500;
+    color: #e0f7fa;
+    font-weight: 400;
     transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
 }
 
 .footer-menu a:hover {
-    color: #00dbde;
-    /* Neon Cyan */
+    color: #87CEFA;
+    /* Light Sky Blue */
     transform: translateX(5px);
-    text-shadow: 0 0 10px rgba(0, 219, 222, 0.5);
+    text-shadow: 0 0 10px rgba(135, 206, 250, 0.5);
 }
 
 /* --- Newsletter --- */
@@ -163,15 +204,15 @@
     border-radius: 50px;
     padding: 5px 5px 5px 20px;
     display: flex;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     backdrop-filter: blur(10px);
     transition: border-color 0.3s;
 }
 
 .newsletter-box:focus-within {
-    border-color: #fc00ff;
-    /* Pink border focus */
-    box-shadow: 0 0 15px rgba(252, 0, 255, 0.3);
+    border-color: #87CEFA;
+    /* Sky Blue border focus */
+    box-shadow: 0 0 15px rgba(135, 206, 250, 0.3);
 }
 
 .newsletter-box input {
@@ -192,15 +233,15 @@
     height: 45px;
     border-radius: 50%;
     border: none;
-    background: linear-gradient(135deg, #fc00ff, #00dbde);
-    color: #fff;
+    background: linear-gradient(135deg, #87CEFA, #ffffff);
+    color: #1a1c2e;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1rem;
     transition: transform 0.3s;
-    box-shadow: 0 0 10px rgba(0, 219, 222, 0.5);
+    box-shadow: 0 0 10px rgba(135, 206, 250, 0.5);
 }
 
 .newsletter-box button:hover {
@@ -211,21 +252,21 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    color: #b8b8d9;
+    color: #e0f7fa;
     margin-bottom: 12px;
 }
 
 .contact-info .icon {
-    color: #fc00ff;
-    /* Pink Icons */
+    color: #87CEFA;
+    /* Sky Blue Icons */
     font-size: 1.1rem;
 }
 
 /* --- Footer Bottom --- */
 .footer-bottom {
     max-width: 1200px;
-    margin: 1px auto 0;
-    padding-top: 30px;
+    margin: 0 auto;
+    padding-top: 15px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     justify-content: space-between;
@@ -238,7 +279,7 @@
 }
 
 .copyright {
-    color: #7a7a9a;
+    color: #b0bec5;
 }
 
 .bottom-links {
@@ -248,7 +289,7 @@
 
 .bottom-links a {
     text-decoration: none;
-    color: #7a7a9a;
+    color: #b0bec5;
     transition: color 0.3s;
 }
 

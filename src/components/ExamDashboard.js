@@ -105,20 +105,23 @@ const examAccessCodes = {
 
 const loadQuizChapters = () => {
   try {
-    const quizContext = require.context(
-      "../quiz",
-      true,
-      /MCQChapter\d+\.json$/
-    );
+    const quizFiles = import.meta.glob("../quiz/**/MCQChapter*.json", {
+      eager: true,
+    });
     const chaptersByTech = {};
 
-    quizContext.keys().forEach((key) => {
-      // key format: ./java/MCQChapter1.json
+    Object.keys(quizFiles).forEach((key) => {
+      // key format: ../quiz/java/MCQChapter1.json
       const parts = key.split("/");
-      if (parts.length >= 3) {
-        const tech = parts[1]; // 'java'
-        const fileName = parts[2]; // 'MCQChapter1.json'
+      // parts: ["..", "quiz", "java", "MCQChapter1.json"]
+      // We look for the 'quiz' segment to be safe, or assume standard relative path structure
+      const quizIndex = parts.indexOf("quiz");
+
+      if (quizIndex !== -1 && parts.length > quizIndex + 2) {
+        const tech = parts[quizIndex + 1]; // e.g., 'java'
+        const fileName = parts[quizIndex + 2]; // e.g., 'MCQChapter1.json'
         const match = fileName.match(/MCQChapter(\d+)\.json/);
+
         if (match) {
           const chapterNum = parseInt(match[1], 10);
           if (!chaptersByTech[tech]) {
@@ -369,7 +372,9 @@ const ExamDashboard = ({ onLogout }) => {
               className={`quiz-action-btn ${isCompleted ? "retake" : "start"}`}
               onClick={() => {
                 setModalOpen(false);
-                setModalTitle(`Enter Access Code - ${correctCode.toLowerCase()}`);
+                setModalTitle(
+                  `Enter Access Code - ${correctCode.toLowerCase()}`
+                );
                 setModalBody(
                   <div className="enter-code-body">
                     <p>
