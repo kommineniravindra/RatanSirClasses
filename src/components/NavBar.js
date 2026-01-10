@@ -159,12 +159,12 @@ const NavBar = ({ onTechnologySelect, selectedTechnology, selectedPage }) => {
           </div>
         </li>
 
-        {/* <li onClick={handleStartLearning} className="nb-navbar-item">
+        <li onClick={handleStartLearning} className="nb-navbar-item">
           <div className="nb-navbar-content">
             <FaClipboardCheck />
             <span>Learning</span>
           </div>
-        </li> */}
+        </li> 
 
         <li onClick={handleCompiler} className="nb-navbar-item">
           <div className="nb-navbar-content">

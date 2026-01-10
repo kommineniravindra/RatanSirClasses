@@ -4,6 +4,7 @@ const sqlTopics = [
   "SQL Constraints",
   "Oracle Sequences",
   "Working with null & Set operator",
+  "Indexes & ROWID",
 ];
 
 export default sqlTopics;

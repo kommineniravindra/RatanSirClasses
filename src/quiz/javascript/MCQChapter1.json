@@ -182,7 +182,7 @@
     ],
     "answer": "Brendan Eich"
   },
-  [
+  
   {
     "question": "JavaScript code is executed by?",
     "options": [
@@ -203,6 +203,4 @@
     ],
     "answer": "Static websites show the same content to all users, while dynamic websites show content based on user interaction or data"
   }
-]
-
 ]

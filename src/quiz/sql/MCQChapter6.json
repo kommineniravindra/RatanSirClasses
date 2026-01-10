@@ -1,0 +1,201 @@
+[
+    {
+        "question": "What is ROWID in Oracle?",
+        "options": [
+            "Logical address of a row",
+            "Physical address of a row in the table",
+            "Index key",
+            "Table name"
+        ],
+        "answer": "Physical address of a row in the table"
+    },
+    {
+        "question": "When is ROWID assigned?",
+        "options": [
+            "When a table is created",
+            "When an index is created",
+            "When a row is inserted",
+            "Manually by the user"
+        ],
+        "answer": "When a row is inserted"
+    },
+    {
+        "question": "What is the main purpose of an index in Oracle?",
+        "options": [
+            "To store table data",
+            "To improve the speed of data retrieval",
+            "To enforce NOT NULL constraint",
+            "To reduce disk space"
+        ],
+        "answer": "To improve the speed of data retrieval"
+    },
+    {
+        "question": "What happens without an index?",
+        "options": [
+            "Oracle uses ROWID directly",
+            "Oracle performs a Full Table Scan",
+            "Oracle ignores the WHERE clause",
+            "Oracle automatically creates an index"
+        ],
+        "answer": "Oracle performs a Full Table Scan"
+    },
+    {
+        "question": "Which of the following statements is TRUE about index storage?",
+        "options": [
+            "Index stores only column values",
+            "Index stores ROWIDs corresponding to column values",
+            "Index stores table names",
+            "Index stores only ROWIDs values"
+        ],
+        "answer": "Index stores ROWIDs corresponding to column values"
+    },
+    {
+        "question": "Which index type allows duplicate values and is default in Oracle?",
+        "options": [
+            "Unique B-Tree",
+            "B-Tree",
+            "Bitmap",
+            "Function-Based"
+        ],
+        "answer": "B-Tree"
+    },
+    {
+        "question": "Which index type enforces uniqueness on a column?",
+        "options": [
+            "B-Tree",
+            "Bitmap",
+            "Unique B-Tree",
+            "Composite Index"
+        ],
+        "answer": "Unique B-Tree"
+    },
+    {
+        "question": "One key → multiple ROWIDs applies to which index?",
+        "options": [
+            "Bitmap",
+            "Composite",
+            "B-Tree",
+            "Unique B-Tree"
+        ],
+        "answer": "B-Tree"
+    },
+    {
+        "question": "Which index type is best for columns with low cardinality bit values(0/1)?",
+        "options": [
+            "B-Tree",
+            "Bitmap",
+            "Composite",
+            "Function-Based"
+        ],
+        "answer": "Bitmap"
+    },
+    {
+        "question": "Which index type is used when a function is applied on a column?",
+        "options": [
+            "B-Tree",
+            "Bitmap",
+            "Function-Based",
+            "Composite"
+        ],
+        "answer": "Function-Based"
+    },
+    {
+        "question": "One key → one ROWID applies to which index?",
+        "options": [
+            "Unique B-Tree",
+            "B-Tree",
+            "Bitmap",
+            "Composite"
+        ],
+        "answer": "Unique B-Tree"
+    },
+    {
+        "question": "Column combination → ROWIDs applies to which index?",
+        "options": [
+            "Bitmap index",
+            "Composite/Concatenated index",
+            "Function-Based index",
+            "Unique B-Tree index"
+        ],
+        "answer": "Composite/Concatenated index"
+    },
+    {
+        "question": "Can a table contain multiple indexes?",
+        "options": [
+            "No, only one index per table",
+            "Yes, multiple indexes on different columns or combinations",
+            "Only one index per column",
+            "Only B-Tree indexes"
+        ],
+        "answer": "Yes, multiple indexes on different columns or combinations"
+    },
+    {
+        "question": "even if an index exists on table, If a table is very small 30 rows which scan is likely used?",
+        "options": [
+            "Full Table Scan",
+            "Index Range Scan",
+            "Bitmap Scan",
+            "Unique Scan"
+        ],
+        "answer": "Full Table Scan"
+    },
+    {
+        "question": "Which SQL statement correctly creates an index on the emp_id column of the employee table?",
+        "options": [
+            "CREATE INDEX emp_index ON employee(emp_id);",
+            "CREATE emp_index ON employee(emp_id);",
+            "CREATE TABLE emp_index ON employee(emp_id);",
+            "CREATE INDEX emp_index ON emp_id;"
+        ],
+        "answer": "CREATE INDEX emp_index ON employee(emp_id);"
+    },
+    {
+        "question": "Which query can you use to verify whether an index exists on a table?",
+        "options": [
+            "SELECT * FROM user_tables WHERE table_name = 'EMPLOYEE';",
+            "SELECT index_name, table_name FROM user_indexes WHERE table_name = 'EMPLOYEE';",
+            "SHOW INDEX FROM EMPLOYEE;",
+            "SELECT * FROM employee_index;"
+        ],
+        "answer": "SELECT index_name, table_name FROM user_indexes WHERE table_name = 'EMPLOYEE';"
+    },
+    {
+        "question": "Which SQL statement correctly drops an index in Oracle?",
+        "options": [
+            "DELETE INDEX emp_index;",
+            "DROP INDEX emp_index;",
+            "REMOVE INDEX emp_index;",
+            "DROP TABLE emp_index;"
+        ],
+        "answer": "DROP INDEX emp_index;"
+    },
+    {
+        "question": "Which of the following correctly checks if an index is used for a query in Oracle?",
+        "options": [
+            "Enable AUTOTRACE, run the query, then disable AUTOTRACE",
+            "Run EXPLAIN PLAN FOR SELECT ... and check the DBMS_XPLAN.DISPLAY output",
+            "All of the above"
+        ],
+        "answer": "All of the above"
+    },
+    {
+        "question": "Which of the following statements is TRUE about AUTOTRACE?",
+        "options": [
+            "AUTOTRACE ON shows only the query result",
+            "AUTOTRACE ON shows execution plan and statistics",
+            "AUTOTRACE ON drops the index automatically",
+            "AUTOTRACE cannot display index usage"
+        ],
+        "answer": "AUTOTRACE ON shows execution plan and statistics"
+    },
+    {
+        "question": "Which of the following statements is correct regarding Oracle execution plans?",
+        "options": [
+            "TABLE ACCESS FULL → Index is being used",
+            "TABLE ACCESS FULL → Full table scan is happening",
+            "INDEX RANGE SCAN → Full table scan is happening",
+            "All of the above"
+        ],
+        "answer": "TABLE ACCESS FULL → Full table scan is happening"
+    }
+]
