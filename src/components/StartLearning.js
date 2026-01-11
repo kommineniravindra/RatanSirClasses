@@ -250,9 +250,7 @@ function StartLearning() {
       title: "SQL",
       icon: <FaDatabase />,
       color: "#8f0000",
-      gradient: "linear-gradient(135deg, #fab2ff 0%, #1904e5 100%)", // Purple/Blue Mix
-      // Or softer:
-      gradient: "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)", // Soft Amber/Orange
+      gradient: "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
       description: "Query databases effectively.",
     },
   ];

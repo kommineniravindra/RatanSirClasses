@@ -401,6 +401,7 @@ const StartLearning1 = ({
   const [selectedExample, setSelectedExample] = useState(null);
   /* New state for Generate Dropdown & Fixed Positioning */
   const [showGenerateDropdown, setShowGenerateDropdown] = useState(false);
+  const [loadingExerciseId, setLoadingExerciseId] = useState(null); // Track which button is loading
   const generateDropdownRef = useRef(null);
   const editorRef = useRef(null);
   /* Iframe Refs for Resizing */
@@ -841,10 +842,14 @@ const StartLearning1 = ({
 
   const loadQuestionData = (course, chapter, example) => {
     try {
-      const key = `./CodingChapter${chapter}.json`;
+      const key = `../learning/${course.toLowerCase()}/CodingChapter${chapter}.json`;
       const context = learningContexts[course.toLowerCase()];
       if (!context) throw new Error(`No learning data found for ${course}`);
-      const data = context(key);
+
+      const module = context[key];
+      if (!module) throw new Error(`Chapter data not found for key: ${key}`);
+
+      const data = Array.isArray(module) ? module : module.default || [];
       const question = data[example - 1] || null;
       setQuestionData(question);
 
@@ -1393,11 +1398,13 @@ const StartLearning1 = ({
 
   const handleExampleClick = (chapter, example) => {
     setIsExerciseLoading(true);
+    setLoadingExerciseId(`${chapter}-${example}`);
     setTimeout(() => {
       setSelectedExample(example);
       setActiveChapter(chapter); // Ensure DB knows which chapter to set up
       loadQuestionData(selectedCourse, chapter, example);
       setIsExerciseLoading(false);
+      setLoadingExerciseId(null);
     }, 1200);
   };
 
@@ -2057,7 +2064,11 @@ const StartLearning1 = ({
                           </h4>
                           <button
                             className="exercise-start-btn"
-                            disabled={!exUnlocked}
+                            disabled={
+                              !exUnlocked ||
+                              loadingExerciseId ===
+                                `${expandedChapter}-${exerciseNum}`
+                            }
                             onClick={() => {
                               if (exUnlocked)
                                 handleExampleClick(
@@ -2072,7 +2083,10 @@ const StartLearning1 = ({
                                 );
                             }}
                           >
-                            {exUnlocked
+                            {loadingExerciseId ===
+                            `${expandedChapter}-${exerciseNum}`
+                              ? "Loading..."
+                              : exUnlocked
                               ? exCompleted
                                 ? "Review"
                                 : "Start"
